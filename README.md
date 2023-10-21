@@ -87,7 +87,8 @@
   * [Step 7. Store settings](#step-7-store-settings)
   * [Step 8. Countries/regions](#step-8-countriesregions)
   * [Step 9. Upload for production](#step-9-upload-for-production)
-  * [Step 10: Publishing overview](#step-10-publishing-overview)
+  * [Step 10: Sign in](#step-10-sign-in)
+  * [Step 11: Publishing overview](#step-11-publishing-overview)
 - [Chapter V. Deploy to apple store](#chapter-v-deploy-to-apple-store)
   * [Step 1: Enroll for the Apple Developer Program.](#step-1-enroll-for-the-apple-developer-program)
   * [Step 2: Create an app on App Store Connect](#step-2-create-an-app-on-app-store-connect)
@@ -129,11 +130,11 @@ The below steps document the creation of your own android + apple + web app and 
 
 These are some example apps which demonstrate what eliud can give you. Everything used is open source, part of eliud project.
 
-|                                                                                         | App                                            | Ios                                                                          |Android                                                                                      | Web                                                    |
-| ---------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------- |-------------------------------------------------------------------------------------------- |------------------------------------------------------- |
-| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/juuwle-logo-128.jpg) | Juuwle - An online store for jewels            | [Juuwle on the App Store](https://apps.apple.com/us/app/juuwle/id6449458929) |[Juuwle on Google Play](https://play.google.com/store/apps/details?id=net.juuwle.juuwle)    | [https://juuwle.net](https://juuwle.net)              |
-| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/minkey-logo-128.png) | Minkey - Community making apps online          | This type of app is not allowed on apple store                               | [Minkey on Google Play](https://play.google.com/store/apps/details?id=io.minkey.minkey_app)| [https://minkey.io](https://minkey.io)                |
-| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png) | Thoma5 - Profile of Thomas. Under construction | In development                                                               | In development                                                                             | [https://thoma5.com](https://thoma5.com)              |
+|                                                                                          | App                                            | Ios                                                                          | Android                                                                                      | Web                                                    |
+| ---------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------- |----------------------------------------------------------------------------------------------|----------------------------------------- |
+| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/juuwle-logo-128.jpg) | Juuwle - An online store for jewels            | [Juuwle on the App Store](https://apps.apple.com/us/app/juuwle/id6449458929) | [Juuwle on Google Play](https://play.google.com/store/apps/details?id=net.juuwle.juuwle)     | [https://juuwle.net](https://juuwle.net) |
+| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/minkey-logo-128.png) | Minkey - Community making apps online          | This type of app - allowing to create apps from within the app - is not allowed on apple store | [Minkey on Google Play](https://play.google.com/store/apps/details?id=io.minkey.minkey_app)  | [https://minkey.io](https://minkey.io)   |
+| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png) | Thoma5 - Profile of Thomas. Under construction | In development                                                               | [Thoma5 on Google Play](https://play.google.com/store/apps/details?id=com.thoma5.thoma5_app) | [https://thoma5.com](https://thoma5.com) |
 
 ---
 
@@ -2263,7 +2264,7 @@ java -jar c:\dev\bundletool\bundletool-all-1.5.0.jar install-apks --apks=build/a
 
 1. From Android Studio, run your app on the abvove virtual machines
 2. Take take 2-8 screenshots from the phone and 1-8 screenshots from each of the 2 tablets
-3. 
+3. Record the filenames
 
 <table>
     <tr>
@@ -2374,7 +2375,7 @@ So, we need to copy that SHA1 key into our firebase configuration.
 ## Step 11: Publishing overview
 
 1. Press the "Send n changes for review"
-2. Congratulations. Now you just have to wait for approval. You'll receive an email. In our case this took 6h.
+2. Congratulations. Now you just have to wait for approval. In our case this took 6h. You'll receive an email. 
 
 ---
 
@@ -2388,45 +2389,84 @@ So, we need to copy that SHA1 key into our firebase configuration.
 
 ## Step 2: Create an app on App Store Connect
 
-TODO:
-
 1. https://appstoreconnect.apple.com/apps
 2. Select '+' and select 'New app'
-3. Specity Name: Minkey
-     - Primary language: English
-     - Bundle ID: select your <a href="#app_bundle_id"/>App Bunble ID</a> 
-     - SKU: io.minkey.minkeyios
-     - User Access: Full Access
+3. Specify new app details:
+   - Platforms: iOS
+   - Name: <a href="#app_nickname">your app nickname</a>
+   - Primary language: choose your language, we've chosen English (UK)
+   - Bundle ID: select your <a href="#app_bundle_id"/>App Bunble ID</a>, here com.thoma5.thoma5ios
+   - SKU: copy your bundle ID, here com.thoma5.thoma5ios
+   - User Access: Full Access
      
 ---
 
-## Step 3: Create simulators 
+## Step 3 Take screenshots
 
-       - iPhone 6.7", iPhone 14 Pro Max - Ok
-       - iPhone 6.5" --> Use 6.7" Display - Ok
-       - iPhone 5.5", iPhone 8 plus - Ok
-       - iPad pro 6th gen 12.9" - Ok
-       - iPad pro 2nd gen 12.9" 
+## Step 3.1 Create simulators 
 
-     
+To be able to create screenshots for app sumission, we need to create iOS simulators.
+
+1. Open your project in xcode
+2. From xcode, select menu Xcode > Open Developer Tool > Simulator
+3. From the Simulator, select File > New Simulator and create simulators for the iOS simulator Device types listed below.
+
+<table>
+    <tr>
+      <td>App Store Connect device type</td>
+      <td>iOS simulator Device type</td>
+    </tr>
+    <tr>
+      <td>iPhone 6.7"</td>
+      <td>iPhone 14 Pro Max</td>
+    </tr>
+    <tr>
+      <td>iPhone 6.5"</td>
+      <td>iPhone 11 Pro Max</td>
+    </tr>
+    <tr>
+      <td>Phone 5.5"</td>
+      <td>iPhone 8 Plus</td>
+    </tr>
+    <tr>
+      <td>iPad pro (6th gen) 12.9" Display</td>
+      <td>iPad Pro (12.9-inch) (6th generation)</td>
+    </tr>
+    <tr>
+      <td>iPad pro (2nd gen) 12.9" Display</td>
+      <td>iPad Pro (12.9-inch) (2nd generation)</td>
+    </tr>
+</table>
+
 ---
 
-## Step 4: Create screenshots
+## Step 3.2 Create screenshots
+
+For each of the simulators created in the previous step, do this:
+
+1. From the simulator application, run the simulator
+2. From Android studio, select the simulator as the device, then press run
+3. Press the camera button from the simulator and save the screenshot
+4. Record the filenames
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="ios_screenshots"><ins>Android screenshots</ins></a>: C:\src\apps\thoma5_app\assets\screenshots\*.jpg</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+5. Close the simulator afterwards
 
 ---
 
-## Step 5: Provide app detailks
+## Step 5: Provide app details
 
-   Upload screenshots
-     - For the ipad pro 2nd generation, open terminal and run: 
-         sudo xcrun simctl create "iPad Pro (12.9-inch) (2nd generation)" "com.apple.CoreSimulator.SimDeviceType.iPad-Pro--12-9-inch---2nd-generation-"
-     - XCode > Open Developer Tool > Simulator
-     - File > Open Simulator or, if required, New Simulator (to create one of the below)
-       - iPhone 6.7", iPhone 14 Pro Max - Ok
-       - iPhone 6.5" --> Use 6.7" Display - Ok
-       - iPhone 5.5", iPhone 8 plus - Ok
-       - iPad pro 6th gen 12.9" - Ok
-       - iPad pro 2nd gen 12.9" 
+
    Provide Promotional Text
    Provide Description
    Provide Contact Information
