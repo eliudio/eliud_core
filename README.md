@@ -1890,10 +1890,10 @@ TODO: https://cloud.google.com/free
 4. Select APP and continue
 5. Description: <a href="#app_nickname"><ins>your app nickname</ins></a>
 6. Explicit bundle ID: Explicit
-7. Provide the bundle ID. This is constructed by the invers of <a href="#domain_name">your domain name"</a> + <a href="app_nickname">your app nickname</a> suffixed with 'ios', here com.thoma5.toma5ios. Do not use '_'
+7. Provide the bundle ID. This is constructed by the invers of <a href="#domain_name">your domain name"</a> + <a href="app_nickname">your app nickname</a> suffixed with 'ios', here com.thoma5.thoma5ios. Do not use '_'
 8. Enable "Sign in with Apple". No need to press "Edit"
-9. Press save
-10. Press register
+9. Press "continue"
+10. Press "register"
 
 <table>
     <tr>
@@ -1936,7 +1936,7 @@ To find the UDID of our devices, this can help...
 2. Press '+' next to "Identifiers"
 3. Select "Services IDs" and press continue
 4. Description: <a href="#app_nickname">your app nickname</a>, here Thoma5
-5. Identifier: This is constructed by the invers of <a href="#domain_name">your domain name"</a> + <a href="app_nickname">your app nickname</a> suffixed with 'service', here com.thoma5.toma5service
+5. Identifier: This is constructed by the invers of <a href="#domain_name">your domain name"</a> + <a href="app_nickname">your app nickname</a> suffixed with 'service', here com.thoma5.thoma5service
 6. Press save
 7. Press register
 
@@ -1992,7 +1992,7 @@ To find the UDID of our devices, this can help...
 5. Press "Add new provider"
 6. Select "Apple"
 7. Enable it with the switch "Enable"
-8. Services ID, specify value of <a href="#service_id">Service ID</a>, here com.thoma5.thoma5_service
+8. Services ID, specify value of <a href="#service_id">Service ID</a>, here com.thoma5.thoma5service
 9.  Apple team ID, find "Team ID" from https://developer.apple.com/account/
 10. Expand OAuth code flow configuration
 11. Apple team ID, specify value of <a href="#apple_team_id">Team ID</a>, here 123AB4CDEF
@@ -2019,7 +2019,7 @@ To find the UDID of our devices, this can help...
 2. Find the service with IDENTIFER = <a href="#service_id">Service identifier</a>
 3. Enable "Sign in with Apple"
 4. Click Configure next to "Sign in with Apple"
-5. Primary App ID: select the app with app that corresponds with the <a href="#app_bundle_id"/>App Bunble ID</a> and <a href="#app_id_prefix">App ID Prefix</a>
+5. Primary App ID: select the app with app that corresponds with the <a href="#app_bundle_id"/>App Bunble ID</a> and <a href="#app_id_prefix">App ID Prefix</a>, here 123AB4CDEF.com.thoma5.thoma5ios
 6. Domains and Subdomains: specify <a name="#domain_name">domain name</a>, here thoma5.com
 7. Return URLs: specify the <a href="#authorisation_callback_url">Authorisation callback URL</a>, here https://thoma5.firebaseapp.com/__/auth/handler
 8. Press "Next"
@@ -2035,7 +2035,7 @@ To find the UDID of our devices, this can help...
 2. Select your project
 3. Press "Add app"
 4. Select "iOS"
-5. Apple bundle ID: <a href="#app_bundle_id">App Bunble ID</a>
+5. Apple bundle ID: <a href="#app_bundle_id">App Bunble ID</a>, here com.thoma5.thoma5ios
 6. App nickname: <a href="#app_nickname"><ins>your app nickname</ins></a>, here Thoma5
 7. App Store ID (optional): leave blank
 8. Press "Register app"
@@ -2098,10 +2098,13 @@ To find the UDID of our devices, this can help...
 
 ---
 
-## Step 12. Add a URL scheme to your project
+## Step 12. Info.plist
 
-1. Open ios/Runner/Info.plist with a text editor
-2. Add the below entry, make sure to use your <a name="REVERSED_CLIENT_ID"><ins>REVERSED_CLIENT_ID</ins></a>
+1. Open ios/Runner/Info.plist with a text editor and ...
+
+### Step 12.1. Add a URL scheme to your project
+
+1. Add the below entry, make sure to use your <a name="REVERSED_CLIENT_ID"><ins>REVERSED_CLIENT_ID</ins></a>
 
 ~~~
 	<key>CFBundleURLTypes</key>
@@ -2124,9 +2127,116 @@ To find the UDID of our devices, this can help...
   <li><a href="https://developers.google.com/identity/sign-in/ios/start-integrating">Get Started With Google Sign-in for iOS and macOD</a></li>
 </ul>
 
+### Step 12.2. Indicate your app does not use encryption
+
+This is a requirement for app subscription.
+
+~~~
+  <key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+
+~~~
+
+**MORE INFO**
+
+<ul>
+  <li><a href="https://developer.apple.com/documentation/bundleresources/information_property_list/itsappusesnonexemptencryption">ITSAppUsesNonExemptEncryption</a></li>
+</ul>
+
+
+### Step 12.3. Add camera, microphone and photo library access
+
+1. Add the below entrie
+
+~~~
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library in case you like to add photos to reviews of products.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires access to the microphone in case you like to add comments to reviews of products.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera in case you like to add videos to reviews of products..</string>
+
+~~~
+
+### Step 12.4. Result file
+
+~~~
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>Juuwle</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>juuwleios</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>$(FLUTTER_BUILD_NAME)</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.x-y</string>
+			</array>
+		</dict>
+	</array>
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app requires access to the photo library in case you like to add photos to reviews of products.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>This app requires access to the microphone in case you like to add comments to reviews of products.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>This app requires access to the camera in case you like to add videos to reviews of products..</string>
+</dict>
+</plist>
+
+~~~
+
 ---
 
 ## Troubleshouting steps
+
+In case you encounter errors whilst running the app, the errors you come across might be one of the following.
 
 1. Issue: Failure of running the app due to processor incompatibility issues.
    Solution: Goto the ios directory and run:
@@ -2395,17 +2505,94 @@ So, we need to copy that SHA1 key into our firebase configuration.
 2. Select '+' and select 'New app'
 3. Specify new app details:
    - Platforms: iOS
-   - Name: <a href="#app_nickname">your app nickname</a>
+   - Name: <a href="#app_nickname">your app nickname</a>, here Thoma5
    - Primary language: choose your language, we've chosen English (UK)
    - Bundle ID: select your <a href="#app_bundle_id"/>App Bunble ID</a>, here com.thoma5.thoma5ios
    - SKU: copy your bundle ID, here com.thoma5.thoma5ios
    - User Access: Full Access
-     
+
 ---
 
-## Step 3 Take screenshots
+## Step 3: Provide App Information
 
-## Step 3.1 Create simulators 
+1. https://appstoreconnect.apple.com/apps
+2. Select your app
+3. Press General > App Information
+4. Specify Category, here Education
+5. Specify Content Rights, select 'No, it does not contain, show, or access third-party content'
+6. Specify Age Ratings
+   - select 'NONE' for all entries of 'APPLE CONTENT DESCRIPTION'
+   - specify 'No, this app doesn't contain unrestricted web access'
+   - specify 'No, this app doesn't contain instances of gambling'
+7. Select 'Restrict to 17+'
+8. Press 'save'
+
+---
+
+## Step 4: Create a build archive 
+
+1. Goto your android studio directory and run these statements
+
+~~~
+cd ios
+flutter build ipa --no-tree-shake-icons
+
+~~~
+
+---
+
+## Step 5: Upload to App Store Connect
+
+### Option 5.1: Use upload tool
+
+1. Create a key
+   1. https://appstoreconnect.apple.com
+   2. Press 'Users and Access'
+   3. Select 'Keys' tab
+   4. Press '+' to add a key
+   5. Enter a name, here Thomas
+   6. Select 'developer' as access
+   7. Press 'generate'
+   8. Press the 'download' button, then copy the file into your project directory/private_keys
+   9. Copy the Issuer ID from the page (near the top) and make note
+   10. Copy the KEY ID and make note
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="ISSUER_ID"><ins>Issuer ID</ins></a>: ab1cde23-a1bc-a1bc-a1bc-ab1cde23</li>
+          <li><a name="KEY_ID"><ins>KEY ID</ins></a>: ABC1DE23FG</li>
+          <li><a name="PRIVATE_KEY_DIR"><ins>Private key directory</ins></a>: /Users/thomas/src/myprojects/apps/thomas5_app/ios/private_keys</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+2. Run the below command, change the your_api_key and your_issuer_id
+
+~~~
+xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey your_api_key --apiIssuer your_issuer_id
+
+~~~
+
+**MORE INFO**
+
+<ul>
+  <li><a href="https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api">Creating API Keys for App Store Connect API</a></li>
+</ul>
+
+### Option 5.2: Use transport app
+
+1. Install and open 'Apple Transport app' on your mac
+2. Drag and drop the build/ios/ipa/*.ipa app bundle onto the 'Apple Transport app'
+
+---
+
+## Step 6: Take screenshots
+
+## Step 6.1: Create simulators 
 
 To be able to create screenshots for app sumission, we need to create iOS simulators.
 
@@ -2442,7 +2629,7 @@ To be able to create screenshots for app sumission, we need to create iOS simula
 
 ---
 
-## Step 3.2 Create screenshots
+## Step 6.2 Create screenshots
 
 For each of the simulators created in the previous step, do this:
 
@@ -2456,7 +2643,7 @@ For each of the simulators created in the previous step, do this:
       <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
       <td>
         <ul>
-          <li><a name="ios_screenshots"><ins>Android screenshots</ins></a>: C:\src\apps\thoma5_app\assets\screenshots\*.jpg</li>
+          <li><a name="ios_screenshots"><ins>iOS screenshots</ins></a>: /src/.../thoma5_app/assets/screenshots\*.jpg</li>
         </ul>
       </td>
     </tr>
@@ -2466,67 +2653,63 @@ For each of the simulators created in the previous step, do this:
 
 ---
 
-## Step 4: Create test user
+## Step 7: Create test user
 
-## Step 5: Provide app details
+1. For submission to the Apple App Store, we need to provide a login and password. Create a test account on icloud and store login and password
+
+<table>
+    <tr>
+      <td width="60"><img src="https://github.com/eliudio/open-resources/raw/main/img/icons/writing-hand.png"/></td>
+      <td>
+        <ul>
+          <li><a name="test_icloud_account"><ins>Test icloud account</ins></a>: *****@icloud.com</li>
+          <li><a name="test_icloud_password"><ins>Password</ins></a>: *****</li>
+        </ul>
+      </td>
+    </tr>
+</table>
+
+---
+
+## Step 8: Provide App Privacy details
+
+1. https://appstoreconnect.apple.com/apps
+2. Select your app
+3. Select 'General' > 'App Privacy'
+4. In Privacy Policy, press 'Edit'
+5. Provide <a href="#privacy_policy_url">Privacy policy URL</a>, here <a href="https://thoma5.com/#THOMA5_APP/8a75d3fa-d8e9-4ac8-9eb7-851010807502-policy">https://thoma5.com/#THOMA5_APP/8a75d3fa-d8e9-4ac8-9eb7-851010807502-policy</a>
+6. Press 'Get Started' and follow on-screen instructions / questions
+7. Depending on the answers, you now might need to setup variuous data types in App Privacy
+8. Press 'Publish' and confirm
+
+---
+
+## Step 9: Pricing and Availability
+
+1. https://appstoreconnect.apple.com/apps
+2. Select your app
+3. Select 'General' > 'Pricing and Availability'
+4. In Price Schedule, press 'Add Pricing' and select Base Country and Price, i.e. 0 and save
+5. In App Availablity specify where you want your app to be available.
+
+---
+
+## Step 10: Provide app details
 
 1. https://appstoreconnect.apple.com/apps
 2. Select your app
 3. Select "Prepare for Submission"
-4. 
-   Provide Promotional Text
-   Provide Description
-   Provide Contact Information
-   Provide Sign-in, if required juuwle.net@gmail.com Juuiop857!
-        -> reference previous step where we create a test user
-        -> make this a ios login
-   Save
+4. Upload <a href="#ios_screenshots"><ins>iOS screenshots</ins></a>
+5. Specify Description
+5. Specify Keywords
+6. Specify Support URL = <a href="#domain_name">your domain</a>, prefixed with https://, here https://thoma5.com
+7. Specify Marketing URL = <a href="#domain_name">your domain</a>, prefixed with https://, here https://thoma5.com
+8. In Build select the build you've uploaded in previous step
+9. In App Review Information, specify sign-in required <a href="#test_icloud_account">Test icloud account</a> and <a href="#test_icloud_password">Password</a>
+10. Press 'Save'
+11. Press 'Add for Review'
+12. Press 'Submit to App Review'
    
----
-
-## Step 6: Provide App Privacy details
-
----
-
-## Step 7: Create a build archive 
-
-cd apps/minkey_mac/ios
-flutter build ipa --no-tree-shake-icons
-
----
-
-## Step 8: Upload to App Store Connect
-
-Option 1: Use upload tool
-
-- Create and download a key
-https://developer.apple.com/documentation/appstoreconnectapi/creating_api_keys_for_app_store_connect_api
-
-copy the key into ~/private_keys
-
-(stored in repository keys/AuthKey_TV4KGWA74M.p8)
-
-- Upload
-find the issuer ID and key ID and on the keys page
-
-then run
-xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey your_api_key --apiIssuer your_issuer_id
-
-Option 2: Transport app
-
-install/open Transport app on the macbook
-drag and drop the build/ios/ipa/*.ipa app bundle onto the Apple Transport app
-
----
-
-## Step 10: Release your app to the App Store
-
-TODO
-
----
-
-TODO: MIGHT NEED TO CHECK WHAT ELSE IN deploy-to-apple-store.txt
-
 ---
 
 # Chapter VI. Extend the app with other packages
