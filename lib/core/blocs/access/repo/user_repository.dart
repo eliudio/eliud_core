@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io' show Platform;
 import 'dart:math';
 
 import 'package:crypto/crypto.dart';
@@ -63,9 +64,14 @@ class UserRepository {
     if (kIsWeb) {
       return signInWithAppleOnWeb();
     } else {
-      return signInWithAppleOnApple();
+      if (Platform.isIOS) {
+        return signInWithAppleOnApple();
+      } else {
+        return signInWithProvider();
+      }
     }
   }
+
 
   Future<User> signInWithAppleOnApple() async {
     final rawNonce = generateNonce();
@@ -87,6 +93,18 @@ class UserRepository {
     await FirebaseAuth.instance.signInWithCredential(oauthCredential);
     if (_firebaseAuth.currentUser != null) return _firebaseAuth.currentUser!;
     throw Exception('_firebaseAuth.currentUser is null');
+  }
+
+  Future<User> signInWithProvider() async {
+    final rawNonce = generateNonce();
+    final nonce = sha256ofString(rawNonce);
+
+    AppleAuthProvider appleProvider = AppleAuthProvider();
+    appleProvider.addScope('email');
+    appleProvider.addScope('name');
+    final credential = await FirebaseAuth.instance.signInWithProvider(appleProvider);
+    if (credential.user != null) return credential.user!;
+    throw Exception('credential.currentUser is null');
   }
 
   Future<User> signInWithAppleOnWeb() async  {

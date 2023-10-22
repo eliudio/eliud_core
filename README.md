@@ -92,9 +92,11 @@
 - [Chapter V. Deploy to apple store](#chapter-v-deploy-to-apple-store)
   * [Step 1: Enroll for the Apple Developer Program.](#step-1-enroll-for-the-apple-developer-program)
   * [Step 2: Create an app on App Store Connect](#step-2-create-an-app-on-app-store-connect)
-  * [Step 3: Create simulators](#step-3-create-simulators)
-  * [Step 4: Create screenshots](#step-4-create-screenshots)
-  * [Step 5: Provide app detailks](#step-5-provide-app-detailks)
+  * [Step 3 Take screenshots](#step-3-take-screenshots)
+  * [Step 3.1 Create simulators](#step-31-create-simulators)
+  * [Step 3.2 Create screenshots](#step-32-create-screenshots)
+  * [Step 4: Create test user](#step-4-create-test-user)
+  * [Step 5: Provide app details](#step-5-provide-app-details)
   * [Step 6: Provide App Privacy details](#step-6-provide-app-privacy-details)
   * [Step 7: Create a build archive](#step-7-create-a-build-archive)
   * [Step 8: Upload to App Store Connect](#step-8-upload-to-app-store-connect)
@@ -2464,13 +2466,20 @@ For each of the simulators created in the previous step, do this:
 
 ---
 
+## Step 4: Create test user
+
 ## Step 5: Provide app details
 
-
+1. https://appstoreconnect.apple.com/apps
+2. Select your app
+3. Select "Prepare for Submission"
+4. 
    Provide Promotional Text
    Provide Description
    Provide Contact Information
    Provide Sign-in, if required juuwle.net@gmail.com Juuiop857!
+        -> reference previous step where we create a test user
+        -> make this a ios login
    Save
    
 ---
