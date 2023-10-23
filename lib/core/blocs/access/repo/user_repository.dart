@@ -64,11 +64,11 @@ class UserRepository {
     if (kIsWeb) {
       return signInWithAppleOnWeb();
     } else {
-//      if (Platform.isIOS) {
-//        return signInWithAppleOnApple();
-//      } else {
+      if (Platform.isIOS) {
+        return signInWithAppleOnApple();
+      } else {
         return signInWithProvider();
-//      }
+      }
     }
   }
 
@@ -90,15 +90,26 @@ class UserRepository {
       rawNonce: rawNonce,
     );
 
-    await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+    final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+
+    if (userCredential.user?.displayName == null ||
+        (userCredential.user?.displayName != null && userCredential.user!.displayName!.isEmpty)) {
+      final fixDisplayNameFromApple = [
+        appleCredential.givenName ?? '',
+        appleCredential.familyName ?? '',
+      ].join(' ').trim();
+      await userCredential.user?.updateDisplayName(fixDisplayNameFromApple);
+    }
+    if (userCredential.user?.email == null ||
+        (userCredential.user?.email != null && userCredential.user!.email!.isEmpty)) {
+      await userCredential.user?.updateEmail(appleCredential.email ?? '');
+    }
+
     if (_firebaseAuth.currentUser != null) return _firebaseAuth.currentUser!;
     throw Exception('_firebaseAuth.currentUser is null');
   }
 
   Future<User> signInWithProvider() async {
-    final rawNonce = generateNonce();
-    final nonce = sha256ofString(rawNonce);
-
     AppleAuthProvider appleProvider = AppleAuthProvider();
     appleProvider.addScope('email');
     appleProvider.addScope('name');
