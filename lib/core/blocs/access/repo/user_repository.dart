@@ -64,11 +64,11 @@ class UserRepository {
     if (kIsWeb) {
       return signInWithAppleOnWeb();
     } else {
-      if (Platform.isIOS) {
-        return signInWithAppleOnApple();
-      } else {
+//      if (Platform.isIOS) {
+//        return signInWithAppleOnApple();
+//      } else {
         return signInWithProvider();
-      }
+//      }
     }
   }
 

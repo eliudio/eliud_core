@@ -69,7 +69,11 @@
   * [Step 9: Setup ios project](#step-9-setup-ios-project)
   * [Step 10: Configure the Android Studio project for apple](#step-10-configure-the-android-studio-project-for-apple)
   * [Step 11. GoogleService-Info.plist](#step-11-googleservice-infoplist)
-  * [Step 12. Add a URL scheme to your project](#step-12-add-a-url-scheme-to-your-project)
+  * [Step 12. Info.plist](#step-12-infoplist)
+    + [Step 12.1. Add a URL scheme to your project](#step-121-add-a-url-scheme-to-your-project)
+    + [Step 12.2. Indicate your app does not use encryption](#step-122-indicate-your-app-does-not-use-encryption)
+    + [Step 12.3. Add camera, microphone and photo library access](#step-123-add-camera-microphone-and-photo-library-access)
+    + [Step 12.4. Result file](#step-124-result-file)
   * [Troubleshouting steps](#troubleshouting-steps)
 - [Chapter IV. Deploy to android store](#chapter-iv-deploy-to-android-store)
   * [Step 1. Build](#step-1-build)
@@ -92,15 +96,18 @@
 - [Chapter V. Deploy to apple store](#chapter-v-deploy-to-apple-store)
   * [Step 1: Enroll for the Apple Developer Program.](#step-1-enroll-for-the-apple-developer-program)
   * [Step 2: Create an app on App Store Connect](#step-2-create-an-app-on-app-store-connect)
-  * [Step 3 Take screenshots](#step-3-take-screenshots)
-  * [Step 3.1 Create simulators](#step-31-create-simulators)
-  * [Step 3.2 Create screenshots](#step-32-create-screenshots)
-  * [Step 4: Create test user](#step-4-create-test-user)
-  * [Step 5: Provide app details](#step-5-provide-app-details)
-  * [Step 6: Provide App Privacy details](#step-6-provide-app-privacy-details)
-  * [Step 7: Create a build archive](#step-7-create-a-build-archive)
-  * [Step 8: Upload to App Store Connect](#step-8-upload-to-app-store-connect)
-  * [Step 10: Release your app to the App Store](#step-10-release-your-app-to-the-app-store)
+  * [Step 3: Provide App Information](#step-3-provide-app-information)
+  * [Step 4: Create a build archive](#step-4-create-a-build-archive)
+  * [Step 5: Upload to App Store Connect](#step-5-upload-to-app-store-connect)
+    + [Option 5.1: Use upload tool](#option-51-use-upload-tool)
+    + [Option 5.2: Use transport app](#option-52-use-transport-app)
+  * [Step 6: Take screenshots](#step-6-take-screenshots)
+  * [Step 6.1: Create simulators](#step-61-create-simulators)
+  * [Step 6.2 Create screenshots](#step-62-create-screenshots)
+  * [Step 7: Create test user](#step-7-create-test-user)
+  * [Step 8: Provide App Privacy details](#step-8-provide-app-privacy-details)
+  * [Step 9: Pricing and Availability](#step-9-pricing-and-availability)
+  * [Step 10: Submit the app](#step-10-submit-the-app)
 - [Chapter VI. Extend the app with other packages](#chapter-vi-extend-the-app-with-other-packages)
 - [Chapter VII. Write and integrate your own code / packages](#chapter-vii-write-and-integrate-your-own-code--packages)
 - [Appendix A. Overview packages](#appendix-a-overview-packages)
@@ -1303,7 +1310,18 @@ firebase deploy --project thoma5
 
 ---
 
-## Step 13: Configure oauth web client
+## Step 13: Add Authorized domains to Authentication
+
+The following is required to login with oauth, e.g. when signing in with Apple from your webapp.
+
+1. Goto https://console.firebase.google.com
+2. Select your project
+3. Select Authenticaiton > Settings
+4. In Authorized domains tab, add domain <a href="#domain_name">your domain name</a>, here thoma5.com
+
+---
+
+## Step 14: Configure oauth web client
 
 1. Goto https://console.cloud.google.com/apis/credentials
 2. Find the OAuth 2.0 Client IDs with name "Web client". If you find more than one, select any, e.g. the first.
@@ -1327,9 +1345,9 @@ firebase deploy --project thoma5
 
 ---
 
-## Step 14: Configure Android Studio project for web
+## Step 15: Configure Android Studio project for web
 
-### Step 14.1: Update pubspec.yaml
+### Step 15.1: Update pubspec.yaml
 
 1. Add the below dependency to pubspec.yaml
 
@@ -1370,7 +1388,7 @@ flutter_icons:
 
 2. Run pub get
 
-### Step 14.2: Update main.dart
+### Step 15.2: Update main.dart
 
 1. Add the following imports to main.dart 
 
@@ -1481,7 +1499,7 @@ Future<void> main() async {
 
 ~~~
 
-### Step 14.3: Create images and stylesheet
+### Step 15.3: Create images and stylesheet
 
 1. Optional: Verify the favicon.png that has been generated before, and optionally create your own (in the web folder). Size is 16 x 16. Use <a href="#logo">logo</a> as input.
 
@@ -1493,7 +1511,7 @@ Download <a href="https://github.com/eliudio/open-resources/raw/main/img/icons/l
 
 Download <a href="https://github.com/eliudio/open-resources/raw/main/web/styles.css">styles.css</a> and copy into the root directory of your web folder
 
-### Step 14.4: Update index.html
+### Step 15.4: Update index.html
 
 1. Add the stylesheet
 
@@ -1621,7 +1639,7 @@ Download <a href="https://github.com/eliudio/open-resources/raw/main/web/styles.
 
 ---
 
-## Step 15: Cors`
+## Step 16: Cors`
 
 To allow images to be accessed / copied, we need to configure cors access.
 
@@ -1661,7 +1679,7 @@ gsutil cors set cors.json gs://thoma5.appspot.com
  
 ---
 
-## Step 16: Deploy your website
+## Step 17: Deploy your website
 
 1. Create file firebase.json in your app <a href="#app_root_directory">root directory</a> with these contents
 
@@ -1702,7 +1720,7 @@ We use no-tree-shake-icons during our builds. The icons we use in our app are co
 
 ---
 
-## Step 17: Create policies / policy pages
+## Step 18: Create policies / policy pages
 
 When publishing apps to the Google Play or Apple App Store, you will need to 
 provide links to privacy policy, terms of service and/or disclaimer. 
@@ -1769,7 +1787,7 @@ For each policy, follow these steps:
 
 ---
 
-## Step 18: Create membership dashboard page
+## Step 19: Create membership dashboard page
 
 A membership dashboard page allows members to request the data that your website / app stores of that person and allows to deactivate the account and destroy all data that we keep of this person.
 
@@ -1813,7 +1831,7 @@ There are many reasons to have a membership dashboard page.
 
 ---
 
-## Step 19: Setup oauth consent
+## Step 20: Setup oauth consent
 
 TODO
 
@@ -1850,7 +1868,7 @@ Follow instructions in the email
 
 ---
 
-## Step 20: Start your free google GCP trial 300 USD
+## Step 21: Start your free google GCP trial 300 USD
 
 TODO: https://cloud.google.com/free
 
@@ -2694,7 +2712,7 @@ For each of the simulators created in the previous step, do this:
 
 ---
 
-## Step 10: Provide app details
+## Step 10: Submit the app
 
 1. https://appstoreconnect.apple.com/apps
 2. Select your app
