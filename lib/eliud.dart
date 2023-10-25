@@ -68,5 +68,4 @@ class Eliud {
           Registry.registry()!.application(app: app, asPlaystore: asPlaystore));
     }
   }
-
 }

@@ -22,9 +22,14 @@ import 'package:eliud_core/model/grid_view_list_event.dart';
 import 'package:eliud_core/model/grid_view_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'grid_view_model.dart';
+
+typedef List<GridViewModel?> FilterGridViewModels(List<GridViewModel?> values);
+
 
 
 class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
+  final FilterGridViewModels? filter;
   final GridViewRepository _gridViewRepository;
   StreamSubscription? _gridViewsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   final bool? detailed;
   final int gridViewLimit;
 
-  GridViewListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required GridViewRepository gridViewRepository, this.gridViewLimit = 5})
+  GridViewListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required GridViewRepository gridViewRepository, this.gridViewLimit = 5})
       : assert(gridViewRepository != null),
         _gridViewRepository = gridViewRepository,
         super(GridViewListLoading()) {
@@ -78,11 +83,19 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
     });
   }
 
+  List<GridViewModel?> _filter(List<GridViewModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadGridViewListToState() async {
     int amountNow =  (state is GridViewListLoaded) ? (state as GridViewListLoaded).values!.length : 0;
     _gridViewsListSubscription?.cancel();
     _gridViewsListSubscription = _gridViewRepository.listen(
-          (list) => add(GridViewListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(GridViewListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
     int amountNow =  (state is GridViewListLoaded) ? (state as GridViewListLoaded).values!.length : 0;
     _gridViewsListSubscription?.cancel();
     _gridViewsListSubscription = _gridViewRepository.listenWithDetails(
-            (list) => add(GridViewListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(GridViewListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

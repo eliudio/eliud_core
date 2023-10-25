@@ -80,7 +80,7 @@ class MemberFirestore implements MemberRepository {
       var doc = await collection.get();
       return await _populateDocPlus(doc);
     } on Exception catch(e) {
-      print("Error whilst retrieving App with id $id");
+      print("Error whilst retrieving MemberModel with id $id");
       print("Exceptoin: $e");
       if (onError != null) {
         onError(e);

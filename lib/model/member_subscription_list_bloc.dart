@@ -22,9 +22,14 @@ import 'package:eliud_core/model/member_subscription_list_event.dart';
 import 'package:eliud_core/model/member_subscription_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'member_subscription_model.dart';
+
+typedef List<MemberSubscriptionModel?> FilterMemberSubscriptionModels(List<MemberSubscriptionModel?> values);
+
 
 
 class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, MemberSubscriptionListState> {
+  final FilterMemberSubscriptionModels? filter;
   final MemberSubscriptionRepository _memberSubscriptionRepository;
   StreamSubscription? _memberSubscriptionsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
   final bool? detailed;
   final int memberSubscriptionLimit;
 
-  MemberSubscriptionListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberSubscriptionRepository memberSubscriptionRepository, this.memberSubscriptionLimit = 5})
+  MemberSubscriptionListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberSubscriptionRepository memberSubscriptionRepository, this.memberSubscriptionLimit = 5})
       : assert(memberSubscriptionRepository != null),
         _memberSubscriptionRepository = memberSubscriptionRepository,
         super(MemberSubscriptionListLoading()) {
@@ -78,11 +83,19 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
     });
   }
 
+  List<MemberSubscriptionModel?> _filter(List<MemberSubscriptionModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadMemberSubscriptionListToState() async {
     int amountNow =  (state is MemberSubscriptionListLoaded) ? (state as MemberSubscriptionListLoaded).values!.length : 0;
     _memberSubscriptionsListSubscription?.cancel();
     _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listen(
-          (list) => add(MemberSubscriptionListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(MemberSubscriptionListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
     int amountNow =  (state is MemberSubscriptionListLoaded) ? (state as MemberSubscriptionListLoaded).values!.length : 0;
     _memberSubscriptionsListSubscription?.cancel();
     _memberSubscriptionsListSubscription = _memberSubscriptionRepository.listenWithDetails(
-            (list) => add(MemberSubscriptionListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(MemberSubscriptionListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

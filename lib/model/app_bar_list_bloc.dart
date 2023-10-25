@@ -22,9 +22,14 @@ import 'package:eliud_core/model/app_bar_list_event.dart';
 import 'package:eliud_core/model/app_bar_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'app_bar_model.dart';
+
+typedef List<AppBarModel?> FilterAppBarModels(List<AppBarModel?> values);
+
 
 
 class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
+  final FilterAppBarModels? filter;
   final AppBarRepository _appBarRepository;
   StreamSubscription? _appBarsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final bool? detailed;
   final int appBarLimit;
 
-  AppBarListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppBarRepository appBarRepository, this.appBarLimit = 5})
+  AppBarListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppBarRepository appBarRepository, this.appBarLimit = 5})
       : assert(appBarRepository != null),
         _appBarRepository = appBarRepository,
         super(AppBarListLoading()) {
@@ -78,11 +83,19 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
     });
   }
 
+  List<AppBarModel?> _filter(List<AppBarModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadAppBarListToState() async {
     int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values!.length : 0;
     _appBarsListSubscription?.cancel();
     _appBarsListSubscription = _appBarRepository.listen(
-          (list) => add(AppBarListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(AppBarListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
     int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values!.length : 0;
     _appBarsListSubscription?.cancel();
     _appBarsListSubscription = _appBarRepository.listenWithDetails(
-            (list) => add(AppBarListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(AppBarListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

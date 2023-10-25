@@ -10,6 +10,7 @@ import 'package:eliud_core/style/style_registry.dart';
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/tools/main_repository_singleton.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
+import 'package:eliud_core/wizards/blocking_dashboard_dialog_wizard.dart';
 import 'package:eliud_core/wizards/login_logout_wizard.dart';
 import 'package:eliud_core/wizards/member_dashboard_dialog_wizard.dart';
 import 'core/blocs/access/access_bloc.dart';
@@ -59,6 +60,7 @@ abstract class CorePackage extends Package {
 
     // wizards
     NewAppWizardRegistry.registry().register(MemberDashboardDialogWizard());
+    NewAppWizardRegistry.registry().register(BlockingDashboardDialogWizard());
     NewAppWizardRegistry.registry().register(LoginWizard());
     NewAppWizardRegistry.registry().register(LogoutWizard());
 

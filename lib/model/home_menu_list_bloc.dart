@@ -22,9 +22,14 @@ import 'package:eliud_core/model/home_menu_list_event.dart';
 import 'package:eliud_core/model/home_menu_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'home_menu_model.dart';
+
+typedef List<HomeMenuModel?> FilterHomeMenuModels(List<HomeMenuModel?> values);
+
 
 
 class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
+  final FilterHomeMenuModels? filter;
   final HomeMenuRepository _homeMenuRepository;
   StreamSubscription? _homeMenusListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   final bool? detailed;
   final int homeMenuLimit;
 
-  HomeMenuListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required HomeMenuRepository homeMenuRepository, this.homeMenuLimit = 5})
+  HomeMenuListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required HomeMenuRepository homeMenuRepository, this.homeMenuLimit = 5})
       : assert(homeMenuRepository != null),
         _homeMenuRepository = homeMenuRepository,
         super(HomeMenuListLoading()) {
@@ -78,11 +83,19 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
     });
   }
 
+  List<HomeMenuModel?> _filter(List<HomeMenuModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadHomeMenuListToState() async {
     int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values!.length : 0;
     _homeMenusListSubscription?.cancel();
     _homeMenusListSubscription = _homeMenuRepository.listen(
-          (list) => add(HomeMenuListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(HomeMenuListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
     int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values!.length : 0;
     _homeMenusListSubscription?.cancel();
     _homeMenusListSubscription = _homeMenuRepository.listenWithDetails(
-            (list) => add(HomeMenuListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(HomeMenuListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

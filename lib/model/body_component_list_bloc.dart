@@ -22,9 +22,14 @@ import 'package:eliud_core/model/body_component_list_event.dart';
 import 'package:eliud_core/model/body_component_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'body_component_model.dart';
+
+typedef List<BodyComponentModel?> FilterBodyComponentModels(List<BodyComponentModel?> values);
+
 
 
 class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentListState> {
+  final FilterBodyComponentModels? filter;
   final BodyComponentRepository _bodyComponentRepository;
   StreamSubscription? _bodyComponentsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
   final bool? detailed;
   final int bodyComponentLimit;
 
-  BodyComponentListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BodyComponentRepository bodyComponentRepository, this.bodyComponentLimit = 5})
+  BodyComponentListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BodyComponentRepository bodyComponentRepository, this.bodyComponentLimit = 5})
       : assert(bodyComponentRepository != null),
         _bodyComponentRepository = bodyComponentRepository,
         super(BodyComponentListLoading()) {
@@ -78,11 +83,19 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
     });
   }
 
+  List<BodyComponentModel?> _filter(List<BodyComponentModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadBodyComponentListToState() async {
     int amountNow =  (state is BodyComponentListLoaded) ? (state as BodyComponentListLoaded).values!.length : 0;
     _bodyComponentsListSubscription?.cancel();
     _bodyComponentsListSubscription = _bodyComponentRepository.listen(
-          (list) => add(BodyComponentListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(BodyComponentListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
     int amountNow =  (state is BodyComponentListLoaded) ? (state as BodyComponentListLoaded).values!.length : 0;
     _bodyComponentsListSubscription?.cancel();
     _bodyComponentsListSubscription = _bodyComponentRepository.listenWithDetails(
-            (list) => add(BodyComponentListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(BodyComponentListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

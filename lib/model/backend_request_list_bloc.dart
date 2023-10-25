@@ -22,9 +22,14 @@ import 'package:eliud_core/model/backend_request_list_event.dart';
 import 'package:eliud_core/model/backend_request_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'backend_request_model.dart';
+
+typedef List<BackendRequestModel?> FilterBackendRequestModels(List<BackendRequestModel?> values);
+
 
 
 class BackendRequestListBloc extends Bloc<BackendRequestListEvent, BackendRequestListState> {
+  final FilterBackendRequestModels? filter;
   final BackendRequestRepository _backendRequestRepository;
   StreamSubscription? _backendRequestsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class BackendRequestListBloc extends Bloc<BackendRequestListEvent, BackendReques
   final bool? detailed;
   final int backendRequestLimit;
 
-  BackendRequestListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BackendRequestRepository backendRequestRepository, this.backendRequestLimit = 5})
+  BackendRequestListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BackendRequestRepository backendRequestRepository, this.backendRequestLimit = 5})
       : assert(backendRequestRepository != null),
         _backendRequestRepository = backendRequestRepository,
         super(BackendRequestListLoading()) {
@@ -78,11 +83,19 @@ class BackendRequestListBloc extends Bloc<BackendRequestListEvent, BackendReques
     });
   }
 
+  List<BackendRequestModel?> _filter(List<BackendRequestModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadBackendRequestListToState() async {
     int amountNow =  (state is BackendRequestListLoaded) ? (state as BackendRequestListLoaded).values!.length : 0;
     _backendRequestsListSubscription?.cancel();
     _backendRequestsListSubscription = _backendRequestRepository.listen(
-          (list) => add(BackendRequestListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(BackendRequestListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class BackendRequestListBloc extends Bloc<BackendRequestListEvent, BackendReques
     int amountNow =  (state is BackendRequestListLoaded) ? (state as BackendRequestListLoaded).values!.length : 0;
     _backendRequestsListSubscription?.cancel();
     _backendRequestsListSubscription = _backendRequestRepository.listenWithDetails(
-            (list) => add(BackendRequestListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(BackendRequestListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

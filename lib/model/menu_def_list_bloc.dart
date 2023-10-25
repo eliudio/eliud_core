@@ -22,9 +22,14 @@ import 'package:eliud_core/model/menu_def_list_event.dart';
 import 'package:eliud_core/model/menu_def_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'menu_def_model.dart';
+
+typedef List<MenuDefModel?> FilterMenuDefModels(List<MenuDefModel?> values);
+
 
 
 class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
+  final FilterMenuDefModels? filter;
   final MenuDefRepository _menuDefRepository;
   StreamSubscription? _menuDefsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final bool? detailed;
   final int menuDefLimit;
 
-  MenuDefListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuDefRepository menuDefRepository, this.menuDefLimit = 5})
+  MenuDefListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuDefRepository menuDefRepository, this.menuDefLimit = 5})
       : assert(menuDefRepository != null),
         _menuDefRepository = menuDefRepository,
         super(MenuDefListLoading()) {
@@ -78,11 +83,19 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
     });
   }
 
+  List<MenuDefModel?> _filter(List<MenuDefModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadMenuDefListToState() async {
     int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values!.length : 0;
     _menuDefsListSubscription?.cancel();
     _menuDefsListSubscription = _menuDefRepository.listen(
-          (list) => add(MenuDefListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(MenuDefListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
     int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values!.length : 0;
     _menuDefsListSubscription?.cancel();
     _menuDefsListSubscription = _menuDefRepository.listenWithDetails(
-            (list) => add(MenuDefListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(MenuDefListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

@@ -22,6 +22,9 @@ import 'abstract_repository_singleton.dart';
 import '../extensions/member_dashboard_component.dart';
 import '../editors/member_dashboard_component_editor.dart';
 import 'member_dashboard_component_selector.dart';
+import '../extensions/blocking_dashboard_component.dart';
+import '../editors/blocking_dashboard_component_editor.dart';
+import 'blocking_dashboard_component_selector.dart';
 import 'package:eliud_core/model/internal_component.dart';
 
 
@@ -30,13 +33,16 @@ import 'package:eliud_core/model/internal_component.dart';
 class ComponentRegistry {
 
   void init() {
-    Registry.registry()!.addInternalComponents('eliud_core', ["apps", "appBars", "appPolicys", "dialogs", "drawers", "gridViews", "homeMenus", "members", "memberDashboards", "memberPublicInfos", "menuDefs", "pages", ]);
+    Registry.registry()!.addInternalComponents('eliud_core', ["apps", "appBars", "appPolicys", "blockings", "dialogs", "drawers", "gridViews", "homeMenus", "members", "memberDashboards", "memberPublicInfos", "menuDefs", "pages", "blockingDashboards", ]);
 
     Registry.registry()!.register(componentName: "eliud_core_internalWidgets", componentConstructor: ListComponentFactory());
     Registry.registry()!.addDropDownSupporter("memberDashboards", DropdownButtonComponentFactory());
     Registry.registry()!.register(componentName: "memberDashboards", componentConstructor: MemberDashboardComponentConstructorDefault());
+    Registry.registry()!.addDropDownSupporter("blockingDashboards", DropdownButtonComponentFactory());
+    Registry.registry()!.register(componentName: "blockingDashboards", componentConstructor: BlockingDashboardComponentConstructorDefault());
     Registry.registry()!.addComponentSpec('eliud_core', 'core', [
       ComponentSpec('memberDashboards', MemberDashboardComponentConstructorDefault(), MemberDashboardComponentSelector(), MemberDashboardComponentEditorConstructor(), ({String? appId}) => memberDashboardRepository(appId: appId)! ), 
+      ComponentSpec('blockingDashboards', BlockingDashboardComponentConstructorDefault(), BlockingDashboardComponentSelector(), BlockingDashboardComponentEditorConstructor(), ({String? appId}) => blockingDashboardRepository(appId: appId)! ), 
     ]);
       Registry.registry()!.registerRetrieveRepository('eliud_core', 'accesss', ({String? appId}) => accessRepository(appId: appId)!);
       Registry.registry()!.registerRetrieveRepository('eliud_core', 'appBars', ({String? appId}) => appBarRepository(appId: appId)!);
@@ -51,6 +57,7 @@ class ComponentRegistry {
       Registry.registry()!.registerRetrieveRepository('eliud_core', 'menuDefs', ({String? appId}) => menuDefRepository(appId: appId)!);
       Registry.registry()!.registerRetrieveRepository('eliud_core', 'pages', ({String? appId}) => pageRepository(appId: appId)!);
       Registry.registry()!.registerRetrieveRepository('eliud_core', 'platformMediums', ({String? appId}) => platformMediumRepository(appId: appId)!);
+      Registry.registry()!.registerRetrieveRepository('eliud_core', 'blockingDashboards', ({String? appId}) => blockingDashboardRepository(appId: appId)!);
 
   }
 }

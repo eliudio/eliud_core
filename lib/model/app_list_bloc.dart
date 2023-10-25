@@ -22,9 +22,14 @@ import 'package:eliud_core/model/app_list_event.dart';
 import 'package:eliud_core/model/app_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'app_model.dart';
+
+typedef List<AppModel?> FilterAppModels(List<AppModel?> values);
+
 
 
 class AppListBloc extends Bloc<AppListEvent, AppListState> {
+  final FilterAppModels? filter;
   final AppRepository _appRepository;
   StreamSubscription? _appsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final bool? detailed;
   final int appLimit;
 
-  AppListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppRepository appRepository, this.appLimit = 5})
+  AppListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppRepository appRepository, this.appLimit = 5})
       : assert(appRepository != null),
         _appRepository = appRepository,
         super(AppListLoading()) {
@@ -78,11 +83,19 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     });
   }
 
+  List<AppModel?> _filter(List<AppModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadAppListToState() async {
     int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
     _appsListSubscription?.cancel();
     _appsListSubscription = _appRepository.listen(
-          (list) => add(AppListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(AppListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
     _appsListSubscription?.cancel();
     _appsListSubscription = _appRepository.listenWithDetails(
-            (list) => add(AppListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(AppListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

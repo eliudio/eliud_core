@@ -22,9 +22,14 @@ import 'package:eliud_core/model/page_list_event.dart';
 import 'package:eliud_core/model/page_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'page_model.dart';
+
+typedef List<PageModel?> FilterPageModels(List<PageModel?> values);
+
 
 
 class PageListBloc extends Bloc<PageListEvent, PageListState> {
+  final FilterPageModels? filter;
   final PageRepository _pageRepository;
   StreamSubscription? _pagesListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final bool? detailed;
   final int pageLimit;
 
-  PageListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PageRepository pageRepository, this.pageLimit = 5})
+  PageListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PageRepository pageRepository, this.pageLimit = 5})
       : assert(pageRepository != null),
         _pageRepository = pageRepository,
         super(PageListLoading()) {
@@ -78,11 +83,19 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     });
   }
 
+  List<PageModel?> _filter(List<PageModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadPageListToState() async {
     int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values!.length : 0;
     _pagesListSubscription?.cancel();
     _pagesListSubscription = _pageRepository.listen(
-          (list) => add(PageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(PageListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values!.length : 0;
     _pagesListSubscription?.cancel();
     _pagesListSubscription = _pageRepository.listenWithDetails(
-            (list) => add(PageListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(PageListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

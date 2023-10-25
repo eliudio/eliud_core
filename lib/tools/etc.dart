@@ -289,7 +289,6 @@ class BoxDecorationHelper {
           end: endAlignment(bdm.endGradientPosition),
           colors: colors,
           stops: noStops ? null : stops as List<double>?);
-
       return BoxDecoration(
         gradient: gradient,
         image: image,

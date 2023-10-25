@@ -22,9 +22,14 @@ import 'package:eliud_core/model/member_medium_list_event.dart';
 import 'package:eliud_core/model/member_medium_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'member_medium_model.dart';
+
+typedef List<MemberMediumModel?> FilterMemberMediumModels(List<MemberMediumModel?> values);
+
 
 
 class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListState> {
+  final FilterMemberMediumModels? filter;
   final MemberMediumRepository _memberMediumRepository;
   StreamSubscription? _memberMediumsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
   final bool? detailed;
   final int memberMediumLimit;
 
-  MemberMediumListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumRepository memberMediumRepository, this.memberMediumLimit = 5})
+  MemberMediumListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumRepository memberMediumRepository, this.memberMediumLimit = 5})
       : assert(memberMediumRepository != null),
         _memberMediumRepository = memberMediumRepository,
         super(MemberMediumListLoading()) {
@@ -78,11 +83,19 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
     });
   }
 
+  List<MemberMediumModel?> _filter(List<MemberMediumModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadMemberMediumListToState() async {
     int amountNow =  (state is MemberMediumListLoaded) ? (state as MemberMediumListLoaded).values!.length : 0;
     _memberMediumsListSubscription?.cancel();
     _memberMediumsListSubscription = _memberMediumRepository.listen(
-          (list) => add(MemberMediumListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(MemberMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
     int amountNow =  (state is MemberMediumListLoaded) ? (state as MemberMediumListLoaded).values!.length : 0;
     _memberMediumsListSubscription?.cancel();
     _memberMediumsListSubscription = _memberMediumRepository.listenWithDetails(
-            (list) => add(MemberMediumListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(MemberMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

@@ -5,7 +5,6 @@ import 'package:eliud_core/core/blocs/access/helper/access_helpers.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/member_subscription_model.dart';
 import 'package:eliud_core/model/page_model.dart';
@@ -19,12 +18,14 @@ import 'package:flutter/foundation.dart';
 import '../access_bloc.dart';
 import '../access_event.dart';
 import 'access_determined.dart';
+import 'maintain_blocked.dart';
 
 class LoggedIn extends AccessDetermined {
   final User usr;
   final MemberModel member;
   final PostLoginAction? postLoginAction;
   final List<String> subscribedToApps;
+  final List<String> blockedMembers;
 
   LoggedIn._(
       this.usr,
@@ -33,6 +34,7 @@ class LoggedIn extends AccessDetermined {
       List<DeterminedApp> apps,
       Map<String, PagesAndDialogAccesss> accesses,
       this.subscribedToApps,
+      this.blockedMembers,
       {AppModel? playstoreApp,
       bool? isProcessing,
         String? tempMessage,
@@ -59,6 +61,8 @@ class LoggedIn extends AccessDetermined {
       return DeterminedApp(app, homePage);
     }).toList());
 
+    List<String> _blockedMembers = await MaintainBlocked.getBlockedMembers(member.documentID);
+
 /*
     if ((!(subscribedToApps.contains(currentApp.documentID))) && (currentApp.policies == null)) {
       // accept membership as not policies provided
@@ -73,6 +77,7 @@ class LoggedIn extends AccessDetermined {
       determinedApps,
       accesses,
       subscribedToApps,
+      _blockedMembers,
       playstoreApp: playstoreApp,
     );
   }
@@ -91,6 +96,7 @@ class LoggedIn extends AccessDetermined {
     var appIsBlocked = _isBlocked(app.documentID, accesses);
     var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
     var apps = [DeterminedApp(app, homePage)];
+    List<String> _blockedMembers = await MaintainBlocked.getBlockedMembers(member.documentID);
 
     return LoggedIn._(
       usr,
@@ -99,6 +105,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       subscribedToApps,
+      _blockedMembers,
       playstoreApp: playstoreApp,
     );
   }
@@ -140,6 +147,7 @@ class LoggedIn extends AccessDetermined {
           apps,
           accesses,
           subscribedToApps,
+          blockedMembers,
           playstoreApp: playstoreApp,
           isProcessing: isProcessing,
         );
@@ -172,6 +180,7 @@ class LoggedIn extends AccessDetermined {
       newApps,
       newAccesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
     ));
   }
@@ -203,6 +212,7 @@ class LoggedIn extends AccessDetermined {
       newApps,
       newAccesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
     ));
   }
@@ -219,6 +229,7 @@ class LoggedIn extends AccessDetermined {
       newApps,
       accesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
     ));
   }
@@ -232,6 +243,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
       isProcessing: false,
     );
@@ -246,6 +258,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
       isProcessing: isProcessing,
         tempMessage: tempMessage
@@ -261,6 +274,7 @@ class LoggedIn extends AccessDetermined {
         apps,
         accesses,
         subscribedToApps,
+        blockedMembers,
         playstoreApp: playstoreApp,
         isProcessing: isProcessing,
         tempMessage: null
@@ -276,6 +290,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
       isProcessing: true,
     );
@@ -291,6 +306,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       newAccesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
       isProcessing: isProcessing,
     );
@@ -447,6 +463,7 @@ class LoggedIn extends AccessDetermined {
       newApps,
       newAccesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
     ));
   }
@@ -459,6 +476,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       newSubscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
     );
   }
@@ -511,6 +529,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       getSubscriptions(newMember),
+      blockedMembers,
       playstoreApp: playstoreApp,
     );
     return newVersion;
@@ -537,6 +556,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       subscribedToApps,
+      blockedMembers,
       playstoreApp: playstoreApp,
     );
     newVersion.forceRefresh = forceRefresh + 1;
@@ -549,5 +569,31 @@ class LoggedIn extends AccessDetermined {
     var appIsBlocked = _isBlocked(app.documentID, accesses);
     var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
     return homePage;
+  }
+
+  List<String> registerBlockedMember(String otherMember) {
+    if (!isBlockedMember(otherMember)) {
+      var myMemberId = member.documentID;
+      MaintainBlocked.registerMemberAsBlocked(myMemberId, otherMember); // not waiting, we keep in memory blocked members
+      blockedMembers.add(otherMember);
+    }
+    return blockedMembers;
+  }
+
+  List<String> unRegisterBlockedMember(String otherMember) {
+    if (isBlockedMember(otherMember)) {
+      var myMemberId = member.documentID;
+      MaintainBlocked.unRegisterMemberAsBlocked(myMemberId, otherMember); // not waiting, we keep in memory blocked members
+      blockedMembers.remove(otherMember);
+    }
+    return blockedMembers;
+  }
+
+  bool isBlockedMember(String otherMember) {
+    return (blockedMembers.contains(otherMember));
+  }
+
+  List<String> getBlocked() {
+    return blockedMembers;
   }
 }

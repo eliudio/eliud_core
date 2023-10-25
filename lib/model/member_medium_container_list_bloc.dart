@@ -22,9 +22,14 @@ import 'package:eliud_core/model/member_medium_container_list_event.dart';
 import 'package:eliud_core/model/member_medium_container_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'member_medium_container_model.dart';
+
+typedef List<MemberMediumContainerModel?> FilterMemberMediumContainerModels(List<MemberMediumContainerModel?> values);
+
 
 
 class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent, MemberMediumContainerListState> {
+  final FilterMemberMediumContainerModels? filter;
   final MemberMediumContainerRepository _memberMediumContainerRepository;
   StreamSubscription? _memberMediumContainersListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent,
   final bool? detailed;
   final int memberMediumContainerLimit;
 
-  MemberMediumContainerListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumContainerRepository memberMediumContainerRepository, this.memberMediumContainerLimit = 5})
+  MemberMediumContainerListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumContainerRepository memberMediumContainerRepository, this.memberMediumContainerLimit = 5})
       : assert(memberMediumContainerRepository != null),
         _memberMediumContainerRepository = memberMediumContainerRepository,
         super(MemberMediumContainerListLoading()) {
@@ -78,11 +83,19 @@ class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent,
     });
   }
 
+  List<MemberMediumContainerModel?> _filter(List<MemberMediumContainerModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadMemberMediumContainerListToState() async {
     int amountNow =  (state is MemberMediumContainerListLoaded) ? (state as MemberMediumContainerListLoaded).values!.length : 0;
     _memberMediumContainersListSubscription?.cancel();
     _memberMediumContainersListSubscription = _memberMediumContainerRepository.listen(
-          (list) => add(MemberMediumContainerListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(MemberMediumContainerListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class MemberMediumContainerListBloc extends Bloc<MemberMediumContainerListEvent,
     int amountNow =  (state is MemberMediumContainerListLoaded) ? (state as MemberMediumContainerListLoaded).values!.length : 0;
     _memberMediumContainersListSubscription?.cancel();
     _memberMediumContainersListSubscription = _memberMediumContainerRepository.listenWithDetails(
-            (list) => add(MemberMediumContainerListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(MemberMediumContainerListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

@@ -8,19 +8,9 @@ abstract class HasTextBubble {
     BuildContext context, {
     bool isSender = true,
     required String text,
+    Widget? button,
+    Widget? widget,
     String? time,
-    bool tail = true,
-    bool sent = false,
-    bool delivered = false,
-    bool seen = false,
-  });
-
-  Widget widgetBubble(
-    AppModel app,
-    BuildContext context, {
-    bool isSender = true,
-    required Widget widget,
-    Widget? timeWidget,
     bool tail = true,
     bool sent = false,
     bool delivered = false,
@@ -33,6 +23,8 @@ Widget textBubble(
   BuildContext context, {
   bool isSender = true,
   required String text,
+  Widget? button,
+  Widget? widget,
   String? time,
   bool tail = true,
   bool sent = false,
@@ -48,6 +40,8 @@ Widget textBubble(
           context,
           isSender: isSender,
           text: text,
+          button: button,
+          widget: widget,
           time: time,
           tail: tail,
           sent: sent,
@@ -55,29 +49,3 @@ Widget textBubble(
           seen: seen,
         );
 
-Widget widgetBubble(
-  AppModel app,
-  BuildContext context, {
-  bool isSender = true,
-  required Widget widget,
-  Widget? timeWidget,
-  bool tail = true,
-  bool sent = false,
-  bool delivered = false,
-  bool seen = false,
-}) =>
-    StyleRegistry.registry()
-        .styleWithApp(app)
-        .frontEndStyle()
-        .textBubbleStyle()
-        .widgetBubble(
-          app,
-          context,
-          isSender: isSender,
-          widget: widget,
-          timeWidget: timeWidget,
-          tail: tail,
-          sent: sent,
-          delivered: delivered,
-          seen: seen,
-        );

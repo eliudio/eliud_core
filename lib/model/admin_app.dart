@@ -144,6 +144,29 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _blockingsPages() {
+    List<BodyComponentModel> components = [];
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-blockings", componentName: "eliud_core_internalWidgets", componentId: "blockings"));
+    PageModel page = PageModel(
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
+        ),
+        appId: appId,
+        documentID: "eliud_core_blockings_page",
+        title: "Blockings",
+        description: "Blockings",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   PageModel _dialogsPages() {
     List<BodyComponentModel> components = [];
     components.add(BodyComponentModel(
@@ -397,6 +420,29 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
+  PageModel _blockingDashboardsPages() {
+    List<BodyComponentModel> components = [];
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-blockingDashboards", componentName: "eliud_core_internalWidgets", componentId: "blockingDashboards"));
+    PageModel page = PageModel(
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
+        ),
+        appId: appId,
+        documentID: "eliud_core_blockingdashboards_page",
+        title: "BlockingDashboards",
+        description: "BlockingDashboards",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId)!.add(_appsPages())
@@ -406,6 +452,8 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId)!.add(_appPolicysPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_backendRequestsPages()))
+
+        .then((_) => pageRepository(appId: appId)!.add(_blockingsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_dialogsPages()))
 
@@ -428,6 +476,8 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId)!.add(_platformMediumsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_publicMediumsPages()))
+
+        .then((_) => pageRepository(appId: appId)!.add(_blockingDashboardsPages()))
 
     ;
   }
@@ -482,6 +532,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "BackendRequests",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(app, pageID: "eliud_core_backendrequests_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "Blockings",
+        text: "Blockings",
+        description: "Blockings",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(app, pageID: "eliud_core_blockings_page"))
     );
 
 
@@ -595,6 +655,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
     );
 
 
+    menuItems.add(
+      MenuItemModel(
+        documentID: "BlockingDashboards",
+        text: "BlockingDashboards",
+        description: "BlockingDashboards",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(app, pageID: "eliud_core_blockingdashboards_page"))
+    );
+
+
     MenuDefModel menu = MenuDefModel(
       admin: true,
       documentID: "eliud_core_admin_menu",
@@ -611,6 +681,7 @@ class AdminAppWiper extends AdminAppWiperBase {
 
   @override
   Future<void> deleteAll(String appId) async {
+    await blockingRepository()!.deleteAll();
     await memberClaimRepository()!.deleteAll();
     await memberPublicInfoRepository()!.deleteAll();
     await publicMediumRepository()!.deleteAll();

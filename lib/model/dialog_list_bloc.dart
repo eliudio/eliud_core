@@ -22,9 +22,14 @@ import 'package:eliud_core/model/dialog_list_event.dart';
 import 'package:eliud_core/model/dialog_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'dialog_model.dart';
+
+typedef List<DialogModel?> FilterDialogModels(List<DialogModel?> values);
+
 
 
 class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
+  final FilterDialogModels? filter;
   final DialogRepository _dialogRepository;
   StreamSubscription? _dialogsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final bool? detailed;
   final int dialogLimit;
 
-  DialogListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DialogRepository dialogRepository, this.dialogLimit = 5})
+  DialogListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DialogRepository dialogRepository, this.dialogLimit = 5})
       : assert(dialogRepository != null),
         _dialogRepository = dialogRepository,
         super(DialogListLoading()) {
@@ -78,11 +83,19 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     });
   }
 
+  List<DialogModel?> _filter(List<DialogModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadDialogListToState() async {
     int amountNow =  (state is DialogListLoaded) ? (state as DialogListLoaded).values!.length : 0;
     _dialogsListSubscription?.cancel();
     _dialogsListSubscription = _dialogRepository.listen(
-          (list) => add(DialogListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(DialogListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     int amountNow =  (state is DialogListLoaded) ? (state as DialogListLoaded).values!.length : 0;
     _dialogsListSubscription?.cancel();
     _dialogsListSubscription = _dialogRepository.listenWithDetails(
-            (list) => add(DialogListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(DialogListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

@@ -12,28 +12,35 @@ class DefaultButtonImpl implements HasButton {
 
   @override
   Widget button(AppModel app, BuildContext context,
-      {Icon? icon, required String label, VoidCallback? onPressed}) {
+      {Icon? icon, required String label, String? tooltip, VoidCallback? onPressed}) {
     if (icon != null) {
-      return iconButton(app, context, onPressed: onPressed, icon: icon);
+      return iconButton(app, context, onPressed: onPressed, tooltip: tooltip, icon: icon);
     } else {
-      return _textButton(app, context, label: label, onPressed: onPressed);
+      return _textButton(app, context, label: label, tooltip: tooltip, onPressed: onPressed);
     }
   }
 
   Widget _textButton(AppModel app, BuildContext context,
-  {VoidCallback? onPressed, required String label, bool? selected}) =>
-    TextButton(
+  {VoidCallback? onPressed, required String label, String? tooltip, bool? selected}) {
+    var returnMe = TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           primary: Colors.pink,
         ),
         child: selected != null && selected ? _frontEndStyle.textStyle().highLight1(app, context, label) : _frontEndStyle.textStyle().text(app, context, label)
     );
+    if (tooltip == null) {
+      return returnMe;
+    } else {
+      return Tooltip(message: tooltip, child: returnMe);
+    }
+  }
+
 
   @override
   Widget dialogButton(AppModel app, BuildContext context,
-      {VoidCallback? onPressed, required String label, bool? selected}) {
-    return _textButton(app, context, label: label, onPressed: onPressed, selected: selected);
+      {VoidCallback? onPressed, required String label, String? tooltip, bool? selected}) {
+    return _textButton(app, context, label: label, onPressed: onPressed, tooltip: tooltip, selected: selected);
   }
 
   @override

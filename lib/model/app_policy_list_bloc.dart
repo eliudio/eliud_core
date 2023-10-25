@@ -22,9 +22,14 @@ import 'package:eliud_core/model/app_policy_list_event.dart';
 import 'package:eliud_core/model/app_policy_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'app_policy_model.dart';
+
+typedef List<AppPolicyModel?> FilterAppPolicyModels(List<AppPolicyModel?> values);
+
 
 
 class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
+  final FilterAppPolicyModels? filter;
   final AppPolicyRepository _appPolicyRepository;
   StreamSubscription? _appPolicysListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   final bool? detailed;
   final int appPolicyLimit;
 
-  AppPolicyListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyRepository appPolicyRepository, this.appPolicyLimit = 5})
+  AppPolicyListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyRepository appPolicyRepository, this.appPolicyLimit = 5})
       : assert(appPolicyRepository != null),
         _appPolicyRepository = appPolicyRepository,
         super(AppPolicyListLoading()) {
@@ -78,11 +83,19 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
     });
   }
 
+  List<AppPolicyModel?> _filter(List<AppPolicyModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadAppPolicyListToState() async {
     int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values!.length : 0;
     _appPolicysListSubscription?.cancel();
     _appPolicysListSubscription = _appPolicyRepository.listen(
-          (list) => add(AppPolicyListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(AppPolicyListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
     int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values!.length : 0;
     _appPolicysListSubscription?.cancel();
     _appPolicysListSubscription = _appPolicyRepository.listenWithDetails(
-            (list) => add(AppPolicyListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(AppPolicyListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

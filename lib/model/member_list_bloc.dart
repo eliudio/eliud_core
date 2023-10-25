@@ -22,9 +22,14 @@ import 'package:eliud_core/model/member_list_event.dart';
 import 'package:eliud_core/model/member_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'member_model.dart';
+
+typedef List<MemberModel?> FilterMemberModels(List<MemberModel?> values);
+
 
 
 class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
+  final FilterMemberModels? filter;
   final MemberRepository _memberRepository;
   StreamSubscription? _membersListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final bool? detailed;
   final int memberLimit;
 
-  MemberListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberRepository memberRepository, this.memberLimit = 5})
+  MemberListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberRepository memberRepository, this.memberLimit = 5})
       : assert(memberRepository != null),
         _memberRepository = memberRepository,
         super(MemberListLoading()) {
@@ -78,11 +83,19 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
     });
   }
 
+  List<MemberModel?> _filter(List<MemberModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadMemberListToState() async {
     int amountNow =  (state is MemberListLoaded) ? (state as MemberListLoaded).values!.length : 0;
     _membersListSubscription?.cancel();
     _membersListSubscription = _memberRepository.listen(
-          (list) => add(MemberListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(MemberListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
     int amountNow =  (state is MemberListLoaded) ? (state as MemberListLoaded).values!.length : 0;
     _membersListSubscription?.cancel();
     _membersListSubscription = _memberRepository.listenWithDetails(
-            (list) => add(MemberListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(MemberListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

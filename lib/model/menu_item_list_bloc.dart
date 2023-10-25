@@ -22,9 +22,14 @@ import 'package:eliud_core/model/menu_item_list_event.dart';
 import 'package:eliud_core/model/menu_item_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'menu_item_model.dart';
+
+typedef List<MenuItemModel?> FilterMenuItemModels(List<MenuItemModel?> values);
+
 
 
 class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
+  final FilterMenuItemModels? filter;
   final MenuItemRepository _menuItemRepository;
   StreamSubscription? _menuItemsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
   final bool? detailed;
   final int menuItemLimit;
 
-  MenuItemListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuItemRepository menuItemRepository, this.menuItemLimit = 5})
+  MenuItemListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuItemRepository menuItemRepository, this.menuItemLimit = 5})
       : assert(menuItemRepository != null),
         _menuItemRepository = menuItemRepository,
         super(MenuItemListLoading()) {
@@ -78,11 +83,19 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
     });
   }
 
+  List<MenuItemModel?> _filter(List<MenuItemModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadMenuItemListToState() async {
     int amountNow =  (state is MenuItemListLoaded) ? (state as MenuItemListLoaded).values!.length : 0;
     _menuItemsListSubscription?.cancel();
     _menuItemsListSubscription = _menuItemRepository.listen(
-          (list) => add(MenuItemListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(MenuItemListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class MenuItemListBloc extends Bloc<MenuItemListEvent, MenuItemListState> {
     int amountNow =  (state is MenuItemListLoaded) ? (state as MenuItemListLoaded).values!.length : 0;
     _menuItemsListSubscription?.cancel();
     _menuItemsListSubscription = _menuItemRepository.listenWithDetails(
-            (list) => add(MenuItemListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(MenuItemListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

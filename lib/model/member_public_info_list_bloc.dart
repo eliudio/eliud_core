@@ -22,9 +22,14 @@ import 'package:eliud_core/model/member_public_info_list_event.dart';
 import 'package:eliud_core/model/member_public_info_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'member_public_info_model.dart';
+
+typedef List<MemberPublicInfoModel?> FilterMemberPublicInfoModels(List<MemberPublicInfoModel?> values);
+
 
 
 class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPublicInfoListState> {
+  final FilterMemberPublicInfoModels? filter;
   final MemberPublicInfoRepository _memberPublicInfoRepository;
   StreamSubscription? _memberPublicInfosListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
   final bool? detailed;
   final int memberPublicInfoLimit;
 
-  MemberPublicInfoListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberPublicInfoRepository memberPublicInfoRepository, this.memberPublicInfoLimit = 5})
+  MemberPublicInfoListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberPublicInfoRepository memberPublicInfoRepository, this.memberPublicInfoLimit = 5})
       : assert(memberPublicInfoRepository != null),
         _memberPublicInfoRepository = memberPublicInfoRepository,
         super(MemberPublicInfoListLoading()) {
@@ -78,11 +83,19 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
     });
   }
 
+  List<MemberPublicInfoModel?> _filter(List<MemberPublicInfoModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadMemberPublicInfoListToState() async {
     int amountNow =  (state is MemberPublicInfoListLoaded) ? (state as MemberPublicInfoListLoaded).values!.length : 0;
     _memberPublicInfosListSubscription?.cancel();
     _memberPublicInfosListSubscription = _memberPublicInfoRepository.listen(
-          (list) => add(MemberPublicInfoListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(MemberPublicInfoListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
     int amountNow =  (state is MemberPublicInfoListLoaded) ? (state as MemberPublicInfoListLoaded).values!.length : 0;
     _memberPublicInfosListSubscription?.cancel();
     _memberPublicInfosListSubscription = _memberPublicInfoRepository.listenWithDetails(
-            (list) => add(MemberPublicInfoListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(MemberPublicInfoListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

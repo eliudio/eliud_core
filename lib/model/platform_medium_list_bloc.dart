@@ -22,9 +22,14 @@ import 'package:eliud_core/model/platform_medium_list_event.dart';
 import 'package:eliud_core/model/platform_medium_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'platform_medium_model.dart';
+
+typedef List<PlatformMediumModel?> FilterPlatformMediumModels(List<PlatformMediumModel?> values);
+
 
 
 class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediumListState> {
+  final FilterPlatformMediumModels? filter;
   final PlatformMediumRepository _platformMediumRepository;
   StreamSubscription? _platformMediumsListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
   final bool? detailed;
   final int platformMediumLimit;
 
-  PlatformMediumListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PlatformMediumRepository platformMediumRepository, this.platformMediumLimit = 5})
+  PlatformMediumListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PlatformMediumRepository platformMediumRepository, this.platformMediumLimit = 5})
       : assert(platformMediumRepository != null),
         _platformMediumRepository = platformMediumRepository,
         super(PlatformMediumListLoading()) {
@@ -78,11 +83,19 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
     });
   }
 
+  List<PlatformMediumModel?> _filter(List<PlatformMediumModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadPlatformMediumListToState() async {
     int amountNow =  (state is PlatformMediumListLoaded) ? (state as PlatformMediumListLoaded).values!.length : 0;
     _platformMediumsListSubscription?.cancel();
     _platformMediumsListSubscription = _platformMediumRepository.listen(
-          (list) => add(PlatformMediumListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(PlatformMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
     int amountNow =  (state is PlatformMediumListLoaded) ? (state as PlatformMediumListLoaded).values!.length : 0;
     _platformMediumsListSubscription?.cancel();
     _platformMediumsListSubscription = _platformMediumRepository.listenWithDetails(
-            (list) => add(PlatformMediumListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(PlatformMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,

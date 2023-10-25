@@ -22,9 +22,14 @@ import 'package:eliud_core/model/app_entry_pages_list_event.dart';
 import 'package:eliud_core/model/app_entry_pages_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
+import 'app_entry_pages_model.dart';
+
+typedef List<AppEntryPagesModel?> FilterAppEntryPagesModels(List<AppEntryPagesModel?> values);
+
 
 
 class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesListState> {
+  final FilterAppEntryPagesModels? filter;
   final AppEntryPagesRepository _appEntryPagesRepository;
   StreamSubscription? _appEntryPagessListSubscription;
   EliudQuery? eliudQuery;
@@ -35,7 +40,7 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
   final bool? detailed;
   final int appEntryPagesLimit;
 
-  AppEntryPagesListBloc({this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppEntryPagesRepository appEntryPagesRepository, this.appEntryPagesLimit = 5})
+  AppEntryPagesListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppEntryPagesRepository appEntryPagesRepository, this.appEntryPagesLimit = 5})
       : assert(appEntryPagesRepository != null),
         _appEntryPagesRepository = appEntryPagesRepository,
         super(AppEntryPagesListLoading()) {
@@ -78,11 +83,19 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
     });
   }
 
+  List<AppEntryPagesModel?> _filter(List<AppEntryPagesModel?> original) {
+    if (filter != null) {
+      return filter!(original);
+    } else {
+      return original;
+    }
+  }
+
   Future<void> _mapLoadAppEntryPagesListToState() async {
     int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values!.length : 0;
     _appEntryPagessListSubscription?.cancel();
     _appEntryPagessListSubscription = _appEntryPagesRepository.listen(
-          (list) => add(AppEntryPagesListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+          (list) => add(AppEntryPagesListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
       orderBy: orderBy,
       descending: descending,
       eliudQuery: eliudQuery,
@@ -94,7 +107,7 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
     int amountNow =  (state is AppEntryPagesListLoaded) ? (state as AppEntryPagesListLoaded).values!.length : 0;
     _appEntryPagessListSubscription?.cancel();
     _appEntryPagessListSubscription = _appEntryPagesRepository.listenWithDetails(
-            (list) => add(AppEntryPagesListUpdated(value: list, mightHaveMore: amountNow != list.length)),
+            (list) => add(AppEntryPagesListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
