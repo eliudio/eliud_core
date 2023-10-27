@@ -23,9 +23,10 @@ class MaintainBlockingListBloc extends Bloc<MaintainBlockingListEvent, MaintainB
   final bool? detailed;
   final int blockingLimit;
   final String appId;
+  final String memberId;
   final LoggedIn? loggedIn;
 
-  MaintainBlockingListBloc({required this.loggedIn, required this.appId, this.paged, this.orderBy, this.descending, this.detailed, this.blockingLimit = 5})
+  MaintainBlockingListBloc({required this.memberId, required this.loggedIn, required this.appId, this.paged, this.orderBy, this.descending, this.detailed, this.blockingLimit = 5})
       : super(MaintainBlockingListLoading()) {
     on <LoadMaintainBlockingList> ((event, emit) {
       _mapLoadBlockingListWithDetailsToState();
@@ -74,16 +75,20 @@ class MaintainBlockingListBloc extends Bloc<MaintainBlockingListEvent, MaintainB
         ,
         orderBy: orderBy,
         descending: descending,
-//        eliudQuery: eliudQuery, TODO
+        eliudQuery: getEliudQuery(),
         limit: ((paged != null) && paged!) ? pages * blockingLimit : null
     );
   }
 
+  EliudQuery getEliudQuery() {
+    return EliudQuery(theConditions: [
+      EliudQueryCondition('memberBlocking', isEqualTo: memberId),
+    ]);
+  }
+
   Future<void> _mapAddBlockingListToState(AddMaintainBlockingList event) async {
     var value = event.value;
-    if (value != null) {
-      await blockingRepository(appId: appId)!.add(value);
-    }
+    await blockingRepository(appId: appId)!.add(value);
   }
 
   Future<void> _mapUpdateBlockingListToState(UpdateMaintainBlockingList event) async {

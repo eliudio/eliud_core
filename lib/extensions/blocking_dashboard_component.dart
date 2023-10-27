@@ -78,8 +78,10 @@ class BlockingDashboard extends AbstractBlockingDashboardComponent {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
           if (accessState is AccessDetermined) {
+            var memberId = accessState.getMember()!.documentID;
             return BlocProvider<MaintainBlockingListBloc>(
                 create: (context) => MaintainBlockingListBloc(
+                  memberId: memberId,
                   loggedIn: accessState is LoggedIn ? accessState : null,
                   detailed: true,
                   appId: app.documentID,
