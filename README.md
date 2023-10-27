@@ -2617,7 +2617,7 @@ To be able to create screenshots for app sumission, we need to create iOS simula
 
 1. Open your project in xcode
 2. From xcode, select menu Xcode > Open Developer Tool > Simulator
-3. From the Simulator, select File > New Simulator and create simulators for the iOS simulator Device types listed below.
+3. From the Simulator, select File > New Simulator and create simulators for the iOS simulator Device types listed below. Use one of the latest OS!
 
 <table>
     <tr>
