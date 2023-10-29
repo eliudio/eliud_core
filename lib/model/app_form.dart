@@ -132,6 +132,9 @@ class _MyAppFormState extends State<MyAppForm> {
   final TextEditingController _styleNameController = TextEditingController();
   bool? _autoPrivileged1Selection;
   bool? _isFeaturedSelection;
+  bool? _includeShippingAddressSelection;
+  bool? _includeInvoiceAddressSelection;
+  bool? _includeSubscriptionsSelection;
 
 
   _MyAppFormState(this.formAction);
@@ -151,6 +154,9 @@ class _MyAppFormState extends State<MyAppForm> {
     _styleNameController.addListener(_onStyleNameChanged);
     _autoPrivileged1Selection = false;
     _isFeaturedSelection = false;
+    _includeShippingAddressSelection = false;
+    _includeInvoiceAddressSelection = false;
+    _includeSubscriptionsSelection = false;
   }
 
   @override
@@ -214,6 +220,18 @@ class _MyAppFormState extends State<MyAppForm> {
         _isFeaturedSelection = state.value!.isFeatured;
         else
         _isFeaturedSelection = false;
+        if (state.value!.includeShippingAddress != null)
+        _includeShippingAddressSelection = state.value!.includeShippingAddress;
+        else
+        _includeShippingAddressSelection = false;
+        if (state.value!.includeInvoiceAddress != null)
+        _includeInvoiceAddressSelection = state.value!.includeInvoiceAddress;
+        else
+        _includeInvoiceAddressSelection = false;
+        if (state.value!.includeSubscriptions != null)
+        _includeSubscriptionsSelection = state.value!.includeSubscriptions;
+        else
+        _includeSubscriptionsSelection = false;
       }
       if (state is AppFormInitialized) {
         List<Widget> children = [];
@@ -246,6 +264,21 @@ class _MyAppFormState extends State<MyAppForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'isFeatured', _isFeaturedSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIsFeatured(val))
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'includeShippingAddress', _includeShippingAddressSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIncludeShippingAddress(val))
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'includeInvoiceAddress', _includeInvoiceAddressSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIncludeInvoiceAddress(val))
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'includeSubscriptions', _includeSubscriptionsSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIncludeSubscriptions(val))
           );
 
 
@@ -419,6 +452,9 @@ class _MyAppFormState extends State<MyAppForm> {
                               styleName: state.value!.styleName, 
                               autoPrivileged1: state.value!.autoPrivileged1, 
                               isFeatured: state.value!.isFeatured, 
+                              includeShippingAddress: state.value!.includeShippingAddress, 
+                              includeInvoiceAddress: state.value!.includeInvoiceAddress, 
+                              includeSubscriptions: state.value!.includeSubscriptions, 
                         )));
                       } else {
                         BlocProvider.of<AppListBloc>(context).add(
@@ -437,6 +473,9 @@ class _MyAppFormState extends State<MyAppForm> {
                               styleName: state.value!.styleName, 
                               autoPrivileged1: state.value!.autoPrivileged1, 
                               isFeatured: state.value!.isFeatured, 
+                              includeShippingAddress: state.value!.includeShippingAddress, 
+                              includeInvoiceAddress: state.value!.includeInvoiceAddress, 
+                              includeSubscriptions: state.value!.includeSubscriptions, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -539,6 +578,27 @@ class _MyAppFormState extends State<MyAppForm> {
       _isFeaturedSelection = val;
     });
     _myFormBloc.add(ChangedAppIsFeatured(value: val));
+  }
+
+  void setSelectionIncludeShippingAddress(bool? val) {
+    setState(() {
+      _includeShippingAddressSelection = val;
+    });
+    _myFormBloc.add(ChangedAppIncludeShippingAddress(value: val));
+  }
+
+  void setSelectionIncludeInvoiceAddress(bool? val) {
+    setState(() {
+      _includeInvoiceAddressSelection = val;
+    });
+    _myFormBloc.add(ChangedAppIncludeInvoiceAddress(value: val));
+  }
+
+  void setSelectionIncludeSubscriptions(bool? val) {
+    setState(() {
+      _includeSubscriptionsSelection = val;
+    });
+    _myFormBloc.add(ChangedAppIncludeSubscriptions(value: val));
   }
 
 

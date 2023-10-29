@@ -223,3 +223,39 @@ class ChangedAppIsFeatured extends AppFormEvent {
   String toString() => 'ChangedAppIsFeatured{ value: $value }';
 }
 
+class ChangedAppIncludeShippingAddress extends AppFormEvent {
+  final bool? value;
+
+  ChangedAppIncludeShippingAddress({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppIncludeShippingAddress{ value: $value }';
+}
+
+class ChangedAppIncludeInvoiceAddress extends AppFormEvent {
+  final bool? value;
+
+  ChangedAppIncludeInvoiceAddress({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppIncludeInvoiceAddress{ value: $value }';
+}
+
+class ChangedAppIncludeSubscriptions extends AppFormEvent {
+  final bool? value;
+
+  ChangedAppIncludeSubscriptions({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppIncludeSubscriptions{ value: $value }';
+}
+

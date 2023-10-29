@@ -111,6 +111,21 @@
       "fieldName": "isFeatured",
       "remark": "Is Featured",
       "fieldType": "bool"
+    },
+    {
+      "fieldName": "includeShippingAddress",
+      "remark": "Allow member profile to update shipping address? If the app doesn't include shipping products, then this is obsolete",
+      "fieldType": "bool"
+    },
+    {
+      "fieldName": "includeInvoiceAddress",
+      "remark": "Allow member profile to update invoice address? If the app doesn't invoicing then this is obsolete",
+      "fieldType": "bool"
+    },
+    {
+      "fieldName": "includeSubscriptions",
+      "remark": "Allow member profile to show subscriptions? If the app isn't a playstore, like minkey, then this is obsolete",
+      "fieldType": "bool"
     }
   ],
   "groups": [

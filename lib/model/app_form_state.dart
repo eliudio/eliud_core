@@ -287,6 +287,54 @@ class IsFeaturedAppFormError extends AppFormError {
 }
 
 
+class IncludeShippingAddressAppFormError extends AppFormError { 
+  const IncludeShippingAddressAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''IncludeShippingAddressAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class IncludeInvoiceAddressAppFormError extends AppFormError { 
+  const IncludeInvoiceAddressAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''IncludeInvoiceAddressAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
+class IncludeSubscriptionsAppFormError extends AppFormError { 
+  const IncludeSubscriptionsAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''IncludeSubscriptionsAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class AppFormLoaded extends AppFormInitialized { 
   const AppFormLoaded({ AppModel? value }): super(value: value);
 

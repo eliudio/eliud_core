@@ -179,6 +179,30 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
 
       }
       });
+      on <ChangedAppIncludeShippingAddress> ((event, emit) async {
+      if (state is AppFormInitialized) {
+        final currentState = state as AppFormInitialized;
+        newValue = currentState.value!.copyWith(includeShippingAddress: event.value);
+        emit(SubmittableAppForm(value: newValue));
+
+      }
+      });
+      on <ChangedAppIncludeInvoiceAddress> ((event, emit) async {
+      if (state is AppFormInitialized) {
+        final currentState = state as AppFormInitialized;
+        newValue = currentState.value!.copyWith(includeInvoiceAddress: event.value);
+        emit(SubmittableAppForm(value: newValue));
+
+      }
+      });
+      on <ChangedAppIncludeSubscriptions> ((event, emit) async {
+      if (state is AppFormInitialized) {
+        final currentState = state as AppFormInitialized;
+        newValue = currentState.value!.copyWith(includeSubscriptions: event.value);
+        emit(SubmittableAppForm(value: newValue));
+
+      }
+      });
   }
 
 
