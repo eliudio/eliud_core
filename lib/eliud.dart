@@ -60,6 +60,7 @@ class Eliud {
   // ThePlayStoreApp is the application which serves as the playstore and which you want to run
   // An icon will be available in the appBar to go to thePlayStoreApp
   void run(String appId, bool asPlaystore) async {
+    appId = appId.toUpperCase();
     var app = await appRepository()!.get(appId);
     if (app == null) {
       print("App with appId '$appId' does not exist");

@@ -13,6 +13,8 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
 
   void _mapLoadCurrentPageUpdateToState(
       String appId, String pageId) {
+    appId = appId.toUpperCase();
+    pageId = pageId.toLowerCase();
     _pageSubscription?.cancel();
     _pageSubscription = pageRepository(appId: appId)!.listenTo(pageId, (value) {
       if (value != null) add(CurrentPageUpdated(page: value));
