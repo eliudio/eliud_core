@@ -109,12 +109,15 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             physics: ScrollPhysics(),
             shrinkWrap: true,
             children: [
+/*
               Row(children: [
                 Spacer(),
-                text(app, context, welcomeText, textAlign: TextAlign.center),
+                Container(child: text(app, context, welcomeText, textAlign: TextAlign.center, softWrap: true)),
                 Spacer(),
                 profilePhoto,
               ]),
+*/
+              Container(child: text(app, context, welcomeText, textAlign: TextAlign.center, softWrap: true)),
               Container(height: 20),
               divider(app, context),
               Container(height: 20),
