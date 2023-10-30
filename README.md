@@ -712,10 +712,11 @@ To be able to upload our app to the google play store, we must specify that our 
 1. After you've started your app in the previous step, a "Hello world" screen should appear.
 2. Press the pen icon ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) to toggle editing mode on.
 3. Then press the ![Pen](https://github.com/eliudio/open-resources/raw/main/img/icons/edit.png) - app button 
-3.1 In the general section of the app:
-   1. change the title of your application
-   2. change the home url to your domain url. This is constructed with https:// followed by <a href="#domain_name">your domain name</a>
-3.2 In the "Welcome email document" section, provide a HTML document to welcome new joiners, like the one below. Use ${NAME} to address the person joining.
+   3.1 In the general section of the app:
+       3.1.1. change the title of your application
+       3.1.2. change the home url to your domain url. This is constructed with https:// followed by <a href="#domain_name">your domain name</a>
+
+   3.2 In the "Welcome email document" section, provide a HTML document to welcome new joiners, like the one below. Use ${NAME} to address the person joining.
 
 ~~~
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
