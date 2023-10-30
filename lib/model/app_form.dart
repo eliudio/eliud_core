@@ -135,6 +135,7 @@ class _MyAppFormState extends State<MyAppForm> {
   bool? _includeShippingAddressSelection;
   bool? _includeInvoiceAddressSelection;
   bool? _includeSubscriptionsSelection;
+  final TextEditingController _welcomeMessageController = TextEditingController();
 
 
   _MyAppFormState(this.formAction);
@@ -157,6 +158,7 @@ class _MyAppFormState extends State<MyAppForm> {
     _includeShippingAddressSelection = false;
     _includeInvoiceAddressSelection = false;
     _includeSubscriptionsSelection = false;
+    _welcomeMessageController.addListener(_onWelcomeMessageChanged);
   }
 
   @override
@@ -232,6 +234,10 @@ class _MyAppFormState extends State<MyAppForm> {
         _includeSubscriptionsSelection = state.value!.includeSubscriptions;
         else
         _includeSubscriptionsSelection = false;
+        if (state.value!.welcomeMessage != null)
+          _welcomeMessageController.text = state.value!.welcomeMessage.toString();
+        else
+          _welcomeMessageController.text = "";
       }
       if (state is AppFormInitialized) {
         List<Widget> children = [];
@@ -279,6 +285,11 @@ class _MyAppFormState extends State<MyAppForm> {
         children.add(
 
                   StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().checkboxListTile(widget.app, context, 'includeSubscriptions', _includeSubscriptionsSelection, _readOnly(accessState, state) ? null : (dynamic val) => setSelectionIncludeSubscriptions(val))
+          );
+
+        children.add(
+
+                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Welcome message', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _welcomeMessageController, keyboardType: TextInputType.text, validator: (_) => state is WelcomeMessageAppFormError ? state.message : null, hintText: null)
           );
 
 
@@ -455,6 +466,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               includeShippingAddress: state.value!.includeShippingAddress, 
                               includeInvoiceAddress: state.value!.includeInvoiceAddress, 
                               includeSubscriptions: state.value!.includeSubscriptions, 
+                              welcomeMessage: state.value!.welcomeMessage, 
                         )));
                       } else {
                         BlocProvider.of<AppListBloc>(context).add(
@@ -476,6 +488,7 @@ class _MyAppFormState extends State<MyAppForm> {
                               includeShippingAddress: state.value!.includeShippingAddress, 
                               includeInvoiceAddress: state.value!.includeInvoiceAddress, 
                               includeSubscriptions: state.value!.includeSubscriptions, 
+                              welcomeMessage: state.value!.welcomeMessage, 
                           )));
                       }
                       if (widget.submitAction != null) {
@@ -601,6 +614,11 @@ class _MyAppFormState extends State<MyAppForm> {
     _myFormBloc.add(ChangedAppIncludeSubscriptions(value: val));
   }
 
+  void _onWelcomeMessageChanged() {
+    _myFormBloc.add(ChangedAppWelcomeMessage(value: _welcomeMessageController.text));
+  }
+
+
 
   @override
   void dispose() {
@@ -612,6 +630,7 @@ class _MyAppFormState extends State<MyAppForm> {
     _descriptionController.dispose();
     _styleFamilyController.dispose();
     _styleNameController.dispose();
+    _welcomeMessageController.dispose();
     super.dispose();
   }
 

@@ -40,17 +40,18 @@ class AppEntity implements EntityBase {
   final bool? includeShippingAddress;
   final bool? includeInvoiceAddress;
   final bool? includeSubscriptions;
+  final String? welcomeMessage;
 
-  AppEntity({required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, this.includeShippingAddress, this.includeInvoiceAddress, this.includeSubscriptions, });
+  AppEntity({required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhotoId, this.homePages, this.logoId, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, this.includeShippingAddress, this.includeInvoiceAddress, this.includeSubscriptions, this.welcomeMessage, });
 
-  AppEntity copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, int? appStatus, String? anonymousProfilePhotoId, AppHomePageReferencesEntity? homePages, String? logoId, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, bool? includeShippingAddress, bool? includeInvoiceAddress, bool? includeSubscriptions, }) {
-    return AppEntity(ownerID : ownerID ?? this.ownerID, title : title ?? this.title, homeURL : homeURL ?? this.homeURL, email : email ?? this.email, description : description ?? this.description, appStatus : appStatus ?? this.appStatus, anonymousProfilePhotoId : anonymousProfilePhotoId ?? this.anonymousProfilePhotoId, homePages : homePages ?? this.homePages, logoId : logoId ?? this.logoId, styleFamily : styleFamily ?? this.styleFamily, styleName : styleName ?? this.styleName, autoPrivileged1 : autoPrivileged1 ?? this.autoPrivileged1, isFeatured : isFeatured ?? this.isFeatured, includeShippingAddress : includeShippingAddress ?? this.includeShippingAddress, includeInvoiceAddress : includeInvoiceAddress ?? this.includeInvoiceAddress, includeSubscriptions : includeSubscriptions ?? this.includeSubscriptions, );
+  AppEntity copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, int? appStatus, String? anonymousProfilePhotoId, AppHomePageReferencesEntity? homePages, String? logoId, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, bool? includeShippingAddress, bool? includeInvoiceAddress, bool? includeSubscriptions, String? welcomeMessage, }) {
+    return AppEntity(ownerID : ownerID ?? this.ownerID, title : title ?? this.title, homeURL : homeURL ?? this.homeURL, email : email ?? this.email, description : description ?? this.description, appStatus : appStatus ?? this.appStatus, anonymousProfilePhotoId : anonymousProfilePhotoId ?? this.anonymousProfilePhotoId, homePages : homePages ?? this.homePages, logoId : logoId ?? this.logoId, styleFamily : styleFamily ?? this.styleFamily, styleName : styleName ?? this.styleName, autoPrivileged1 : autoPrivileged1 ?? this.autoPrivileged1, isFeatured : isFeatured ?? this.isFeatured, includeShippingAddress : includeShippingAddress ?? this.includeShippingAddress, includeInvoiceAddress : includeInvoiceAddress ?? this.includeInvoiceAddress, includeSubscriptions : includeSubscriptions ?? this.includeSubscriptions, welcomeMessage : welcomeMessage ?? this.welcomeMessage, );
   }
-  List<Object?> get props => [ownerID, title, homeURL, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, styleFamily, styleName, autoPrivileged1, isFeatured, includeShippingAddress, includeInvoiceAddress, includeSubscriptions, ];
+  List<Object?> get props => [ownerID, title, homeURL, email, description, appStatus, anonymousProfilePhotoId, homePages, logoId, styleFamily, styleName, autoPrivileged1, isFeatured, includeShippingAddress, includeInvoiceAddress, includeSubscriptions, welcomeMessage, ];
 
   @override
   String toString() {
-    return 'AppEntity{ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhotoId: $anonymousProfilePhotoId, homePages: $homePages, logoId: $logoId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured, includeShippingAddress: $includeShippingAddress, includeInvoiceAddress: $includeInvoiceAddress, includeSubscriptions: $includeSubscriptions}';
+    return 'AppEntity{ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhotoId: $anonymousProfilePhotoId, homePages: $homePages, logoId: $logoId, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured, includeShippingAddress: $includeShippingAddress, includeInvoiceAddress: $includeInvoiceAddress, includeSubscriptions: $includeSubscriptions, welcomeMessage: $welcomeMessage}';
   }
 
   static AppEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
@@ -91,6 +92,7 @@ class AppEntity implements EntityBase {
       includeShippingAddress: map['includeShippingAddress'], 
       includeInvoiceAddress: map['includeInvoiceAddress'], 
       includeSubscriptions: map['includeSubscriptions'], 
+      welcomeMessage: map['welcomeMessage'], 
     );
   }
 
@@ -132,6 +134,8 @@ class AppEntity implements EntityBase {
       else theDocument["includeInvoiceAddress"] = null;
     if (includeSubscriptions != null) theDocument["includeSubscriptions"] = includeSubscriptions;
       else theDocument["includeSubscriptions"] = null;
+    if (welcomeMessage != null) theDocument["welcomeMessage"] = welcomeMessage;
+      else theDocument["welcomeMessage"] = null;
     return theDocument;
   }
 

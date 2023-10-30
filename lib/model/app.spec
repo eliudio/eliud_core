@@ -126,6 +126,11 @@
       "fieldName": "includeSubscriptions",
       "remark": "Allow member profile to show subscriptions? If the app isn't a playstore, like minkey, then this is obsolete",
       "fieldType": "bool"
+    },
+    {
+      "fieldName": "welcomeMessage",
+      "displayName": "Welcome message",
+      "fieldType": "String"
     }
   ],
   "groups": [

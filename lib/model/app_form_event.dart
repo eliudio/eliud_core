@@ -259,3 +259,15 @@ class ChangedAppIncludeSubscriptions extends AppFormEvent {
   String toString() => 'ChangedAppIncludeSubscriptions{ value: $value }';
 }
 
+class ChangedAppWelcomeMessage extends AppFormEvent {
+  final String? value;
+
+  ChangedAppWelcomeMessage({this.value});
+
+  @override
+  List<Object?> get props => [ value ];
+
+  @override
+  String toString() => 'ChangedAppWelcomeMessage{ value: $value }';
+}
+

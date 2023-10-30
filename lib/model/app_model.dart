@@ -81,17 +81,18 @@ class AppModel implements ModelBase {
 
   // Allow member profile to show subscriptions? If the app isn't a playstore, like minkey, then this is obsolete
   bool? includeSubscriptions;
+  String? welcomeMessage;
 
-  AppModel({required this.documentID, required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, this.includeShippingAddress, this.includeInvoiceAddress, this.includeSubscriptions, })  {
+  AppModel({required this.documentID, required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, this.includeShippingAddress, this.includeInvoiceAddress, this.includeSubscriptions, this.welcomeMessage, })  {
     assert(documentID != null);
   }
 
-  AppModel copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, bool? includeShippingAddress, bool? includeInvoiceAddress, bool? includeSubscriptions, }) {
-    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, homeURL: homeURL ?? this.homeURL, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, isFeatured: isFeatured ?? this.isFeatured, includeShippingAddress: includeShippingAddress ?? this.includeShippingAddress, includeInvoiceAddress: includeInvoiceAddress ?? this.includeInvoiceAddress, includeSubscriptions: includeSubscriptions ?? this.includeSubscriptions, );
+  AppModel copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, bool? includeShippingAddress, bool? includeInvoiceAddress, bool? includeSubscriptions, String? welcomeMessage, }) {
+    return AppModel(documentID: documentID ?? this.documentID, ownerID: ownerID ?? this.ownerID, title: title ?? this.title, homeURL: homeURL ?? this.homeURL, email: email ?? this.email, description: description ?? this.description, appStatus: appStatus ?? this.appStatus, anonymousProfilePhoto: anonymousProfilePhoto ?? this.anonymousProfilePhoto, homePages: homePages ?? this.homePages, logo: logo ?? this.logo, styleFamily: styleFamily ?? this.styleFamily, styleName: styleName ?? this.styleName, autoPrivileged1: autoPrivileged1 ?? this.autoPrivileged1, isFeatured: isFeatured ?? this.isFeatured, includeShippingAddress: includeShippingAddress ?? this.includeShippingAddress, includeInvoiceAddress: includeInvoiceAddress ?? this.includeInvoiceAddress, includeSubscriptions: includeSubscriptions ?? this.includeSubscriptions, welcomeMessage: welcomeMessage ?? this.welcomeMessage, );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ homeURL.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode ^ isFeatured.hashCode ^ includeShippingAddress.hashCode ^ includeInvoiceAddress.hashCode ^ includeSubscriptions.hashCode;
+  int get hashCode => documentID.hashCode ^ ownerID.hashCode ^ title.hashCode ^ homeURL.hashCode ^ email.hashCode ^ description.hashCode ^ appStatus.hashCode ^ anonymousProfilePhoto.hashCode ^ homePages.hashCode ^ logo.hashCode ^ styleFamily.hashCode ^ styleName.hashCode ^ autoPrivileged1.hashCode ^ isFeatured.hashCode ^ includeShippingAddress.hashCode ^ includeInvoiceAddress.hashCode ^ includeSubscriptions.hashCode ^ welcomeMessage.hashCode;
 
   @override
   bool operator ==(Object other) =>
@@ -114,11 +115,12 @@ class AppModel implements ModelBase {
           isFeatured == other.isFeatured &&
           includeShippingAddress == other.includeShippingAddress &&
           includeInvoiceAddress == other.includeInvoiceAddress &&
-          includeSubscriptions == other.includeSubscriptions;
+          includeSubscriptions == other.includeSubscriptions &&
+          welcomeMessage == other.welcomeMessage;
 
   @override
   String toString() {
-    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured, includeShippingAddress: $includeShippingAddress, includeInvoiceAddress: $includeInvoiceAddress, includeSubscriptions: $includeSubscriptions}';
+    return 'AppModel{documentID: $documentID, ownerID: $ownerID, title: $title, homeURL: $homeURL, email: $email, description: $description, appStatus: $appStatus, anonymousProfilePhoto: $anonymousProfilePhoto, homePages: $homePages, logo: $logo, styleFamily: $styleFamily, styleName: $styleName, autoPrivileged1: $autoPrivileged1, isFeatured: $isFeatured, includeShippingAddress: $includeShippingAddress, includeInvoiceAddress: $includeInvoiceAddress, includeSubscriptions: $includeSubscriptions, welcomeMessage: $welcomeMessage}';
   }
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
@@ -153,6 +155,7 @@ class AppModel implements ModelBase {
           includeShippingAddress: (includeShippingAddress != null) ? includeShippingAddress : null, 
           includeInvoiceAddress: (includeInvoiceAddress != null) ? includeInvoiceAddress : null, 
           includeSubscriptions: (includeSubscriptions != null) ? includeSubscriptions : null, 
+          welcomeMessage: (welcomeMessage != null) ? welcomeMessage : null, 
     );
   }
 
@@ -176,6 +179,7 @@ class AppModel implements ModelBase {
           includeShippingAddress: entity.includeShippingAddress, 
           includeInvoiceAddress: entity.includeInvoiceAddress, 
           includeSubscriptions: entity.includeSubscriptions, 
+          welcomeMessage: entity.welcomeMessage, 
     );
   }
 
@@ -224,6 +228,7 @@ class AppModel implements ModelBase {
           includeShippingAddress: entity.includeShippingAddress, 
           includeInvoiceAddress: entity.includeInvoiceAddress, 
           includeSubscriptions: entity.includeSubscriptions, 
+          welcomeMessage: entity.welcomeMessage, 
     );
   }
 

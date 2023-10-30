@@ -335,6 +335,22 @@ class IncludeSubscriptionsAppFormError extends AppFormError {
 }
 
 
+class WelcomeMessageAppFormError extends AppFormError { 
+  const WelcomeMessageAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+  @override
+  List<Object?> get props => [ message, value ];
+
+  @override
+  String toString() {
+    return '''WelcomeMessageAppFormError {
+      value: $value,
+      message: $message,
+    }''';
+  }
+}
+
+
 class AppFormLoaded extends AppFormInitialized { 
   const AppFormLoaded({ AppModel? value }): super(value: value);
 

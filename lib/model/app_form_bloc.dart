@@ -53,6 +53,7 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
                                  description: "",
                                  styleFamily: "",
                                  styleName: "",
+                                 welcomeMessage: "",
 
         ));
         emit(loaded);
@@ -199,6 +200,14 @@ class AppFormBloc extends Bloc<AppFormEvent, AppFormState> {
       if (state is AppFormInitialized) {
         final currentState = state as AppFormInitialized;
         newValue = currentState.value!.copyWith(includeSubscriptions: event.value);
+        emit(SubmittableAppForm(value: newValue));
+
+      }
+      });
+      on <ChangedAppWelcomeMessage> ((event, emit) async {
+      if (state is AppFormInitialized) {
+        final currentState = state as AppFormInitialized;
+        newValue = currentState.value!.copyWith(welcomeMessage: event.value);
         emit(SubmittableAppForm(value: newValue));
 
       }
