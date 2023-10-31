@@ -773,6 +773,8 @@ To be able to upload our app to the google play store, we must specify that our 
    1. Select signinbutton and press Go!
    2. Then select signoutbutton and press Go!
 
+---
+
 ## Step 21: Configure your app further
 
 At some point in the process you will obviously want to add more functionality to your app.
