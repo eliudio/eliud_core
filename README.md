@@ -144,7 +144,7 @@ These are some example apps which demonstrate what eliud can give you. Everythin
 | ---------------------------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------- |----------------------------------------------------------------------------------------------|----------------------------------------- |
 | ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/juuwle-logo-128.jpg) | Juuwle - An online store for jewels            | [Juuwle on the App Store](https://apps.apple.com/us/app/juuwle/id6449458929) | [Juuwle on Google Play](https://play.google.com/store/apps/details?id=net.juuwle.juuwle)     | [https://juuwle.net](https://juuwle.net) |
 | ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/minkey-logo-128.png) | Minkey - Community making apps online          | This type of app - allowing to create apps from within the app - is not allowed on apple store | [Minkey on Google Play](https://play.google.com/store/apps/details?id=io.minkey.minkey_app)  | [https://minkey.io](https://minkey.io)   |
-| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png) | Thoma5 - Profile of Thomas. Under construction | In development                                                               | [Thoma5 on Google Play](https://play.google.com/store/apps/details?id=com.thoma5.thoma5_app) | [https://thoma5.com](https://thoma5.com) |
+| ![Logo](https://github.com/eliudio/open-resources/raw/main/img/logo/thoma5-logo-128.png) | Thoma5 - Profile of Thomas. Under construction | [Thoma5 on App Store](https://apps.apple.com/us/app/thoma5/id6470151933) | [Thoma5 on Google Play](https://play.google.com/store/apps/details?id=com.thoma5.thoma5_app) | [https://thoma5.com](https://thoma5.com) |
 
 ---
 
@@ -771,6 +771,10 @@ To be able to upload our app to the google play store, we must specify that our 
 5. We have only activated a few packages in the code (using eliud.registerPackage), so hence not many wizards are initially available. 
    1. Select signinbutton and press Go!
    2. Then select signoutbutton and press Go!
+
+**MORE INFO**
+
+[a relative link](docs/the-eliud-app.md)
 
 ---
 
