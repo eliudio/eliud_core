@@ -25,6 +25,7 @@
   * [Step 18: AD_ID](#step-18-ad_id)
   * [Step 19: Run your app](#step-19-run-your-app)
   * [Step 20: Add some basic functionality to your app](#step-20-add-some-basic-functionality-to-your-app)
+  * [Step 21: Configure your app further](#step-21-configure-your-app-further)
 - [Chapter II. Create the webapp and configure firebase](#chapter-ii-create-the-webapp-and-configure-firebase)
   * [Step 1: Buy domain](#step-1-buy-domain)
   * [Step 3: Logo](#step-3-logo)
@@ -772,9 +773,10 @@ To be able to upload our app to the google play store, we must specify that our 
    1. Select signinbutton and press Go!
    2. Then select signoutbutton and press Go!
 
-**MORE INFO**
+## Step 21: Configure your app further
 
-[a relative link](docs/the-eliud-app.md)
+At some point in the process you will obviously want to add more functionality to your app.
+In [this document](docs/the-eliud-app.md) you find more details how to do so
 
 ---
 
