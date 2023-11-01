@@ -16,12 +16,8 @@
 import 'package:eliud_core/model/grid_view_repository.dart';
 
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
@@ -77,6 +73,7 @@ class GridViewFirestore implements GridViewRepository {
         print("Exceptoin: $e");
       }
     };
+return null;
   }
 
   Future<GridViewModel?> get(String? id, {Function(Exception)? onError}) async {
@@ -92,6 +89,7 @@ class GridViewFirestore implements GridViewRepository {
         print("Exceptoin: $e");
       }
     };
+return null;
   }
 
   StreamSubscription<List<GridViewModel?>> listen(GridViewModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

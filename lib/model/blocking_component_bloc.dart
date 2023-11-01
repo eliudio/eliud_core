@@ -16,11 +16,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'package:eliud_core/model/blocking_model.dart';
 import 'package:eliud_core/model/blocking_component_event.dart';
 import 'package:eliud_core/model/blocking_component_state.dart';
 import 'package:eliud_core/model/blocking_repository.dart';
-import 'package:flutter/services.dart';
 
 class BlockingComponentBloc extends Bloc<BlockingComponentEvent, BlockingComponentState> {
   final BlockingRepository? blockingRepository;

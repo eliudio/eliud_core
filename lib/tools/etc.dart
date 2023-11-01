@@ -11,7 +11,6 @@ import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/model/rgb_model.dart';
 import 'package:eliud_core/tools/screen_size.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:transparent_image/transparent_image.dart';
 
@@ -288,7 +287,7 @@ class BoxDecorationHelper {
           begin: startAlignment(bdm.beginGradientPosition),
           end: endAlignment(bdm.endGradientPosition),
           colors: colors,
-          stops: noStops ? null : stops as List<double>?);
+          stops: noStops ? null : stops);
       return BoxDecoration(
         gradient: gradient,
         image: image,

@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:tuple/tuple.dart';
-import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -9,7 +7,6 @@ import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/package/package.dart';
 import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/tools/merge.dart';
 import 'package:equatable/equatable.dart';
@@ -157,13 +154,11 @@ class AccessHelper {
   static Future<PrivilegeLevel?> getPrivilegeLevel(
       AppModel app, MemberModel member, bool isOwner) async {
     if (isOwner) return PrivilegeLevel.OwnerPrivilege;
-    if (member != null) {
-      var access =
-          await accessRepository(appId: app.documentID)!.get(member.documentID);
-      var privilegeLevel = access == null ? 0 : access.privilegeLevel;
-      return privilegeLevel as Future<PrivilegeLevel?>;
-    }
-    return PrivilegeLevel.NoPrivilege;
+    var access =
+        await accessRepository(appId: app.documentID)!.get(member.documentID);
+    var privilegeLevel = access == null ? 0 : access.privilegeLevel;
+    return privilegeLevel as Future<PrivilegeLevel?>;
+      return PrivilegeLevel.NoPrivilege;
   }
 
   static Future<Map<String, PagesAndDialogAccesss>> getAccesses2(AccessBloc accessBloc, MemberModel? member, List<AppModel> apps, bool isLoggedIn) async {
@@ -218,7 +213,7 @@ class AccessHelper {
         // normally this would have happened when accepting the app's terms, but anyway
         // create an access entry. creation with privilege level 0 is allowed
         await accessRepository(appId: appId)!.add(AccessModel(
-          documentID: member!.documentID,
+          documentID: member.documentID,
           appId: appId,
           privilegeLevel: PrivilegeLevel.NoPrivilege,
           points: 0,

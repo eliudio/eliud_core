@@ -10,7 +10,6 @@ import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/widgets.dart';
 
 typedef ListContentProvider = Widget Function(
     BuildContext context, List<dynamic> items);
@@ -26,9 +25,9 @@ class SelectWidget<T> extends StatefulWidget {
   final String selectTitle;
   final T? currentlySelected;
   final Widget Function(dynamic item) displayItemFunction;
-  final void Function(dynamic? selected) selectedCallback;
-  final void Function(dynamic? selected)? updateCallback;
-  final void Function(dynamic? selected)? deleteCallback;
+  final void Function(dynamic selected) selectedCallback;
+  final void Function(dynamic selected)? updateCallback;
+  final void Function(dynamic selected)? deleteCallback;
   final VoidCallback? addCallback;
   final Widget Function(ListContentProvider contentsLoaded,
       NoContentProvider contentsNotLoaded) blocBuilder;
@@ -110,8 +109,8 @@ class SelectDialog<T> extends StatefulWidget {
   final AppModel app;
   final String selectTitle;
   final void Function(T? selected) selectedCallback;
-  final void Function(dynamic? selected)? updateCallback;
-  final void Function(dynamic? selected)? deleteCallback;
+  final void Function(dynamic selected)? updateCallback;
+  final void Function(dynamic selected)? deleteCallback;
   final VoidCallback? addCallback;
   final Widget Function(T item) displayItemFunction;
   final Widget Function(ListContentProvider contentsLoaded,
@@ -143,9 +142,9 @@ class SelectDialog<T> extends StatefulWidget {
   static void openIt<T>(
     BuildContext context,
     AppModel app,
-    Function(dynamic? selected) selectedCallback,
-    Function(dynamic? selected)? updateCallback,
-    Function(dynamic? selected)? deleteCallback,
+    Function(dynamic selected) selectedCallback,
+    Function(dynamic selected)? updateCallback,
+    Function(dynamic selected)? deleteCallback,
     VoidCallback? addCallback,
     Widget Function(T item) displayItemFunction,
     Widget Function(ListContentProvider contentsLoaded,

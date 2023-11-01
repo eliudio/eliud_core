@@ -23,7 +23,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 
 import '../model/app_entry_pages_list_bloc.dart';
 import '../model/app_entry_pages_list.dart';
@@ -200,7 +199,7 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
 
     AppEntryPagesInMemoryRepository(this.trigger, this.items) {
         List<List<AppEntryPagesModel>> myList = <List<AppEntryPagesModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<AppEntryPagesModel>>.fromIterable(myList);
     }
 
@@ -320,7 +319,7 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
 
     BodyComponentInMemoryRepository(this.trigger, this.items) {
         List<List<BodyComponentModel>> myList = <List<BodyComponentModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<BodyComponentModel>>.fromIterable(myList);
     }
 
@@ -440,7 +439,7 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
 
     DecorationColorInMemoryRepository(this.trigger, this.items) {
         List<List<DecorationColorModel>> myList = <List<DecorationColorModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<DecorationColorModel>>.fromIterable(myList);
     }
 
@@ -560,7 +559,7 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
 
     MemberMediumInMemoryRepository(this.trigger, this.items) {
         List<List<MemberMediumModel>> myList = <List<MemberMediumModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<MemberMediumModel>>.fromIterable(myList);
     }
 
@@ -680,7 +679,7 @@ class MemberMediumContainerInMemoryRepository implements MemberMediumContainerRe
 
     MemberMediumContainerInMemoryRepository(this.trigger, this.items) {
         List<List<MemberMediumContainerModel>> myList = <List<MemberMediumContainerModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<MemberMediumContainerModel>>.fromIterable(myList);
     }
 
@@ -800,7 +799,7 @@ class MemberSubscriptionInMemoryRepository implements MemberSubscriptionReposito
 
     MemberSubscriptionInMemoryRepository(this.trigger, this.items) {
         List<List<MemberSubscriptionModel>> myList = <List<MemberSubscriptionModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<MemberSubscriptionModel>>.fromIterable(myList);
     }
 
@@ -920,7 +919,7 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
 
     MenuItemInMemoryRepository(this.trigger, this.items) {
         List<List<MenuItemModel>> myList = <List<MenuItemModel>>[];
-        if (items != null) myList.add(items);
+        myList.add(items);
         theValues = Stream<List<MenuItemModel>>.fromIterable(myList);
     }
 

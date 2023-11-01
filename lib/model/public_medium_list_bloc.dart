@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/public_medium_repository.dart';
 import 'package:eliud_core/model/public_medium_list_event.dart';
@@ -41,8 +40,7 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
   final int publicMediumLimit;
 
   PublicMediumListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PublicMediumRepository publicMediumRepository, this.publicMediumLimit = 5})
-      : assert(publicMediumRepository != null),
-        _publicMediumRepository = publicMediumRepository,
+      : _publicMediumRepository = publicMediumRepository,
         super(PublicMediumListLoading()) {
     on <LoadPublicMediumList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

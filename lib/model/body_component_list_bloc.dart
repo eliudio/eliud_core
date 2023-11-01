@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/body_component_repository.dart';
 import 'package:eliud_core/model/body_component_list_event.dart';
@@ -41,8 +40,7 @@ class BodyComponentListBloc extends Bloc<BodyComponentListEvent, BodyComponentLi
   final int bodyComponentLimit;
 
   BodyComponentListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BodyComponentRepository bodyComponentRepository, this.bodyComponentLimit = 5})
-      : assert(bodyComponentRepository != null),
-        _bodyComponentRepository = bodyComponentRepository,
+      : _bodyComponentRepository = bodyComponentRepository,
         super(BodyComponentListLoading()) {
     on <LoadBodyComponentList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

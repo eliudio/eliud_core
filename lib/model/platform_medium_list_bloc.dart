@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/platform_medium_repository.dart';
 import 'package:eliud_core/model/platform_medium_list_event.dart';
@@ -41,8 +40,7 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
   final int platformMediumLimit;
 
   PlatformMediumListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PlatformMediumRepository platformMediumRepository, this.platformMediumLimit = 5})
-      : assert(platformMediumRepository != null),
-        _platformMediumRepository = platformMediumRepository,
+      : _platformMediumRepository = platformMediumRepository,
         super(PlatformMediumListLoading()) {
     on <LoadPlatformMediumList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

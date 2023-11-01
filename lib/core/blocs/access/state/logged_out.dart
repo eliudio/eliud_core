@@ -2,11 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/blocs/access/helper/access_helpers.dart';
 import 'package:eliud_core/model/access_model.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/dialog_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/page_model.dart';
 import 'package:eliud_core/package/package.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:flutter/foundation.dart';
 
 import '../access_bloc.dart';

@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/blocking_dashboard_repository.dart';
 import 'package:eliud_core/model/blocking_dashboard_list_event.dart';
@@ -41,8 +40,7 @@ class BlockingDashboardListBloc extends Bloc<BlockingDashboardListEvent, Blockin
   final int blockingDashboardLimit;
 
   BlockingDashboardListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BlockingDashboardRepository blockingDashboardRepository, this.blockingDashboardLimit = 5})
-      : assert(blockingDashboardRepository != null),
-        _blockingDashboardRepository = blockingDashboardRepository,
+      : _blockingDashboardRepository = blockingDashboardRepository,
         super(BlockingDashboardListLoading()) {
     on <LoadBlockingDashboardList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

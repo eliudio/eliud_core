@@ -1,16 +1,11 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
-import 'package:eliud_core/model/blocking_repository.dart';
-import 'package:eliud_core/model/blocking_list_event.dart';
 import 'package:eliud_core/model/blocking_list_state.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 
 import '../../../core/blocs/access/state/logged_in.dart';
 import '../../../model/abstract_repository_singleton.dart';
-import '../../../model/blocking_model.dart';
-import '../../../model/repository_singleton.dart';
 import 'maintain_blocking_list_event.dart';
 import 'maintain_blocking_list_state.dart';
 
@@ -93,21 +88,17 @@ class MaintainBlockingListBloc extends Bloc<MaintainBlockingListEvent, MaintainB
 
   Future<void> _mapUpdateBlockingListToState(UpdateMaintainBlockingList event) async {
     var value = event.value;
-    if (value != null) {
-      await blockingRepository(appId: appId)!.update(value);
+    await blockingRepository(appId: appId)!.update(value);
     }
-  }
 
   Future<void> _mapDeleteBlockingListToState(DeleteMaintainBlockingList event) async {
     var value = event.value;
     if (value.blockingModel.memberBeingBlocked != null) {
-      if (value != null) {
-        if (loggedIn != null) {
-          await loggedIn!.unRegisterBlockedMember(
-              value.blockingModel.memberBeingBlocked!);
-        }
+      if (loggedIn != null) {
+        await loggedIn!.unRegisterBlockedMember(
+            value.blockingModel.memberBeingBlocked!);
       }
-    }
+        }
   }
 
   MaintainBlockingListLoaded _mapBlockingListUpdatedToState(

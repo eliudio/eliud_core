@@ -13,26 +13,16 @@
 
 */
 
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
 import 'package:eliud_core/model/platform_medium_entity.dart';
 
 import 'package:eliud_core/tools/helpers/medium_collect_references.dart';
-import 'package:eliud_core/tools/random.dart';
 
 enum PlatformMediumType {
   Photo, Video, Pdf, Text, Unknown
@@ -74,7 +64,6 @@ class PlatformMediumModel implements ModelBase, WithAppId {
   String? relatedMediumId;
 
   PlatformMediumModel({required this.documentID, required this.appId, this.authorId, this.base, this.ext, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.conditions, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, })  {
-    assert(documentID != null);
   }
 
   PlatformMediumModel copyWith({String? documentID, String? appId, String? authorId, String? base, String? ext, String? url, String? ref, String? urlThumbnail, String? refThumbnail, StorageConditionsModel? conditions, PlatformMediumType? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {

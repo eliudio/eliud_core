@@ -16,28 +16,10 @@
 
 import 'package:eliud_core/tools/admin_app_base.dart';
 import '../tools/bespoke_models.dart';
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:eliud_core/tools/common_tools.dart';
 
-import 'package:eliud_core/model/menu_def_model.dart';
-import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/body_component_model.dart';
-import 'package:eliud_core/model/drawer_model.dart';
-import 'package:eliud_core/model/menu_item_model.dart';
-import 'package:eliud_core/model/home_menu_model.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
 
 class AdminApp extends AdminAppInstallerBase {
   final String appId;
@@ -156,6 +138,29 @@ class AdminApp extends AdminAppInstallerBase {
         documentID: "eliud_core_blockings_page",
         title: "Blockings",
         description: "Blockings",
+        drawer: _drawer,
+        endDrawer: _endDrawer,
+        appBar: _appBar,
+        homeMenu: _homeMenu,
+        bodyComponents: components,
+        layout: PageLayout.OnlyTheFirstComponent
+    );
+    return page;
+  }
+
+
+  PageModel _blockingDashboardsPages() {
+    List<BodyComponentModel> components = [];
+    components.add(BodyComponentModel(
+      documentID: "internalWidget-blockingDashboards", componentName: "eliud_core_internalWidgets", componentId: "blockingDashboards"));
+    PageModel page = PageModel(
+        conditions: StorageConditionsModel(
+          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
+        ),
+        appId: appId,
+        documentID: "eliud_core_blockingdashboards_page",
+        title: "BlockingDashboards",
+        description: "BlockingDashboards",
         drawer: _drawer,
         endDrawer: _endDrawer,
         appBar: _appBar,
@@ -420,29 +425,6 @@ class AdminApp extends AdminAppInstallerBase {
   }
 
 
-  PageModel _blockingDashboardsPages() {
-    List<BodyComponentModel> components = [];
-    components.add(BodyComponentModel(
-      documentID: "internalWidget-blockingDashboards", componentName: "eliud_core_internalWidgets", componentId: "blockingDashboards"));
-    PageModel page = PageModel(
-        conditions: StorageConditionsModel(
-          privilegeLevelRequired: PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple,
-        ),
-        appId: appId,
-        documentID: "eliud_core_blockingdashboards_page",
-        title: "BlockingDashboards",
-        description: "BlockingDashboards",
-        drawer: _drawer,
-        endDrawer: _endDrawer,
-        appBar: _appBar,
-        homeMenu: _homeMenu,
-        bodyComponents: components,
-        layout: PageLayout.OnlyTheFirstComponent
-    );
-    return page;
-  }
-
-
   Future<void> _setupAdminPages() {
 
     return pageRepository(appId: appId)!.add(_appsPages())
@@ -454,6 +436,8 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId)!.add(_backendRequestsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_blockingsPages()))
+
+        .then((_) => pageRepository(appId: appId)!.add(_blockingDashboardsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_dialogsPages()))
 
@@ -476,8 +460,6 @@ class AdminApp extends AdminAppInstallerBase {
         .then((_) => pageRepository(appId: appId)!.add(_platformMediumsPages()))
 
         .then((_) => pageRepository(appId: appId)!.add(_publicMediumsPages()))
-
-        .then((_) => pageRepository(appId: appId)!.add(_blockingDashboardsPages()))
 
     ;
   }
@@ -542,6 +524,16 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "Blockings",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(app, pageID: "eliud_core_blockings_page"))
+    );
+
+
+    menuItems.add(
+      MenuItemModel(
+        documentID: "BlockingDashboards",
+        text: "BlockingDashboards",
+        description: "BlockingDashboards",
+        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
+        action: GotoPage(app, pageID: "eliud_core_blockingdashboards_page"))
     );
 
 
@@ -652,16 +644,6 @@ class AdminMenu extends AdminAppMenuInstallerBase {
         description: "PublicMediums",
         icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
         action: GotoPage(app, pageID: "eliud_core_publicmediums_page"))
-    );
-
-
-    menuItems.add(
-      MenuItemModel(
-        documentID: "BlockingDashboards",
-        text: "BlockingDashboards",
-        description: "BlockingDashboards",
-        icon: IconModel(codePoint: 0xe88a, fontFamily: "MaterialIcons"),
-        action: GotoPage(app, pageID: "eliud_core_blockingdashboards_page"))
     );
 
 

@@ -47,7 +47,7 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
       var theState = state;
       var app = await appRepository()!.get(event.appId);
       if (app != null) {
-        emit(CurrentPageLoadError(app: app!, pageId: event.pageId));
+        emit(CurrentPageLoadError(app: app, pageId: event.pageId));
       } else {
         print("App " + event.appId + " not available whilst trying to load the page " + event.pageId);
       }

@@ -14,25 +14,16 @@
 */
 
 import 'package:collection/collection.dart';
-import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
 import 'package:eliud_core/model/member_entity.dart';
 
-import 'package:eliud_core/tools/random.dart';
 
 
 
@@ -67,7 +58,6 @@ class MemberModel implements ModelBase {
   bool? isAnonymous;
 
   MemberModel({required this.documentID, this.name, this.subscriptions, this.subscriptionsAsStrArr, this.photo, this.photoURL, this.shipStreet1, this.shipStreet2, this.shipCity, this.shipState, this.postcode, this.country, this.invoiceSame, this.invoiceStreet1, this.invoiceStreet2, this.invoiceCity, this.invoiceState, this.invoicePostcode, this.invoiceCountry, this.email, this.isAnonymous, })  {
-    assert(documentID != null);
   }
 
   MemberModel copyWith({String? documentID, String? name, List<MemberSubscriptionModel>? subscriptions, List<String>? subscriptionsAsStrArr, PublicMediumModel? photo, String? photoURL, String? shipStreet1, String? shipStreet2, String? shipCity, String? shipState, String? postcode, String? country, bool? invoiceSame, String? invoiceStreet1, String? invoiceStreet2, String? invoiceCity, String? invoiceState, String? invoicePostcode, String? invoiceCountry, String? email, bool? isAnonymous, }) {

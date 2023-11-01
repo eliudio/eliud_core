@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/app_repository.dart';
 import 'package:eliud_core/model/app_list_event.dart';
@@ -41,8 +40,7 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final int appLimit;
 
   AppListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppRepository appRepository, this.appLimit = 5})
-      : assert(appRepository != null),
-        _appRepository = appRepository,
+      : _appRepository = appRepository,
         super(AppListLoading()) {
     on <LoadAppList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

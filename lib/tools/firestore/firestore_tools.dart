@@ -87,9 +87,7 @@ Query? getQuery(collection, {String? orderBy, bool? descending, DocumentSnapshot
 }
 
 DateTime? timeStampToDateTime(Timestamp timestamp) {
-  if (timestamp is Timestamp) {
-    return timestamp.toDate();
-  }
+  return timestamp.toDate();
   return null;
 }
 

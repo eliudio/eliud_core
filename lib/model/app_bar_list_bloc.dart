@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/app_bar_repository.dart';
 import 'package:eliud_core/model/app_bar_list_event.dart';
@@ -41,8 +40,7 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final int appBarLimit;
 
   AppBarListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppBarRepository appBarRepository, this.appBarLimit = 5})
-      : assert(appBarRepository != null),
-        _appBarRepository = appBarRepository,
+      : _appBarRepository = appBarRepository,
         super(AppBarListLoading()) {
     on <LoadAppBarList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

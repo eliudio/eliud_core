@@ -15,14 +15,9 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'package:eliud_core/tools/random.dart';
-import 'abstract_repository_singleton.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/tools/common_tools.dart';
 class MenuDefEntity implements EntityBase {
   final String? appId;
   final String? name;
@@ -49,12 +44,15 @@ class MenuDefEntity implements EntityBase {
 
     var menuItemsFromMap;
     menuItemsFromMap = map['menuItems'];
-    var menuItemsList;
-    if (menuItemsFromMap != null)
+    List<MenuItemEntity> menuItemsList;
+    if (menuItemsFromMap != null) {
       menuItemsList = (map['menuItems'] as List<dynamic>)
         .map((dynamic item) =>
         MenuItemEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
+    } else {
+      menuItemsList = [];
+    }
 
     return MenuDefEntity(
       appId: map['appId'], 

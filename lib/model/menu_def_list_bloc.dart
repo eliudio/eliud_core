@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/menu_def_repository.dart';
 import 'package:eliud_core/model/menu_def_list_event.dart';
@@ -41,8 +40,7 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final int menuDefLimit;
 
   MenuDefListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuDefRepository menuDefRepository, this.menuDefLimit = 5})
-      : assert(menuDefRepository != null),
-        _menuDefRepository = menuDefRepository,
+      : _menuDefRepository = menuDefRepository,
         super(MenuDefListLoading()) {
     on <LoadMenuDefList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

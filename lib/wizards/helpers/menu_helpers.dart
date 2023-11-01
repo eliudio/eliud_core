@@ -1,7 +1,5 @@
 import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
-import 'package:eliud_core/core_package.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/tools/action/action_model.dart';

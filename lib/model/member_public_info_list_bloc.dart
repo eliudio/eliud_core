@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/member_public_info_repository.dart';
 import 'package:eliud_core/model/member_public_info_list_event.dart';
@@ -41,8 +40,7 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
   final int memberPublicInfoLimit;
 
   MemberPublicInfoListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberPublicInfoRepository memberPublicInfoRepository, this.memberPublicInfoLimit = 5})
-      : assert(memberPublicInfoRepository != null),
-        _memberPublicInfoRepository = memberPublicInfoRepository,
+      : _memberPublicInfoRepository = memberPublicInfoRepository,
         super(MemberPublicInfoListLoading()) {
     on <LoadMemberPublicInfoList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

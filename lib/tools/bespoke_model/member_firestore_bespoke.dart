@@ -86,6 +86,7 @@ class MemberFirestore implements MemberRepository {
         onError(e);
       }
     };
+return null;
   }
 
   @override
@@ -228,6 +229,7 @@ class MemberFirestore implements MemberRepository {
         print("Exceptoin: $e");
       }
     };
+return null;
   }
 
   @override

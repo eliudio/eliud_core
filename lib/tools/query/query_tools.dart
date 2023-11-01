@@ -1,4 +1,3 @@
-import 'package:eliud_core/model/member_model.dart';
 
 abstract class SpecialField {}
 
@@ -31,10 +30,8 @@ class EliudQuery {
   }
 
   EliudQuery withCondition(EliudQueryCondition condition) {
-    if (condition != null) {
-      conditions.add(condition);
-    }
-    return this;
+    conditions.add(condition);
+      return this;
   }
 
   EliudQuery withConditions(List<EliudQueryCondition>? theConditions) {

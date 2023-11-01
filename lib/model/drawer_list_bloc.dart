@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/drawer_repository.dart';
 import 'package:eliud_core/model/drawer_list_event.dart';
@@ -41,8 +40,7 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final int drawerLimit;
 
   DrawerListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DrawerRepository drawerRepository, this.drawerLimit = 5})
-      : assert(drawerRepository != null),
-        _drawerRepository = drawerRepository,
+      : _drawerRepository = drawerRepository,
         super(DrawerListLoading()) {
     on <LoadDrawerList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

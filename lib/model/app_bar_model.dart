@@ -13,25 +13,15 @@
 
 */
 
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
 import 'package:eliud_core/model/app_bar_entity.dart';
 
-import 'package:eliud_core/tools/random.dart';
 
 enum HeaderSelection {
   Title, Image, Icon, None, Unknown
@@ -68,7 +58,6 @@ class AppBarModel implements ModelBase, WithAppId {
   RgbModel? menuBackgroundColorOverride;
 
   AppBarModel({required this.documentID, required this.appId, this.title, this.header, this.icon, this.image, this.iconMenu, this.backgroundOverride, this.iconColorOverride, this.selectedIconColorOverride, this.menuBackgroundColorOverride, })  {
-    assert(documentID != null);
   }
 
   AppBarModel copyWith({String? documentID, String? appId, String? title, HeaderSelection? header, IconModel? icon, MemberMediumModel? image, MenuDefModel? iconMenu, BackgroundModel? backgroundOverride, RgbModel? iconColorOverride, RgbModel? selectedIconColorOverride, RgbModel? menuBackgroundColorOverride, }) {

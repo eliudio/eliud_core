@@ -17,15 +17,7 @@ import 'package:eliud_core/model/blocking_dashboard_repository.dart';
 
 
 import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
@@ -81,6 +73,7 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
         print("Exceptoin: $e");
       }
     };
+return null;
   }
 
   Future<BlockingDashboardModel?> get(String? id, {Function(Exception)? onError}) async {
@@ -96,6 +89,7 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
         print("Exceptoin: $e");
       }
     };
+return null;
   }
 
   StreamSubscription<List<BlockingDashboardModel?>> listen(BlockingDashboardModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {

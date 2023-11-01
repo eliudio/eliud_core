@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/app_policy_repository.dart';
 import 'package:eliud_core/model/app_policy_list_event.dart';
@@ -41,8 +40,7 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   final int appPolicyLimit;
 
   AppPolicyListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyRepository appPolicyRepository, this.appPolicyLimit = 5})
-      : assert(appPolicyRepository != null),
-        _appPolicyRepository = appPolicyRepository,
+      : _appPolicyRepository = appPolicyRepository,
         super(AppPolicyListLoading()) {
     on <LoadAppPolicyList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

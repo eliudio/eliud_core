@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/decoration_color_repository.dart';
 import 'package:eliud_core/model/decoration_color_list_event.dart';
@@ -41,8 +40,7 @@ class DecorationColorListBloc extends Bloc<DecorationColorListEvent, DecorationC
   final int decorationColorLimit;
 
   DecorationColorListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DecorationColorRepository decorationColorRepository, this.decorationColorLimit = 5})
-      : assert(decorationColorRepository != null),
-        _decorationColorRepository = decorationColorRepository,
+      : _decorationColorRepository = decorationColorRepository,
         super(DecorationColorListLoading()) {
     on <LoadDecorationColorList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

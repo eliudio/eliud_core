@@ -2,13 +2,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 
-import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/app_bar_component_event.dart';
-import 'package:eliud_core/model/app_bar_component_state.dart';
-import 'package:eliud_core/model/app_bar_repository.dart';
 import 'package:eliud_core/model/home_menu_model.dart';
-import 'package:eliud_core/model/menu_def_repository.dart';
-import 'package:flutter/services.dart';
 
 import 'extended_home_menu_component_event.dart';
 import 'extended_home_menu_component_state.dart';

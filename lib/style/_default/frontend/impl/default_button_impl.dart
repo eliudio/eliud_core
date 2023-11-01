@@ -25,7 +25,7 @@ class DefaultButtonImpl implements HasButton {
     var returnMe = TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          primary: Colors.pink,
+          foregroundColor: Colors.pink,
         ),
         child: selected != null && selected ? _frontEndStyle.textStyle().highLight1(app, context, label) : _frontEndStyle.textStyle().text(app, context, label)
     );

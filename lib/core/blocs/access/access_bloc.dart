@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/blocs/access/state/access_state.dart';
@@ -18,7 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../model/member_claim_model.dart';
-import '../../registry.dart';
 import 'access_event.dart';
 import 'state/logged_in.dart';
 
@@ -443,10 +441,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   static bool isOwner(BuildContext context, AppModel app) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
-      if (app.ownerID != null) {
-        return theState.memberIsOwner(app.documentID);
-      }
-    }
+      return theState.memberIsOwner(app.documentID);
+        }
     return false;
   }
 

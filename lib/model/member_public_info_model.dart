@@ -14,25 +14,15 @@
 */
 
 import 'package:collection/collection.dart';
-import 'package:eliud_core/tools/common_tools.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
 import 'package:eliud_core/model/member_public_info_entity.dart';
 
-import 'package:eliud_core/tools/random.dart';
 
 
 
@@ -48,7 +38,6 @@ class MemberPublicInfoModel implements ModelBase {
   List<MemberSubscriptionModel>? subscriptions;
 
   MemberPublicInfoModel({required this.documentID, this.name, this.photoURL, this.subscriptions, })  {
-    assert(documentID != null);
   }
 
   MemberPublicInfoModel copyWith({String? documentID, String? name, String? photoURL, List<MemberSubscriptionModel>? subscriptions, }) {

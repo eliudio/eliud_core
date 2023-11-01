@@ -15,7 +15,6 @@
 
 
 import 'package:eliud_core/tools/component/component_constructor.dart';
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
@@ -30,192 +29,85 @@ import 'package:eliud_core/model/app_list_event.dart';
 
 import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/app_bar_list_bloc.dart';
 import 'package:eliud_core/model/app_bar_list.dart';
 import 'package:eliud_core/model/app_bar_dropdown_button.dart';
 import 'package:eliud_core/model/app_bar_list_event.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/app_policy_list_bloc.dart';
 import 'package:eliud_core/model/app_policy_list.dart';
 import 'package:eliud_core/model/app_policy_dropdown_button.dart';
 import 'package:eliud_core/model/app_policy_list_event.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/blocking_list_bloc.dart';
 import 'package:eliud_core/model/blocking_list.dart';
 import 'package:eliud_core/model/blocking_dropdown_button.dart';
 import 'package:eliud_core/model/blocking_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/dialog_list_bloc.dart';
-import 'package:eliud_core/model/dialog_list.dart';
-import 'package:eliud_core/model/dialog_dropdown_button.dart';
-import 'package:eliud_core/model/dialog_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/drawer_list_bloc.dart';
-import 'package:eliud_core/model/drawer_list.dart';
-import 'package:eliud_core/model/drawer_dropdown_button.dart';
-import 'package:eliud_core/model/drawer_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/grid_view_list_bloc.dart';
-import 'package:eliud_core/model/grid_view_list.dart';
-import 'package:eliud_core/model/grid_view_dropdown_button.dart';
-import 'package:eliud_core/model/grid_view_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/home_menu_list_bloc.dart';
-import 'package:eliud_core/model/home_menu_list.dart';
-import 'package:eliud_core/model/home_menu_dropdown_button.dart';
-import 'package:eliud_core/model/home_menu_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/member_list_bloc.dart';
-import 'package:eliud_core/model/member_list.dart';
-import 'package:eliud_core/model/member_dropdown_button.dart';
-import 'package:eliud_core/model/member_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/member_dashboard_list_bloc.dart';
-import 'package:eliud_core/model/member_dashboard_list.dart';
-import 'package:eliud_core/model/member_dashboard_dropdown_button.dart';
-import 'package:eliud_core/model/member_dashboard_list_event.dart';
-
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/member_public_info_list_bloc.dart';
-import 'package:eliud_core/model/member_public_info_list.dart';
-import 'package:eliud_core/model/member_public_info_dropdown_button.dart';
-import 'package:eliud_core/model/member_public_info_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/menu_def_list_bloc.dart';
-import 'package:eliud_core/model/menu_def_list.dart';
-import 'package:eliud_core/model/menu_def_dropdown_button.dart';
-import 'package:eliud_core/model/menu_def_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
-
-import 'package:eliud_core/model/page_list_bloc.dart';
-import 'package:eliud_core/model/page_list.dart';
-import 'package:eliud_core/model/page_dropdown_button.dart';
-import 'package:eliud_core/model/page_list_event.dart';
-
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
 
 import 'package:eliud_core/model/blocking_dashboard_list_bloc.dart';
 import 'package:eliud_core/model/blocking_dashboard_list.dart';
 import 'package:eliud_core/model/blocking_dashboard_dropdown_button.dart';
 import 'package:eliud_core/model/blocking_dashboard_list_event.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
-import 'package:eliud_core/model/entity_export.dart';
+
+import 'package:eliud_core/model/dialog_list_bloc.dart';
+import 'package:eliud_core/model/dialog_list.dart';
+import 'package:eliud_core/model/dialog_dropdown_button.dart';
+import 'package:eliud_core/model/dialog_list_event.dart';
+
+
+import 'package:eliud_core/model/drawer_list_bloc.dart';
+import 'package:eliud_core/model/drawer_list.dart';
+import 'package:eliud_core/model/drawer_dropdown_button.dart';
+import 'package:eliud_core/model/drawer_list_event.dart';
+
+
+import 'package:eliud_core/model/grid_view_list_bloc.dart';
+import 'package:eliud_core/model/grid_view_list.dart';
+import 'package:eliud_core/model/grid_view_dropdown_button.dart';
+import 'package:eliud_core/model/grid_view_list_event.dart';
+
+
+import 'package:eliud_core/model/home_menu_list_bloc.dart';
+import 'package:eliud_core/model/home_menu_list.dart';
+import 'package:eliud_core/model/home_menu_dropdown_button.dart';
+import 'package:eliud_core/model/home_menu_list_event.dart';
+
+
+import 'package:eliud_core/model/member_list_bloc.dart';
+import 'package:eliud_core/model/member_list.dart';
+import 'package:eliud_core/model/member_dropdown_button.dart';
+import 'package:eliud_core/model/member_list_event.dart';
+
+
+import 'package:eliud_core/model/member_dashboard_list_bloc.dart';
+import 'package:eliud_core/model/member_dashboard_list.dart';
+import 'package:eliud_core/model/member_dashboard_dropdown_button.dart';
+import 'package:eliud_core/model/member_dashboard_list_event.dart';
+
+
+import 'package:eliud_core/model/member_public_info_list_bloc.dart';
+import 'package:eliud_core/model/member_public_info_list.dart';
+import 'package:eliud_core/model/member_public_info_dropdown_button.dart';
+import 'package:eliud_core/model/member_public_info_list_event.dart';
+
+
+import 'package:eliud_core/model/menu_def_list_bloc.dart';
+import 'package:eliud_core/model/menu_def_list.dart';
+import 'package:eliud_core/model/menu_def_dropdown_button.dart';
+import 'package:eliud_core/model/menu_def_list_event.dart';
+
+
+import 'package:eliud_core/model/page_list_bloc.dart';
+import 'package:eliud_core/model/page_list.dart';
+import 'package:eliud_core/model/page_dropdown_button.dart';
+import 'package:eliud_core/model/page_list_event.dart';
+
 
 class ListComponentFactory implements ComponentConstructor {
   Widget? createNew({Key? key, required AppModel app,  required String id, int? privilegeLevel, Map<String, dynamic>? parameters}) {
@@ -244,6 +136,7 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "appBars") return true;
     if (id == "appPolicys") return true;
     if (id == "blockings") return true;
+    if (id == "blockingDashboards") return true;
     if (id == "dialogs") return true;
     if (id == "drawers") return true;
     if (id == "gridViews") return true;
@@ -253,7 +146,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
     if (id == "memberPublicInfos") return true;
     if (id == "menuDefs") return true;
     if (id == "pages") return true;
-    if (id == "blockingDashboards") return true;
     return false;
   }
 
@@ -269,6 +161,9 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "blockings")
+      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
+
+    if (id == "blockingDashboards")
       return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "dialogs")
@@ -296,9 +191,6 @@ class DropdownButtonComponentFactory implements ComponentDropDown {
       return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     if (id == "pages")
-      return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
-
-    if (id == "blockingDashboards")
       return DropdownButtonComponent(app: app, componentId: id, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional);
 
     return Text("Id $id not found");
@@ -332,6 +224,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'appBars') return _appBarBuild(context);
     if (componentId == 'appPolicys') return _appPolicyBuild(context);
     if (componentId == 'blockings') return _blockingBuild(context);
+    if (componentId == 'blockingDashboards') return _blockingDashboardBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
@@ -341,7 +234,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'memberPublicInfos') return _memberPublicInfoBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
-    if (componentId == 'blockingDashboards') return _blockingDashboardBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -350,6 +242,7 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'appBars') widget = AppBarListWidget(app: app);
     if (componentId == 'appPolicys') widget = AppPolicyListWidget(app: app);
     if (componentId == 'blockings') widget = BlockingListWidget(app: app);
+    if (componentId == 'blockingDashboards') widget = BlockingDashboardListWidget(app: app);
     if (componentId == 'dialogs') widget = DialogListWidget(app: app);
     if (componentId == 'drawers') widget = DrawerListWidget(app: app);
     if (componentId == 'gridViews') widget = GridViewListWidget(app: app);
@@ -359,7 +252,6 @@ class ListComponent extends StatelessWidget with HasFab {
     if (componentId == 'memberPublicInfos') widget = MemberPublicInfoListWidget(app: app);
     if (componentId == 'menuDefs') widget = MenuDefListWidget(app: app);
     if (componentId == 'pages') widget = PageListWidget(app: app);
-    if (componentId == 'blockingDashboards') widget = BlockingDashboardListWidget(app: app);
   }
 
   Widget _appBuild(BuildContext context) {
@@ -424,6 +316,23 @@ class ListComponent extends StatelessWidget with HasFab {
             ),
             blockingRepository: blockingRepository()!,
           )..add(LoadBlockingList()),
+        )
+      ],
+      child: widget!,
+    );
+  }
+
+  Widget _blockingDashboardBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BlockingDashboardListBloc>(
+          create: (context) => BlockingDashboardListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID),]
+            ),
+            blockingDashboardRepository: blockingDashboardRepository(appId: app.documentID)!,
+          )..add(LoadBlockingDashboardList()),
         )
       ],
       child: widget!,
@@ -583,23 +492,6 @@ class ListComponent extends StatelessWidget with HasFab {
     );
   }
 
-  Widget _blockingDashboardBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<BlockingDashboardListBloc>(
-          create: (context) => BlockingDashboardListBloc(
-            eliudQuery: EliudQuery(theConditions: [
-              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
-              EliudQueryCondition('appId', isEqualTo: app.documentID),]
-            ),
-            blockingDashboardRepository: blockingDashboardRepository(appId: app.documentID)!,
-          )..add(LoadBlockingDashboardList()),
-        )
-      ],
-      child: widget!,
-    );
-  }
-
 }
 
 
@@ -622,6 +514,7 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'appBars') return _appBarBuild(context);
     if (componentId == 'appPolicys') return _appPolicyBuild(context);
     if (componentId == 'blockings') return _blockingBuild(context);
+    if (componentId == 'blockingDashboards') return _blockingDashboardBuild(context);
     if (componentId == 'dialogs') return _dialogBuild(context);
     if (componentId == 'drawers') return _drawerBuild(context);
     if (componentId == 'gridViews') return _gridViewBuild(context);
@@ -631,7 +524,6 @@ class DropdownButtonComponent extends StatelessWidget {
     if (componentId == 'memberPublicInfos') return _memberPublicInfoBuild(context);
     if (componentId == 'menuDefs') return _menuDefBuild(context);
     if (componentId == 'pages') return _pageBuild(context);
-    if (componentId == 'blockingDashboards') return _blockingDashboardBuild(context);
     return Text('Component with componentId == $componentId not found');
   }
 
@@ -701,6 +593,23 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: BlockingDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
+    );
+  }
+
+  Widget _blockingDashboardBuild(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<BlockingDashboardListBloc>(
+          create: (context) => BlockingDashboardListBloc(
+            eliudQuery: EliudQuery(theConditions: [
+              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
+              EliudQueryCondition('appId', isEqualTo: app.documentID),]
+            ),
+            blockingDashboardRepository: blockingDashboardRepository(appId: app.documentID)!,
+          )..add(LoadBlockingDashboardList()),
+        )
+      ],
+      child: BlockingDashboardDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 
@@ -854,23 +763,6 @@ class DropdownButtonComponent extends StatelessWidget {
         )
       ],
       child: PageDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
-    );
-  }
-
-  Widget _blockingDashboardBuild(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider<BlockingDashboardListBloc>(
-          create: (context) => BlockingDashboardListBloc(
-            eliudQuery: EliudQuery(theConditions: [
-              EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel ?? 0),
-              EliudQueryCondition('appId', isEqualTo: app.documentID),]
-            ),
-            blockingDashboardRepository: blockingDashboardRepository(appId: app.documentID)!,
-          )..add(LoadBlockingDashboardList()),
-        )
-      ],
-      child: BlockingDashboardDropdownButtonWidget(app: app, value: value, privilegeLevel: privilegeLevel, trigger: trigger, optional: optional),
     );
   }
 

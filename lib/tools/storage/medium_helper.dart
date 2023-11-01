@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:io';
 import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:path/path.dart';
 import 'package:pdfx/pdfx.dart';
 import 'asset_helper.dart';
@@ -13,10 +11,9 @@ import 'medium_base.dart';
 import 'medium_data.dart';
 import 'upload_info.dart';
 import 'package:http/http.dart' as http;
-import 'dart:convert';
 
 
-typedef void PdfAvailable(dynamic? mediumModel);
+typedef void PdfAvailable(dynamic mediumModel);
 //typedef void MediumAvailable(dynamic? mediumModel);
 
 // This is called Abstract as it is a representation of medium type used in the abstract MediumHelper class

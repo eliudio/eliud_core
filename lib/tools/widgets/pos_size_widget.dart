@@ -8,7 +8,6 @@ import 'package:eliud_core/tools/widgets/pos_size/landscape_align_type.dart';
 import 'package:eliud_core/tools/widgets/pos_size/landscape_fit_type.dart';
 import 'package:eliud_core/tools/widgets/pos_size/portrait_fit_type.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 import '../helpers/parse_helper.dart';
 import 'pos_size/height_type_landscape.dart';

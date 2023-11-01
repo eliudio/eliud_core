@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/home_menu_repository.dart';
 import 'package:eliud_core/model/home_menu_list_event.dart';
@@ -41,8 +40,7 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   final int homeMenuLimit;
 
   HomeMenuListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required HomeMenuRepository homeMenuRepository, this.homeMenuLimit = 5})
-      : assert(homeMenuRepository != null),
-        _homeMenuRepository = homeMenuRepository,
+      : _homeMenuRepository = homeMenuRepository,
         super(HomeMenuListLoading()) {
     on <LoadHomeMenuList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

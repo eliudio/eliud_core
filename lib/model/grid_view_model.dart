@@ -13,25 +13,14 @@
 
 */
 
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
 import 'package:eliud_core/model/grid_view_entity.dart';
 
-import 'package:eliud_core/tools/random.dart';
 
 enum GridViewScrollDirection {
   Horizontal, Vertical, Unknown
@@ -99,7 +88,6 @@ class GridViewModel implements ModelBase, WithAppId {
   StorageConditionsModel? conditions;
 
   GridViewModel({required this.documentID, required this.appId, this.name, this.scrollDirection, this.type, this.crossAxisCount, this.maxCrossAxisExtentType, this.absoluteMaxCrossAxisExtent, this.relativeMaxCrossAxisExtent, this.childAspectRatio, this.padding, this.mainAxisSpacing, this.crossAxisSpacing, this.conditions, })  {
-    assert(documentID != null);
   }
 
   GridViewModel copyWith({String? documentID, String? appId, String? name, GridViewScrollDirection? scrollDirection, GridViewGridType? type, int? crossAxisCount, MaxCrossAxisExtentType? maxCrossAxisExtentType, double? absoluteMaxCrossAxisExtent, double? relativeMaxCrossAxisExtent, double? childAspectRatio, double? padding, double? mainAxisSpacing, double? crossAxisSpacing, StorageConditionsModel? conditions, }) {

@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/member_subscription_repository.dart';
 import 'package:eliud_core/model/member_subscription_list_event.dart';
@@ -41,8 +40,7 @@ class MemberSubscriptionListBloc extends Bloc<MemberSubscriptionListEvent, Membe
   final int memberSubscriptionLimit;
 
   MemberSubscriptionListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberSubscriptionRepository memberSubscriptionRepository, this.memberSubscriptionLimit = 5})
-      : assert(memberSubscriptionRepository != null),
-        _memberSubscriptionRepository = memberSubscriptionRepository,
+      : _memberSubscriptionRepository = memberSubscriptionRepository,
         super(MemberSubscriptionListLoading()) {
     on <LoadMemberSubscriptionList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

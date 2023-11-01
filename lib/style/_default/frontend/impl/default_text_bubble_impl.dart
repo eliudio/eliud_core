@@ -1,6 +1,4 @@
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_page_route_builder.dart';
-import 'package:eliud_core/tools/router_builders.dart';
 import 'package:flutter/material.dart';
 
 import '../../../frontend/has_text_bubble.dart';

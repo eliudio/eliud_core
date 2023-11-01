@@ -1,6 +1,5 @@
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/package/package.dart';
-import 'package:equatable/equatable.dart';
 
 import 'access_state.dart';
 

@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/backend_request_repository.dart';
 import 'package:eliud_core/model/backend_request_list_event.dart';
@@ -41,8 +40,7 @@ class BackendRequestListBloc extends Bloc<BackendRequestListEvent, BackendReques
   final int backendRequestLimit;
 
   BackendRequestListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BackendRequestRepository backendRequestRepository, this.backendRequestLimit = 5})
-      : assert(backendRequestRepository != null),
-        _backendRequestRepository = backendRequestRepository,
+      : _backendRequestRepository = backendRequestRepository,
         super(BackendRequestListLoading()) {
     on <LoadBackendRequestList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

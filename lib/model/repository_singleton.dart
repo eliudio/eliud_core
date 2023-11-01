@@ -18,14 +18,9 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'dart:collection';
 import '../model/access_firestore.dart';
 import '../model/access_repository.dart';
-import '../model/app_firestore.dart';
-import '../model/app_repository.dart';
-import '../model/app_cache.dart';
 import '../model/app_bar_firestore.dart';
 import '../model/app_bar_repository.dart';
 import '../model/app_bar_cache.dart';
-import '../model/app_entry_pages_repository.dart';
-import '../model/app_entry_pages_cache.dart';
 import '../model/app_policy_firestore.dart';
 import '../model/app_policy_repository.dart';
 import '../model/app_policy_cache.dart';
@@ -35,10 +30,9 @@ import '../model/backend_request_cache.dart';
 import '../model/blocking_firestore.dart';
 import '../model/blocking_repository.dart';
 import '../model/blocking_cache.dart';
-import '../model/body_component_repository.dart';
-import '../model/body_component_cache.dart';
-import '../model/decoration_color_repository.dart';
-import '../model/decoration_color_cache.dart';
+import '../model/blocking_dashboard_firestore.dart';
+import '../model/blocking_dashboard_repository.dart';
+import '../model/blocking_dashboard_cache.dart';
 import '../model/dialog_firestore.dart';
 import '../model/dialog_repository.dart';
 import '../model/dialog_cache.dart';
@@ -51,8 +45,6 @@ import '../model/grid_view_cache.dart';
 import '../model/home_menu_firestore.dart';
 import '../model/home_menu_repository.dart';
 import '../model/home_menu_cache.dart';
-import '../model/member_repository.dart';
-import '../model/member_cache.dart';
 import '../model/member_claim_firestore.dart';
 import '../model/member_claim_repository.dart';
 import '../model/member_claim_cache.dart';
@@ -62,18 +54,12 @@ import '../model/member_dashboard_cache.dart';
 import '../model/member_medium_firestore.dart';
 import '../model/member_medium_repository.dart';
 import '../model/member_medium_cache.dart';
-import '../model/member_medium_container_repository.dart';
-import '../model/member_medium_container_cache.dart';
 import '../model/member_public_info_firestore.dart';
 import '../model/member_public_info_repository.dart';
 import '../model/member_public_info_cache.dart';
-import '../model/member_subscription_repository.dart';
-import '../model/member_subscription_cache.dart';
 import '../model/menu_def_firestore.dart';
 import '../model/menu_def_repository.dart';
 import '../model/menu_def_cache.dart';
-import '../model/menu_item_repository.dart';
-import '../model/menu_item_cache.dart';
 import '../model/page_firestore.dart';
 import '../model/page_repository.dart';
 import '../model/page_cache.dart';
@@ -83,22 +69,7 @@ import '../model/platform_medium_cache.dart';
 import '../model/public_medium_firestore.dart';
 import '../model/public_medium_repository.dart';
 import '../model/public_medium_cache.dart';
-import '../model/blocking_dashboard_firestore.dart';
-import '../model/blocking_dashboard_repository.dart';
-import '../model/blocking_dashboard_cache.dart';
 
-import '../model/app_model.dart';
-import '../model/app_bar_model.dart';
-import '../model/app_entry_pages_model.dart';
-import '../model/app_policy_model.dart';
-import '../model/background_model.dart';
-import '../model/dialog_model.dart';
-import '../model/drawer_model.dart';
-import '../model/home_menu_model.dart';
-import '../model/member_model.dart';
-import '../model/member_medium_container_model.dart';
-import '../model/member_subscription_model.dart';
-import '../model/page_model.dart';
 
 class RepositorySingleton extends AbstractRepositorySingleton {
     var _accessRepository = HashMap<String, AccessRepository>();
@@ -106,6 +77,7 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _appPolicyRepository = HashMap<String, AppPolicyRepository>();
     var _backendRequestRepository = HashMap<String, BackendRequestRepository>();
     var _blockingRepository = BlockingCache(BlockingFirestore());
+    var _blockingDashboardRepository = HashMap<String, BlockingDashboardRepository>();
     var _dialogRepository = HashMap<String, DialogRepository>();
     var _drawerRepository = HashMap<String, DrawerRepository>();
     var _gridViewRepository = HashMap<String, GridViewRepository>();
@@ -118,7 +90,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     var _pageRepository = HashMap<String, PageRepository>();
     var _platformMediumRepository = HashMap<String, PlatformMediumRepository>();
     var _publicMediumRepository = PublicMediumCache(PublicMediumFirestore());
-    var _blockingDashboardRepository = HashMap<String, BlockingDashboardRepository>();
 
     AccessRepository? accessRepository(String? appId) {
       if ((appId != null) && (_accessRepository[appId] == null)) _accessRepository[appId] = AccessFirestore(() => appRepository()!.getSubCollection(appId, 'access'), appId);
@@ -138,6 +109,10 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     }
     BlockingRepository? blockingRepository() {
       return _blockingRepository;
+    }
+    BlockingDashboardRepository? blockingDashboardRepository(String? appId) {
+      if ((appId != null) && (_blockingDashboardRepository[appId] == null)) _blockingDashboardRepository[appId] = BlockingDashboardCache(BlockingDashboardFirestore(() => appRepository()!.getSubCollection(appId, 'blockingdashboard'), appId));
+      return _blockingDashboardRepository[appId];
     }
     DialogRepository? dialogRepository(String? appId) {
       if ((appId != null) && (_dialogRepository[appId] == null)) _dialogRepository[appId] = DialogCache(DialogFirestore(() => appRepository()!.getSubCollection(appId, 'dialog'), appId));
@@ -183,10 +158,6 @@ class RepositorySingleton extends AbstractRepositorySingleton {
     }
     PublicMediumRepository? publicMediumRepository() {
       return _publicMediumRepository;
-    }
-    BlockingDashboardRepository? blockingDashboardRepository(String? appId) {
-      if ((appId != null) && (_blockingDashboardRepository[appId] == null)) _blockingDashboardRepository[appId] = BlockingDashboardCache(BlockingDashboardFirestore(() => appRepository()!.getSubCollection(appId, 'blockingdashboard'), appId));
-      return _blockingDashboardRepository[appId];
     }
 
 }

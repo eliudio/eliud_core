@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/page_repository.dart';
 import 'package:eliud_core/model/page_list_event.dart';
@@ -41,8 +40,7 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final int pageLimit;
 
   PageListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PageRepository pageRepository, this.pageLimit = 5})
-      : assert(pageRepository != null),
-        _pageRepository = pageRepository,
+      : _pageRepository = pageRepository,
         super(PageListLoading()) {
     on <LoadPageList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

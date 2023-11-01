@@ -15,14 +15,9 @@
 
 import 'dart:collection';
 import 'dart:convert';
-import 'package:eliud_core/tools/random.dart';
-import 'abstract_repository_singleton.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/entity_base.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-import 'package:eliud_core/tools/common_tools.dart';
 class MemberPublicInfoEntity implements EntityBase {
   final String? name;
   final String? photoURL;
@@ -48,12 +43,15 @@ class MemberPublicInfoEntity implements EntityBase {
 
     var subscriptionsFromMap;
     subscriptionsFromMap = map['subscriptions'];
-    var subscriptionsList;
-    if (subscriptionsFromMap != null)
+    List<MemberSubscriptionEntity> subscriptionsList;
+    if (subscriptionsFromMap != null) {
       subscriptionsList = (map['subscriptions'] as List<dynamic>)
         .map((dynamic item) =>
         MemberSubscriptionEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
         .toList();
+    } else {
+      subscriptionsList = [];
+    }
 
     return MemberPublicInfoEntity(
       name: map['name'], 

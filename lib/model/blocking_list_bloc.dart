@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/blocking_repository.dart';
 import 'package:eliud_core/model/blocking_list_event.dart';
@@ -41,8 +40,7 @@ class BlockingListBloc extends Bloc<BlockingListEvent, BlockingListState> {
   final int blockingLimit;
 
   BlockingListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BlockingRepository blockingRepository, this.blockingLimit = 5})
-      : assert(blockingRepository != null),
-        _blockingRepository = blockingRepository,
+      : _blockingRepository = blockingRepository,
         super(BlockingListLoading()) {
     on <LoadBlockingList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

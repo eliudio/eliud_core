@@ -16,11 +16,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_bar_component_event.dart';
 import 'package:eliud_core/model/app_bar_component_state.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
-import 'package:flutter/services.dart';
 
 
 class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentState> {

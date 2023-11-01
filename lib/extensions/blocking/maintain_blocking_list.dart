@@ -4,16 +4,7 @@ import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/widgets.dart';
-import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/tools/delete_snackbar.dart';
-import 'package:eliud_core/tools/etc.dart';
 
-import 'package:eliud_core/model/blocking_list_event.dart';
-import 'package:eliud_core/model/blocking_list_state.dart';
-import 'package:eliud_core/model/blocking_list_bloc.dart';
-import 'package:eliud_core/model/blocking_model.dart';
 
 import 'package:eliud_core/model/app_model.dart';
 import 'package:transparent_image/transparent_image.dart';

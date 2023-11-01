@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/grid_view_repository.dart';
 import 'package:eliud_core/model/grid_view_list_event.dart';
@@ -41,8 +40,7 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   final int gridViewLimit;
 
   GridViewListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required GridViewRepository gridViewRepository, this.gridViewLimit = 5})
-      : assert(gridViewRepository != null),
-        _gridViewRepository = gridViewRepository,
+      : _gridViewRepository = gridViewRepository,
         super(GridViewListLoading()) {
     on <LoadGridViewList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

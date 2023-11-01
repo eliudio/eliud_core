@@ -1,5 +1,8 @@
 # eliud
 
+Build apps with no code. Or with code, of course, if you want. 
+But then just the code you like to focus on :-)
+
 <!-- toc -->
 
 - [Introduction](#introduction)

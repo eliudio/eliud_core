@@ -1,7 +1,6 @@
 import 'package:eliud_core/core/wizards/registry/new_app_wizard_info_with_action_specification.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
 import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
 import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
@@ -10,8 +9,6 @@ import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:flutter/material.dart';
 
-import '../core_package.dart';
-import 'builders/dialog/member_dashboard_dialog_builder.dart';
 
 abstract class AccessWizard extends NewAppWizardInfoWithActionSpecification {
   AccessWizard(

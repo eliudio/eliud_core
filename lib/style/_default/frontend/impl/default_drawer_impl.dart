@@ -87,7 +87,7 @@ class DefaultDrawerImpl implements HasDrawer {
             if (item is MenuItemAttributes) {
               item.onTap();
             } else if (item is MenuItemWithMenuItems) {
-              var theMenuItemWithMenuItems = item as MenuItemWithMenuItems;
+              var theMenuItemWithMenuItems = item;
               _frontEndStyle.menuStyle().openMenu(app, context,
                   position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
                   menuItems: theMenuItemWithMenuItems.items,

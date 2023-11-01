@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/dialog_repository.dart';
 import 'package:eliud_core/model/dialog_list_event.dart';
@@ -41,8 +40,7 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final int dialogLimit;
 
   DialogListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DialogRepository dialogRepository, this.dialogLimit = 5})
-      : assert(dialogRepository != null),
-        _dialogRepository = dialogRepository,
+      : _dialogRepository = dialogRepository,
         super(DialogListLoading()) {
     on <LoadDialogList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

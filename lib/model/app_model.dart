@@ -13,25 +13,15 @@
 
 */
 
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
 import 'package:eliud_core/model/app_entity.dart';
 
-import 'package:eliud_core/tools/random.dart';
 
 enum AppStatus {
   Live, Offline, Invisible, Unknown
@@ -84,7 +74,6 @@ class AppModel implements ModelBase {
   String? welcomeMessage;
 
   AppModel({required this.documentID, required this.ownerID, this.title, this.homeURL, this.email, this.description, this.appStatus, this.anonymousProfilePhoto, this.homePages, this.logo, this.styleFamily, this.styleName, this.autoPrivileged1, this.isFeatured, this.includeShippingAddress, this.includeInvoiceAddress, this.includeSubscriptions, this.welcomeMessage, })  {
-    assert(documentID != null);
   }
 
   AppModel copyWith({String? documentID, String? ownerID, String? title, String? homeURL, String? email, String? description, AppStatus? appStatus, PublicMediumModel? anonymousProfilePhoto, AppHomePageReferencesModel? homePages, PublicMediumModel? logo, String? styleFamily, String? styleName, bool? autoPrivileged1, bool? isFeatured, bool? includeShippingAddress, bool? includeInvoiceAddress, bool? includeSubscriptions, String? welcomeMessage, }) {

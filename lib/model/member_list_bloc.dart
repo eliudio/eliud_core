@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/member_repository.dart';
 import 'package:eliud_core/model/member_list_event.dart';
@@ -41,8 +40,7 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final int memberLimit;
 
   MemberListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberRepository memberRepository, this.memberLimit = 5})
-      : assert(memberRepository != null),
-        _memberRepository = memberRepository,
+      : _memberRepository = memberRepository,
         super(MemberListLoading()) {
     on <LoadMemberList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

@@ -13,29 +13,14 @@
 
 */
 
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/model/repository_export.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import 'package:eliud_core/model/entity_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
 import 'package:eliud_core/model/member_dashboard_entity.dart';
 
-import 'package:eliud_core/tools/random.dart';
 
 
 
@@ -69,7 +54,6 @@ class MemberDashboardModel implements ModelBase, WithAppId {
   StorageConditionsModel? conditions;
 
   MemberDashboardModel({required this.documentID, required this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, })  {
-    assert(documentID != null);
   }
 
   MemberDashboardModel copyWith({String? documentID, String? appId, String? description, String? updateProfileText, String? retrieveDataText, String? deleteDataText, String? retrieveDataEmailSubject, String? deleteDataEmailSubject, String? deleteDataEmailMessage, StorageConditionsModel? conditions, }) {

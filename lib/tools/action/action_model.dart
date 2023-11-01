@@ -7,11 +7,9 @@ import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/menu_def_model.dart';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/cupertino.dart';
 
 import '../../core/base/model_base.dart';
-import '../common_tools.dart';
 import '../main_abstract_repository_singleton.dart';
 import 'action_entity.dart';
 

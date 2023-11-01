@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/app_entry_pages_repository.dart';
 import 'package:eliud_core/model/app_entry_pages_list_event.dart';
@@ -41,8 +40,7 @@ class AppEntryPagesListBloc extends Bloc<AppEntryPagesListEvent, AppEntryPagesLi
   final int appEntryPagesLimit;
 
   AppEntryPagesListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppEntryPagesRepository appEntryPagesRepository, this.appEntryPagesLimit = 5})
-      : assert(appEntryPagesRepository != null),
-        _appEntryPagesRepository = appEntryPagesRepository,
+      : _appEntryPagesRepository = appEntryPagesRepository,
         super(AppEntryPagesListLoading()) {
     on <LoadAppEntryPagesList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

@@ -17,7 +17,6 @@
 import 'package:eliud_core/model/blocking_dashboard_component_bloc.dart';
 import 'package:eliud_core/model/blocking_dashboard_component_event.dart';
 import 'package:eliud_core/model/blocking_dashboard_model.dart';
-import 'package:eliud_core/model/blocking_dashboard_repository.dart';
 import 'package:eliud_core/model/blocking_dashboard_component_state.dart';
 
 import 'package:flutter/material.dart';
@@ -25,7 +24,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/style/style_registry.dart';
 import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_model.dart';
 
 abstract class AbstractBlockingDashboardComponent extends StatelessWidget {
@@ -48,11 +46,7 @@ abstract class AbstractBlockingDashboardComponent extends StatelessWidget {
   Widget _blockingDashboardBlockBuilder(BuildContext context) {
     return BlocBuilder<BlockingDashboardComponentBloc, BlockingDashboardComponentState>(builder: (context, state) {
       if (state is BlockingDashboardComponentLoaded) {
-        if (state.value == null) {
-          return AlertWidget(app: app, title: "Error", content: 'No BlockingDashboard defined');
-        } else {
-          return yourWidget(context, state.value);
-        }
+        return yourWidget(context, state.value);
       } else if (state is BlockingDashboardComponentPermissionDenied) {
         return Icon(
           Icons.highlight_off,

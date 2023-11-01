@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
@@ -17,7 +16,7 @@ import 'access_rights.dart';
  * I assume these photos are stored in /appId/memberId/...
  * I assume we might want to have a ui to allow to organise photos in a user image repository
  */
-typedef void MediumAvailable(dynamic? mediumModel);
+typedef void MediumAvailable(dynamic mediumModel);
 typedef AccessRights AccessRightsProvider();
 
 abstract class MediumApi {

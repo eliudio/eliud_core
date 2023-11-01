@@ -13,26 +13,15 @@
 
 */
 
-import 'package:eliud_core/tools/common_tools.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:eliud_core/core/base/model_base.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import 'package:eliud_core/model/app_model.dart';
 
-import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/repository_export.dart';
-import '../tools/bespoke_models.dart';
-import 'package:eliud_core/model/model_export.dart';
-import '../tools/bespoke_entities.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 
 import 'package:eliud_core/model/public_medium_entity.dart';
 
 import 'package:eliud_core/tools/helpers/medium_collect_references.dart';
-import 'package:eliud_core/tools/random.dart';
 
 enum PublicMediumType {
   Photo, Video, Pdf, Text, Unknown
@@ -72,7 +61,6 @@ class PublicMediumModel implements ModelBase {
   String? relatedMediumId;
 
   PublicMediumModel({required this.documentID, required this.authorId, this.base, this.ext, this.url, this.ref, this.urlThumbnail, this.refThumbnail, this.mediumType, this.mediumWidth, this.mediumHeight, this.thumbnailWidth, this.thumbnailHeight, this.relatedMediumId, })  {
-    assert(documentID != null);
   }
 
   PublicMediumModel copyWith({String? documentID, String? authorId, String? base, String? ext, String? url, String? ref, String? urlThumbnail, String? refThumbnail, PublicMediumType? mediumType, int? mediumWidth, int? mediumHeight, int? thumbnailWidth, int? thumbnailHeight, String? relatedMediumId, }) {

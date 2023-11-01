@@ -1,5 +1,4 @@
 import 'package:eliud_core/style/frontend/has_app.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DefaultAppImpl implements HasApp {

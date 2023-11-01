@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/member_medium_repository.dart';
 import 'package:eliud_core/model/member_medium_list_event.dart';
@@ -41,8 +40,7 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
   final int memberMediumLimit;
 
   MemberMediumListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumRepository memberMediumRepository, this.memberMediumLimit = 5})
-      : assert(memberMediumRepository != null),
-        _memberMediumRepository = memberMediumRepository,
+      : _memberMediumRepository = memberMediumRepository,
         super(MemberMediumListLoading()) {
     on <LoadMemberMediumList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {

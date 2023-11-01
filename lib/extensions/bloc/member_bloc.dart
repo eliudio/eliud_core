@@ -14,7 +14,7 @@ class MemberBloc extends Bloc<ExtEditorBaseEvent<MemberModel>,
   MemberBloc(this.appId) : super(ExtEditorBaseUninitialised()) {
     on<ExtEditorBaseInitialise<MemberModel>>((event, emit) {
       emit(ExtEditorBaseInitialised(
-        model: event.model.copyWith() as MemberModel,
+        model: event.model.copyWith(),
       ));
     });
 

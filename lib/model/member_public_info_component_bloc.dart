@@ -16,11 +16,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'package:eliud_core/model/member_public_info_model.dart';
 import 'package:eliud_core/model/member_public_info_component_event.dart';
 import 'package:eliud_core/model/member_public_info_component_state.dart';
 import 'package:eliud_core/model/member_public_info_repository.dart';
-import 'package:flutter/services.dart';
 
 class MemberPublicInfoComponentBloc extends Bloc<MemberPublicInfoComponentEvent, MemberPublicInfoComponentState> {
   final MemberPublicInfoRepository? memberPublicInfoRepository;

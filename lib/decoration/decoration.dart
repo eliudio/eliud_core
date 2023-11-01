@@ -1,5 +1,4 @@
 import 'package:eliud_core/model/home_menu_model.dart';
-import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/body_component_model.dart';

@@ -1,5 +1,4 @@
 import 'package:eliud_core/model/model_export.dart';
-import 'package:flutter/cupertino.dart';
 
 class Backgrounds {
   static BackgroundModel _construct({String? appId, RgbModel? fromColor, RgbModel? toColor, ShadowModel? withShadow, StartGradientPosition? startPosition, EndGradientPosition? endPosition, }) {

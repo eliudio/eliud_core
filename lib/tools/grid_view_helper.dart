@@ -20,7 +20,7 @@ class GridViewHelper {
                 .horizontal,
             mainAxisSpacing: gridView.mainAxisSpacing!,
             crossAxisSpacing: gridView.crossAxisSpacing!,
-            children: components as List<Widget>);
+            children: components);
       } else {
         double? maxCrossAxisExtent;
         if (gridView.maxCrossAxisExtentType ==
@@ -47,7 +47,7 @@ class GridViewHelper {
                 .horizontal,
             mainAxisSpacing: gridView.mainAxisSpacing!,
             crossAxisSpacing: gridView.crossAxisSpacing!,
-            children: components as List<Widget>);
+            children: components);
       }
     }
   }

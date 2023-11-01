@@ -16,11 +16,9 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 
-import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/app_component_event.dart';
 import 'package:eliud_core/model/app_component_state.dart';
 import 'package:eliud_core/model/app_repository.dart';
-import 'package:flutter/services.dart';
 
 
 class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {

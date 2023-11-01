@@ -1,6 +1,4 @@
-import '../../model/app_model.dart';
 import 'entity_base.dart';
-import 'package:eliud_core/model/platform_medium_model.dart';
 
 abstract class ModelBase {
   late String documentID;

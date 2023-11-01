@@ -15,7 +15,6 @@
 
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:eliud_core/model/member_dashboard_repository.dart';
 import 'package:eliud_core/model/member_dashboard_list_event.dart';
@@ -41,8 +40,7 @@ class MemberDashboardListBloc extends Bloc<MemberDashboardListEvent, MemberDashb
   final int memberDashboardLimit;
 
   MemberDashboardListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberDashboardRepository memberDashboardRepository, this.memberDashboardLimit = 5})
-      : assert(memberDashboardRepository != null),
-        _memberDashboardRepository = memberDashboardRepository,
+      : _memberDashboardRepository = memberDashboardRepository,
         super(MemberDashboardListLoading()) {
     on <LoadMemberDashboardList> ((event, emit) {
       if ((detailed == null) || (!detailed!)) {
