@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'menu_def_model.dart';
 
-typedef List<MenuDefModel?> FilterMenuDefModels(List<MenuDefModel?> values);
-
-
+typedef FilterMenuDefModels = List<MenuDefModel?> Function(
+    List<MenuDefModel?> values);
 
 class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final FilterMenuDefModels? filter;
@@ -39,23 +38,32 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   final bool? detailed;
   final int menuDefLimit;
 
-  MenuDefListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MenuDefRepository menuDefRepository, this.menuDefLimit = 5})
+  MenuDefListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required MenuDefRepository menuDefRepository,
+      this.menuDefLimit = 5})
       : _menuDefRepository = menuDefRepository,
         super(MenuDefListLoading()) {
-    on <LoadMenuDefList> ((event, emit) {
+    on<LoadMenuDefList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadMenuDefListToState();
       } else {
         _mapLoadMenuDefListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadMenuDefListWithDetailsToState();
     });
-    
-    on <MenuDefChangeQuery> ((event, emit) {
+
+    on<MenuDefChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadMenuDefListToState();
@@ -63,20 +71,20 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
         _mapLoadMenuDefListWithDetailsToState();
       }
     });
-      
-    on <AddMenuDefList> ((event, emit) async {
+
+    on<AddMenuDefList>((event, emit) async {
       await _mapAddMenuDefListToState(event);
     });
-    
-    on <UpdateMenuDefList> ((event, emit) async {
+
+    on<UpdateMenuDefList>((event, emit) async {
       await _mapUpdateMenuDefListToState(event);
     });
-    
-    on <DeleteMenuDefList> ((event, emit) async {
+
+    on<DeleteMenuDefList>((event, emit) async {
       await _mapDeleteMenuDefListToState(event);
     });
-    
-    on <MenuDefListUpdated> ((event, emit) {
+
+    on<MenuDefListUpdated>((event, emit) {
       emit(_mapMenuDefListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
   }
 
   Future<void> _mapLoadMenuDefListToState() async {
-    int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values!.length : 0;
+    int amountNow = (state is MenuDefListLoaded)
+        ? (state as MenuDefListLoaded).values!.length
+        : 0;
     _menuDefsListSubscription?.cancel();
     _menuDefsListSubscription = _menuDefRepository.listen(
-          (list) => add(MenuDefListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * menuDefLimit : null
-    );
-  }
-
-  Future<void> _mapLoadMenuDefListWithDetailsToState() async {
-    int amountNow =  (state is MenuDefListLoaded) ? (state as MenuDefListLoaded).values!.length : 0;
-    _menuDefsListSubscription?.cancel();
-    _menuDefsListSubscription = _menuDefRepository.listenWithDetails(
-            (list) => add(MenuDefListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(MenuDefListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * menuDefLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * menuDefLimit : null);
+  }
+
+  Future<void> _mapLoadMenuDefListWithDetailsToState() async {
+    int amountNow = (state is MenuDefListLoaded)
+        ? (state as MenuDefListLoaded).values!.length
+        : 0;
+    _menuDefsListSubscription?.cancel();
+    _menuDefsListSubscription = _menuDefRepository.listenWithDetails(
+        (list) => add(MenuDefListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * menuDefLimit : null);
   }
 
   Future<void> _mapAddMenuDefListToState(AddMenuDefList event) async {
@@ -134,8 +146,9 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
     }
   }
 
-  MenuDefListLoaded _mapMenuDefListUpdatedToState(
-      MenuDefListUpdated event) => MenuDefListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  MenuDefListLoaded _mapMenuDefListUpdatedToState(MenuDefListUpdated event) =>
+      MenuDefListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +156,3 @@ class MenuDefListBloc extends Bloc<MenuDefListEvent, MenuDefListState> {
     return super.close();
   }
 }
-
-

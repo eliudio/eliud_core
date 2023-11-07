@@ -5,8 +5,9 @@ import 'package:flutter/services.dart';
 import '../style_registry.dart';
 
 abstract class HasDialogField {
-  Widget dialogField(AppModel app,
-      BuildContext context, {
+  Widget dialogField(
+    AppModel app,
+    BuildContext context, {
     InputDecoration? decoration,
     required ValueChanged<String> valueChanged,
     String? initialValue,
@@ -17,7 +18,7 @@ abstract class HasDialogField {
     TextAlignVertical? textAlignVertical,
     TextDirection? textDirection,
     bool? readOnly,
-    ToolbarOptions? toolbarOptions,
+//    ToolbarOptions? toolbarOptions,
     bool? showCursor,
     bool? autocorrect,
     bool? enableSuggestions,
@@ -28,7 +29,8 @@ abstract class HasDialogField {
   });
 }
 
-Widget dialogField(AppModel app,
+Widget dialogField(
+  AppModel app,
   BuildContext context, {
   InputDecoration? decoration,
   required ValueChanged<String> valueChanged,
@@ -40,7 +42,7 @@ Widget dialogField(AppModel app,
   TextAlignVertical? textAlignVertical,
   TextDirection? textDirection,
   bool? readOnly,
-  ToolbarOptions? toolbarOptions,
+//  ToolbarOptions? toolbarOptions,
   bool? showCursor,
   bool? autocorrect,
   bool? enableSuggestions,
@@ -53,7 +55,8 @@ Widget dialogField(AppModel app,
         .styleWithApp(app)
         .frontEndStyle()
         .dialogFieldStyle()
-        .dialogField(app,
+        .dialogField(
+          app,
           context,
           decoration: decoration,
           valueChanged: valueChanged,
@@ -65,7 +68,7 @@ Widget dialogField(AppModel app,
           textAlignVertical: textAlignVertical,
           textDirection: textDirection,
           readOnly: readOnly,
-          toolbarOptions: toolbarOptions,
+//          toolbarOptions: toolbarOptions,
           showCursor: showCursor,
           autocorrect: autocorrect,
           enableSuggestions: enableSuggestions,

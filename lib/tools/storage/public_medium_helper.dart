@@ -16,10 +16,10 @@ PublicMediumType publicMediumType(AbstractMediumType abstractMediumType) {
  * This helper allows to upload PublicMediumModel, i.e. files in the category "public"
  */
 class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
-  static String PACKAGENAME = 'public';
+  static String thisPackageName = 'public';
 
   PublicMediumHelper(AppModel app, String ownerId)
-      : super(app, ownerId, PACKAGENAME);
+      : super(app, ownerId, thisPackageName);
 
   /*
    * Create custom meta data.
@@ -43,24 +43,24 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
    */
   @override
   Future<PublicMediumModel> photoWithThumbnailToMediumModel(
-      String memberMediumDocumentId,
+      String mediumDocumentId,
       String baseName,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
       PhotoWithThumbnail photoWithThumbnail,
       {String? relatedMediumId}) async {
     // Create the MemberImageModel
-    var memberImageModel;
+    PublicMediumModel memberImageModel;
 
     memberImageModel = PublicMediumModel(
-      documentID: memberMediumDocumentId,
+      documentID: mediumDocumentId,
       base: MediumHelper.getBaseName(baseName),
       ext: MediumHelper.getExtension(baseName),
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
       url: fileInfo.url,
-      mediumType: PublicMediumType.Photo,
+      mediumType: PublicMediumType.photo,
       urlThumbnail: fileInfoThumbnail.url,
       mediumWidth: photoWithThumbnail.photoData.width,
       mediumHeight: photoWithThumbnail.photoData.height,
@@ -76,25 +76,25 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
    */
   @override
   Future<PublicMediumModel> videoWithThumbnailToMediumModel(
-      String memberMediumDocumentId,
+      String mediumDocumentId,
       String baseName,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
       VideoWithThumbnail videoWithThumbnail,
       {String? relatedMediumId}) {
     // Create the MemberImageModel
-    var memberImageModel;
+    PublicMediumModel memberImageModel;
 
     // Create the MemberImageModel
     memberImageModel = PublicMediumModel(
-      documentID: memberMediumDocumentId,
+      documentID: mediumDocumentId,
       base: MediumHelper.getBaseName(baseName),
       ext: MediumHelper.getExtension(baseName),
       authorId: ownerId,
       ref: fileInfo.ref,
       refThumbnail: fileInfoThumbnail.ref,
       url: fileInfo.url,
-      mediumType: PublicMediumType.Video,
+      mediumType: PublicMediumType.video,
       urlThumbnail: fileInfoThumbnail.url,
       /*
       mediumWidth: videoWithThumbnail.videoData.width,
@@ -121,10 +121,10 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
         base: MediumHelper.getBaseName(baseName),
         ext: MediumHelper.getExtension(baseName),
         authorId: ownerId,
-        url: pageImage == null ? null : pageImage.url,
-        ref: pageImage == null ? null : pageImage.ref,
-        refThumbnail: pageThumbnail == null ? null : pageThumbnail.ref,
-        urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
+        url: pageImage?.url,
+        ref: pageImage?.ref,
+        refThumbnail: pageThumbnail?.ref,
+        urlThumbnail: pageThumbnail?.url,
         mediumType: publicMediumType(type),
         mediumWidth: pageData.photoData.width,
         mediumHeight: pageData.photoData.height,
@@ -140,7 +140,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       String mediumDocumentId, String baseName, UploadInfo fileInfo,
       {String? relatedMediumId}) {
     // Create the MemberImageModel
-    var memberImageModel;
+    PublicMediumModel memberImageModel;
 
     memberImageModel = PublicMediumModel(
       documentID: mediumDocumentId,
@@ -150,7 +150,7 @@ class PublicMediumHelper extends MediumHelper<PublicMediumModel> {
       ref: fileInfo.ref,
       refThumbnail: null,
       url: fileInfo.url,
-      mediumType: PublicMediumType.Text,
+      mediumType: PublicMediumType.text,
       urlThumbnail: null,
       mediumWidth: null,
       mediumHeight: null,

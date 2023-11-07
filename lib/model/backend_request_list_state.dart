@@ -33,18 +33,20 @@ class BackendRequestListLoaded extends BackendRequestListState {
   const BackendRequestListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object?> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [values, mightHaveMore];
 
   @override
   String toString() => 'BackendRequestListLoaded { values: $values }';
 
   @override
-  bool operator ==(Object other) => 
-          other is BackendRequestListLoaded &&
-              runtimeType == other.runtimeType &&
-              ListEquality().equals(values, other.values) &&
-              mightHaveMore == other.mightHaveMore;
+  bool operator ==(Object other) =>
+      other is BackendRequestListLoaded &&
+      runtimeType == other.runtimeType &&
+      ListEquality().equals(values, other.values) &&
+      mightHaveMore == other.mightHaveMore;
+
+  @override
+  int get hashCode => values.hashCode ^ mightHaveMore.hashCode;
 }
 
 class BackendRequestNotLoaded extends BackendRequestListState {}
-

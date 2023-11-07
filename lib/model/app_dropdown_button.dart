@@ -23,34 +23,41 @@ import 'package:eliud_core/style/frontend/has_button.dart';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/component/update_component.dart';
 
-
 import 'package:eliud_core/model/app_list_bloc.dart';
 import 'package:eliud_core/model/app_list_state.dart';
 import 'package:eliud_core/model/app_list_event.dart';
 
-
-
-typedef AppChanged(String? value, int? privilegeLevel,);
+typedef AppChanged = Function(
+  String? value,
+  int? privilegeLevel,
+);
 
 class AppDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
-  int? privilegeLevel;
-  String? value;
+  final int? privilegeLevel;
+  final String? value;
   final AppChanged? trigger;
   final bool? optional;
 
-  AppDropdownButtonWidget({ required this.app, this.privilegeLevel, this.value, this.trigger, this.optional, Key? key }): super(key: key);
+  AppDropdownButtonWidget(
+      {required this.app,
+      this.privilegeLevel,
+      this.value,
+      this.trigger,
+      this.optional,
+      super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return AppDropdownButtonWidgetState();
+    return AppDropdownButtonWidgetState(value);
   }
 }
 
 class AppDropdownButtonWidgetState extends State<AppDropdownButtonWidget> {
   AppListBloc? bloc;
+  String? value;
 
-  AppDropdownButtonWidgetState();
+  AppDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -64,64 +71,75 @@ class AppDropdownButtonWidgetState extends State<AppDropdownButtonWidget> {
     super.dispose();
   }
 
-List<Widget> widgets(AppModel value) {
-var app = widget.app;
-var widgets = <Widget>[];
-widgets.add(value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container());
-widgets.add(value.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.title!)) : Container());
-return widgets;
-}
-
+  List<Widget> widgets(AppModel value) {
+    var app = widget.app;
+    var widgets = <Widget>[];
+    widgets.add(Center(
+        child: StyleRegistry.registry()
+            .styleWithApp(app)
+            .frontEndStyle()
+            .textStyle()
+            .text(app, context, value.documentID)));
+    widgets.add(value.title != null
+        ? Center(
+            child: StyleRegistry.registry()
+                .styleWithApp(app)
+                .frontEndStyle()
+                .textStyle()
+                .text(app, context, value.title!))
+        : Container());
+    return widgets;
+  }
 
   @override
   Widget build(BuildContext context) {
     //var accessState = AccessBloc.getState(context);
     return BlocBuilder<AppListBloc, AppListState>(builder: (context, state) {
       if (state is AppListLoading) {
-        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminListStyle()
+            .progressIndicator(widget.app, context);
       } else if (state is AppListLoaded) {
         int? privilegeChosen = widget.privilegeLevel;
-        if ((widget.value != null) && (privilegeChosen == null)) {
+        if ((value != null) && (privilegeChosen == null)) {
           if (state.values != null) {
-            var selectedValue = state.values!.firstWhere((v) => (v!.documentID == widget.value), orElse: () => null);
             privilegeChosen = 0;
           }
         }
-          
-        final values = state.values;
+
+//        final values = state.values;
         final items = <DropdownMenuItem<String>>[];
         if (state.values!.isNotEmpty) {
           if (widget.optional != null && widget.optional!) {
-            items.add(new DropdownMenuItem<String>(
+            items.add(DropdownMenuItem<String>(
                 value: null,
-                child: new Container(
+                child: Container(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   height: 100.0,
-                  child: new Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget> [ new Text("None") ],
+                    children: <Widget>[Text("None")],
                   ),
                 )));
           }
-          state.values!.forEach((element) {
-            items.add(new DropdownMenuItem<String>(
+          for (var element in state.values!) {
+            items.add(DropdownMenuItem<String>(
                 value: element!.documentID,
-                child: new Container(
+                child: Container(
                   padding: const EdgeInsets.only(bottom: 5.0),
                   height: 100.0,
-                  child: new Row(
+                  child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: widgets(element),
                   ),
                 )));
-          });
+          }
         }
-        return ListView(
-            physics: ScrollPhysics(),
-            shrinkWrap: true,
-            children: [
+        return ListView(physics: ScrollPhysics(), shrinkWrap: true, children: [
           dropdownButton<int>(
-            widget.app, context,
+            widget.app,
+            context,
             isDense: false,
             isExpanded: false,
             items: [
@@ -146,49 +164,57 @@ return widgets;
             hint: text(widget.app, context, 'Select a privilege'),
             onChanged: _onPrivilegeLevelChange,
           ),
-          Row(children: [(false)
-            ? Container(
-                height: 48, 
-                child: dropdownButton<String>(
-                      widget.app, context,
+          Row(children: [
+            ((false) == true)
+                ? Container(
+                    height: 48,
+                    child: dropdownButton<String>(
+                      widget.app,
+                      context,
                       isDense: false,
                       isExpanded: false,
                       items: items,
-                      value: widget.value,
+                      value: value,
                       hint: text(widget.app, context, 'Select a app'),
                       onChanged: _onValueChange,
-                    )
-                ) 
-            : dropdownButton<String>(
-                widget.app, context,
-                isDense: false,
-                isExpanded: false,
-                items: items,
-                value: widget.value,
-                hint: text(widget.app, context, 'Select a app'),
-                onChanged: _onValueChange,
-              ),
-          if (widget.value != null) Spacer(),
-          if (widget.value != null) 
-            Align(alignment: Alignment.topRight, child: button(
-              widget.app,
-              context,
-              icon: Icon(
-                Icons.edit,
-              ),
-              label: 'Update',
-              onPressed: () {
-                updateComponent(context, widget.app, 'apps', widget.value, (newValue, _) {
-                  setState(() {
-                    widget.value = widget.value;
-                  });
-                });
-              },
-            ))
+                    ))
+                : dropdownButton<String>(
+                    widget.app,
+                    context,
+                    isDense: false,
+                    isExpanded: false,
+                    items: items,
+                    value: value,
+                    hint: text(widget.app, context, 'Select a app'),
+                    onChanged: _onValueChange,
+                  ),
+            if (value != null) Spacer(),
+            if (value != null)
+              Align(
+                  alignment: Alignment.topRight,
+                  child: button(
+                    widget.app,
+                    context,
+                    icon: Icon(
+                      Icons.edit,
+                    ),
+                    label: 'Update',
+                    onPressed: () {
+                      updateComponent(context, widget.app, 'apps', value,
+                          (newValue, _) {
+                        setState(() {
+                          value = value;
+                        });
+                      });
+                    },
+                  ))
           ])
         ]);
       } else {
-        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminListStyle()
+            .progressIndicator(widget.app, context);
       }
     });
   }
@@ -199,12 +225,12 @@ return widgets;
 
   void _onPrivilegeLevelChange(int? value) {
     BlocProvider.of<AppListBloc>(context).add(AppChangeQuery(
-       newQuery: EliudQuery(theConditions: [
-         EliudQueryCondition('conditions.privilegeLevelRequired', isEqualTo: value ?? 0),
-         EliudQueryCondition('appId', isEqualTo: widget.app.documentID),]
-       ),
-     ));
-     widget.trigger!(null, value);
+      newQuery: EliudQuery(theConditions: [
+        EliudQueryCondition('conditions.privilegeLevelRequired',
+            isEqualTo: value ?? 0),
+        EliudQueryCondition('appId', isEqualTo: widget.app.documentID),
+      ]),
+    ));
+    widget.trigger!(null, value);
   }
 }
-

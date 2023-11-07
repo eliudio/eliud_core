@@ -19,8 +19,6 @@ import 'package:bloc/bloc.dart';
 
 import 'package:eliud_core/tools/enums.dart';
 
-
-
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/model_export.dart';
 
@@ -31,143 +29,151 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
   final FormAction? formAction;
   final String? appId;
 
-  PageFormBloc(this.appId, { this.formAction }): super(PageFormUninitialized()) {
-      on <InitialiseNewPageFormEvent> ((event, emit) {
-        PageFormLoaded loaded = PageFormLoaded(value: PageModel(
-                                               documentID: "",
-                                 appId: "",
-                                 description: "",
-                                 title: "",
-                                 bodyComponents: [],
+  PageFormBloc(this.appId, {this.formAction}) : super(PageFormUninitialized()) {
+    on<InitialiseNewPageFormEvent>((event, emit) {
+      PageFormLoaded loaded = PageFormLoaded(
+          value: PageModel(
+        documentID: "",
+        appId: "",
+        description: "",
+        title: "",
+        bodyComponents: [],
+      ));
+      emit(loaded);
+    });
 
-        ));
-        emit(loaded);
-      });
-
-
-      on <InitialisePageFormEvent> ((event, emit) async {
-        // Need to re-retrieve the document from the repository so that I get all associated types
-        PageFormLoaded loaded = PageFormLoaded(value: await pageRepository(appId: appId)!.get(event.value!.documentID));
-        emit(loaded);
-      });
-      on <InitialisePageFormNoLoadEvent> ((event, emit) async {
-        PageFormLoaded loaded = PageFormLoaded(value: event.value);
-        emit(loaded);
-      });
-      PageModel? newValue = null;
-      on <ChangedPageDocumentID> ((event, emit) async {
+    on<InitialisePageFormEvent>((event, emit) async {
+      // Need to re-retrieve the document from the repository so that I get all associated types
+      PageFormLoaded loaded = PageFormLoaded(
+          value:
+              await pageRepository(appId: appId)!.get(event.value!.documentID));
+      emit(loaded);
+    });
+    on<InitialisePageFormNoLoadEvent>((event, emit) async {
+      PageFormLoaded loaded = PageFormLoaded(value: event.value);
+      emit(loaded);
+    });
+    PageModel? newValue;
+    on<ChangedPageDocumentID>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
-        if (formAction == FormAction.AddAction) {
+        if (formAction == FormAction.addAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
           emit(SubmittablePageForm(value: newValue));
         }
-
       }
-      });
-      on <ChangedPageDescription> ((event, emit) async {
+    });
+    on<ChangedPageDescription>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
         newValue = currentState.value!.copyWith(description: event.value);
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageTitle> ((event, emit) async {
+    });
+    on<ChangedPageTitle>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
         newValue = currentState.value!.copyWith(title: event.value);
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageAppBar> ((event, emit) async {
+    });
+    on<ChangedPageAppBar>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(appBar: await appBarRepository(appId: appId)!.get(event.value));
+        if (event.value != null) {
+          newValue = currentState.value!.copyWith(
+              appBar: await appBarRepository(appId: appId)!.get(event.value));
+        }
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageDrawer> ((event, emit) async {
+    });
+    on<ChangedPageDrawer>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(drawer: await drawerRepository(appId: appId)!.get(event.value));
+        if (event.value != null) {
+          newValue = currentState.value!.copyWith(
+              drawer: await drawerRepository(appId: appId)!.get(event.value));
+        }
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageEndDrawer> ((event, emit) async {
+    });
+    on<ChangedPageEndDrawer>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(endDrawer: await drawerRepository(appId: appId)!.get(event.value));
+        if (event.value != null) {
+          newValue = currentState.value!.copyWith(
+              endDrawer:
+                  await drawerRepository(appId: appId)!.get(event.value));
+        }
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageHomeMenu> ((event, emit) async {
+    });
+    on<ChangedPageHomeMenu>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(homeMenu: await homeMenuRepository(appId: appId)!.get(event.value));
+        if (event.value != null) {
+          newValue = currentState.value!.copyWith(
+              homeMenu:
+                  await homeMenuRepository(appId: appId)!.get(event.value));
+        }
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageBodyComponents> ((event, emit) async {
+    });
+    on<ChangedPageBodyComponents>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
         newValue = currentState.value!.copyWith(bodyComponents: event.value);
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageBackgroundOverride> ((event, emit) async {
+    });
+    on<ChangedPageBackgroundOverride>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
-        newValue = currentState.value!.copyWith(backgroundOverride: event.value);
+        newValue =
+            currentState.value!.copyWith(backgroundOverride: event.value);
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageLayout> ((event, emit) async {
+    });
+    on<ChangedPageLayout>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
         newValue = currentState.value!.copyWith(layout: event.value);
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageGridView> ((event, emit) async {
+    });
+    on<ChangedPageGridView>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(gridView: await gridViewRepository(appId: appId)!.get(event.value));
+        if (event.value != null) {
+          newValue = currentState.value!.copyWith(
+              gridView:
+                  await gridViewRepository(appId: appId)!.get(event.value));
+        }
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
-      on <ChangedPageConditions> ((event, emit) async {
+    });
+    on<ChangedPageConditions>((event, emit) async {
       if (state is PageFormInitialized) {
         final currentState = state as PageFormInitialized;
         newValue = currentState.value!.copyWith(conditions: event.value);
         emit(SubmittablePageForm(value: newValue));
-
       }
-      });
+    });
   }
 
+  DocumentIDPageFormError error(String message, PageModel newValue) =>
+      DocumentIDPageFormError(message: message, value: newValue);
 
-  DocumentIDPageFormError error(String message, PageModel newValue) => DocumentIDPageFormError(message: message, value: newValue);
-
-  Future<PageFormState> _isDocumentIDValid(String? value, PageModel newValue) async {
-    if (value == null) return Future.value(error("Provide value for documentID", newValue));
-    if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
+  Future<PageFormState> _isDocumentIDValid(
+      String? value, PageModel newValue) async {
+    if (value == null) {
+      return Future.value(error("Provide value for documentID", newValue));
+    }
+    if (value.isEmpty) {
+      return Future.value(error("Provide value for documentID", newValue));
+    }
     Future<PageModel?> findDocument = pageRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
@@ -177,7 +183,4 @@ class PageFormBloc extends Bloc<PageFormEvent, PageFormState> {
       }
     });
   }
-
-
 }
-

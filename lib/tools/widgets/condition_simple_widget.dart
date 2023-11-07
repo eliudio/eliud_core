@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../style/frontend/has_button.dart';
 
-typedef void ConditionsSimpleChanged(int value);
+typedef ConditionsSimpleChanged = void Function(int value);
 
 class ConditionsSimpleWidget extends StatefulWidget {
   final AppModel app;
@@ -14,16 +14,18 @@ class ConditionsSimpleWidget extends StatefulWidget {
 //  final ConditionsSimpleChanged? conditionsSimpleChanged;
 
   ConditionsSimpleWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.value,
     this.readOnly,
     //this.conditionsSimpleChanged,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {
-    return _ConditionPrivilegeState(value.privilegeLevelRequired != null ? value.privilegeLevelRequired!.index : 0);
+    return _ConditionPrivilegeState(value.privilegeLevelRequired != null
+        ? value.privilegeLevelRequired!.index
+        : 0);
   }
 }
 
@@ -35,18 +37,28 @@ class _ConditionPrivilegeState extends State<ConditionsSimpleWidget> {
   @override
   Widget build(BuildContext context) {
     return dropdownButton<int>(
-      widget.app, context,
+      widget.app,
+      context,
       isDense: false,
       isExpanded: false,
       items: [
-        DropdownMenuItem<int>(value: 0,child: text(widget.app, context, 'No Privilege Required')),
-        DropdownMenuItem<int>(value: 1, child: text(widget.app, context, 'Level 1 Privilege Required')),
-        DropdownMenuItem<int>(value: 2, child: text(widget.app, context, 'Level 2 Privilege Required')),
-        DropdownMenuItem<int>(value: 3, child: text(widget.app, context, 'Owner Required'))
+        DropdownMenuItem<int>(
+            value: 0,
+            child: text(widget.app, context, 'No Privilege Required')),
+        DropdownMenuItem<int>(
+            value: 1,
+            child: text(widget.app, context, 'Level 1 Privilege Required')),
+        DropdownMenuItem<int>(
+            value: 2,
+            child: text(widget.app, context, 'Level 2 Privilege Required')),
+        DropdownMenuItem<int>(
+            value: 3, child: text(widget.app, context, 'Owner Required'))
       ],
       value: value,
       hint: text(widget.app, context, 'Select Privilege'),
-      onChanged: widget.readOnly != null && widget.readOnly! ? null : (value) => _onChange(value),
+      onChanged: widget.readOnly != null && widget.readOnly!
+          ? null
+          : (value) => _onChange(value),
     );
   }
 

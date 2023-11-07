@@ -30,10 +30,10 @@ class NewPage extends DecorationColorListEvent {}
 class AddDecorationColorList extends DecorationColorListEvent {
   final DecorationColorModel? value;
 
-  const AddDecorationColorList({ this.value });
+  const AddDecorationColorList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddDecorationColorList{ value: $value }';
@@ -42,10 +42,10 @@ class AddDecorationColorList extends DecorationColorListEvent {
 class UpdateDecorationColorList extends DecorationColorListEvent {
   final DecorationColorModel? value;
 
-  const UpdateDecorationColorList({ this.value });
+  const UpdateDecorationColorList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateDecorationColorList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateDecorationColorList extends DecorationColorListEvent {
 class DeleteDecorationColorList extends DecorationColorListEvent {
   final DecorationColorModel? value;
 
-  const DeleteDecorationColorList({ this.value });
+  const DeleteDecorationColorList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteDecorationColorList{ value: $value }';
@@ -67,24 +67,24 @@ class DecorationColorListUpdated extends DecorationColorListEvent {
   final List<DecorationColorModel?>? value;
   final bool? mightHaveMore;
 
-  const DecorationColorListUpdated({ this.value, this.mightHaveMore });
+  const DecorationColorListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'DecorationColorListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'DecorationColorListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class DecorationColorChangeQuery extends DecorationColorListEvent {
   final EliudQuery? newQuery;
 
-  const DecorationColorChangeQuery({ required this.newQuery });
+  const DecorationColorChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'DecorationColorChangeQuery{ value: $newQuery }';
 }
-

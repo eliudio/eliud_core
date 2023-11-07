@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class MemberSubscriptionFormEvent extends Equatable {
   const MemberSubscriptionFormEvent();
@@ -26,24 +25,25 @@ abstract class MemberSubscriptionFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewMemberSubscriptionFormEvent extends MemberSubscriptionFormEvent {
-}
+class InitialiseNewMemberSubscriptionFormEvent
+    extends MemberSubscriptionFormEvent {}
 
-
-class InitialiseMemberSubscriptionFormEvent extends MemberSubscriptionFormEvent {
+class InitialiseMemberSubscriptionFormEvent
+    extends MemberSubscriptionFormEvent {
   final MemberSubscriptionModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberSubscriptionFormEvent({this.value});
 }
 
-class InitialiseMemberSubscriptionFormNoLoadEvent extends MemberSubscriptionFormEvent {
+class InitialiseMemberSubscriptionFormNoLoadEvent
+    extends MemberSubscriptionFormEvent {
   final MemberSubscriptionModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberSubscriptionFormNoLoadEvent({this.value});
 }
@@ -54,7 +54,7 @@ class ChangedMemberSubscriptionDocumentID extends MemberSubscriptionFormEvent {
   ChangedMemberSubscriptionDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberSubscriptionDocumentID{ value: $value }';
@@ -66,9 +66,8 @@ class ChangedMemberSubscriptionApp extends MemberSubscriptionFormEvent {
   ChangedMemberSubscriptionApp({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberSubscriptionApp{ value: $value }';
 }
-

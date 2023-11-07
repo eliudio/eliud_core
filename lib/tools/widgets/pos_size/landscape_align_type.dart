@@ -7,15 +7,14 @@ typedef LandscapeAlignTypeCallback = Function(
     LandscapeAlignType landscapeAlignType);
 
 class LandscapeAlignTypeWidget extends StatefulWidget {
-  LandscapeAlignTypeCallback landscapeAlignTypeCallback;
+  final LandscapeAlignTypeCallback landscapeAlignTypeCallback;
   final LandscapeAlignType landscapeAlignType;
   final AppModel app;
   LandscapeAlignTypeWidget(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.landscapeAlignTypeCallback,
-      required this.landscapeAlignType})
-      : super(key: key);
+      required this.landscapeAlignType});
 
   @override
   State<StatefulWidget> createState() {
@@ -26,33 +25,37 @@ class LandscapeAlignTypeWidget extends StatefulWidget {
 class _LandscapeAlignTypeWidgetState extends State<LandscapeAlignTypeWidget> {
   int? value;
 
+  @override
   void initState() {
     super.initState();
     value = widget.landscapeAlignType.index;
   }
 
-  String widthtTypeLandscapeStringValue(LandscapeAlignType? landscapeAlignType) {
+  String widthtTypeLandscapeStringValue(
+      LandscapeAlignType? landscapeAlignType) {
     switch (landscapeAlignType) {
-      case LandscapeAlignType.LandscapeAlignBottomCenter:
+      case LandscapeAlignType.landscapeAlignBottomCenter:
         return 'Bottom Center';
-      case LandscapeAlignType.LandscapeAlignTopLeft:
+      case LandscapeAlignType.landscapeAlignTopLeft:
         return 'Top Left';
-      case LandscapeAlignType.LandscapeAlignTopCenter:
+      case LandscapeAlignType.landscapeAlignTopCenter:
         return 'Top Center';
-      case LandscapeAlignType.LandscapeAlignTopRight:
+      case LandscapeAlignType.landscapeAlignTopRight:
         return 'Top Right';
-      case LandscapeAlignType.LandscapeAlignCenterLeft:
+      case LandscapeAlignType.landscapeAlignCenterLeft:
         return 'Center Left';
-      case LandscapeAlignType.LandscapeAlignCenter:
+      case LandscapeAlignType.landscapeAlignCenter:
         return 'Center';
-      case LandscapeAlignType.LandscapeAlignCenterRight:
+      case LandscapeAlignType.landscapeAlignCenterRight:
         return 'Center Right';
-      case LandscapeAlignType.LandscapeAlignBottomLeft:
+      case LandscapeAlignType.landscapeAlignBottomLeft:
         return 'Bottom Left';
-      case LandscapeAlignType.LandscapeAlignBottomCenter:
-        return 'Bottom Center';
-      case LandscapeAlignType.LandscapeAlignBottomRight:
+      case LandscapeAlignType.landscapeAlignBottomRight:
         return 'Bottom Right';
+      case LandscapeAlignType.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -68,29 +71,23 @@ class _LandscapeAlignTypeWidgetState extends State<LandscapeAlignTypeWidget> {
     if (landscapeAlignType == null) return Text("?");
     var stringValue = widthtTypeLandscapeStringValue(landscapeAlignType);
     return Center(
-        child: radioListTile(
-            widget.app,
-            context,
-            landscapeAlignType.index,
-            value,
-            stringValue,
-            null,
-            (dynamic val) => setSelection(val)));
+        child: radioListTile(widget.app, context, landscapeAlignType.index,
+            value, stringValue, null, (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getOption(LandscapeAlignType.LandscapeAlignBottomCenter),
-      getOption(LandscapeAlignType.LandscapeAlignTopLeft),
-      getOption(LandscapeAlignType.LandscapeAlignTopCenter),
-      getOption(LandscapeAlignType.LandscapeAlignTopRight),
-      getOption(LandscapeAlignType.LandscapeAlignCenterLeft),
-      getOption(LandscapeAlignType.LandscapeAlignCenter),
-      getOption(LandscapeAlignType.LandscapeAlignCenterRight),
-      getOption(LandscapeAlignType.LandscapeAlignBottomLeft),
-      getOption(LandscapeAlignType.LandscapeAlignBottomCenter),
-      getOption(LandscapeAlignType.LandscapeAlignBottomRight),
+      getOption(LandscapeAlignType.landscapeAlignBottomCenter),
+      getOption(LandscapeAlignType.landscapeAlignTopLeft),
+      getOption(LandscapeAlignType.landscapeAlignTopCenter),
+      getOption(LandscapeAlignType.landscapeAlignTopRight),
+      getOption(LandscapeAlignType.landscapeAlignCenterLeft),
+      getOption(LandscapeAlignType.landscapeAlignCenter),
+      getOption(LandscapeAlignType.landscapeAlignCenterRight),
+      getOption(LandscapeAlignType.landscapeAlignBottomLeft),
+      getOption(LandscapeAlignType.landscapeAlignBottomCenter),
+      getOption(LandscapeAlignType.landscapeAlignBottomRight),
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

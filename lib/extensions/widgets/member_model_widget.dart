@@ -24,7 +24,7 @@ import '../../model/public_medium_model.dart';
 import '../bloc/member_bloc.dart';
 import 'member_subscription_model_widget.dart';
 
-typedef void MemberModelCallback(MemberModel memberModel);
+typedef MemberModelCallback = void Function(MemberModel memberModel);
 
 class MemberModelWidget extends StatefulWidget {
   final bool create;
@@ -35,14 +35,13 @@ class MemberModelWidget extends StatefulWidget {
   final MemberModelCallback memberModelCallback;
 
   MemberModelWidget._({
-    Key? key,
     required this.app,
     required this.create,
     required this.widgetWidth,
     required this.widgetHeight,
 //    required this.memberModel,
     required this.memberModelCallback,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -147,237 +146,251 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
                         Registry.registry()!
                             .getMediumApi()
                             .getPublicPhotoWidget(
-                          context: context,
-                          allowCrop: true,
-                          feedbackFunction: (mediumModel) {
+                              context: context,
+                              allowCrop: true,
+                              feedbackFunction: (mediumModel) {
 //                            if (mediumModel != null) {
-                              setState(() {
-                                if (mediumModel != null) {
-                                  var myMediumModel = mediumModel as PublicMediumModel;
-                                  memberState.model.photo = mediumModel;
-                                  memberState.model.photoURL =
-                                      myMediumModel.url;
-                                } else {
-                                  memberState.model.photo = null;
-                                  memberState.model.photoURL = null;
-                                }
-                              });
+                                setState(() {
+                                  if (mediumModel != null) {
+                                    var myMediumModel =
+                                        mediumModel as PublicMediumModel;
+                                    memberState.model.photo = mediumModel;
+                                    memberState.model.photoURL =
+                                        myMediumModel.url;
+                                  } else {
+                                    memberState.model.photo = null;
+                                    memberState.model.photoURL = null;
+                                  }
+                                });
 //                            }
-                          },
-                          app: widget.app,
-                          initialImage: memberState.model.photo,
-                        ),
+                              },
+                              app: widget.app,
+                              initialImage: memberState.model.photo,
+                            ),
                       ]),
-                  if (widget.app.includeShippingAddress ?? true) topicContainer(widget.app, context,
-                      title: 'Shipping address',
-                      collapsible: true,
-                      collapsed: true,
-                      children: [
-                        getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.shipStreet1,
-                              valueChanged: (value) {
-                                memberState.model.shipStreet1 = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Address 1',
-                                labelText: 'Address 1',
-                              ),
-                            )),
-                        getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.shipStreet1,
-                              valueChanged: (value) {
-                                memberState.model.shipStreet1 = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Address 2',
-                                labelText: 'Address 2',
-                              ),
-                            )),
-                        getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.shipCity,
-                              valueChanged: (value) {
-                                memberState.model.shipCity = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'City',
-                                labelText: 'City',
-                              ),
-                            )),
-                        getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.shipState,
-                              valueChanged: (value) {
-                                memberState.model.shipState = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'State',
-                                labelText: 'State',
-                              ),
-                            )),
-                        getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.postcode,
-                              valueChanged: (value) {
-                                memberState.model.postcode = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Postcode',
-                                labelText: 'Postcode',
-                              ),
-                            )),
-                        getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.country,
-                              valueChanged: (value) {
-                                memberState.model.country = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Country',
-                                labelText: 'Country',
-                              ),
-                            )),
-                      ]),
-                  if (widget.app.includeInvoiceAddress ?? true) topicContainer(widget.app, context,
-                      title: 'Invoice address',
-                      collapsible: true,
-                      collapsed: true,
-                      children: [
-                        checkboxListTile(
-                          widget.app,
-                          context,
-                          'Same as shipping address',
-                          memberState.model.invoiceSame ?? false,
-                              (value) {
-                            setState(() {
-                              memberState.model.invoiceSame = value ?? false;
-                            });
-                          },
-                        ),
-                        if (!(memberState.model.invoiceSame ?? false)) getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.invoiceStreet1,
-                              valueChanged: (value) {
-                                memberState.model.invoiceStreet1 = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Address 1',
-                                labelText: 'Address 1',
-                              ),
-                            )),
-                        if (!(memberState.model.invoiceSame ?? false)) getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.invoiceStreet1,
-                              valueChanged: (value) {
-                                memberState.model.invoiceStreet1 = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Address 2',
-                                labelText: 'Address 2',
-                              ),
-                            )),
-                        if (!(memberState.model.invoiceSame ?? false)) getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.invoiceCity,
-                              valueChanged: (value) {
-                                memberState.model.invoiceCity = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'City',
-                                labelText: 'City',
-                              ),
-                            )),
-                        if (!(memberState.model.invoiceSame ?? false)) getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.invoiceState,
-                              valueChanged: (value) {
-                                memberState.model.invoiceState = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'State',
-                                labelText: 'State',
-                              ),
-                            )),
-                        if (!(memberState.model.invoiceSame ?? false)) getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.invoicePostcode,
-                              valueChanged: (value) {
-                                memberState.model.invoicePostcode = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Postcode',
-                                labelText: 'Postcode',
-                              ),
-                            )),
-                        if (!(memberState.model.invoiceSame ?? false)) getListTile(context, widget.app,
-                            leading: Icon(Icons.description),
-                            title: dialogField(
-                              widget.app,
-                              context,
-                              initialValue: memberState.model.invoiceCountry,
-                              valueChanged: (value) {
-                                memberState.model.invoiceCountry = value;
-                              },
-                              maxLines: 1,
-                              decoration: const InputDecoration(
-                                hintText: 'Postcode',
-                                labelText: 'Postcode',
-                              ),
-                            )),
-                      ]),
-                  if (widget.app.includeSubscriptions ?? true) topicContainer(widget.app, context,
-                      title: 'Subscriptions',
-                      collapsible: true,
-                      collapsed: true,
-                      children: [
-                        _subscripions(memberState),
-                      ]),
+                  if (widget.app.includeShippingAddress ?? true)
+                    topicContainer(widget.app, context,
+                        title: 'Shipping address',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue: memberState.model.shipStreet1,
+                                valueChanged: (value) {
+                                  memberState.model.shipStreet1 = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Address 1',
+                                  labelText: 'Address 1',
+                                ),
+                              )),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue: memberState.model.shipStreet1,
+                                valueChanged: (value) {
+                                  memberState.model.shipStreet1 = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Address 2',
+                                  labelText: 'Address 2',
+                                ),
+                              )),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue: memberState.model.shipCity,
+                                valueChanged: (value) {
+                                  memberState.model.shipCity = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'City',
+                                  labelText: 'City',
+                                ),
+                              )),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue: memberState.model.shipState,
+                                valueChanged: (value) {
+                                  memberState.model.shipState = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'State',
+                                  labelText: 'State',
+                                ),
+                              )),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue: memberState.model.postcode,
+                                valueChanged: (value) {
+                                  memberState.model.postcode = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Postcode',
+                                  labelText: 'Postcode',
+                                ),
+                              )),
+                          getListTile(context, widget.app,
+                              leading: Icon(Icons.description),
+                              title: dialogField(
+                                widget.app,
+                                context,
+                                initialValue: memberState.model.country,
+                                valueChanged: (value) {
+                                  memberState.model.country = value;
+                                },
+                                maxLines: 1,
+                                decoration: const InputDecoration(
+                                  hintText: 'Country',
+                                  labelText: 'Country',
+                                ),
+                              )),
+                        ]),
+                  if (widget.app.includeInvoiceAddress ?? true)
+                    topicContainer(widget.app, context,
+                        title: 'Invoice address',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          checkboxListTile(
+                            widget.app,
+                            context,
+                            'Same as shipping address',
+                            memberState.model.invoiceSame ?? false,
+                            (value) {
+                              setState(() {
+                                memberState.model.invoiceSame = value ?? false;
+                              });
+                            },
+                          ),
+                          if (!(memberState.model.invoiceSame ?? false))
+                            getListTile(context, widget.app,
+                                leading: Icon(Icons.description),
+                                title: dialogField(
+                                  widget.app,
+                                  context,
+                                  initialValue:
+                                      memberState.model.invoiceStreet1,
+                                  valueChanged: (value) {
+                                    memberState.model.invoiceStreet1 = value;
+                                  },
+                                  maxLines: 1,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Address 1',
+                                    labelText: 'Address 1',
+                                  ),
+                                )),
+                          if (!(memberState.model.invoiceSame ?? false))
+                            getListTile(context, widget.app,
+                                leading: Icon(Icons.description),
+                                title: dialogField(
+                                  widget.app,
+                                  context,
+                                  initialValue:
+                                      memberState.model.invoiceStreet1,
+                                  valueChanged: (value) {
+                                    memberState.model.invoiceStreet1 = value;
+                                  },
+                                  maxLines: 1,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Address 2',
+                                    labelText: 'Address 2',
+                                  ),
+                                )),
+                          if (!(memberState.model.invoiceSame ?? false))
+                            getListTile(context, widget.app,
+                                leading: Icon(Icons.description),
+                                title: dialogField(
+                                  widget.app,
+                                  context,
+                                  initialValue: memberState.model.invoiceCity,
+                                  valueChanged: (value) {
+                                    memberState.model.invoiceCity = value;
+                                  },
+                                  maxLines: 1,
+                                  decoration: const InputDecoration(
+                                    hintText: 'City',
+                                    labelText: 'City',
+                                  ),
+                                )),
+                          if (!(memberState.model.invoiceSame ?? false))
+                            getListTile(context, widget.app,
+                                leading: Icon(Icons.description),
+                                title: dialogField(
+                                  widget.app,
+                                  context,
+                                  initialValue: memberState.model.invoiceState,
+                                  valueChanged: (value) {
+                                    memberState.model.invoiceState = value;
+                                  },
+                                  maxLines: 1,
+                                  decoration: const InputDecoration(
+                                    hintText: 'State',
+                                    labelText: 'State',
+                                  ),
+                                )),
+                          if (!(memberState.model.invoiceSame ?? false))
+                            getListTile(context, widget.app,
+                                leading: Icon(Icons.description),
+                                title: dialogField(
+                                  widget.app,
+                                  context,
+                                  initialValue:
+                                      memberState.model.invoicePostcode,
+                                  valueChanged: (value) {
+                                    memberState.model.invoicePostcode = value;
+                                  },
+                                  maxLines: 1,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Postcode',
+                                    labelText: 'Postcode',
+                                  ),
+                                )),
+                          if (!(memberState.model.invoiceSame ?? false))
+                            getListTile(context, widget.app,
+                                leading: Icon(Icons.description),
+                                title: dialogField(
+                                  widget.app,
+                                  context,
+                                  initialValue:
+                                      memberState.model.invoiceCountry,
+                                  valueChanged: (value) {
+                                    memberState.model.invoiceCountry = value;
+                                  },
+                                  maxLines: 1,
+                                  decoration: const InputDecoration(
+                                    hintText: 'Postcode',
+                                    labelText: 'Postcode',
+                                  ),
+                                )),
+                        ]),
+                  if (widget.app.includeSubscriptions ?? true)
+                    topicContainer(widget.app, context,
+                        title: 'Subscriptions',
+                        collapsible: true,
+                        collapsed: true,
+                        children: [
+                          _subscripions(memberState),
+                        ]),
                 ]);
           } else {
             return progressIndicator(widget.app, context);
@@ -413,7 +426,8 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
                         child: Icon(Icons.more_vert),
                         itemBuilder: (context) => [
                               popupMenuItem<int>(
-                                value.app, context,
+                                value.app,
+                                context,
                                 value: 2,
                                 label: 'Delete',
                               ),
@@ -473,7 +487,7 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
     openFlexibleDialog(
       widget.app,
       context,
-      widget.app.documentID + '/_linkmodel',
+      '${widget.app.documentID}/_linkmodel',
       includeHeading: false,
       widthFraction: .8,
       child: MemberSubscriptionModelWidget.getIt(

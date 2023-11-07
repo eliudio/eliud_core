@@ -102,7 +102,7 @@
       "displayName": "Layout type",
       "fieldType": "enum",
       "enumName": "PageLayout",
-      "enumValues" : [ "GridView", "ListView", "OnlyTheFirstComponent" ],
+      "enumValues" : [ "gridView", "listView", "onlyTheFirstComponent" ],
       "group": "layout"
     },
     {
@@ -111,7 +111,7 @@
       "remark": "Specific gridview",
       "fieldType": "GridView",
       "association": true,
-      "conditional": "(state.value!.layout == PageLayout.GridView)",
+      "conditional": "(state.value!.layout == PageLayout.gridView)",
       "group": "gridView"
     },
     {
@@ -157,7 +157,7 @@
     {
         "group": "gridView",
         "description": "GridView",
-        "conditional": "(state.value!.layout == PageLayout.GridView)"
+        "conditional": "(state.value!.layout == PageLayout.gridView)"
     },
     {
         "group": "conditional",
@@ -165,7 +165,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID))",
     "subTitle": "value.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.title!)) : Container()"
   }
 }

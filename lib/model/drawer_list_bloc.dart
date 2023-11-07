@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'drawer_model.dart';
 
-typedef List<DrawerModel?> FilterDrawerModels(List<DrawerModel?> values);
-
-
+typedef FilterDrawerModels = List<DrawerModel?> Function(
+    List<DrawerModel?> values);
 
 class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final FilterDrawerModels? filter;
@@ -39,23 +38,32 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   final bool? detailed;
   final int drawerLimit;
 
-  DrawerListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DrawerRepository drawerRepository, this.drawerLimit = 5})
+  DrawerListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required DrawerRepository drawerRepository,
+      this.drawerLimit = 5})
       : _drawerRepository = drawerRepository,
         super(DrawerListLoading()) {
-    on <LoadDrawerList> ((event, emit) {
+    on<LoadDrawerList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadDrawerListToState();
       } else {
         _mapLoadDrawerListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadDrawerListWithDetailsToState();
     });
-    
-    on <DrawerChangeQuery> ((event, emit) {
+
+    on<DrawerChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadDrawerListToState();
@@ -63,20 +71,20 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
         _mapLoadDrawerListWithDetailsToState();
       }
     });
-      
-    on <AddDrawerList> ((event, emit) async {
+
+    on<AddDrawerList>((event, emit) async {
       await _mapAddDrawerListToState(event);
     });
-    
-    on <UpdateDrawerList> ((event, emit) async {
+
+    on<UpdateDrawerList>((event, emit) async {
       await _mapUpdateDrawerListToState(event);
     });
-    
-    on <DeleteDrawerList> ((event, emit) async {
+
+    on<DeleteDrawerList>((event, emit) async {
       await _mapDeleteDrawerListToState(event);
     });
-    
-    on <DrawerListUpdated> ((event, emit) {
+
+    on<DrawerListUpdated>((event, emit) {
       emit(_mapDrawerListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
   }
 
   Future<void> _mapLoadDrawerListToState() async {
-    int amountNow =  (state is DrawerListLoaded) ? (state as DrawerListLoaded).values!.length : 0;
+    int amountNow = (state is DrawerListLoaded)
+        ? (state as DrawerListLoaded).values!.length
+        : 0;
     _drawersListSubscription?.cancel();
     _drawersListSubscription = _drawerRepository.listen(
-          (list) => add(DrawerListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * drawerLimit : null
-    );
-  }
-
-  Future<void> _mapLoadDrawerListWithDetailsToState() async {
-    int amountNow =  (state is DrawerListLoaded) ? (state as DrawerListLoaded).values!.length : 0;
-    _drawersListSubscription?.cancel();
-    _drawersListSubscription = _drawerRepository.listenWithDetails(
-            (list) => add(DrawerListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(DrawerListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * drawerLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * drawerLimit : null);
+  }
+
+  Future<void> _mapLoadDrawerListWithDetailsToState() async {
+    int amountNow = (state is DrawerListLoaded)
+        ? (state as DrawerListLoaded).values!.length
+        : 0;
+    _drawersListSubscription?.cancel();
+    _drawersListSubscription = _drawerRepository.listenWithDetails(
+        (list) => add(DrawerListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * drawerLimit : null);
   }
 
   Future<void> _mapAddDrawerListToState(AddDrawerList event) async {
@@ -134,8 +146,8 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
     }
   }
 
-  DrawerListLoaded _mapDrawerListUpdatedToState(
-      DrawerListUpdated event) => DrawerListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  DrawerListLoaded _mapDrawerListUpdatedToState(DrawerListUpdated event) =>
+      DrawerListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +155,3 @@ class DrawerListBloc extends Bloc<DrawerListEvent, DrawerListState> {
     return super.close();
   }
 }
-
-

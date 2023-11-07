@@ -20,44 +20,44 @@ import '../model/edge_insets_geometry_model.dart';
 class ListHelper {
   static List<String> getStringList(List<String?> list) {
     var newList = <String>[];
-    list.forEach((element) {
+    for (var element in list) {
       if (element != null) newList.add(element);
-    });
+    }
     return newList;
   }
 
   static List<MemberMediumModel> getMemberMediumModelList(
       List<MemberMediumModel?> list) {
     var newList = <MemberMediumModel>[];
-    list.forEach((element) {
+    for (var element in list) {
       if (element != null) newList.add(element);
-    });
+    }
     return newList;
   }
 
   static List<PlatformMediumModel> getPlatformMediumModelList(
       List<PlatformMediumModel?> list) {
     var newList = <PlatformMediumModel>[];
-    list.forEach((element) {
+    for (var element in list) {
       if (element != null) newList.add(element);
-    });
+    }
     return newList;
   }
 
   static List<PublicMediumModel> getPublicMediumModelList(
       List<PublicMediumModel?> list) {
     var newList = <PublicMediumModel>[];
-    list.forEach((element) {
+    for (var element in list) {
       if (element != null) newList.add(element);
-    });
+    }
     return newList;
   }
 
   static List<Uint8List> getUint8List(List<Uint8List?> list) {
     var newList = <Uint8List>[];
-    list.forEach((element) {
+    for (var element in list) {
       if (element != null) newList.add(element);
-    });
+    }
     return newList;
   }
 
@@ -91,59 +91,60 @@ class RgbHelper {
 class BoxDecorationHelper {
   static Alignment startAlignment(StartGradientPosition? start) {
     switch (start) {
-      case StartGradientPosition.TopLeft:
+      case StartGradientPosition.topLeft:
         return Alignment.topLeft;
-      case StartGradientPosition.TopCenter:
+      case StartGradientPosition.topCenter:
         return Alignment.topCenter;
-      case StartGradientPosition.TopRight:
+      case StartGradientPosition.topRight:
         return Alignment.topRight;
-      case StartGradientPosition.CenterLeft:
+      case StartGradientPosition.centerLeft:
         return Alignment.centerLeft;
-      case StartGradientPosition.Center:
+      case StartGradientPosition.center:
         return Alignment.center;
-      case StartGradientPosition.CenterRight:
+      case StartGradientPosition.centerRight:
         return Alignment.centerRight;
-      case StartGradientPosition.BottomLeft:
+      case StartGradientPosition.bottomLeft:
         return Alignment.bottomLeft;
-      case StartGradientPosition.BottomCenter:
+      case StartGradientPosition.bottomCenter:
         return Alignment.bottomCenter;
-      case StartGradientPosition.BottomRight:
+      case StartGradientPosition.bottomRight:
         return Alignment.bottomRight;
-      case StartGradientPosition.Unknown:
+      case StartGradientPosition.unknown:
+        return Alignment.topCenter;
+      case null:
         return Alignment.topCenter;
     }
-    return Alignment.topCenter;
   }
 
   static Alignment endAlignment(EndGradientPosition? endPos) {
     switch (endPos) {
-      case EndGradientPosition.TopLeft:
+      case EndGradientPosition.topLeft:
         return Alignment.topLeft;
-      case EndGradientPosition.TopCenter:
+      case EndGradientPosition.topCenter:
         return Alignment.topCenter;
-      case EndGradientPosition.TopRight:
+      case EndGradientPosition.topRight:
         return Alignment.topRight;
-      case EndGradientPosition.CenterLeft:
+      case EndGradientPosition.centerLeft:
         return Alignment.centerLeft;
-      case EndGradientPosition.Center:
+      case EndGradientPosition.center:
         return Alignment.center;
-      case EndGradientPosition.CenterRight:
+      case EndGradientPosition.centerRight:
         return Alignment.centerRight;
-      case EndGradientPosition.BottomLeft:
+      case EndGradientPosition.bottomLeft:
         return Alignment.bottomLeft;
-      case EndGradientPosition.BottomCenter:
+      case EndGradientPosition.bottomCenter:
         return Alignment.bottomCenter;
-      case EndGradientPosition.BottomRight:
+      case EndGradientPosition.bottomRight:
         return Alignment.bottomRight;
-      case EndGradientPosition.Unknown:
+      case EndGradientPosition.unknown:
+        return Alignment.bottomCenter;
+      case null:
         return Alignment.bottomCenter;
     }
-    return Alignment.bottomCenter;
   }
 
   static EdgeInsetsGeometry? _fromEdgeInsetsGeometryModel(
-      EdgeInsetsGeometryModel? eigm
-      ) {
+      EdgeInsetsGeometryModel? eigm) {
     if (eigm == null) return null;
     return EdgeInsets.only(
       left: eigm.left ?? 0,
@@ -154,19 +155,19 @@ class BoxDecorationHelper {
   }
 
   static EdgeInsetsGeometry? determinePadding(
-      AppModel app,
-      MemberModel? member,
-      BackgroundModel? bdm,
-      ) {
+    AppModel app,
+    MemberModel? member,
+    BackgroundModel? bdm,
+  ) {
     if (bdm == null) return null;
     return determinePadding2(app, member, bdm.padding);
   }
 
   static EdgeInsetsGeometry? determinePadding2(
-      AppModel app,
-      MemberModel? member,
-      EdgeInsetsGeometryModel? padding,
-      ) {
+    AppModel app,
+    MemberModel? member,
+    EdgeInsetsGeometryModel? padding,
+  ) {
     if (padding == null) return null;
     return _fromEdgeInsetsGeometryModel(padding);
   }
@@ -201,9 +202,9 @@ class BoxDecorationHelper {
         );
       }
     }
-    var borderRadius;
+    BorderRadius? borderRadius;
     if (bdm.borderRadius != null) {
-      if (bdm.borderRadius!.borderRadiusType == BorderRadiusType.Circular) {
+      if (bdm.borderRadius!.borderRadiusType == BorderRadiusType.circular) {
         borderRadius = BorderRadius.all(
             Radius.circular(bdm.borderRadius!.circularValue ?? 0));
       } else {
@@ -214,7 +215,7 @@ class BoxDecorationHelper {
       }
     }
     var border = bdm.border != null && bdm.border! ? Border.all() : null;
-    var image;
+    DecorationImage? image;
     if (overridingImage == null) {
       if ((bdm.useProfilePhotoAsBackground != null) &&
           bdm.useProfilePhotoAsBackground!) {
@@ -281,13 +282,13 @@ class BoxDecorationHelper {
           .map((color) => RgbHelper.color(rgbo: color.color))
           .toList();
       var stops = bdm.decorationColors!.map((stop) => stop.stop ?? 0).toList();
-      var noStops =
-          stops.where((stop) => (stop == null) || (stop < 0)).isNotEmpty;
+      var noStops = stops.where((stop) => (stop < 0)).isNotEmpty;
       var gradient = LinearGradient(
           begin: startAlignment(bdm.beginGradientPosition),
           end: endAlignment(bdm.endGradientPosition),
           colors: colors,
           stops: noStops ? null : stops);
+
       return BoxDecoration(
         gradient: gradient,
         image: image,
@@ -420,8 +421,9 @@ class IconHelper {
 
   static Icon getIconFromModelWithFlutterColor(
       {IconModel? iconModel, Color? color, String? semanticLabel}) {
-    if (iconModel == null)
+    if (iconModel == null) {
       return Icon(Icons.touch_app, color: color, semanticLabel: semanticLabel);
+    }
     if (iconModel.fontFamily == null) {
       return Icon(IconData(iconModel.codePoint!, fontFamily: 'MaterialIcons'),
           color: color, semanticLabel: semanticLabel);
@@ -443,40 +445,44 @@ class BoxFitHelper {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       switch (posSizeModel.fitLandscape) {
-        case LandscapeFitType.LandscapeFitWidth:
+        case LandscapeFitType.landscapeFitWidth:
           return BoxFit.fitWidth;
-        case LandscapeFitType.LandscapeFitHeight:
+        case LandscapeFitType.landscapeFitHeight:
           return BoxFit.fitHeight;
-        case LandscapeFitType.LandscapeFill:
+        case LandscapeFitType.landscapeFill:
           return BoxFit.fill;
-        case LandscapeFitType.LandscapeNone:
+        case LandscapeFitType.landscapeNone:
           return BoxFit.none;
-        case LandscapeFitType.LandscapeContain:
+        case LandscapeFitType.landscapeContain:
           return BoxFit.contain;
-        case LandscapeFitType.LandscapeCover:
+        case LandscapeFitType.landscapeCover:
           return BoxFit.cover;
-        case LandscapeFitType.LandscapeScaleDown:
+        case LandscapeFitType.landscapeScaleDown:
           return BoxFit.scaleDown;
-        case LandscapeFitType.Unknown:
+        case LandscapeFitType.unknown:
+          return null;
+        case null:
           return null;
       }
     } else {
       switch (posSizeModel.fitPortrait) {
-        case PortraitFitType.PortraitFitWidth:
+        case PortraitFitType.portraitFitWidth:
           return BoxFit.fitWidth;
-        case PortraitFitType.PortraitFitHeight:
+        case PortraitFitType.portraitFitHeight:
           return BoxFit.fitHeight;
-        case PortraitFitType.PortraitFill:
+        case PortraitFitType.portraitFill:
           return BoxFit.fill;
-        case PortraitFitType.PortraitNone:
+        case PortraitFitType.portraitNone:
           return BoxFit.none;
-        case PortraitFitType.PortraitContain:
+        case PortraitFitType.portraitContain:
           return BoxFit.contain;
-        case PortraitFitType.PortraitCover:
+        case PortraitFitType.portraitCover:
           return BoxFit.cover;
-        case PortraitFitType.PortraitScaleDown:
+        case PortraitFitType.portraitScaleDown:
           return BoxFit.scaleDown;
-        case PortraitFitType.Unknown:
+        case PortraitFitType.unknown:
+          return null;
+        case null:
           return null;
       }
     }
@@ -489,14 +495,14 @@ class BoxFitHelper {
     if (orientation == Orientation.landscape) {
       if (posSizeModel.widthLandscape == 0) return null;
       if (posSizeModel.widthLandscape == null) return null;
-      if (posSizeModel.widthTypeLandscape == WidthTypeLandscape.AbsoluteWidth) {
+      if (posSizeModel.widthTypeLandscape == WidthTypeLandscape.absoluteWidth) {
         return posSizeModel.widthLandscape;
       }
       return fullScreenWidth(context) * posSizeModel.widthLandscape!;
     } else {
       if (posSizeModel.widthPortrait == 0) return null;
       if (posSizeModel.widthPortrait == null) return null;
-      if (posSizeModel.widthTypePortrait == WidthTypePortrait.AbsoluteWidth) {
+      if (posSizeModel.widthTypePortrait == WidthTypePortrait.absoluteWidth) {
         return posSizeModel.widthPortrait;
       }
       return fullScreenWidth(context) * posSizeModel.widthPortrait!;
@@ -510,7 +516,7 @@ class BoxFitHelper {
       if (posSizeModel.heightLandscape == null) return null;
       if (posSizeModel.heightLandscape == 0) return null;
       if (posSizeModel.heightTypeLandscape ==
-          HeightTypeLandscape.AbsoluteHeight) {
+          HeightTypeLandscape.absoluteHeight) {
         return posSizeModel.heightLandscape;
       }
       return fullScreenHeight(context) * posSizeModel.heightLandscape!;
@@ -518,7 +524,7 @@ class BoxFitHelper {
       if (posSizeModel.heightPortrait == 0) return null;
       if (posSizeModel.heightPortrait == null) return null;
       if (posSizeModel.heightTypePortrait ==
-          HeightTypePortrait.AbsoluteHeight) {
+          HeightTypePortrait.absoluteHeight) {
         return posSizeModel.heightPortrait;
       }
       return fullScreenHeight(context) * posSizeModel.heightPortrait!;
@@ -530,49 +536,53 @@ class BoxFitHelper {
     if (posSizeModel == null) return null;
     if (orientation == Orientation.landscape) {
       switch (posSizeModel.alignTypeLandscape) {
-        case LandscapeAlignType.LandscapeAlignTopLeft:
+        case LandscapeAlignType.landscapeAlignTopLeft:
           return Alignment.topLeft;
-        case LandscapeAlignType.LandscapeAlignTopCenter:
+        case LandscapeAlignType.landscapeAlignTopCenter:
           return Alignment.topCenter;
-        case LandscapeAlignType.LandscapeAlignTopRight:
+        case LandscapeAlignType.landscapeAlignTopRight:
           return Alignment.topRight;
-        case LandscapeAlignType.LandscapeAlignCenterLeft:
+        case LandscapeAlignType.landscapeAlignCenterLeft:
           return Alignment.centerRight;
-        case LandscapeAlignType.LandscapeAlignCenter:
+        case LandscapeAlignType.landscapeAlignCenter:
           return Alignment.center;
-        case LandscapeAlignType.LandscapeAlignCenterRight:
+        case LandscapeAlignType.landscapeAlignCenterRight:
           return Alignment.centerRight;
-        case LandscapeAlignType.LandscapeAlignBottomLeft:
+        case LandscapeAlignType.landscapeAlignBottomLeft:
           return Alignment.bottomLeft;
-        case LandscapeAlignType.LandscapeAlignBottomCenter:
+        case LandscapeAlignType.landscapeAlignBottomCenter:
           return Alignment.bottomCenter;
-        case LandscapeAlignType.LandscapeAlignBottomRight:
+        case LandscapeAlignType.landscapeAlignBottomRight:
           return Alignment.bottomRight;
-        case LandscapeAlignType.Unknown:
+        case LandscapeAlignType.unknown:
           return Alignment.bottomRight;
+        case null:
+          return null;
       }
     } else {
       switch (posSizeModel.alignTypePortrait) {
-        case PortraitAlignType.PortraitAlignTopLeft:
+        case PortraitAlignType.portraitAlignTopLeft:
           return Alignment.topLeft;
-        case PortraitAlignType.PortraitAlignTopCenter:
+        case PortraitAlignType.portraitAlignTopCenter:
           return Alignment.topCenter;
-        case PortraitAlignType.PortraitAlignTopRight:
+        case PortraitAlignType.portraitAlignTopRight:
           return Alignment.topRight;
-        case PortraitAlignType.PortraitAlignCenterLeft:
+        case PortraitAlignType.portraitAlignCenterLeft:
           return Alignment.centerRight;
-        case PortraitAlignType.PortraitAlignCenter:
+        case PortraitAlignType.portraitAlignCenter:
           return Alignment.center;
-        case PortraitAlignType.PortraitAlignCenterRight:
+        case PortraitAlignType.portraitAlignCenterRight:
           return Alignment.centerRight;
-        case PortraitAlignType.PortraitAlignBottomLeft:
+        case PortraitAlignType.portraitAlignBottomLeft:
           return Alignment.bottomLeft;
-        case PortraitAlignType.PortraitAlignBottomCenter:
+        case PortraitAlignType.portraitAlignBottomCenter:
           return Alignment.bottomCenter;
-        case PortraitAlignType.PortraitAlignBottomRight:
+        case PortraitAlignType.portraitAlignBottomRight:
           return Alignment.bottomRight;
-        case PortraitAlignType.Unknown:
+        case PortraitAlignType.unknown:
           return Alignment.bottomRight;
+        case null:
+          return null;
       }
     }
     return null;
@@ -583,17 +593,17 @@ abstract class ListTool<T> {
   static List<T> copyAllExcept<T>(
       List<T> original, bool Function(T t) exclude) {
     var newList = <T>[];
-    original.forEach((element) {
+    for (var element in original) {
       if (!exclude(element)) newList.add(element);
-    });
+    }
     return newList;
   }
 
   static List<T> addAllExcept<T>(
       List<T> original, List<T> addHere, bool Function(T t) exclude) {
-    original.forEach((element) {
+    for (var element in original) {
       if (!exclude(element)) addHere.add(element);
-    });
+    }
     return addHere;
   }
 }

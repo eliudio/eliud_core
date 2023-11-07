@@ -21,9 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/style/style_registry.dart';
 
-
-
-
 import 'package:eliud_core/tools/bespoke_formfields.dart';
 
 import 'package:eliud_core/tools/enums.dart';
@@ -36,49 +33,62 @@ import 'package:eliud_core/model/body_component_form_bloc.dart';
 import 'package:eliud_core/model/body_component_form_event.dart';
 import 'package:eliud_core/model/body_component_form_state.dart';
 
-
 class BodyComponentForm extends StatelessWidget {
   final AppModel app;
-  FormAction formAction;
-  BodyComponentModel? value;
-  ActionModel? submitAction;
+  final FormAction formAction;
+  final BodyComponentModel? value;
+  final ActionModel? submitAction;
 
-  BodyComponentForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  BodyComponentForm(
+      {super.key,
+      required this.app,
+      required this.formAction,
+      required this.value,
+      this.submitAction});
 
+  /// Build the BodyComponentForm
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
+    //var accessState = AccessBloc.getState(context);
     var appId = app.documentID;
-    if (formAction == FormAction.ShowData) {
-      return BlocProvider<BodyComponentFormBloc >(
-            create: (context) => BodyComponentFormBloc(appId,
-                                       
-                                                )..add(InitialiseBodyComponentFormEvent(value: value)),
-  
-        child: MyBodyComponentForm(app:app, submitAction: submitAction, formAction: formAction),
-          );
-    } if (formAction == FormAction.ShowPreloadedData) {
-      return BlocProvider<BodyComponentFormBloc >(
-            create: (context) => BodyComponentFormBloc(appId,
-                                       
-                                                )..add(InitialiseBodyComponentFormNoLoadEvent(value: value)),
-  
-        child: MyBodyComponentForm(app:app, submitAction: submitAction, formAction: formAction),
-          );
+    if (formAction == FormAction.showData) {
+      return BlocProvider<BodyComponentFormBloc>(
+        create: (context) => BodyComponentFormBloc(
+          appId,
+        )..add(InitialiseBodyComponentFormEvent(value: value)),
+        child: MyBodyComponentForm(
+            app: app, submitAction: submitAction, formAction: formAction),
+      );
+    }
+    if (formAction == FormAction.showPreloadedData) {
+      return BlocProvider<BodyComponentFormBloc>(
+        create: (context) => BodyComponentFormBloc(
+          appId,
+        )..add(InitialiseBodyComponentFormNoLoadEvent(value: value)),
+        child: MyBodyComponentForm(
+            app: app, submitAction: submitAction, formAction: formAction),
+      );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update BodyComponent' : 'Add BodyComponent'),
-        body: BlocProvider<BodyComponentFormBloc >(
-            create: (context) => BodyComponentFormBloc(appId,
-                                       
-                                                )..add((formAction == FormAction.UpdateAction ? InitialiseBodyComponentFormEvent(value: value) : InitialiseNewBodyComponentFormEvent())),
-  
-        child: MyBodyComponentForm(app: app, submitAction: submitAction, formAction: formAction),
+          appBar: StyleRegistry.registry()
+              .styleWithApp(app)
+              .adminFormStyle()
+              .appBarWithString(app, context,
+                  title: formAction == FormAction.updateAction
+                      ? 'Update BodyComponent'
+                      : 'Add BodyComponent'),
+          body: BlocProvider<BodyComponentFormBloc>(
+            create: (context) => BodyComponentFormBloc(
+              appId,
+            )..add((formAction == FormAction.updateAction
+                ? InitialiseBodyComponentFormEvent(value: value)
+                : InitialiseNewBodyComponentFormEvent())),
+            child: MyBodyComponentForm(
+                app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
-
 
 class MyBodyComponentForm extends StatefulWidget {
   final AppModel app;
@@ -87,16 +97,14 @@ class MyBodyComponentForm extends StatefulWidget {
 
   MyBodyComponentForm({required this.app, this.formAction, this.submitAction});
 
-  _MyBodyComponentFormState createState() => _MyBodyComponentFormState(this.formAction);
+  @override
+  State<MyBodyComponentForm> createState() =>
+      _MyBodyComponentFormState(formAction);
 }
-
 
 class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
   final FormAction? formAction;
   late BodyComponentFormBloc _myFormBloc;
-
-  final TextEditingController _documentIDController = TextEditingController();
-
 
   _MyBodyComponentFormState(this.formAction);
 
@@ -104,132 +112,148 @@ class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
   void initState() {
     super.initState();
     _myFormBloc = BlocProvider.of<BodyComponentFormBloc>(context);
-    _documentIDController.addListener(_onDocumentIDChanged);
   }
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    return BlocBuilder<BodyComponentFormBloc, BodyComponentFormState>(builder: (context, state) {
-      if (state is BodyComponentFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
-      );
-
-      if (state is BodyComponentFormLoaded) {
-        if (state.value!.documentID != null)
-          _documentIDController.text = state.value!.documentID.toString();
-        else
-          _documentIDController.text = "";
+    return BlocBuilder<BodyComponentFormBloc, BodyComponentFormState>(
+        builder: (context, state) {
+      if (state is BodyComponentFormUninitialized) {
+        return Center(
+          child: StyleRegistry.registry()
+              .styleWithApp(widget.app)
+              .adminListStyle()
+              .progressIndicator(widget.app, context),
+        );
       }
+
+      if (state is BodyComponentFormLoaded) {}
       if (state is BodyComponentFormInitialized) {
         List<Widget> children = [];
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Component')
-                ));
+        children.add(Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminFormStyle()
+                .groupTitle(widget.app, context, 'Component')));
 
-        children.add(
-
-                ExtensionTypeField(widget.app, state.value!.componentName, _onComponentNameChanged)
-          );
-
-
-        children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
-
-
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Component spec')
-                ));
-
-        children.add(
-
-                ComponentIdField(widget.app, componentName: state.value!.componentName, value: state.value!.componentId, trigger: (value, _) => _onComponentIdChanged(value))
-          );
-
+        children.add(ExtensionTypeField(
+            widget.app, state.value!.componentName, _onComponentNameChanged));
 
         children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .divider(widget.app, context));
 
+        children.add(Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminFormStyle()
+                .groupTitle(widget.app, context, 'Component spec')));
 
-        if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
-                  onPressed: _readOnly(accessState, state) ? null : () {
-                    if (state is BodyComponentFormError) {
-                      return null;
-                    } else {
-                      if (formAction == FormAction.UpdateAction) {
-                        BlocProvider.of<BodyComponentListBloc>(context).add(
-                          UpdateBodyComponentList(value: state.value!.copyWith(
-                              documentID: state.value!.documentID, 
-                              componentName: state.value!.componentName, 
-                              componentId: state.value!.componentId, 
-                        )));
-                      } else {
-                        BlocProvider.of<BodyComponentListBloc>(context).add(
-                          AddBodyComponentList(value: BodyComponentModel(
-                              documentID: state.value!.documentID, 
-                              componentName: state.value!.componentName, 
-                              componentId: state.value!.componentId, 
-                          )));
-                      }
-                      if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    }
-                  },
-                ));
+        children.add(ComponentIdField(widget.app,
+            componentName: state.value!.componentName,
+            originalValue: state.value!.componentId,
+            trigger: (value, _) => _onComponentIdChanged(value)));
 
-        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
-            child: ListView(
-              padding: const EdgeInsets.all(8),
-              physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
-              shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
-            ),
-          ), formAction!
-        );
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .divider(widget.app, context));
+
+        if ((formAction != FormAction.showData) &&
+            (formAction != FormAction.showPreloadedData)) {
+          children.add(StyleRegistry.registry()
+              .styleWithApp(widget.app)
+              .adminFormStyle()
+              .button(
+                widget.app,
+                context,
+                label: 'Submit',
+                onPressed: _readOnly(accessState, state)
+                    ? null
+                    : () {
+                        if (state is BodyComponentFormError) {
+                          return;
+                        } else {
+                          if (formAction == FormAction.updateAction) {
+                            BlocProvider.of<BodyComponentListBloc>(context)
+                                .add(UpdateBodyComponentList(
+                                    value: state.value!.copyWith(
+                              documentID: state.value!.documentID,
+                              componentName: state.value!.componentName,
+                              componentId: state.value!.componentId,
+                            )));
+                          } else {
+                            BlocProvider.of<BodyComponentListBloc>(context)
+                                .add(AddBodyComponentList(
+                                    value: BodyComponentModel(
+                              documentID: state.value!.documentID,
+                              componentName: state.value!.componentName,
+                              componentId: state.value!.componentId,
+                            )));
+                          }
+                          if (widget.submitAction != null) {
+                            eliudrouter.Router.navigateTo(
+                                context, widget.submitAction!);
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
+              ));
+        }
+
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .container(
+                widget.app,
+                context,
+                Form(
+                  child: ListView(
+                      padding: const EdgeInsets.all(8),
+                      physics: ((formAction == FormAction.showData) ||
+                              (formAction == FormAction.showPreloadedData))
+                          ? NeverScrollableScrollPhysics()
+                          : null,
+                      shrinkWrap: ((formAction == FormAction.showData) ||
+                          (formAction == FormAction.showPreloadedData)),
+                      children: children),
+                ),
+                formAction!);
       } else {
-        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminListStyle()
+            .progressIndicator(widget.app, context);
       }
     });
   }
 
-  void _onDocumentIDChanged() {
-    _myFormBloc.add(ChangedBodyComponentDocumentID(value: _documentIDController.text));
-  }
-
-
   void _onComponentNameChanged(value) {
     _myFormBloc.add(ChangedBodyComponentComponentName(value: value));
-    
   }
-
 
   void _onComponentIdChanged(value) {
     _myFormBloc.add(ChangedBodyComponentComponentId(value: value));
-    
   }
-
-
 
   @override
   void dispose() {
-    _documentIDController.dispose();
     super.dispose();
   }
 
+  /// Is the form read-only?
   bool _readOnly(AccessState accessState, BodyComponentFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
+    return (formAction == FormAction.showData) ||
+        (formAction == FormAction.showPreloadedData) ||
+        (!accessState.memberIsOwner(widget.app.documentID));
   }
-  
-
 }
-
-
-

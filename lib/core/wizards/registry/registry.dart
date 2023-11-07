@@ -36,9 +36,9 @@ class ActionSpecificationParametersBase extends NewAppWizardParameters {
 
 enum MenuType { leftDrawerMenu, rightDrawerMenu, appBarMenu, bottomNavBarMenu }
 
-typedef HomeMenuModel HomeMenuProvider();
-typedef AppBarModel AppBarProvider();
-typedef DrawerModel DrawerProvider();
+typedef HomeMenuProvider = HomeMenuModel Function();
+typedef AppBarProvider = AppBarModel Function();
+typedef DrawerProvider = DrawerModel Function();
 
 typedef NewAppTask = Future<void> Function();
 
@@ -50,8 +50,8 @@ abstract class NewAppWizardInfo {
 
   NewAppWizardInfo(this.newAppWizardName, this.displayName);
 
-  Widget wizardParametersWidget(AppModel app,
-      BuildContext context, NewAppWizardParameters parameters);
+  Widget wizardParametersWidget(
+      AppModel app, BuildContext context, NewAppWizardParameters parameters);
 
   /*
    * A new instance of this wizard is initialised, e.g. because we create a new app
@@ -117,11 +117,11 @@ abstract class NewAppWizardInfo {
    *
    */
   ActionModel? getAction(
-      String uniqueId,
-      NewAppWizardParameters parameters,
-      AppModel app,
-      String actionType,
-      );
+    String uniqueId,
+    NewAppWizardParameters parameters,
+    AppModel app,
+    String actionType,
+  );
 
   /*
    * getPublicMediumModel serves the same purpose as getPageID but then for a public image.
@@ -134,37 +134,56 @@ abstract class NewAppWizardInfo {
 
   @override
   String toString() {
-    return this.runtimeType.toString() +
-        '{newAppWizardName: $newAppWizardName, displayName: $displayName}';
+    return '$runtimeType{newAppWizardName: $newAppWizardName, displayName: $displayName}';
   }
 }
 
 abstract class NewAppWizardInfoDefaultImpl extends NewAppWizardInfo {
-  NewAppWizardInfoDefaultImpl(String newAppWizardName, String displayName) : super(newAppWizardName, displayName);
+  NewAppWizardInfoDefaultImpl(super.newAppWizardName, super.displayName);
 
   @override
-  ActionModel? getAction(String uniqueId, NewAppWizardParameters parameters, AppModel app, String actionType) => null;
+  ActionModel? getAction(String uniqueId, NewAppWizardParameters parameters,
+          AppModel app, String actionType) =>
+      null;
 
   @override
-  List<NewAppTask>? getCreateTasks(String uniqueId, AppModel app, NewAppWizardParameters parameters, MemberModel member, HomeMenuProvider homeMenuProvider, AppBarProvider appBarProvider, DrawerProvider leftDrawerProvider, DrawerProvider rightDrawerProvider, ) => null;
+  List<NewAppTask>? getCreateTasks(
+    String uniqueId,
+    AppModel app,
+    NewAppWizardParameters parameters,
+    MemberModel member,
+    HomeMenuProvider homeMenuProvider,
+    AppBarProvider appBarProvider,
+    DrawerProvider leftDrawerProvider,
+    DrawerProvider rightDrawerProvider,
+  ) =>
+      null;
 
   @override
-  List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app, NewAppWizardParameters parameters, MenuType type) => null;
+  List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app,
+          NewAppWizardParameters parameters, MenuType type) =>
+      null;
 
   @override
-  String? getPageID(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
+  String? getPageID(String uniqueId, NewAppWizardParameters parameters,
+          String pageType) =>
+      null;
 
   @override
-  PublicMediumModel? getPublicMediumModel(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
+  PublicMediumModel? getPublicMediumModel(String uniqueId,
+          NewAppWizardParameters parameters, String mediumType) =>
+      null;
 
   @override
-  AppModel updateApp(String uniqueId, NewAppWizardParameters parameters, AppModel adjustMe) => adjustMe;
+  AppModel updateApp(String uniqueId, NewAppWizardParameters parameters,
+          AppModel adjustMe) =>
+      adjustMe;
 
   @override
-  Widget wizardParametersWidget(AppModel app, BuildContext context, NewAppWizardParameters parameters) {
+  Widget wizardParametersWidget(
+      AppModel app, BuildContext context, NewAppWizardParameters parameters) {
     throw UnimplementedError();
   }
-
 }
 
 /*
@@ -192,11 +211,8 @@ class NewAppWizardRegistry {
             element != null &&
             element.newAppWizardName == newAppWizardInfo.newAppWizardName);
     if (found != null) {
-      throw Exception("Adding " +
-          newAppWizardInfo.toString() +
-          " clashes with existing entry " +
-          found.toString() +
-          ". Both have the same newAppWizardName. These must be unique");
+      throw Exception(
+          "Adding $newAppWizardInfo clashes with existing entry $found. Both have the same newAppWizardName. These must be unique");
     }
     registeredNewAppWizardInfos.add(newAppWizardInfo);
   }

@@ -12,23 +12,32 @@ class DefaultButtonImpl implements HasButton {
 
   @override
   Widget button(AppModel app, BuildContext context,
-      {Icon? icon, required String label, String? tooltip, VoidCallback? onPressed}) {
+      {Icon? icon,
+      required String label,
+      String? tooltip,
+      VoidCallback? onPressed}) {
     if (icon != null) {
-      return iconButton(app, context, onPressed: onPressed, tooltip: tooltip, icon: icon);
+      return iconButton(app, context,
+          onPressed: onPressed, tooltip: tooltip, icon: icon);
     } else {
-      return _textButton(app, context, label: label, tooltip: tooltip, onPressed: onPressed);
+      return _textButton(app, context,
+          label: label, tooltip: tooltip, onPressed: onPressed);
     }
   }
 
   Widget _textButton(AppModel app, BuildContext context,
-  {VoidCallback? onPressed, required String label, String? tooltip, bool? selected}) {
+      {VoidCallback? onPressed,
+      required String label,
+      String? tooltip,
+      bool? selected}) {
     var returnMe = TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
           foregroundColor: Colors.pink,
         ),
-        child: selected != null && selected ? _frontEndStyle.textStyle().highLight1(app, context, label) : _frontEndStyle.textStyle().text(app, context, label)
-    );
+        child: selected != null && selected
+            ? _frontEndStyle.textStyle().highLight1(app, context, label)
+            : _frontEndStyle.textStyle().text(app, context, label));
     if (tooltip == null) {
       return returnMe;
     } else {
@@ -36,11 +45,17 @@ class DefaultButtonImpl implements HasButton {
     }
   }
 
-
   @override
   Widget dialogButton(AppModel app, BuildContext context,
-      {VoidCallback? onPressed, required String label, String? tooltip, bool? selected}) {
-    return _textButton(app, context, label: label, onPressed: onPressed, tooltip: tooltip, selected: selected);
+      {VoidCallback? onPressed,
+      required String label,
+      String? tooltip,
+      bool? selected}) {
+    return _textButton(app, context,
+        label: label,
+        onPressed: onPressed,
+        tooltip: tooltip,
+        selected: selected);
   }
 
   @override
@@ -54,7 +69,8 @@ class DefaultButtonImpl implements HasButton {
     for (var i = 0; i < labels.length; i++) {
       var label = labels[i];
       var function = functions[i];
-      buttons.add(dialogButton(app, context, onPressed: function, label: label));
+      buttons
+          .add(dialogButton(app, context, onPressed: function, label: label));
     }
     return buttons;
   }
@@ -66,22 +82,31 @@ class DefaultButtonImpl implements HasButton {
       String? tooltip,
       required Widget icon}) {
     return IconButton(
-            icon: icon, color: color, tooltip: tooltip, onPressed: onPressed);
+        icon: icon, color: color, tooltip: tooltip, onPressed: onPressed);
   }
 
   @override
   Widget simpleButton(AppModel app, BuildContext context,
       {VoidCallback? onPressed, required String label}) {
-    return TextButton(onPressed: onPressed, child: text(app, context, label),);
+    return TextButton(
+      onPressed: onPressed,
+      child: text(app, context, label),
+    );
   }
 
   @override
-  PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context, {required String label, bool enabled = true, T? value}) {
-    return PopupMenuItem<T>(child: text(app, context, label), enabled: enabled, value: value);
+  PopupMenuItem<T> popupMenuItem<T>(AppModel app, BuildContext context,
+      {required String label, bool enabled = true, T? value}) {
+    return PopupMenuItem<T>(
+        child: text(app, context, label), enabled: enabled, value: value);
   }
 
   @override
-  PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context, {String? tooltip, Widget? child, Widget? icon, required PopupMenuItemBuilder<T> itemBuilder,
+  PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context,
+      {String? tooltip,
+      Widget? child,
+      Widget? icon,
+      required PopupMenuItemBuilder<T> itemBuilder,
       PopupMenuItemSelected<T>? onSelected}) {
     return PopupMenuButton<T>(
         tooltip: tooltip,
@@ -93,12 +118,20 @@ class DefaultButtonImpl implements HasButton {
   }
 
   @override
-  PopupMenuDivider popupMenuDivider(AppModel app, BuildContext context) => PopupMenuDivider();
+  PopupMenuDivider popupMenuDivider(AppModel app, BuildContext context) =>
+      PopupMenuDivider();
 
   @override
-  DropdownButton<T> dropdownButton<T>(AppModel app, BuildContext context, {T? value, List<DropdownMenuItem<T>>? items, Widget? hint, ValueChanged<T?>? onChanged,
+  DropdownButton<T> dropdownButton<T>(
+    AppModel app,
+    BuildContext context, {
+    T? value,
+    List<DropdownMenuItem<T>>? items,
+    Widget? hint,
+    ValueChanged<T?>? onChanged,
     bool isDense = false,
-    bool isExpanded = false,}) {
+    bool isExpanded = false,
+  }) {
     return DropdownButton<T>(
       value: value,
       items: items,

@@ -9,7 +9,7 @@ class DelayedCircularProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var vColor;
+    Animation<Color>? vColor;
     if (valueColor == null) {
       vColor = AlwaysStoppedAnimation<Color>(Colors.white);
     } else {
@@ -17,7 +17,6 @@ class DelayedCircularProgressIndicator extends StatelessWidget {
     }
     return DelayedDisplay(
         delay: Duration(seconds: 1),
-        child:CircularProgressIndicator(valueColor: vColor)
-    );
+        child: CircularProgressIndicator(valueColor: vColor));
   }
 }

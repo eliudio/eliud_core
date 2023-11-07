@@ -1011,7 +1011,9 @@ List<ExtendedIconData> allIcons = [
 ];
 
 Future<IconData?> showIconPicker(
-    {required AppModel app, required BuildContext context, IconData? defaultIcon}) async {
+    {required AppModel app,
+    required BuildContext context,
+    IconData? defaultIcon}) async {
   var selectedIcon = defaultIcon;
 
   await showDialog(
@@ -1023,39 +1025,44 @@ Future<IconData?> showIconPicker(
               height: 400,
               alignment: Alignment.center,
               child: GridView.builder(
-                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                      maxCrossAxisExtent: 120,
-                      childAspectRatio: 1 / 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10),
-                  itemCount: allIcons.length,
-                  itemBuilder: (_, index) => Container(width: 200, height: 200, child: ListView(
-                          shrinkWrap: true, physics: ScrollPhysics(),
-                          children: [
-                            Center(
-                                child: IconButton(
-                                  color: selectedIcon == allIcons[index].iconData
-                                      ? Colors.blue
-                                      : Colors.green,
-                                  iconSize: 30,
-                                  icon: Icon(
-                                    allIcons[index].iconData,
-                                  ),
-                                  onPressed: () {
-                                    selectedIcon = allIcons[index].iconData;
-                                    Navigator.of(context).pop();
-                                  },
-                                )),
-                            Center(child: smallText(app, context, allIcons[index].name)),
-                          ],
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 120,
+                    childAspectRatio: 1 / 1,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10),
+                itemCount: allIcons.length,
+                itemBuilder: (_, index) => Container(
+                    width: 200,
+                    height: 200,
+                    child: ListView(
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      children: [
+                        Center(
+                            child: IconButton(
+                          color: selectedIcon == allIcons[index].iconData
+                              ? Colors.blue
+                              : Colors.green,
+                          iconSize: 30,
+                          icon: Icon(
+                            allIcons[index].iconData,
+                          ),
+                          onPressed: () {
+                            selectedIcon = allIcons[index].iconData;
+                            Navigator.of(context).pop();
+                          },
                         )),
-                      ),
+                        Center(
+                            child:
+                                smallText(app, context, allIcons[index].name)),
+                      ],
+                    )),
+              ),
             ),
             actions: [
-              button(app, context, label: 'Close',
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  }),
+              button(app, context, label: 'Close', onPressed: () {
+                Navigator.of(context).pop();
+              }),
             ],
           ));
 

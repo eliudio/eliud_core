@@ -9,13 +9,11 @@ abstract class ExtendedAppBarComponentEvent extends Equatable {
 class ExtendedAppBarInitEvent extends ExtendedAppBarComponentEvent {
   final AppBarModel value;
 
-  ExtendedAppBarInitEvent({ required this.value });
+  ExtendedAppBarInitEvent({required this.value});
 }
 
 class ExtendedAppBarComponentUpdated extends ExtendedAppBarComponentEvent {
   final AppBarModel value;
 
-  ExtendedAppBarComponentUpdated({ required this.value });
+  ExtendedAppBarComponentUpdated({required this.value});
 }
-
-

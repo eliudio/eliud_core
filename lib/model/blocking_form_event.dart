@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class BlockingFormEvent extends Equatable {
   const BlockingFormEvent();
@@ -26,15 +25,13 @@ abstract class BlockingFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewBlockingFormEvent extends BlockingFormEvent {
-}
-
+class InitialiseNewBlockingFormEvent extends BlockingFormEvent {}
 
 class InitialiseBlockingFormEvent extends BlockingFormEvent {
   final BlockingModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseBlockingFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseBlockingFormNoLoadEvent extends BlockingFormEvent {
   final BlockingModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseBlockingFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedBlockingDocumentID extends BlockingFormEvent {
   ChangedBlockingDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBlockingDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedBlockingMemberBlocking extends BlockingFormEvent {
   ChangedBlockingMemberBlocking({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBlockingMemberBlocking{ value: $value }';
@@ -78,9 +75,8 @@ class ChangedBlockingMemberBeingBlocked extends BlockingFormEvent {
   ChangedBlockingMemberBeingBlocked({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBlockingMemberBeingBlocked{ value: $value }';
 }
-

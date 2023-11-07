@@ -13,5 +13,14 @@ class PageBuilder {
   final DrawerModel leftDrawer;
   final DrawerModel rightDrawer;
 
-  PageBuilder(this.uniqueId, this.pageId, this.app, this.memberId, this.theHomeMenu, this.theAppBar, this.leftDrawer, this.rightDrawer, );
+  PageBuilder(
+    this.uniqueId,
+    this.pageId,
+    this.app,
+    this.memberId,
+    this.theHomeMenu,
+    this.theAppBar,
+    this.leftDrawer,
+    this.rightDrawer,
+  );
 }

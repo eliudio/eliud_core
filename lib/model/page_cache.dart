@@ -25,12 +25,13 @@ import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class PageCache implements PageRepository {
-
   final PageRepository reference;
-  final Map<String?, PageModel?> fullCache = Map();
+  final Map<String?, PageModel?> fullCache = {};
 
   PageCache(this.reference);
 
+  /// Add a PageModel to the repository, cached
+  @override
   Future<PageModel> add(PageModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value.documentID] = newValue;
@@ -38,20 +39,28 @@ class PageCache implements PageRepository {
     });
   }
 
+  /// Add a PageEntity to the repository, cached
+  @override
   Future<PageEntity> addEntity(String documentID, PageEntity value) {
     return reference.addEntity(documentID, value);
   }
 
+  /// Update a PageEntity in the repository, cached
+  @override
   Future<PageEntity> updateEntity(String documentID, PageEntity value) {
     return reference.updateEntity(documentID, value);
   }
 
-  Future<void> delete(PageModel value){
+  /// Delete a PageModel from the repository, cached
+  @override
+  Future<void> delete(PageModel value) {
     fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
 
+  /// Retrieve a PageModel with it's id, cached
+  @override
   Future<PageModel?> get(String? id, {Function(Exception)? onError}) async {
     var value = fullCache[id];
     if (value != null) return refreshRelations(value);
@@ -60,6 +69,8 @@ class PageCache implements PageRepository {
     return value;
   }
 
+  /// Update a PageModel
+  @override
   Future<PageModel> update(PageModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value.documentID] = newValue;
@@ -67,40 +78,104 @@ class PageCache implements PageRepository {
     });
   }
 
+  /// Retrieve list of List<PageModel?>
   @override
-  Stream<List<PageModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
-    return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  Stream<List<PageModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return reference.values(
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        setLastDoc: setLastDoc,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<PageModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
-    return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  Stream<List<PageModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return reference.valuesWithDetails(
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        setLastDoc: setLastDoc,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<PageModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
-    return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
-  }
-  
-  @override
-  Future<List<PageModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
-    return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  Future<List<PageModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
+    return await reference.valuesList(
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        setLastDoc: setLastDoc,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
+  @override
+  Future<List<PageModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
+    return await reference.valuesListWithDetails(
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        setLastDoc: setLastDoc,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
+  }
+
+  @override
   void flush() {
     fullCache.clear();
   }
-  
+
+  @override
   String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
-  } 
+  }
 
+  @override
   dynamic getSubCollection(String documentId, String name) {
     return reference.getSubCollection(documentId, name);
   }
 
-  Future<PageModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
-    return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
+  @override
+  Future<PageModel> changeValue(
+      String documentId, String fieldName, num changeByThisValue) {
+    return reference
+        .changeValue(documentId, fieldName, changeByThisValue)
+        .then((newValue) {
       fullCache[documentId] = newValue;
       return newValue!;
     });
@@ -116,22 +191,49 @@ class PageCache implements PageRepository {
     return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  @override
   Future<void> deleteAll() {
     return reference.deleteAll();
   }
 
   @override
-  StreamSubscription<List<PageModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  StreamSubscription<List<PageModel?>> listen(trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return reference.listen(trigger,
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<PageModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  StreamSubscription<List<PageModel?>> listenWithDetails(trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return reference.listenWithDetails(trigger,
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<PageModel?> listenTo(String documentId, PageChanged changed, {PageErrorHandler? errorHandler}) {
+  StreamSubscription<PageModel?> listenTo(
+      String documentId, PageChanged changed,
+      {PageErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
@@ -141,11 +243,12 @@ class PageCache implements PageRepository {
   }
 
   static Future<PageModel> refreshRelations(PageModel model) async {
-
     AppBarModel? appBarHolder;
     if (model.appBar != null) {
       try {
-        await appBarRepository(appId: model.appId)!.get(model.appBar!.documentID).then((val) {
+        await appBarRepository(appId: model.appId)!
+            .get(model.appBar!.documentID)
+            .then((val) {
           appBarHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -154,7 +257,9 @@ class PageCache implements PageRepository {
     DrawerModel? drawerHolder;
     if (model.drawer != null) {
       try {
-        await drawerRepository(appId: model.appId)!.get(model.drawer!.documentID).then((val) {
+        await drawerRepository(appId: model.appId)!
+            .get(model.drawer!.documentID)
+            .then((val) {
           drawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -163,7 +268,9 @@ class PageCache implements PageRepository {
     DrawerModel? endDrawerHolder;
     if (model.endDrawer != null) {
       try {
-        await drawerRepository(appId: model.appId)!.get(model.endDrawer!.documentID).then((val) {
+        await drawerRepository(appId: model.appId)!
+            .get(model.endDrawer!.documentID)
+            .then((val) {
           endDrawerHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -172,7 +279,9 @@ class PageCache implements PageRepository {
     HomeMenuModel? homeMenuHolder;
     if (model.homeMenu != null) {
       try {
-        await homeMenuRepository(appId: model.appId)!.get(model.homeMenu!.documentID).then((val) {
+        await homeMenuRepository(appId: model.appId)!
+            .get(model.homeMenu!.documentID)
+            .then((val) {
           homeMenuHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -181,7 +290,9 @@ class PageCache implements PageRepository {
     GridViewModel? gridViewHolder;
     if (model.gridView != null) {
       try {
-        await gridViewRepository(appId: model.appId)!.get(model.gridView!.documentID).then((val) {
+        await gridViewRepository(appId: model.appId)!
+            .get(model.gridView!.documentID)
+            .then((val) {
           gridViewHolder = val;
         }).catchError((error) {});
       } catch (_) {}
@@ -189,27 +300,20 @@ class PageCache implements PageRepository {
 
     List<BodyComponentModel>? bodyComponentsHolder;
     if (model.bodyComponents != null) {
-      bodyComponentsHolder = List<BodyComponentModel>.from(await Future.wait(await model.bodyComponents!.map((element) async {
+      bodyComponentsHolder = List<BodyComponentModel>.from(
+              await Future.wait(model.bodyComponents!.map((element) async {
         return await BodyComponentCache.refreshRelations(element);
-      }))).toList();
+      })))
+          .toList();
     }
 
     return model.copyWith(
-        appBar: appBarHolder,
-
-        drawer: drawerHolder,
-
-        endDrawer: endDrawerHolder,
-
-        homeMenu: homeMenuHolder,
-
-        gridView: gridViewHolder,
-
-        bodyComponents: bodyComponentsHolder,
-
-
+      appBar: appBarHolder,
+      drawer: drawerHolder,
+      endDrawer: endDrawerHolder,
+      homeMenu: homeMenuHolder,
+      gridView: gridViewHolder,
+      bodyComponents: bodyComponentsHolder,
     );
   }
-
 }
-

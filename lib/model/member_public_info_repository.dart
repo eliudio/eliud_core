@@ -13,45 +13,108 @@
 
 */
 
-
-
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
-
 
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/core/base/repository_base.dart';
 
-typedef MemberPublicInfoModelTrigger(List<MemberPublicInfoModel?> list);
-typedef MemberPublicInfoChanged(MemberPublicInfoModel? value);
-typedef MemberPublicInfoErrorHandler(o, e);
+typedef MemberPublicInfoModelTrigger = Function(
+    List<MemberPublicInfoModel?> list);
+typedef MemberPublicInfoChanged = Function(MemberPublicInfoModel? value);
+typedef MemberPublicInfoErrorHandler = Function(dynamic o, dynamic e);
 
-abstract class MemberPublicInfoRepository extends RepositoryBase<MemberPublicInfoModel, MemberPublicInfoEntity> {
-  Future<MemberPublicInfoEntity> addEntity(String documentID, MemberPublicInfoEntity value);
-  Future<MemberPublicInfoEntity> updateEntity(String documentID, MemberPublicInfoEntity value);
+abstract class MemberPublicInfoRepository
+    extends RepositoryBase<MemberPublicInfoModel, MemberPublicInfoEntity> {
+  @override
+  Future<MemberPublicInfoEntity> addEntity(
+      String documentID, MemberPublicInfoEntity value);
+  @override
+  Future<MemberPublicInfoEntity> updateEntity(
+      String documentID, MemberPublicInfoEntity value);
+  @override
   Future<MemberPublicInfoModel> add(MemberPublicInfoModel value);
+  @override
   Future<void> delete(MemberPublicInfoModel value);
-  Future<MemberPublicInfoModel?> get(String? id, { Function(Exception)? onError });
+  @override
+  Future<MemberPublicInfoModel?> get(String? id,
+      {Function(Exception)? onError});
+  @override
   Future<MemberPublicInfoModel> update(MemberPublicInfoModel value);
 
-  Stream<List<MemberPublicInfoModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<MemberPublicInfoModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Future<List<MemberPublicInfoModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Future<List<MemberPublicInfoModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  @override
+  Stream<List<MemberPublicInfoModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Stream<List<MemberPublicInfoModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Future<List<MemberPublicInfoModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Future<List<MemberPublicInfoModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
 
-  StreamSubscription<List<MemberPublicInfoModel?>> listen(MemberPublicInfoModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<MemberPublicInfoModel?>> listenWithDetails(MemberPublicInfoModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MemberPublicInfoModel?> listenTo(String documentId, MemberPublicInfoChanged changed, {MemberPublicInfoErrorHandler? errorHandler});
+  @override
+  StreamSubscription<List<MemberPublicInfoModel?>> listen(
+      MemberPublicInfoModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  StreamSubscription<List<MemberPublicInfoModel?>> listenWithDetails(
+      MemberPublicInfoModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  StreamSubscription<MemberPublicInfoModel?> listenTo(
+      String documentId, MemberPublicInfoChanged changed,
+      {MemberPublicInfoErrorHandler? errorHandler});
+  @override
   void flush();
-  
+
+  @override
   String? timeStampToString(dynamic timeStamp);
 
+  @override
   dynamic getSubCollection(String documentId, String name);
-  Future<MemberPublicInfoModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
+  @override
+  Future<MemberPublicInfoModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue);
 
+  @override
   Future<void> deleteAll();
 }
-
-

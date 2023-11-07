@@ -1,2 +1,1 @@
-enum FormAction { AddAction, UpdateAction, ShowData, ShowPreloadedData }
-
+enum FormAction { addAction, updateAction, showData, showPreloadedData }

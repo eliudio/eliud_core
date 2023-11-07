@@ -36,7 +36,7 @@ class SelectWidget<T> extends StatefulWidget {
   final int? containerPrivilege;
 
   const SelectWidget(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.currentlySelected,
       required this.selectedCallback,
@@ -49,8 +49,7 @@ class SelectWidget<T> extends StatefulWidget {
       this.containerPrivilege,
       this.updateCallback,
       this.deleteCallback,
-      this.addCallback})
-      : super(key: key);
+      this.addCallback});
 
   @override
   State<StatefulWidget> createState() => _SelectWidgetState();
@@ -131,8 +130,8 @@ class SelectDialog<T> extends StatefulWidget {
     this.updateCallback,
     this.deleteCallback,
     this.addCallback,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -155,7 +154,7 @@ class SelectDialog<T> extends StatefulWidget {
     ChangePrivilegeEventCallback? changePrivilegeEventCallback,
     int? containerPrivilege,
   ) {
-    openFlexibleDialog(app, context, app.documentID + '/_select',
+    openFlexibleDialog(app, context, '${app.documentID}/_select',
         includeHeading: false,
         widthFraction: .8,
         child: SelectDialog<T>._(
@@ -188,9 +187,9 @@ class _SelectDialogState extends State<SelectDialog>
   @override
   void initState() {
     if (widget.changePrivilegeEventCallback != null) {
-      var _privilegeASize = _privilegeItems.length;
+      var privilegeASize = _privilegeItems.length;
       _privilegeTabController =
-          TabController(vsync: this, length: _privilegeASize);
+          TabController(vsync: this, length: privilegeASize);
       _privilegeTabController!.addListener(_handlePrivilegeTabSelection);
       _privilegeTabController!.index = _initialPrivilege;
     }
@@ -219,7 +218,7 @@ class _SelectDialogState extends State<SelectDialog>
     var app = widget.app;
     var newPrivilegeItems = <Widget>[];
     if (widget.changePrivilegeEventCallback != null) {
-      var children = <Widget>[];
+      //var children = <Widget>[];
       var i = 0;
       for (var privilegeItem in _privilegeItems) {
         newPrivilegeItems.add(Wrap(children: [

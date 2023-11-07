@@ -41,9 +41,9 @@ class DecorationColorFormInitialized extends DecorationColorFormState {
   final DecorationColorModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const DecorationColorFormInitialized({ this.value });
+  const DecorationColorFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class DecorationColorFormError extends DecorationColorFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const DecorationColorFormError({this.message, DecorationColorModel? value }) : super(value: value);
+  const DecorationColorFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class DecorationColorFormError extends DecorationColorFormInitialized {
     }''';
   }
 }
-class DocumentIDDecorationColorFormError extends DecorationColorFormError { 
-  const DocumentIDDecorationColorFormError({ String? message, DecorationColorModel? value }): super(message: message, value: value);
+
+class DocumentIDDecorationColorFormError extends DecorationColorFormError {
+  const DocumentIDDecorationColorFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDDecorationColorFormError extends DecorationColorFormError {
   }
 }
 
-
-class ColorDecorationColorFormError extends DecorationColorFormError { 
-  const ColorDecorationColorFormError({ String? message, DecorationColorModel? value }): super(message: message, value: value);
+class ColorDecorationColorFormError extends DecorationColorFormError {
+  const ColorDecorationColorFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class ColorDecorationColorFormError extends DecorationColorFormError {
   }
 }
 
-
-class StopDecorationColorFormError extends DecorationColorFormError { 
-  const StopDecorationColorFormError({ String? message, DecorationColorModel? value }): super(message: message, value: value);
+class StopDecorationColorFormError extends DecorationColorFormError {
+  const StopDecorationColorFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class StopDecorationColorFormError extends DecorationColorFormError {
   }
 }
 
-
-class DecorationColorFormLoaded extends DecorationColorFormInitialized { 
-  const DecorationColorFormLoaded({ DecorationColorModel? value }): super(value: value);
+class DecorationColorFormLoaded extends DecorationColorFormInitialized {
+  const DecorationColorFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -125,12 +123,11 @@ class DecorationColorFormLoaded extends DecorationColorFormInitialized {
   }
 }
 
-
-class SubmittableDecorationColorForm extends DecorationColorFormInitialized { 
-  const SubmittableDecorationColorForm({ DecorationColorModel? value }): super(value: value);
+class SubmittableDecorationColorForm extends DecorationColorFormInitialized {
+  const SubmittableDecorationColorForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -139,5 +136,3 @@ class SubmittableDecorationColorForm extends DecorationColorFormInitialized {
     }''';
   }
 }
-
-

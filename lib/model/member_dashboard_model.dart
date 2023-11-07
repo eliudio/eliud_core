@@ -18,19 +18,17 @@ import 'package:eliud_core/core/base/model_base.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/member_dashboard_entity.dart';
-
-
-
 
 class MemberDashboardModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
   static const String id = 'memberDashboards';
 
+  @override
   String documentID;
 
   // This is the identifier of the app to which this belongs
+  @override
   String appId;
   String? description;
 
@@ -53,21 +51,67 @@ class MemberDashboardModel implements ModelBase, WithAppId {
   String? deleteDataEmailMessage;
   StorageConditionsModel? conditions;
 
-  MemberDashboardModel({required this.documentID, required this.appId, this.description, this.updateProfileText, this.retrieveDataText, this.deleteDataText, this.retrieveDataEmailSubject, this.deleteDataEmailSubject, this.deleteDataEmailMessage, this.conditions, })  {
-  }
+  MemberDashboardModel({
+    required this.documentID,
+    required this.appId,
+    this.description,
+    this.updateProfileText,
+    this.retrieveDataText,
+    this.deleteDataText,
+    this.retrieveDataEmailSubject,
+    this.deleteDataEmailSubject,
+    this.deleteDataEmailMessage,
+    this.conditions,
+  });
 
-  MemberDashboardModel copyWith({String? documentID, String? appId, String? description, String? updateProfileText, String? retrieveDataText, String? deleteDataText, String? retrieveDataEmailSubject, String? deleteDataEmailSubject, String? deleteDataEmailMessage, StorageConditionsModel? conditions, }) {
-    return MemberDashboardModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, description: description ?? this.description, updateProfileText: updateProfileText ?? this.updateProfileText, retrieveDataText: retrieveDataText ?? this.retrieveDataText, deleteDataText: deleteDataText ?? this.deleteDataText, retrieveDataEmailSubject: retrieveDataEmailSubject ?? this.retrieveDataEmailSubject, deleteDataEmailSubject: deleteDataEmailSubject ?? this.deleteDataEmailSubject, deleteDataEmailMessage: deleteDataEmailMessage ?? this.deleteDataEmailMessage, conditions: conditions ?? this.conditions, );
+  @override
+  MemberDashboardModel copyWith({
+    String? documentID,
+    String? appId,
+    String? description,
+    String? updateProfileText,
+    String? retrieveDataText,
+    String? deleteDataText,
+    String? retrieveDataEmailSubject,
+    String? deleteDataEmailSubject,
+    String? deleteDataEmailMessage,
+    StorageConditionsModel? conditions,
+  }) {
+    return MemberDashboardModel(
+      documentID: documentID ?? this.documentID,
+      appId: appId ?? this.appId,
+      description: description ?? this.description,
+      updateProfileText: updateProfileText ?? this.updateProfileText,
+      retrieveDataText: retrieveDataText ?? this.retrieveDataText,
+      deleteDataText: deleteDataText ?? this.deleteDataText,
+      retrieveDataEmailSubject:
+          retrieveDataEmailSubject ?? this.retrieveDataEmailSubject,
+      deleteDataEmailSubject:
+          deleteDataEmailSubject ?? this.deleteDataEmailSubject,
+      deleteDataEmailMessage:
+          deleteDataEmailMessage ?? this.deleteDataEmailMessage,
+      conditions: conditions ?? this.conditions,
+    );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ description.hashCode ^ updateProfileText.hashCode ^ retrieveDataText.hashCode ^ deleteDataText.hashCode ^ retrieveDataEmailSubject.hashCode ^ deleteDataEmailSubject.hashCode ^ deleteDataEmailMessage.hashCode ^ conditions.hashCode;
+  int get hashCode =>
+      documentID.hashCode ^
+      appId.hashCode ^
+      description.hashCode ^
+      updateProfileText.hashCode ^
+      retrieveDataText.hashCode ^
+      deleteDataText.hashCode ^
+      retrieveDataEmailSubject.hashCode ^
+      deleteDataEmailSubject.hashCode ^
+      deleteDataEmailMessage.hashCode ^
+      conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is MemberDashboardModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is MemberDashboardModel &&
+          runtimeType == other.runtimeType &&
           documentID == other.documentID &&
           appId == other.appId &&
           description == other.description &&
@@ -84,62 +128,69 @@ class MemberDashboardModel implements ModelBase, WithAppId {
     return 'MemberDashboardModel{documentID: $documentID, appId: $appId, description: $description, updateProfileText: $updateProfileText, retrieveDataText: $retrieveDataText, deleteDataText: $deleteDataText, retrieveDataEmailSubject: $retrieveDataEmailSubject, deleteDataEmailSubject: $deleteDataEmailSubject, deleteDataEmailMessage: $deleteDataEmailMessage, conditions: $conditions}';
   }
 
+  @override
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
-    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    if (conditions != null) {
+      referencesCollector
+          .addAll(await conditions!.collectReferences(appId: appId));
+    }
     return referencesCollector;
   }
 
+  @override
   MemberDashboardEntity toEntity({String? appId}) {
     return MemberDashboardEntity(
-          appId: (appId != null) ? appId : null, 
-          description: (description != null) ? description : null, 
-          updateProfileText: (updateProfileText != null) ? updateProfileText : null, 
-          retrieveDataText: (retrieveDataText != null) ? retrieveDataText : null, 
-          deleteDataText: (deleteDataText != null) ? deleteDataText : null, 
-          retrieveDataEmailSubject: (retrieveDataEmailSubject != null) ? retrieveDataEmailSubject : null, 
-          deleteDataEmailSubject: (deleteDataEmailSubject != null) ? deleteDataEmailSubject : null, 
-          deleteDataEmailMessage: (deleteDataEmailMessage != null) ? deleteDataEmailMessage : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
+      appId: appId,
+      description: (description != null) ? description : null,
+      updateProfileText: (updateProfileText != null) ? updateProfileText : null,
+      retrieveDataText: (retrieveDataText != null) ? retrieveDataText : null,
+      deleteDataText: (deleteDataText != null) ? deleteDataText : null,
+      retrieveDataEmailSubject:
+          (retrieveDataEmailSubject != null) ? retrieveDataEmailSubject : null,
+      deleteDataEmailSubject:
+          (deleteDataEmailSubject != null) ? deleteDataEmailSubject : null,
+      deleteDataEmailMessage:
+          (deleteDataEmailMessage != null) ? deleteDataEmailMessage : null,
+      conditions:
+          (conditions != null) ? conditions!.toEntity(appId: appId) : null,
     );
   }
 
-  static Future<MemberDashboardModel?> fromEntity(String documentID, MemberDashboardEntity? entity) async {
+  static Future<MemberDashboardModel?> fromEntity(
+      String documentID, MemberDashboardEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return MemberDashboardModel(
-          documentID: documentID, 
-          appId: entity.appId ?? '', 
-          description: entity.description, 
-          updateProfileText: entity.updateProfileText, 
-          retrieveDataText: entity.retrieveDataText, 
-          deleteDataText: entity.deleteDataText, 
-          retrieveDataEmailSubject: entity.retrieveDataEmailSubject, 
-          deleteDataEmailSubject: entity.deleteDataEmailSubject, 
-          deleteDataEmailMessage: entity.deleteDataEmailMessage, 
-          conditions: 
-            await StorageConditionsModel.fromEntity(entity.conditions), 
+      documentID: documentID,
+      appId: entity.appId ?? '',
+      description: entity.description,
+      updateProfileText: entity.updateProfileText,
+      retrieveDataText: entity.retrieveDataText,
+      deleteDataText: entity.deleteDataText,
+      retrieveDataEmailSubject: entity.retrieveDataEmailSubject,
+      deleteDataEmailSubject: entity.deleteDataEmailSubject,
+      deleteDataEmailMessage: entity.deleteDataEmailMessage,
+      conditions: await StorageConditionsModel.fromEntity(entity.conditions),
     );
   }
 
-  static Future<MemberDashboardModel?> fromEntityPlus(String documentID, MemberDashboardEntity? entity, { String? appId}) async {
+  static Future<MemberDashboardModel?> fromEntityPlus(
+      String documentID, MemberDashboardEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return MemberDashboardModel(
-          documentID: documentID, 
-          appId: entity.appId ?? '', 
-          description: entity.description, 
-          updateProfileText: entity.updateProfileText, 
-          retrieveDataText: entity.retrieveDataText, 
-          deleteDataText: entity.deleteDataText, 
-          retrieveDataEmailSubject: entity.retrieveDataEmailSubject, 
-          deleteDataEmailSubject: entity.deleteDataEmailSubject, 
-          deleteDataEmailMessage: entity.deleteDataEmailMessage, 
-          conditions: 
-            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
+      documentID: documentID,
+      appId: entity.appId ?? '',
+      description: entity.description,
+      updateProfileText: entity.updateProfileText,
+      retrieveDataText: entity.retrieveDataText,
+      deleteDataText: entity.deleteDataText,
+      retrieveDataEmailSubject: entity.retrieveDataEmailSubject,
+      deleteDataEmailSubject: entity.deleteDataEmailSubject,
+      deleteDataEmailMessage: entity.deleteDataEmailMessage,
+      conditions: await StorageConditionsModel.fromEntityPlus(entity.conditions,
+          appId: appId),
     );
   }
-
 }
-

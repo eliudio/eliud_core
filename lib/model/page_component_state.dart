@@ -27,7 +27,7 @@ class PageComponentUninitialized extends PageComponentState {}
 
 class PageComponentError extends PageComponentState {
   final String? message;
-  PageComponentError({ this.message });
+  PageComponentError({this.message});
 }
 
 class PageComponentPermissionDenied extends PageComponentState {
@@ -37,10 +37,10 @@ class PageComponentPermissionDenied extends PageComponentState {
 class PageComponentLoaded extends PageComponentState {
   final PageModel value;
 
-  const PageComponentLoaded({ required this.value });
+  const PageComponentLoaded({required this.value});
 
-  PageComponentLoaded copyWith({ PageModel? copyThis }) {
-    return PageComponentLoaded(value: copyThis ?? this.value);
+  PageComponentLoaded copyWith({PageModel? copyThis}) {
+    return PageComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class PageComponentLoaded extends PageComponentState {
   @override
   String toString() => 'PageComponentLoaded { value: $value }';
 }
-

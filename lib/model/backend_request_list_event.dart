@@ -30,10 +30,10 @@ class NewPage extends BackendRequestListEvent {}
 class AddBackendRequestList extends BackendRequestListEvent {
   final BackendRequestModel? value;
 
-  const AddBackendRequestList({ this.value });
+  const AddBackendRequestList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddBackendRequestList{ value: $value }';
@@ -42,10 +42,10 @@ class AddBackendRequestList extends BackendRequestListEvent {
 class UpdateBackendRequestList extends BackendRequestListEvent {
   final BackendRequestModel? value;
 
-  const UpdateBackendRequestList({ this.value });
+  const UpdateBackendRequestList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateBackendRequestList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateBackendRequestList extends BackendRequestListEvent {
 class DeleteBackendRequestList extends BackendRequestListEvent {
   final BackendRequestModel? value;
 
-  const DeleteBackendRequestList({ this.value });
+  const DeleteBackendRequestList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteBackendRequestList{ value: $value }';
@@ -67,24 +67,24 @@ class BackendRequestListUpdated extends BackendRequestListEvent {
   final List<BackendRequestModel?>? value;
   final bool? mightHaveMore;
 
-  const BackendRequestListUpdated({ this.value, this.mightHaveMore });
+  const BackendRequestListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'BackendRequestListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'BackendRequestListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class BackendRequestChangeQuery extends BackendRequestListEvent {
   final EliudQuery? newQuery;
 
-  const BackendRequestChangeQuery({ required this.newQuery });
+  const BackendRequestChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'BackendRequestChangeQuery{ value: $newQuery }';
 }
-

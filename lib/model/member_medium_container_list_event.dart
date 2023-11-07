@@ -30,10 +30,10 @@ class NewPage extends MemberMediumContainerListEvent {}
 class AddMemberMediumContainerList extends MemberMediumContainerListEvent {
   final MemberMediumContainerModel? value;
 
-  const AddMemberMediumContainerList({ this.value });
+  const AddMemberMediumContainerList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddMemberMediumContainerList{ value: $value }';
@@ -42,10 +42,10 @@ class AddMemberMediumContainerList extends MemberMediumContainerListEvent {
 class UpdateMemberMediumContainerList extends MemberMediumContainerListEvent {
   final MemberMediumContainerModel? value;
 
-  const UpdateMemberMediumContainerList({ this.value });
+  const UpdateMemberMediumContainerList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateMemberMediumContainerList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateMemberMediumContainerList extends MemberMediumContainerListEvent {
 class DeleteMemberMediumContainerList extends MemberMediumContainerListEvent {
   final MemberMediumContainerModel? value;
 
-  const DeleteMemberMediumContainerList({ this.value });
+  const DeleteMemberMediumContainerList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteMemberMediumContainerList{ value: $value }';
@@ -67,24 +67,24 @@ class MemberMediumContainerListUpdated extends MemberMediumContainerListEvent {
   final List<MemberMediumContainerModel?>? value;
   final bool? mightHaveMore;
 
-  const MemberMediumContainerListUpdated({ this.value, this.mightHaveMore });
+  const MemberMediumContainerListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'MemberMediumContainerListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'MemberMediumContainerListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class MemberMediumContainerChangeQuery extends MemberMediumContainerListEvent {
   final EliudQuery? newQuery;
 
-  const MemberMediumContainerChangeQuery({ required this.newQuery });
+  const MemberMediumContainerChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'MemberMediumContainerChangeQuery{ value: $newQuery }';
 }
-

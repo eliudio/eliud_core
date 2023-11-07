@@ -4,7 +4,14 @@ import 'package:flutter/material.dart';
 
 class DefaultListTileImpl implements HasListTile {
   @override
-  Widget getListTile(AppModel app, BuildContext context, {Key? key, GestureTapCallback? onTap, Widget? leading, Widget? trailing, Widget? title, Widget? subtitle, bool? isThreeLine}) {
+  Widget getListTile(AppModel app, BuildContext context,
+      {Key? key,
+      GestureTapCallback? onTap,
+      Widget? leading,
+      Widget? trailing,
+      Widget? title,
+      Widget? subtitle,
+      bool? isThreeLine}) {
     return ListTile(
       key: key,
       onTap: onTap,
@@ -17,21 +24,31 @@ class DefaultListTileImpl implements HasListTile {
   }
 
   @override
-  Widget radioListTile<T>(AppModel app, BuildContext context, T t, T? groupValue,
-      String title, String? subTitle, ValueChanged<T?>? valueChanged) {
+  Widget radioListTile<T>(
+      AppModel app,
+      BuildContext context,
+      T t,
+      T? groupValue,
+      String title,
+      String? subTitle,
+      ValueChanged<T?>? valueChanged) {
     return RadioListTile(
         value: t,
         groupValue: groupValue,
-        title: Text(title,),
+        title: Text(
+          title,
+        ),
         subtitle: subTitle != null ? Text(subTitle) : null,
         onChanged: valueChanged);
   }
 
   @override
-  Widget checkboxListTile(AppModel app, BuildContext context, String title, bool? value,
-      ValueChanged<bool?>? onChanged) {
+  Widget checkboxListTile(AppModel app, BuildContext context, String title,
+      bool? value, ValueChanged<bool?>? onChanged) {
     return CheckboxListTile(
-        title: Text(title,),
+        title: Text(
+          title,
+        ),
         value: value,
         onChanged: onChanged);
   }

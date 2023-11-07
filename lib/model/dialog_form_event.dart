@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class DialogFormEvent extends Equatable {
   const DialogFormEvent();
@@ -26,15 +25,13 @@ abstract class DialogFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewDialogFormEvent extends DialogFormEvent {
-}
-
+class InitialiseNewDialogFormEvent extends DialogFormEvent {}
 
 class InitialiseDialogFormEvent extends DialogFormEvent {
   final DialogModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseDialogFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseDialogFormNoLoadEvent extends DialogFormEvent {
   final DialogModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseDialogFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedDialogDocumentID extends DialogFormEvent {
   ChangedDialogDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedDialogAppId extends DialogFormEvent {
   ChangedDialogAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedDialogTitle extends DialogFormEvent {
   ChangedDialogTitle({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogTitle{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedDialogDescription extends DialogFormEvent {
   ChangedDialogDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogDescription{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedDialogBodyComponents extends DialogFormEvent {
   ChangedDialogBodyComponents({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogBodyComponents{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedDialogBackgroundOverride extends DialogFormEvent {
   ChangedDialogBackgroundOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogBackgroundOverride{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedDialogLayout extends DialogFormEvent {
   ChangedDialogLayout({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogLayout{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedDialogIncludeHeading extends DialogFormEvent {
   ChangedDialogIncludeHeading({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogIncludeHeading{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedDialogGridView extends DialogFormEvent {
   ChangedDialogGridView({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogGridView{ value: $value }';
@@ -162,9 +159,8 @@ class ChangedDialogConditions extends DialogFormEvent {
   ChangedDialogConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDialogConditions{ value: $value }';
 }
-

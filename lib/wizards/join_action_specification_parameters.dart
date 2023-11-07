@@ -1,26 +1,20 @@
 import 'package:eliud_core/core/wizards/registry/action_specification.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
 
-enum JoinPaymentType { Manual, Card }
+enum JoinPaymentType { manual, card }
 
 class JoinActionSpecifications extends ActionSpecification {
   final JoinPaymentType paymentType;
 
   JoinActionSpecifications({
     required this.paymentType,
-    required bool requiresAccessToLocalFileSystem,
-    required bool availableInLeftDrawer,
-    required bool availableInRightDrawer,
-    required bool availableInAppBar,
-    required bool availableInHomeMenu,
-    required bool available,
-  }) : super(
-      requiresAccessToLocalFileSystem: requiresAccessToLocalFileSystem,
-      availableInLeftDrawer: availableInLeftDrawer,
-      availableInRightDrawer: availableInRightDrawer,
-      availableInAppBar: availableInAppBar,
-      availableInHomeMenu: availableInHomeMenu,
-      available: available);
+    required super.requiresAccessToLocalFileSystem,
+    required super.availableInLeftDrawer,
+    required super.availableInRightDrawer,
+    required super.availableInAppBar,
+    required super.availableInHomeMenu,
+    required super.available,
+  });
 }
 
 class JoinActionSpecificationParameters extends NewAppWizardParameters {

@@ -22,19 +22,34 @@ class MemberMediumContainerEntity implements EntityBase {
   final String? htmlReference;
   final String? memberMediumId;
 
-  MemberMediumContainerEntity({this.htmlReference, this.memberMediumId, });
+  MemberMediumContainerEntity({
+    this.htmlReference,
+    this.memberMediumId,
+  });
 
-  MemberMediumContainerEntity copyWith({String? documentID, String? htmlReference, String? memberMediumId, }) {
-    return MemberMediumContainerEntity(htmlReference : htmlReference ?? this.htmlReference, memberMediumId : memberMediumId ?? this.memberMediumId, );
+  MemberMediumContainerEntity copyWith({
+    String? documentID,
+    String? htmlReference,
+    String? memberMediumId,
+  }) {
+    return MemberMediumContainerEntity(
+      htmlReference: htmlReference ?? this.htmlReference,
+      memberMediumId: memberMediumId ?? this.memberMediumId,
+    );
   }
-  List<Object?> get props => [htmlReference, memberMediumId, ];
+
+  List<Object?> get props => [
+        htmlReference,
+        memberMediumId,
+      ];
 
   @override
   String toString() {
     return 'MemberMediumContainerEntity{htmlReference: $htmlReference, memberMediumId: $memberMediumId}';
   }
 
-  static MemberMediumContainerEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static MemberMediumContainerEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
@@ -45,17 +60,24 @@ class MemberMediumContainerEntity implements EntityBase {
       newDocumentIds[memberMediumIdOldDocmentId] = memberMediumIdNewDocmentId;
     }
     return MemberMediumContainerEntity(
-      htmlReference: map['htmlReference'], 
-      memberMediumId: memberMediumIdNewDocmentId, 
+      htmlReference: map['htmlReference'],
+      memberMediumId: memberMediumIdNewDocmentId,
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (htmlReference != null) theDocument["htmlReference"] = htmlReference;
-      else theDocument["htmlReference"] = null;
-    if (memberMediumId != null) theDocument["memberMediumId"] = memberMediumId;
-      else theDocument["memberMediumId"] = null;
+    if (htmlReference != null) {
+      theDocument["htmlReference"] = htmlReference;
+    } else {
+      theDocument["htmlReference"] = null;
+    }
+    if (memberMediumId != null) {
+      theDocument["memberMediumId"] = memberMediumId;
+    } else {
+      theDocument["memberMediumId"] = null;
+    }
     return theDocument;
   }
 
@@ -65,7 +87,8 @@ class MemberMediumContainerEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberMediumContainerEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static MemberMediumContainerEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -74,9 +97,9 @@ class MemberMediumContainerEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

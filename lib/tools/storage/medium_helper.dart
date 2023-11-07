@@ -12,14 +12,11 @@ import 'medium_data.dart';
 import 'upload_info.dart';
 import 'package:http/http.dart' as http;
 
-
-typedef void PdfAvailable(dynamic mediumModel);
+typedef PdfAvailable = void Function(dynamic mediumModel);
 //typedef void MediumAvailable(dynamic? mediumModel);
 
 // This is called Abstract as it is a representation of medium type used in the abstract MediumHelper class
-enum AbstractMediumType {
-  Photo, Video, Pdf, Unknown
-}
+enum AbstractMediumType { photo, video, pdf, unknown }
 
 abstract class MediumHelper<T> {
   final AppModel app;
@@ -31,29 +28,24 @@ abstract class MediumHelper<T> {
   Map<String, String> readAccessCustomMetaData();
 
   Future<T> photoWithThumbnailToMediumModel(
-    String mediumDocumentId,
-    String baseName,
-    UploadInfo fileInfo,
-    UploadInfo fileInfoThumbnail,
-    PhotoWithThumbnail photoWithThumbnail,
-    {String? relatedMediumId}
-  );
-
-  Future<T> videoWithThumbnailToMediumModel(
-    String mediumDocumentId,
-    String baseName,
-    UploadInfo fileInfo,
-    UploadInfo fileInfoThumbnail,
-    VideoWithThumbnail videoWithThumbnail,
-    {String? relatedMediumId}
-  );
-
-  Future<T> textToMediumModel(
       String mediumDocumentId,
       String baseName,
       UploadInfo fileInfo,
-      {String? relatedMediumId}
-      );
+      UploadInfo fileInfoThumbnail,
+      PhotoWithThumbnail photoWithThumbnail,
+      {String? relatedMediumId});
+
+  Future<T> videoWithThumbnailToMediumModel(
+      String mediumDocumentId,
+      String baseName,
+      UploadInfo fileInfo,
+      UploadInfo fileInfoThumbnail,
+      VideoWithThumbnail videoWithThumbnail,
+      {String? relatedMediumId});
+
+  Future<T> textToMediumModel(
+      String mediumDocumentId, String baseName, UploadInfo fileInfo,
+      {String? relatedMediumId});
 
   Future<T> constructMediumModel(
       String newDocumentID,
@@ -68,6 +60,7 @@ abstract class MediumHelper<T> {
    * For each task we forward it's individual progress feedback and aggregate the progress to give feedback
    * to the end user about the entire process.
    */
+/*
   void _feedBackAggregatedProgressNormal(
       int currentTask, int totalTasks, double progressCurrentTask,
       {FeedbackProgress? feedbackProgress}) {
@@ -75,6 +68,7 @@ abstract class MediumHelper<T> {
       feedbackProgress((currentTask - 1 + progressCurrentTask) / totalTasks);
     }
   }
+*/
 
   /*
    * This progress indicator assumes the last task assumes a tiny task at the end which is 1/(totalTask * totalTask) in size
@@ -107,8 +101,8 @@ abstract class MediumHelper<T> {
       Uint8List fileData, String baseName, String thumbnailBaseName,
       {FeedbackProgress? feedbackProgress, String? relatedMediumId}) async {
     // First, upload the file
-    var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID,
-        ownerId, packageName, readAccessCustomMetaData(),
+    var fileInfo = await UploadInfo.uploadData(baseName, fileData,
+        app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
@@ -139,7 +133,8 @@ abstract class MediumHelper<T> {
     }
 
     var returnMe = await photoWithThumbnailToMediumModel(memberMediumDocumentId,
-        baseName, fileInfo, fileInfoThumbnail, enrichedPhoto, relatedMediumId: relatedMediumId);
+        baseName, fileInfo, fileInfoThumbnail, enrichedPhoto,
+        relatedMediumId: relatedMediumId);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
   }
@@ -187,7 +182,8 @@ abstract class MediumHelper<T> {
     }
 
     var returnMe = await photoWithThumbnailToMediumModel(memberMediumDocumentID,
-        baseName, fileInfo.item1, fileInfoThumbnail, enrichedPhoto, relatedMediumId: relatedMediumId);
+        baseName, fileInfo.item1, fileInfoThumbnail, enrichedPhoto,
+        relatedMediumId: relatedMediumId);
 
     _feedBackAggregatedProgress(1, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
@@ -200,16 +196,16 @@ abstract class MediumHelper<T> {
    */
   Future<T> createThumbnailUploadPhotoAsset(
       String memberMediumDocumentID, String assetPath,
-      {FeedbackProgress? feedbackProgress, String? relatedMediumId
-      }) async {
+      {FeedbackProgress? feedbackProgress, String? relatedMediumId}) async {
     print('createThumbnailUploadPhotoAsset');
     var filePath =
         await AssetHelper.getFileFromAssets(memberMediumDocumentID, assetPath);
     print('createThumbnailUploadPhotoAsset 2');
-    var returnMe = createThumbnailUploadPhotoFile(memberMediumDocumentID, filePath,
+    var returnMe = createThumbnailUploadPhotoFile(
+        memberMediumDocumentID, filePath,
         feedbackProgress: feedbackProgress, relatedMediumId: relatedMediumId);
     print('createThumbnailUploadPhotoAsset 3');
-    print('returnMe = ' + returnMe.toString());
+    print('returnMe = $returnMe');
     return returnMe;
   }
 
@@ -415,8 +411,12 @@ abstract class MediumHelper<T> {
           'Unable to upload file $filePath. Could not create thumbnail');
     }
 
-    var returnMe = await videoWithThumbnailToMediumModel(memberMediumDocumentID,
-        enrichedVideo.thumbNailData.baseName, fileInfo.item1, fileInfoThumbnail, enrichedVideo);
+    var returnMe = await videoWithThumbnailToMediumModel(
+        memberMediumDocumentID,
+        enrichedVideo.thumbNailData.baseName,
+        fileInfo.item1,
+        fileInfoThumbnail,
+        enrichedVideo);
     _feedBackAggregatedProgress(4, 4, 1, feedbackProgress: feedbackProgress);
     return returnMe;
   }
@@ -430,11 +430,11 @@ abstract class MediumHelper<T> {
   Future<T> createThumbnailUploadVideoData(String memberMediumDocumentID,
       Uint8List fileData, String baseName, String thumbnailBaseName,
       {FeedbackProgress? feedbackProgress}) async {
-    print('MemberMediumHelper.createThumbnailUploadVideoData: ' + baseName);
+    print('MemberMediumHelper.createThumbnailUploadVideoData: $baseName');
 
     // First, upload the file
-    var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID,
-        ownerId, packageName, readAccessCustomMetaData(),
+    var fileInfo = await UploadInfo.uploadData(baseName, fileData,
+        app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 4, progress,
             feedbackProgress: feedbackProgress));
@@ -446,7 +446,10 @@ abstract class MediumHelper<T> {
 
     // Second, create the thumbnail
     var enrichedVideo = await MediumData.enrichVideoWithHardcodedThumbnail(
-        baseName, thumbnailBaseName, fileData, /*fileInfo.url*/);
+      baseName,
+      thumbnailBaseName,
+      fileData, /*fileInfo.url*/
+    );
     _feedBackAggregatedProgress(2, 4, 1, feedbackProgress: feedbackProgress);
 
     // Third, upload the thumbnail;
@@ -496,24 +499,24 @@ abstract class MediumHelper<T> {
    * ownerId is the memberId
    * readAccess is the list of member IDs, or 'PUBLIC'
    */
-  Future<T> createThumbnailUploadPdfData(
-      String memberMediumDocumentID, Uint8List fileData, String baseName, String documentID,
+  Future<T> createThumbnailUploadPdfData(String memberMediumDocumentID,
+      Uint8List fileData, String baseName, String documentID,
       {PdfAvailable? feedbackFunction,
-        FeedbackProgress? feedbackProgress}) async {
+      FeedbackProgress? feedbackProgress}) async {
     print('createThumbnailUploadPdfData');
     // First, upload the file
     final document = await PdfDocument.openData(fileData);
-    final pageCount = await document.pagesCount;
+    final pageCount = document.pagesCount;
     var taskCounter = 1;
     var totalTasks = 1 + (pageCount * 4);
 
     // Now create extra MemberImageModels for each page
     dynamic previousMediumId;
-    var newDocumentID;
-    var returnMe;
+    String newDocumentID;
+    T? returnMe;
     for (var i = pageCount; i >= 1; i--) {
-      newDocumentID = documentID + '-' + i.toString();
-      var newBaseName = baseName + '-' + i.toString();
+      newDocumentID = '$documentID-$i';
+      var newBaseName = '$baseName-$i';
 
       // First, create the image and thumbnail
       var pageData = await MediumData.createPhotoWithThumbnailFromPdfData(
@@ -549,8 +552,14 @@ abstract class MediumHelper<T> {
               feedbackProgress: feedbackProgress));
 
       // Create the MediumModel representation
-      var newMediumModel = await constructMediumModel(newDocumentID, newBaseName, pageImage,
-          pageThumbnail, pageData, AbstractMediumType.Photo, previousMediumId);
+      var newMediumModel = await constructMediumModel(
+          newDocumentID,
+          newBaseName,
+          pageImage,
+          pageThumbnail,
+          pageData,
+          AbstractMediumType.photo,
+          previousMediumId);
       returnMe = newMediumModel;
 
       previousMediumId = newDocumentID;
@@ -561,26 +570,29 @@ abstract class MediumHelper<T> {
     if (feedbackFunction != null) {
       feedbackFunction(returnMe);
     }
-    return returnMe;
+    if (returnMe != null) {
+      return returnMe;
+    } else {
+      throw Exception("No page found");
+    }
   }
-
 
   /*
    * Upload a pdf provided as a URL for a given app with appId
    * url is the URL to the pdf
    */
-  Future<T> createThumbnailUploadPdfFromUrl(
-      String memberMediumDocumentID, String url, String baseName, String documentID,
+  Future<T> createThumbnailUploadPdfFromUrl(String memberMediumDocumentID,
+      String url, String baseName, String documentID,
       {PdfAvailable? feedbackFunction,
-        FeedbackProgress? feedbackProgress}) async {
+      FeedbackProgress? feedbackProgress}) async {
     var theUri = Uri.parse(url);
     final data = await http.get(theUri);
     var fileData = data.bodyBytes;
     return createThumbnailUploadPdfData(
         memberMediumDocumentID, fileData, baseName, documentID,
-        feedbackFunction: feedbackFunction,
-           feedbackProgress: feedbackProgress);
+        feedbackFunction: feedbackFunction, feedbackProgress: feedbackProgress);
   }
+
   /*
    * Upload a pdf in  from a file for a given app with appId
    * filePath is the path to the file
@@ -594,18 +606,18 @@ abstract class MediumHelper<T> {
     print('createThumbnailUploadPdfFile');
     // First, upload the file
     final document = await PdfDocument.openFile(filePath);
-    final pageCount = await document.pagesCount;
+    final pageCount = document.pagesCount;
     var taskCounter = 1;
     var totalTasks = 1 + (pageCount * 4);
     var baseName = context.basenameWithoutExtension(filePath);
 
     // Now create extra MemberImageModels for each page
     dynamic previousMediumId;
-    var newDocumentID;
-    var returnMe;
+    String newDocumentID;
+    T? returnMe;
     for (var i = pageCount; i >= 1; i--) {
-      newDocumentID = documentID + '-' + i.toString();
-      var newBaseName = baseName + '-' + i.toString();
+      newDocumentID = '$documentID-$i';
+      var newBaseName = '$baseName-$i';
 
       // First, create the image and thumbnail
       var pageData = await MediumData.createPhotoWithThumbnailFromPdfPage(
@@ -641,11 +653,17 @@ abstract class MediumHelper<T> {
               feedbackProgress: feedbackProgress));
 
       // Create the MediumModel representation
-      var newMediumModel = await constructMediumModel(newDocumentID, newBaseName, pageImage,
-          pageThumbnail, pageData, AbstractMediumType.Photo, previousMediumId);
+      var newMediumModel = await constructMediumModel(
+          newDocumentID,
+          newBaseName,
+          pageImage,
+          pageThumbnail,
+          pageData,
+          AbstractMediumType.photo,
+          previousMediumId);
       returnMe = newMediumModel;
 
-          previousMediumId = newDocumentID;
+      previousMediumId = newDocumentID;
       taskCounter++;
       _feedBackAggregatedProgress(taskCounter, totalTasks, 1,
           feedbackProgress: feedbackProgress);
@@ -653,7 +671,11 @@ abstract class MediumHelper<T> {
     if (feedbackFunction != null) {
       feedbackFunction(returnMe);
     }
-    return returnMe;
+    if (returnMe != null) {
+      return returnMe;
+    } else {
+      throw Exception("No page found");
+    }
   }
 
   static String getBaseName(String fullName) {
@@ -678,14 +700,15 @@ abstract class MediumHelper<T> {
     }
   }
 
-  Future<T> uploadTextData(String memberMediumDocumentId,
-      String textData, String baseName, {FeedbackProgress? feedbackProgress}) async {
+  Future<T> uploadTextData(
+      String memberMediumDocumentId, String textData, String baseName,
+      {FeedbackProgress? feedbackProgress}) async {
     List<int> list = textData.codeUnits;
     Uint8List fileData = Uint8List.fromList(list);
 
     // First, upload the file
-    var fileInfo = await UploadInfo.uploadData(baseName, fileData, app.documentID,
-        ownerId, packageName, readAccessCustomMetaData(),
+    var fileInfo = await UploadInfo.uploadData(baseName, fileData,
+        app.documentID, ownerId, packageName, readAccessCustomMetaData(),
         feedbackProgress: (progress) => _feedBackAggregatedProgress(
             1, 2, progress,
             feedbackProgress: feedbackProgress));
@@ -694,8 +717,11 @@ abstract class MediumHelper<T> {
       throw Exception('fileInfo is null');
     }
 
-    var returnMe = await textToMediumModel(memberMediumDocumentId,
-        baseName, fileInfo, );
+    var returnMe = await textToMediumModel(
+      memberMediumDocumentId,
+      baseName,
+      fileInfo,
+    );
     _feedBackAggregatedProgress(2, 2, 1, feedbackProgress: feedbackProgress);
     return returnMe;
   }

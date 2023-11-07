@@ -18,7 +18,7 @@ import 'blocs/appbar/extended_app_bar_component_bloc.dart';
 import 'blocs/appbar/extended_app_bar_component_state.dart';
 
 class EliudAppBar extends StatefulWidget {
-  static String PAGE_TITLE_KEYWORD = "\${PAGE_TITLE}";
+  static String pageTitleKeyword = "\${PAGE_TITLE}";
 
   final AppModel app;
   final MemberModel? member;
@@ -30,7 +30,7 @@ class EliudAppBar extends StatefulWidget {
   final AppModel? playstoreApp;
 
   EliudAppBar(
-      {Key? key,
+      {super.key,
       this.pageTitle,
       required this.app,
       required this.playstoreApp,
@@ -38,11 +38,10 @@ class EliudAppBar extends StatefulWidget {
       required this.currentPage,
       required this.scaffoldKey,
       required this.theTitle,
-      required this.value})
-      : super(key: key);
+      required this.value});
 
   @override
-  _EliudAppBarState createState() => _EliudAppBarState();
+  State<EliudAppBar> createState() => _EliudAppBarState();
 }
 
 class _EliudAppBarState extends State<EliudAppBar> {
@@ -55,15 +54,22 @@ class _EliudAppBarState extends State<EliudAppBar> {
         child: BlocBuilder<ExtendedAppBarComponentBloc,
             ExtendedAppBarComponentState>(builder: (context, state) {
           if (state is ExtendedAppBarComponentLoaded) {
-              return EliudAppBarWithItems(state: state, pageTitle: widget.pageTitle, app: widget.app, playstoreApp: widget.playstoreApp, member: widget.member, currentPage: widget.currentPage, theTitle: widget.theTitle, scaffoldKey: widget.scaffoldKey, );
+            return EliudAppBarWithItems(
+              state: state,
+              pageTitle: widget.pageTitle,
+              app: widget.app,
+              playstoreApp: widget.playstoreApp,
+              member: widget.member,
+              currentPage: widget.currentPage,
+              theTitle: widget.theTitle,
+              scaffoldKey: widget.scaffoldKey,
+            );
           } else {
             return progressIndicator(app, context);
           }
         }));
   }
 }
-
-
 
 class EliudAppBarWithItems extends StatefulWidget {
   final String? pageTitle;
@@ -75,20 +81,20 @@ class EliudAppBarWithItems extends StatefulWidget {
   final String theTitle;
   final GlobalKey<ScaffoldState> scaffoldKey;
 
-  EliudAppBarWithItems(
-      {Key? key, required this.state,
-        this.pageTitle,
-        required this.app,
-        required this.playstoreApp,
-        required this.member,
-        required this.currentPage,
-        required this.scaffoldKey,
-        required this.theTitle,
-      })
-      : super(key: key);
+  EliudAppBarWithItems({
+    super.key,
+    required this.state,
+    this.pageTitle,
+    required this.app,
+    required this.playstoreApp,
+    required this.member,
+    required this.currentPage,
+    required this.scaffoldKey,
+    required this.theTitle,
+  });
 
   @override
-  _EliudAppBarWithItemsState createState() => _EliudAppBarWithItemsState();
+  State<EliudAppBarWithItems> createState() => _EliudAppBarWithItemsState();
 }
 
 class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
@@ -101,34 +107,34 @@ class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
 
     var header = value.header!;
     var title = value.title;
-    if ((title != null) &&  (title.contains(EliudAppBar.PAGE_TITLE_KEYWORD))) {
+    if ((title != null) && (title.contains(EliudAppBar.pageTitleKeyword))) {
       if (widget.pageTitle != null) {
-        title = title.replaceAll(EliudAppBar.PAGE_TITLE_KEYWORD, widget.pageTitle!);
+        title =
+            title.replaceAll(EliudAppBar.pageTitleKeyword, widget.pageTitle!);
       } else {
-        title = title.replaceAll(EliudAppBar.PAGE_TITLE_KEYWORD, 'No title');
+        title = title.replaceAll(EliudAppBar.pageTitleKeyword, 'No title');
       }
     }
     var icon = value.icon;
     var memberMediumModel = value.image;
-    if ((header == HeaderSelection.Title) && (title == null)) {
+    if ((header == HeaderSelection.title) && (title == null)) {
       if (icon != null) {
-        header = HeaderSelection.Icon;
+        header = HeaderSelection.icon;
       } else {
-        header = HeaderSelection.Image;
+        header = HeaderSelection.image;
       }
-    } else if ((header == HeaderSelection.Image) &&
-        (icon == null)) {
+    } else if ((header == HeaderSelection.image) && (icon == null)) {
       if (title != null) {
-        header = HeaderSelection.Title;
+        header = HeaderSelection.title;
       } else {
-        header = HeaderSelection.Image;
+        header = HeaderSelection.image;
       }
-    } else if ((header == HeaderSelection.Image) &&
+    } else if ((header == HeaderSelection.image) &&
         (memberMediumModel == null)) {
       if (title != null) {
-        header = HeaderSelection.Title;
+        header = HeaderSelection.title;
       } else {
-        header = HeaderSelection.Icon;
+        header = HeaderSelection.icon;
       }
     }
 
@@ -138,10 +144,8 @@ class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
         memberMediumModel: value.image,
         header: header);
 
-
     return FutureBuilder<List<AbstractMenuItemAttributes>>(
-        future: mapMenu(context, value.iconMenu!,
-            widget.member, currentPage),
+        future: mapMenu(context, value.iconMenu!, widget.member, currentPage),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             var items = snapshot.data!;
@@ -153,10 +157,9 @@ class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
                   key: _appBarKey,
                   backgroundOverride: value.backgroundOverride,
                   menuBackgroundColorOverride:
-                  value.menuBackgroundColorOverride,
+                      value.menuBackgroundColorOverride,
                   iconColorOverride: value.iconColorOverride,
-                  selectedIconColorOverride:
-                  value.selectedIconColorOverride,
+                  selectedIconColorOverride: value.selectedIconColorOverride,
                   pageName: widget.theTitle,
                   items: items,
                   openDrawer: () =>
@@ -171,10 +174,9 @@ class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
                   key: _appBarKey,
                   backgroundOverride: value.backgroundOverride,
                   menuBackgroundColorOverride:
-                  value.menuBackgroundColorOverride,
+                      value.menuBackgroundColorOverride,
                   iconColorOverride: value.iconColorOverride,
-                  selectedIconColorOverride:
-                  value.selectedIconColorOverride,
+                  selectedIconColorOverride: value.selectedIconColorOverride,
                   pageName: widget.theTitle,
                   items: [],
                   openDrawer: () =>
@@ -184,29 +186,27 @@ class _EliudAppBarWithItemsState extends State<EliudAppBarWithItems> {
         });
   }
 
-  Future<List<AbstractMenuItemAttributes>> mapMenu(BuildContext context, MenuDefModel menu, MemberModel? member, String? currentPage) async {
-    var items = await MenuItemMapper.mapMenu(context, menu, member, currentPage);
+  Future<List<AbstractMenuItemAttributes>> mapMenu(BuildContext context,
+      MenuDefModel menu, MemberModel? member, String? currentPage) async {
+    var items =
+        await MenuItemMapper.mapMenu(context, menu, member, currentPage);
     var playStoreApp = widget.playstoreApp;
     if ((playStoreApp != null) &&
         (widget.app.documentID != playStoreApp.documentID)) {
       if ((playStoreApp.logo != null) && (playStoreApp.logo!.url != null)) {
         items.add(MenuItemAttributes(
             isActive: false,
-            onTap: () =>
-                eliudrouter.Router.navigateTo(
-                    context,
-                    SwitchApp(widget.app,
-                        toAppID: playStoreApp.documentID)),
+            onTap: () => eliudrouter.Router.navigateTo(context,
+                SwitchApp(widget.app, toAppID: playStoreApp.documentID)),
             imageURL: playStoreApp.logo!.url));
       } else {
         items.add(MenuItemAttributes(
-            isActive: false,
-            onTap: () =>
-                eliudrouter.Router.navigateTo(
-                    context,
-                    SwitchApp(widget.app,
-                        toAppID: playStoreApp.documentID)),
-            icon: IconModel(codePoint: Icons.home.codePoint, fontFamily: "MaterialIcons"),));
+          isActive: false,
+          onTap: () => eliudrouter.Router.navigateTo(
+              context, SwitchApp(widget.app, toAppID: playStoreApp.documentID)),
+          icon: IconModel(
+              codePoint: Icons.home.codePoint, fontFamily: "MaterialIcons"),
+        ));
       }
     }
     return items;

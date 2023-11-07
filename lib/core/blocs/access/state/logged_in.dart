@@ -28,19 +28,22 @@ class LoggedIn extends AccessDetermined {
   final List<String> blockedMembers;
 
   LoggedIn._(
-      this.usr,
-      this.member,
-      this.postLoginAction,
-      List<DeterminedApp> apps,
-      Map<String, PagesAndDialogAccesss> accesses,
-      this.subscribedToApps,
-      this.blockedMembers,
-      {AppModel? playstoreApp,
-      bool? isProcessing,
-        String? tempMessage,
-      })
-      : super(apps, accesses,
-            playstoreApp: playstoreApp, isProcessing: isProcessing, tempMessage: tempMessage);
+    this.usr,
+    this.member,
+    this.postLoginAction,
+    List<DeterminedApp> apps,
+    Map<String, PagesAndDialogAccesss> accesses,
+    this.subscribedToApps,
+    this.blockedMembers, {
+    AppModel? playstoreApp,
+    bool? isProcessing,
+    String? tempMessage,
+    int? newForceRefresh,
+  }) : super(apps, accesses,
+            playstoreApp: playstoreApp,
+            isProcessing: isProcessing,
+            tempMessage: tempMessage,
+            newForceRefresh: newForceRefresh);
 
   static Future<LoggedIn> getLoggedIn(
     AccessBloc accessBloc,
@@ -61,7 +64,8 @@ class LoggedIn extends AccessDetermined {
       return DeterminedApp(app, homePage);
     }).toList());
 
-    List<String> _blockedMembers = await MaintainBlocked.getBlockedMembers(member.documentID);
+    List<String> blockedMembers =
+        await MaintainBlocked.getBlockedMembers(member.documentID);
 
 /*
     if ((!(subscribedToApps.contains(currentApp.documentID))) && (currentApp.policies == null)) {
@@ -77,7 +81,7 @@ class LoggedIn extends AccessDetermined {
       determinedApps,
       accesses,
       subscribedToApps,
-      _blockedMembers,
+      blockedMembers,
       playstoreApp: playstoreApp,
     );
   }
@@ -96,7 +100,8 @@ class LoggedIn extends AccessDetermined {
     var appIsBlocked = _isBlocked(app.documentID, accesses);
     var homePage = await getHomepage(app, appIsBlocked, privilegeLevel);
     var apps = [DeterminedApp(app, homePage)];
-    List<String> _blockedMembers = await MaintainBlocked.getBlockedMembers(member.documentID);
+    List<String> blockedMembers =
+        await MaintainBlocked.getBlockedMembers(member.documentID);
 
     return LoggedIn._(
       usr,
@@ -105,7 +110,7 @@ class LoggedIn extends AccessDetermined {
       apps,
       accesses,
       subscribedToApps,
-      _blockedMembers,
+      blockedMembers,
       playstoreApp: playstoreApp,
     );
   }
@@ -150,6 +155,7 @@ class LoggedIn extends AccessDetermined {
           blockedMembers,
           playstoreApp: playstoreApp,
           isProcessing: isProcessing,
+          newForceRefresh: forceRefresh,
         );
       }
     }
@@ -160,18 +166,17 @@ class LoggedIn extends AccessDetermined {
   @override
   Future<LoggedIn> addApp2(
       AccessBloc accessBloc,
-      Map<String, PagesAndDialogAccesss> _accesses,
-      List<DeterminedApp> _apps,
+      Map<String, PagesAndDialogAccesss> accesses,
+      List<DeterminedApp> apps,
       AppModel newCurrentApp) async {
     var newAccesses = await AccessHelper.extendAccesses(
-        accessBloc, member, _accesses, newCurrentApp, true);
-    var newApps = _apps.map((v) => v).toList();
+        accessBloc, member, accesses, newCurrentApp, true);
+    var newApps = apps.map((v) => v).toList();
 
-    var privilegeLevel =
-    _privilegeLevel(newCurrentApp.documentID, newAccesses);
+    var privilegeLevel = _privilegeLevel(newCurrentApp.documentID, newAccesses);
     var appIsBlocked = _isBlocked(newCurrentApp.documentID, newAccesses);
     var homePage =
-    await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
+        await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
     newApps.add(DeterminedApp(newCurrentApp, homePage));
     return Future.value(LoggedIn._(
       usr,
@@ -182,23 +187,24 @@ class LoggedIn extends AccessDetermined {
       subscribedToApps,
       blockedMembers,
       playstoreApp: playstoreApp,
+      newForceRefresh: forceRefresh,
     ));
   }
 
-
   @override
   Future<LoggedIn> updateApp2(
-      AccessBloc accessBloc,
-      AppModel newCurrentApp) async {
+      AccessBloc accessBloc, AppModel newCurrentApp) async {
     var newAccesses = await AccessHelper.extendAccesses(
         accessBloc, member, accesses, newCurrentApp, true);
 
     var newApps = <DeterminedApp>[];
     for (var app in apps) {
       if (app.app.documentID == newCurrentApp.documentID) {
-        var privilegeLevel = _privilegeLevel(newCurrentApp.documentID, newAccesses);
+        var privilegeLevel =
+            _privilegeLevel(newCurrentApp.documentID, newAccesses);
         var appIsBlocked = _isBlocked(newCurrentApp.documentID, newAccesses);
-        var homePage = await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
+        var homePage =
+            await getHomepage(newCurrentApp, appIsBlocked, privilegeLevel);
         newApps.add(DeterminedApp(newCurrentApp, homePage));
       } else {
         newApps.add(app);
@@ -214,6 +220,7 @@ class LoggedIn extends AccessDetermined {
       subscribedToApps,
       blockedMembers,
       playstoreApp: playstoreApp,
+      newForceRefresh: forceRefresh,
     ));
   }
 
@@ -231,6 +238,7 @@ class LoggedIn extends AccessDetermined {
       subscribedToApps,
       blockedMembers,
       playstoreApp: playstoreApp,
+      newForceRefresh: forceRefresh,
     ));
   }
 
@@ -246,11 +254,12 @@ class LoggedIn extends AccessDetermined {
       blockedMembers,
       playstoreApp: playstoreApp,
       isProcessing: false,
+      newForceRefresh: forceRefresh,
     );
   }
 
   @override
-  AccessDetermined withTempMessage(String tempMessage) {
+  AccessDetermined withTempMessage(String message) {
     return LoggedIn._(
       usr,
       member,
@@ -261,23 +270,25 @@ class LoggedIn extends AccessDetermined {
       blockedMembers,
       playstoreApp: playstoreApp,
       isProcessing: isProcessing,
-        tempMessage: tempMessage
+      tempMessage: message,
+      newForceRefresh: forceRefresh,
     );
   }
 
   @override
   AccessDetermined clearTempMessage() {
     return LoggedIn._(
-        usr,
-        member,
-        postLoginAction,
-        apps,
-        accesses,
-        subscribedToApps,
-        blockedMembers,
-        playstoreApp: playstoreApp,
-        isProcessing: isProcessing,
-        tempMessage: null
+      usr,
+      member,
+      postLoginAction,
+      apps,
+      accesses,
+      subscribedToApps,
+      blockedMembers,
+      playstoreApp: playstoreApp,
+      isProcessing: isProcessing,
+      tempMessage: null,
+      newForceRefresh: forceRefresh,
     );
   }
 
@@ -293,6 +304,7 @@ class LoggedIn extends AccessDetermined {
       blockedMembers,
       playstoreApp: playstoreApp,
       isProcessing: true,
+      newForceRefresh: forceRefresh,
     );
   }
 
@@ -309,6 +321,7 @@ class LoggedIn extends AccessDetermined {
       blockedMembers,
       playstoreApp: playstoreApp,
       isProcessing: isProcessing,
+      newForceRefresh: forceRefresh,
     );
   }
 
@@ -325,6 +338,7 @@ class LoggedIn extends AccessDetermined {
       accesses,
       OpenPageAction(page, parameters: parameters),
       playstoreApp: playstoreApp,
+      newForceRefresh: forceRefresh,
     );
   }
 
@@ -340,6 +354,7 @@ class LoggedIn extends AccessDetermined {
       accesses,
       OpenDialogAction(dialog, parameters: parameters),
       playstoreApp: playstoreApp,
+      newForceRefresh: forceRefresh,
     );
   }
 */
@@ -354,10 +369,9 @@ class LoggedIn extends AccessDetermined {
   static PrivilegeLevel _privilegeLevel(
       String appId, Map<String, PagesAndDialogAccesss> accesses) {
     var appAccess = accesses[appId];
-    if (appAccess == null) return PrivilegeLevel.NoPrivilege;
-    return appAccess.privilegeLevel ?? PrivilegeLevel.NoPrivilege;
+    if (appAccess == null) return PrivilegeLevel.noPrivilege;
+    return appAccess.privilegeLevel ?? PrivilegeLevel.noPrivilege;
   }
-
 
   @override
   bool isBlocked(String appId) => _isBlocked(appId, accesses);
@@ -414,29 +428,28 @@ class LoggedIn extends AccessDetermined {
       AppModel app, bool isBlocked, PrivilegeLevel privilegeLevel) {
     var appId = app.documentID;
     if (app.homePages == null) {
-      return AccessDetermined.getPage(appId, null,
-          alternativePageId: null);
+      return AccessDetermined.getPage(appId, null, alternativePageId: null);
     }
     if (isBlocked) {
       return AccessDetermined.getPage(
           appId, app.homePages!.homePageBlockedMember,
           alternativePageId: app.homePages!.homePagePublic);
     }
-    if ((privilegeLevel.index >= PrivilegeLevel.OwnerPrivilege.index)) {
+    if ((privilegeLevel.index >= PrivilegeLevel.ownerPrivilege.index)) {
       return AccessDetermined.getPage(appId, app.homePages!.homePageOwner,
           alternativePageId: app.homePages!.homePagePublic);
     }
-    if ((privilegeLevel.index >= PrivilegeLevel.Level2Privilege.index)) {
+    if ((privilegeLevel.index >= PrivilegeLevel.level2Privilege.index)) {
       return AccessDetermined.getPage(
           appId, app.homePages!.homePageLevel2Member,
           alternativePageId: app.homePages!.homePagePublic);
     }
-    if ((privilegeLevel.index >= PrivilegeLevel.Level1Privilege.index)) {
+    if ((privilegeLevel.index >= PrivilegeLevel.level1Privilege.index)) {
       return AccessDetermined.getPage(
           appId, app.homePages!.homePageLevel1Member,
           alternativePageId: app.homePages!.homePagePublic);
     }
-    if ((privilegeLevel.index >= PrivilegeLevel.NoPrivilege.index)) {
+    if ((privilegeLevel.index >= PrivilegeLevel.noPrivilege.index)) {
       return AccessDetermined.getPage(
           appId, app.homePages!.homePageSubscribedMember,
           alternativePageId: app.homePages!.homePagePublic);
@@ -446,15 +459,14 @@ class LoggedIn extends AccessDetermined {
 
   @override
   Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc,
-      AppModel newApp, PrivilegeLevel privilege, bool blocked) async {
+      AppModel app, PrivilegeLevel privilege, bool blocked) async {
     var newAccesses = await AccessHelper.extendAccesses2(
-        accessBloc, member, accesses, newApp, true, privilege, blocked);
+        accessBloc, member, accesses, app, true, privilege, blocked);
     var newApps = apps.map((v) => v).toList();
-    newApps
-        .removeWhere((element) => element.app.documentID == newApp.documentID);
+    newApps.removeWhere((element) => element.app.documentID == app.documentID);
 
-    var homePage = await getHomepage(newApp, blocked, privilege);
-    newApps.add(DeterminedApp(newApp, homePage));
+    var homePage = await getHomepage(app, blocked, privilege);
+    newApps.add(DeterminedApp(app, homePage));
 
     return Future.value(LoggedIn._(
       usr,
@@ -465,6 +477,7 @@ class LoggedIn extends AccessDetermined {
       subscribedToApps,
       blockedMembers,
       playstoreApp: playstoreApp,
+      newForceRefresh: forceRefresh,
     ));
   }
 
@@ -478,12 +491,13 @@ class LoggedIn extends AccessDetermined {
       newSubscribedToApps,
       blockedMembers,
       playstoreApp: playstoreApp,
+      newForceRefresh: forceRefresh,
     );
   }
 
   Future<void> refreshClaims() async {
     await usr.reload();
-    var idTokenResult = await usr.getIdTokenResult(true);
+    await usr.getIdTokenResult(true);
   }
 
   static List<String> getSubscriptions(MemberModel member) {
@@ -491,7 +505,7 @@ class LoggedIn extends AccessDetermined {
 
     return member.subscriptions!
         .map((memberSubscriptionModel) =>
-    memberSubscriptionModel.app!.documentID)
+            memberSubscriptionModel.app!.documentID)
         .toList();
   }
 
@@ -506,13 +520,13 @@ class LoggedIn extends AccessDetermined {
     var returnMe = await memberRepository()!.update(member);
 
     var accessModel =
-    await accessRepository(appId: app.documentID)!.get(member.documentID);
+        await accessRepository(appId: app.documentID)!.get(member.documentID);
     if (accessModel == null) {
       // create an access entry. creation with privilege level 0 is allowed
       await accessRepository(appId: app.documentID)!.add(AccessModel(
         documentID: member.documentID,
         appId: app.documentID,
-        privilegeLevel: PrivilegeLevel.NoPrivilege,
+        privilegeLevel: PrivilegeLevel.noPrivilege,
         points: 0,
       ));
     }
@@ -521,16 +535,17 @@ class LoggedIn extends AccessDetermined {
   }
 
   @override
-  AccessDetermined updateMember(MemberModel newMember) {
+  AccessDetermined updateMember(MemberModel member) {
     var newVersion = LoggedIn._(
       usr,
-      newMember,
+      member,
       postLoginAction,
       apps,
       accesses,
-      getSubscriptions(newMember),
+      getSubscriptions(member),
       blockedMembers,
       playstoreApp: playstoreApp,
+      newForceRefresh: forceRefresh,
     );
     return newVersion;
   }
@@ -541,25 +556,17 @@ class LoggedIn extends AccessDetermined {
     // if (member.subscriptions.length == 0) return false;
 
     var matches = member.subscriptions!.where((subscription) =>
-    subscription.app != null
-        ? subscription.app!.documentID == app.documentID
-        : false);
+        subscription.app != null
+            ? subscription.app!.documentID == app.documentID
+            : false);
     return matches.isNotEmpty;
   }
 
   @override
   AccessDetermined newVersion() {
-    var newVersion = LoggedIn._(
-      usr,
-      member,
-      postLoginAction,
-      apps,
-      accesses,
-      subscribedToApps,
-      blockedMembers,
-      playstoreApp: playstoreApp,
-    );
-    newVersion.forceRefresh = forceRefresh + 1;
+    var newVersion = LoggedIn._(usr, member, postLoginAction, apps, accesses,
+        subscribedToApps, blockedMembers,
+        playstoreApp: playstoreApp, newForceRefresh: forceRefresh + 1);
     return newVersion;
   }
 
@@ -574,7 +581,8 @@ class LoggedIn extends AccessDetermined {
   List<String> registerBlockedMember(String otherMember) {
     if (!isBlockedMember(otherMember)) {
       var myMemberId = member.documentID;
-      MaintainBlocked.registerMemberAsBlocked(myMemberId, otherMember); // not waiting, we keep in memory blocked members
+      MaintainBlocked.registerMemberAsBlocked(myMemberId,
+          otherMember); // not waiting, we keep in memory blocked members
       blockedMembers.add(otherMember);
     }
     return blockedMembers;
@@ -583,7 +591,8 @@ class LoggedIn extends AccessDetermined {
   List<String> unRegisterBlockedMember(String otherMember) {
     if (isBlockedMember(otherMember)) {
       var myMemberId = member.documentID;
-      MaintainBlocked.unRegisterMemberAsBlocked(myMemberId, otherMember); // not waiting, we keep in memory blocked members
+      MaintainBlocked.unRegisterMemberAsBlocked(myMemberId,
+          otherMember); // not waiting, we keep in memory blocked members
       blockedMembers.remove(otherMember);
     }
     return blockedMembers;
@@ -596,4 +605,18 @@ class LoggedIn extends AccessDetermined {
   List<String> getBlocked() {
     return blockedMembers;
   }
+
+  @override
+  int get hashCode =>
+      playstoreApp.hashCode ^
+      apps.hashCode ^
+      accesses.hashCode ^
+      isProcessing.hashCode ^
+      tempMessage.hashCode ^
+      usr.hashCode ^
+      member.hashCode ^
+      postLoginAction.hashCode ^
+      subscribedToApps.hashCode ^
+      blockedMembers.hashCode ^
+      newVersion.hashCode;
 }

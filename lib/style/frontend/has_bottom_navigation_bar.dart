@@ -8,8 +8,9 @@ import '../style_registry.dart';
 import 'types.dart';
 
 abstract class HasBottomNavigationBar {
-  Widget bottomNavigationBar(AppModel app,
-      BuildContext context, {
+  Widget bottomNavigationBar(
+    AppModel app,
+    BuildContext context, {
     required MemberModel? member,
     BackgroundModel? backgroundOverride,
     RgbModel? popupMenuBackgroundColorOverride,
@@ -18,23 +19,25 @@ abstract class HasBottomNavigationBar {
   });
 }
 
-Widget bottomNavigationBar(AppModel app,
-    BuildContext context, {
-      required MemberModel? member,
-      BackgroundModel? backgroundOverride,
-      RgbModel? popupMenuBackgroundColorOverride,
-      required List<AbstractMenuItemAttributes> items,
-      Key? key,
-    }) =>
+Widget bottomNavigationBar(
+  AppModel app,
+  BuildContext context, {
+  required MemberModel? member,
+  BackgroundModel? backgroundOverride,
+  RgbModel? popupMenuBackgroundColorOverride,
+  required List<AbstractMenuItemAttributes> items,
+  Key? key,
+}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .bottomNavigationBarStyle()
-        .bottomNavigationBar(app,
-      context,
-      member: member,
-      backgroundOverride: backgroundOverride,
-      popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride,
-      items: items,
-      key: key,
-    );
+        .bottomNavigationBar(
+          app,
+          context,
+          member: member,
+          backgroundOverride: backgroundOverride,
+          popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride,
+          items: items,
+          key: key,
+        );

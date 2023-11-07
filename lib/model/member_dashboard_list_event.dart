@@ -30,10 +30,10 @@ class NewPage extends MemberDashboardListEvent {}
 class AddMemberDashboardList extends MemberDashboardListEvent {
   final MemberDashboardModel? value;
 
-  const AddMemberDashboardList({ this.value });
+  const AddMemberDashboardList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddMemberDashboardList{ value: $value }';
@@ -42,10 +42,10 @@ class AddMemberDashboardList extends MemberDashboardListEvent {
 class UpdateMemberDashboardList extends MemberDashboardListEvent {
   final MemberDashboardModel? value;
 
-  const UpdateMemberDashboardList({ this.value });
+  const UpdateMemberDashboardList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateMemberDashboardList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateMemberDashboardList extends MemberDashboardListEvent {
 class DeleteMemberDashboardList extends MemberDashboardListEvent {
   final MemberDashboardModel? value;
 
-  const DeleteMemberDashboardList({ this.value });
+  const DeleteMemberDashboardList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteMemberDashboardList{ value: $value }';
@@ -67,24 +67,24 @@ class MemberDashboardListUpdated extends MemberDashboardListEvent {
   final List<MemberDashboardModel?>? value;
   final bool? mightHaveMore;
 
-  const MemberDashboardListUpdated({ this.value, this.mightHaveMore });
+  const MemberDashboardListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'MemberDashboardListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'MemberDashboardListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class MemberDashboardChangeQuery extends MemberDashboardListEvent {
   final EliudQuery? newQuery;
 
-  const MemberDashboardChangeQuery({ required this.newQuery });
+  const MemberDashboardChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'MemberDashboardChangeQuery{ value: $newQuery }';
 }
-

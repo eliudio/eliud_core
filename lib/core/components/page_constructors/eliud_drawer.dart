@@ -26,16 +26,15 @@ class EliudDrawer extends StatefulWidget {
   final AccessState accessState;
 
   EliudDrawer(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.accessState,
       required this.drawerType,
       required this.drawer,
-      required this.currentPage})
-      : super(key: key);
+      required this.currentPage});
 
   @override
-  _EliudDrawerState createState() {
+  State<EliudDrawer> createState() {
     return _EliudDrawerState();
   }
 }
@@ -74,17 +73,16 @@ class EliudDrawerWithItems extends StatefulWidget {
   final ExtendedDrawerComponentLoaded state;
 
   EliudDrawerWithItems(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.accessState,
       required this.drawerType,
       required this.drawer,
       required this.currentPage,
-      required this.state})
-      : super(key: key);
+      required this.state});
 
   @override
-  _EliudDrawerWithItemsState createState() {
+  State<EliudDrawerWithItems> createState() {
     return _EliudDrawerWithItemsState();
   }
 }
@@ -97,26 +95,22 @@ class _EliudDrawerWithItemsState extends State<EliudDrawerWithItems> {
     if (drawer.menu != null) {
       var app = widget.app;
       var currentPage = widget.currentPage;
-      var drawerHeader1Attributes;
-      if (((drawer.headerText != null) &&
-          (drawer.headerText!.isNotEmpty)) ||
+      DrawerHeader1Attributes? drawerHeader1Attributes;
+      if (((drawer.headerText != null) && (drawer.headerText!.isNotEmpty)) ||
           (drawer.headerBackgroundOverride != null)) {
-        drawerHeader1Attributes = DrawerHeader1Attributes(
-            drawer.headerHeight,
-            drawer.headerText!,
-            drawer.headerBackgroundOverride);
+        drawerHeader1Attributes = DrawerHeader1Attributes(drawer.headerHeight,
+            drawer.headerText!, drawer.headerBackgroundOverride);
       }
-      var drawerHeader2Attributes;
+      DrawerHeader2Attributes? drawerHeader2Attributes;
       if ((drawer.secondHeaderText != null) &&
           (drawer.secondHeaderText!.isNotEmpty)) {
-        drawerHeader2Attributes = DrawerHeader2Attributes(
-            drawer.headerHeight,
+        drawerHeader2Attributes = DrawerHeader2Attributes(drawer.headerHeight,
             processDoc(context, app, drawer.secondHeaderText!));
       }
 
       return FutureBuilder<List<AbstractMenuItemAttributes>?>(
-          future: MenuItemMapper.mapMenu(
-              context, drawer.menu!, widget.accessState.getMember(), currentPage),
+          future: MenuItemMapper.mapMenu(context, drawer.menu!,
+              widget.accessState.getMember(), currentPage),
           builder: (context, snapshot) {
             var itemList = <AbstractMenuItemAttributes>[];
             if (snapshot.hasData) {
@@ -124,9 +118,9 @@ class _EliudDrawerWithItemsState extends State<EliudDrawerWithItems> {
               return Decorations.instance().createDecoratedDrawer(
                   app,
                   context,
-                  widget.drawerType == DrawerType.Left
-                      ? DecorationDrawerType.Left
-                      : DecorationDrawerType.Right,
+                  widget.drawerType == DrawerType.left
+                      ? DecorationDrawerType.left
+                      : DecorationDrawerType.right,
                   _drawerKey, () {
                 return dr.drawer(app, context,
                     key: _drawerKey,
@@ -136,16 +130,16 @@ class _EliudDrawerWithItemsState extends State<EliudDrawerWithItems> {
                     header2: drawerHeader2Attributes,
                     items: itemList,
                     popupMenuBackgroundColorOverride:
-                    drawer.popupMenuBackgroundColorOverride,
+                        drawer.popupMenuBackgroundColorOverride,
                     backgroundOverride: drawer.backgroundOverride);
               }, drawer)();
             } else {
               return Decorations.instance().createDecoratedDrawer(
                   app,
                   context,
-                  widget.drawerType == DrawerType.Left
-                      ? DecorationDrawerType.Left
-                      : DecorationDrawerType.Right,
+                  widget.drawerType == DrawerType.left
+                      ? DecorationDrawerType.left
+                      : DecorationDrawerType.right,
                   _drawerKey, () {
                 return dr.drawer(app, context,
                     key: _drawerKey,
@@ -155,7 +149,7 @@ class _EliudDrawerWithItemsState extends State<EliudDrawerWithItems> {
                     header2: drawerHeader2Attributes,
                     items: [],
                     popupMenuBackgroundColorOverride:
-                    drawer.popupMenuBackgroundColorOverride,
+                        drawer.popupMenuBackgroundColorOverride,
                     backgroundOverride: drawer.backgroundOverride);
               }, drawer)();
             }

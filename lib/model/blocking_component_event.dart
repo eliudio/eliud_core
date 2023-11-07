@@ -24,13 +24,11 @@ abstract class BlockingComponentEvent extends Equatable {
 class FetchBlockingComponent extends BlockingComponentEvent {
   final String? id;
 
-  FetchBlockingComponent({ this.id });
+  FetchBlockingComponent({this.id});
 }
 
 class BlockingComponentUpdated extends BlockingComponentEvent {
   final BlockingModel value;
 
-  BlockingComponentUpdated({ required this.value });
+  BlockingComponentUpdated({required this.value});
 }
-
-

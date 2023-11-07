@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class AppFormEvent extends Equatable {
   const AppFormEvent();
@@ -26,15 +25,13 @@ abstract class AppFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewAppFormEvent extends AppFormEvent {
-}
-
+class InitialiseNewAppFormEvent extends AppFormEvent {}
 
 class InitialiseAppFormEvent extends AppFormEvent {
   final AppModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseAppFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseAppFormNoLoadEvent extends AppFormEvent {
   final AppModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseAppFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedAppDocumentID extends AppFormEvent {
   ChangedAppDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedAppOwnerID extends AppFormEvent {
   ChangedAppOwnerID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppOwnerID{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedAppTitle extends AppFormEvent {
   ChangedAppTitle({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppTitle{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedAppHomeURL extends AppFormEvent {
   ChangedAppHomeURL({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppHomeURL{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedAppEmail extends AppFormEvent {
   ChangedAppEmail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppEmail{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedAppDescription extends AppFormEvent {
   ChangedAppDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppDescription{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedAppAppStatus extends AppFormEvent {
   ChangedAppAppStatus({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppAppStatus{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedAppAnonymousProfilePhoto extends AppFormEvent {
   ChangedAppAnonymousProfilePhoto({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppAnonymousProfilePhoto{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedAppHomePages extends AppFormEvent {
   ChangedAppHomePages({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppHomePages{ value: $value }';
@@ -162,7 +159,7 @@ class ChangedAppLogo extends AppFormEvent {
   ChangedAppLogo({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppLogo{ value: $value }';
@@ -174,7 +171,7 @@ class ChangedAppStyleFamily extends AppFormEvent {
   ChangedAppStyleFamily({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppStyleFamily{ value: $value }';
@@ -186,7 +183,7 @@ class ChangedAppStyleName extends AppFormEvent {
   ChangedAppStyleName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppStyleName{ value: $value }';
@@ -198,7 +195,7 @@ class ChangedAppAutoPrivileged1 extends AppFormEvent {
   ChangedAppAutoPrivileged1({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppAutoPrivileged1{ value: $value }';
@@ -210,7 +207,7 @@ class ChangedAppIsFeatured extends AppFormEvent {
   ChangedAppIsFeatured({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppIsFeatured{ value: $value }';
@@ -222,7 +219,7 @@ class ChangedAppIncludeShippingAddress extends AppFormEvent {
   ChangedAppIncludeShippingAddress({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppIncludeShippingAddress{ value: $value }';
@@ -234,7 +231,7 @@ class ChangedAppIncludeInvoiceAddress extends AppFormEvent {
   ChangedAppIncludeInvoiceAddress({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppIncludeInvoiceAddress{ value: $value }';
@@ -246,7 +243,7 @@ class ChangedAppIncludeSubscriptions extends AppFormEvent {
   ChangedAppIncludeSubscriptions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppIncludeSubscriptions{ value: $value }';
@@ -258,9 +255,8 @@ class ChangedAppWelcomeMessage extends AppFormEvent {
   ChangedAppWelcomeMessage({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppWelcomeMessage{ value: $value }';
 }
-

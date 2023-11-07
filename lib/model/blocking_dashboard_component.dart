@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/blocking_dashboard_component_bloc.dart';
 import 'package:eliud_core/model/blocking_dashboard_component_event.dart';
 import 'package:eliud_core/model/blocking_dashboard_model.dart';
@@ -31,20 +30,23 @@ abstract class AbstractBlockingDashboardComponent extends StatelessWidget {
   final AppModel app;
   final String blockingDashboardId;
 
-  AbstractBlockingDashboardComponent({Key? key, required this.app, required this.blockingDashboardId}): super(key: key);
+  AbstractBlockingDashboardComponent(
+      {super.key, required this.app, required this.blockingDashboardId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<BlockingDashboardComponentBloc> (
-          create: (context) => BlockingDashboardComponentBloc(
-            blockingDashboardRepository: blockingDashboardRepository(appId: app.documentID)!)
+    return BlocProvider<BlockingDashboardComponentBloc>(
+      create: (context) => BlockingDashboardComponentBloc(
+          blockingDashboardRepository:
+              blockingDashboardRepository(appId: app.documentID)!)
         ..add(FetchBlockingDashboardComponent(id: blockingDashboardId)),
       child: _blockingDashboardBlockBuilder(context),
     );
   }
 
   Widget _blockingDashboardBlockBuilder(BuildContext context) {
-    return BlocBuilder<BlockingDashboardComponentBloc, BlockingDashboardComponentState>(builder: (context, state) {
+    return BlocBuilder<BlockingDashboardComponentBloc,
+        BlockingDashboardComponentState>(builder: (context, state) {
       if (state is BlockingDashboardComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is BlockingDashboardComponentPermissionDenied) {
@@ -57,7 +59,11 @@ abstract class AbstractBlockingDashboardComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +71,3 @@ abstract class AbstractBlockingDashboardComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, BlockingDashboardModel value);
 }
-

@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class HomeMenuFormEvent extends Equatable {
   const HomeMenuFormEvent();
@@ -26,15 +25,13 @@ abstract class HomeMenuFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewHomeMenuFormEvent extends HomeMenuFormEvent {
-}
-
+class InitialiseNewHomeMenuFormEvent extends HomeMenuFormEvent {}
 
 class InitialiseHomeMenuFormEvent extends HomeMenuFormEvent {
   final HomeMenuModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseHomeMenuFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseHomeMenuFormNoLoadEvent extends HomeMenuFormEvent {
   final HomeMenuModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseHomeMenuFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedHomeMenuDocumentID extends HomeMenuFormEvent {
   ChangedHomeMenuDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedHomeMenuDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedHomeMenuAppId extends HomeMenuFormEvent {
   ChangedHomeMenuAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedHomeMenuAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedHomeMenuName extends HomeMenuFormEvent {
   ChangedHomeMenuName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedHomeMenuName{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedHomeMenuMenu extends HomeMenuFormEvent {
   ChangedHomeMenuMenu({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedHomeMenuMenu{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedHomeMenuIconColorOverride extends HomeMenuFormEvent {
   ChangedHomeMenuIconColorOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedHomeMenuIconColorOverride{ value: $value }';
@@ -114,21 +111,22 @@ class ChangedHomeMenuBackgroundOverride extends HomeMenuFormEvent {
   ChangedHomeMenuBackgroundOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedHomeMenuBackgroundOverride{ value: $value }';
 }
 
-class ChangedHomeMenuPopupMenuBackgroundColorOverride extends HomeMenuFormEvent {
+class ChangedHomeMenuPopupMenuBackgroundColorOverride
+    extends HomeMenuFormEvent {
   final RgbModel? value;
 
   ChangedHomeMenuPopupMenuBackgroundColorOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedHomeMenuPopupMenuBackgroundColorOverride{ value: $value }';
+  String toString() =>
+      'ChangedHomeMenuPopupMenuBackgroundColorOverride{ value: $value }';
 }
-

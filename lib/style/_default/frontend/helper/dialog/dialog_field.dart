@@ -1,4 +1,3 @@
-
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_style.dart';
 import 'package:flutter/material.dart';
@@ -10,24 +9,24 @@ class DialogField extends StatefulWidget {
   final ValueChanged<String> valueChanged;
   final String? initialValue;
 
-  TextInputType? keyboardType;
-  TextCapitalization? textCapitalization;
-  List<TextInputFormatter>? inputFormatters;
-  TextAlign? textAlign;
-  TextAlignVertical? textAlignVertical;
-  TextDirection? textDirection;
-  bool? readOnly;
-  ToolbarOptions? toolbarOptions;
-  bool? showCursor;
-  bool? autocorrect;
-  bool? enableSuggestions;
-  int? maxLines;
-  int? minLines;
-  bool? expands;
-  int? maxLength;
+  final TextInputType? keyboardType;
+  final TextCapitalization? textCapitalization;
+  final List<TextInputFormatter>? inputFormatters;
+  final TextAlign? textAlign;
+  final TextAlignVertical? textAlignVertical;
+  final TextDirection? textDirection;
+  final bool? readOnly;
+  //ToolbarOptions? toolbarOptions;
+  final bool? showCursor;
+  final bool? autocorrect;
+  final bool? enableSuggestions;
+  final int? maxLines;
+  final int? minLines;
+  final bool? expands;
+  final int? maxLength;
 
   DialogField({
-    Key? key,
+    super.key,
     required this.app,
     this.decoration,
     required this.valueChanged,
@@ -39,7 +38,7 @@ class DialogField extends StatefulWidget {
     this.textAlignVertical,
     this.textDirection,
     this.readOnly,
-    this.toolbarOptions,
+    //this.toolbarOptions,
     this.showCursor,
     this.autocorrect,
     this.enableSuggestions,
@@ -47,7 +46,7 @@ class DialogField extends StatefulWidget {
     this.minLines,
     this.expands,
     this.maxLength,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -89,7 +88,7 @@ class _DialogFieldState extends State<DialogField> {
       textAlignVertical: widget.textAlignVertical,
       textDirection: widget.textDirection,
       readOnly: widget.readOnly == null ? false : widget.readOnly!,
-      toolbarOptions: widget.toolbarOptions,
+      //toolbarOptions: widget.toolbarOptions,
       showCursor: widget.showCursor,
       autocorrect: widget.autocorrect == null ? true : widget.autocorrect!,
       enableSuggestions:

@@ -23,24 +23,27 @@ abstract class BlockingDashboardComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class BlockingDashboardComponentUninitialized extends BlockingDashboardComponentState {}
+class BlockingDashboardComponentUninitialized
+    extends BlockingDashboardComponentState {}
 
 class BlockingDashboardComponentError extends BlockingDashboardComponentState {
   final String? message;
-  BlockingDashboardComponentError({ this.message });
+  BlockingDashboardComponentError({this.message});
 }
 
-class BlockingDashboardComponentPermissionDenied extends BlockingDashboardComponentState {
+class BlockingDashboardComponentPermissionDenied
+    extends BlockingDashboardComponentState {
   BlockingDashboardComponentPermissionDenied();
 }
 
 class BlockingDashboardComponentLoaded extends BlockingDashboardComponentState {
   final BlockingDashboardModel value;
 
-  const BlockingDashboardComponentLoaded({ required this.value });
+  const BlockingDashboardComponentLoaded({required this.value});
 
-  BlockingDashboardComponentLoaded copyWith({ BlockingDashboardModel? copyThis }) {
-    return BlockingDashboardComponentLoaded(value: copyThis ?? this.value);
+  BlockingDashboardComponentLoaded copyWith(
+      {BlockingDashboardModel? copyThis}) {
+    return BlockingDashboardComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +52,3 @@ class BlockingDashboardComponentLoaded extends BlockingDashboardComponentState {
   @override
   String toString() => 'BlockingDashboardComponentLoaded { value: $value }';
 }
-

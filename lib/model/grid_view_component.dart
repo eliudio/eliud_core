@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/grid_view_component_bloc.dart';
 import 'package:eliud_core/model/grid_view_component_event.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
@@ -31,20 +30,22 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
   final AppModel app;
   final String gridViewId;
 
-  AbstractGridViewComponent({Key? key, required this.app, required this.gridViewId}): super(key: key);
+  AbstractGridViewComponent(
+      {super.key, required this.app, required this.gridViewId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<GridViewComponentBloc> (
-          create: (context) => GridViewComponentBloc(
-            gridViewRepository: gridViewRepository(appId: app.documentID)!)
+    return BlocProvider<GridViewComponentBloc>(
+      create: (context) => GridViewComponentBloc(
+          gridViewRepository: gridViewRepository(appId: app.documentID)!)
         ..add(FetchGridViewComponent(id: gridViewId)),
       child: _gridViewBlockBuilder(context),
     );
   }
 
   Widget _gridViewBlockBuilder(BuildContext context) {
-    return BlocBuilder<GridViewComponentBloc, GridViewComponentState>(builder: (context, state) {
+    return BlocBuilder<GridViewComponentBloc, GridViewComponentState>(
+        builder: (context, state) {
       if (state is GridViewComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is GridViewComponentPermissionDenied) {
@@ -57,7 +58,11 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +70,3 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, GridViewModel value);
 }
-

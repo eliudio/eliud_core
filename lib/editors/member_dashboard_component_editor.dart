@@ -43,7 +43,7 @@ class MemberDashboardComponentEditorConstructor
           description: 'Member dashboard',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -56,7 +56,7 @@ class MemberDashboardComponentEditorConstructor
     if (memberDashboard != null) {
       _openIt(app, context, false, memberDashboard, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID + '/_error',
+      openErrorDialog(app, context, '${app.documentID}/_error',
           title: 'Error',
           errorMessage: 'Cannot find member dashboard with id $id');
     }
@@ -67,7 +67,7 @@ class MemberDashboardComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID + '/memberdashboard',
+      '${app.documentID}/memberdashboard',
       title: create ? 'Create Member Dashboard' : 'Update Member Dashboard',
       includeHeading: false,
       widthFraction: .9,
@@ -89,9 +89,9 @@ class MemberDashboardComponentEditor extends StatefulWidget {
   final AppModel app;
 
   const MemberDashboardComponentEditor({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _MemberDashboardComponentEditorState();

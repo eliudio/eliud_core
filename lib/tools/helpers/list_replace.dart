@@ -1,4 +1,3 @@
-
 extension ListReplace<T> on List<T> {
   void replace(int index1, T newItem) {
     var length = this.length;
@@ -6,4 +5,3 @@ extension ListReplace<T> on List<T> {
     this[index1] = newItem;
   }
 }
-

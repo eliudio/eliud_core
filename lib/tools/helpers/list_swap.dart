@@ -1,4 +1,3 @@
-
 extension ListSwap<T> on List<T> {
   void swap(int index1, int index2) {
     var length = this.length;
@@ -11,4 +10,3 @@ extension ListSwap<T> on List<T> {
     }
   }
 }
-

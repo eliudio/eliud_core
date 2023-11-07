@@ -8,15 +8,14 @@ typedef HeightTypeLandscapeCallback = Function(
     HeightTypeLandscape heightTypeLandscape);
 
 class HeightTypeLandscapeWidget extends StatefulWidget {
-  HeightTypeLandscapeCallback heightTypeLandscapeCallback;
+  final HeightTypeLandscapeCallback heightTypeLandscapeCallback;
   final HeightTypeLandscape heightTypeLandscape;
   final AppModel app;
   HeightTypeLandscapeWidget(
-      {Key? key,
-        required this.app,
-        required this.heightTypeLandscapeCallback,
-        required this.heightTypeLandscape})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.heightTypeLandscapeCallback,
+      required this.heightTypeLandscape});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,17 +26,23 @@ class HeightTypeLandscapeWidget extends StatefulWidget {
 class _HeightTypeLandscapeWidgetState extends State<HeightTypeLandscapeWidget> {
   int? _heightTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _heightTypeSelectedRadioTile = widget.heightTypeLandscape.index;
   }
 
-  String heighttTypeLandscapeStringValue(HeightTypeLandscape? heightTypeLandscape) {
+  String heighttTypeLandscapeStringValue(
+      HeightTypeLandscape? heightTypeLandscape) {
     switch (heightTypeLandscape) {
-      case HeightTypeLandscape.AbsoluteHeight:
+      case HeightTypeLandscape.absoluteHeight:
         return 'Absolute Height';
-      case HeightTypeLandscape.PercentageHeight:
+      case HeightTypeLandscape.percentageHeight:
         return 'Percentage Height';
+      case HeightTypeLandscape.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -60,14 +65,14 @@ class _HeightTypeLandscapeWidgetState extends State<HeightTypeLandscapeWidget> {
             _heightTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(HeightTypeLandscape.PercentageHeight),
-      getPrivilegeOption(HeightTypeLandscape.AbsoluteHeight)
+      getPrivilegeOption(HeightTypeLandscape.percentageHeight),
+      getPrivilegeOption(HeightTypeLandscape.absoluteHeight)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

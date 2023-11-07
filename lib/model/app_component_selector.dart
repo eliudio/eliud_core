@@ -33,20 +33,20 @@ import 'app_list_state.dart';
 
 class AppComponentSelector extends ComponentSelector {
   @override
-  Widget createSelectWidget(BuildContext context, AppModel app, int privilegeLevel, double height,
-      SelectComponent selected, editorConstructor) {
+  Widget createSelectWidget(BuildContext context, AppModel app,
+      int privilegeLevel, double height, SelectComponent selected, editor) {
     var appId = app.documentID;
     return BlocProvider<AppListBloc>(
-          create: (context) => AppListBloc(
-          eliudQuery: getComponentSelectorQuery(0, app.documentID),
-          appRepository:
-              appRepository(appId: appId)!,
-          )..add(LoadAppList()),
-      child: SelectAppWidget(app: app,
+      create: (context) => AppListBloc(
+        eliudQuery: getComponentSelectorQuery(0, app.documentID),
+        appRepository: appRepository(appId: appId)!,
+      )..add(LoadAppList()),
+      child: SelectAppWidget(
+          app: app,
           height: height,
           containerPrivilege: privilegeLevel,
           selected: selected,
-          editorConstructor: editorConstructor),
+          editorConstructor: editor),
     );
   }
 }
@@ -59,21 +59,21 @@ class SelectAppWidget extends StatefulWidget {
   final ComponentEditorConstructor editorConstructor;
 
   const SelectAppWidget(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
-      required this.editorConstructor})
-      : super(key: key);
+      required this.editorConstructor});
 
   @override
-  _SelectAppWidgetState createState() {
+  State<SelectAppWidget> createState() {
     return _SelectAppWidgetState();
   }
 }
 
-class _SelectAppWidgetState extends State<SelectAppWidget> with TickerProviderStateMixin {
+class _SelectAppWidgetState extends State<SelectAppWidget>
+    with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];
   final int _initialPrivilege = 0;
@@ -81,9 +81,9 @@ class _SelectAppWidgetState extends State<SelectAppWidget> with TickerProviderSt
 
   @override
   void initState() {
-    var _privilegeASize = _privilegeItems.length;
+    var privilegeASize = _privilegeItems.length;
     _privilegeTabController =
-        TabController(vsync: this, length: _privilegeASize);
+        TabController(vsync: this, length: privilegeASize);
     _privilegeTabController!.addListener(_handlePrivilegeTabSelection);
     _privilegeTabController!.index = _initialPrivilege;
 
@@ -101,14 +101,15 @@ class _SelectAppWidgetState extends State<SelectAppWidget> with TickerProviderSt
   void _handlePrivilegeTabSelection() {
     if ((_privilegeTabController != null) &&
         (_privilegeTabController!.indexIsChanging)) {
-        _currentPrivilege = _privilegeTabController!.index;
-        BlocProvider.of<AppListBloc>(context).add(
-            AppChangeQuery(newQuery: getComponentSelectorQuery(_currentPrivilege, widget.app.documentID)));
+      _currentPrivilege = _privilegeTabController!.index;
+      BlocProvider.of<AppListBloc>(context).add(AppChangeQuery(
+          newQuery: getComponentSelectorQuery(
+              _currentPrivilege, widget.app.documentID)));
     }
   }
 
   Widget theList(BuildContext context, List<AppModel?> values) {
-    var app = widget.app; 
+    var app = widget.app;
     return ListView.builder(
         shrinkWrap: true,
         physics: ScrollPhysics(),
@@ -136,11 +137,24 @@ class _SelectAppWidgetState extends State<SelectAppWidget> with TickerProviderSt
                     if (selectedValue == 1) {
                       widget.selected(value.documentID);
                     } else if (selectedValue == 2) {
-                      widget.editorConstructor.updateComponent(widget.app, context, value, (_, __) {});
+                      widget.editorConstructor.updateComponent(
+                          widget.app, context, value, (_, __) {});
                     }
                   }),
-              title: value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container(),
-              subtitle: value.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.title!)) : Container(),
+              title: Center(
+                  child: StyleRegistry.registry()
+                      .styleWithApp(app)
+                      .frontEndStyle()
+                      .textStyle()
+                      .text(app, context, value.documentID)),
+              subtitle: value.title != null
+                  ? Center(
+                      child: StyleRegistry.registry()
+                          .styleWithApp(app)
+                          .frontEndStyle()
+                          .textStyle()
+                          .text(app, context, value.title!))
+                  : Container(),
             );
           } else {
             return Container();
@@ -150,13 +164,18 @@ class _SelectAppWidgetState extends State<SelectAppWidget> with TickerProviderSt
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppListBloc, AppListState>(
-        builder: (context, state) {
+    return BlocBuilder<AppListBloc, AppListState>(builder: (context, state) {
       var children = <Widget>[];
       var newPrivilegeItems = <Widget>[];
       int i = 0;
       for (var privilegeItem in _privilegeItems) {
-        newPrivilegeItems.add(Wrap(children: [(i <= widget.containerPrivilege) ? Icon(Icons.check) : Icon(Icons.close), Container(width: 2), text(widget.app, context, privilegeItem)]));
+        newPrivilegeItems.add(Wrap(children: [
+          (i <= widget.containerPrivilege)
+              ? Icon(Icons.check)
+              : Icon(Icons.close),
+          Container(width: 2),
+          text(widget.app, context, privilegeItem)
+        ]));
         i++;
       }
       children.add(tabBar2(widget.app, context,
@@ -170,16 +189,18 @@ class _SelectAppWidgetState extends State<SelectAppWidget> with TickerProviderSt
             )));
       } else {
         children.add(Container(
-            height: max(30, widget.height - 101),
-            ));
+          height: max(30, widget.height - 101),
+        ));
       }
       children.add(Column(children: [
         divider(widget.app, context),
         Center(
-            child: iconButton(widget.app, 
+            child: iconButton(
+          widget.app,
           context,
           onPressed: () {
-            widget.editorConstructor.createNewComponent(widget.app, context, (_, __) {});
+            widget.editorConstructor
+                .createNewComponent(widget.app, context, (_, __) {});
           },
           icon: Icon(Icons.add),
         ))
@@ -189,6 +210,3 @@ class _SelectAppWidgetState extends State<SelectAppWidget> with TickerProviderSt
     });
   }
 }
-
-
-

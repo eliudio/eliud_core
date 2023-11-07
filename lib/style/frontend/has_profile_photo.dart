@@ -26,18 +26,21 @@ abstract class HasProfilePhoto {
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed});
-  Widget getProfilePhotoButtonFromPublicMember(AppModel app, BuildContext context,
+  Widget getProfilePhotoButtonFromPublicMember(
+      AppModel app, BuildContext context,
       {MemberPublicInfoModel? member,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed});
-  Widget getProfilePhotoButtonFromExternalProvider(AppModel app, BuildContext context,
+  Widget getProfilePhotoButtonFromExternalProvider(
+      AppModel app, BuildContext context,
       {required ExternalProfileURLProvider externalProfileURLProvider,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed});
 
-  Widget getProfilePhotoButtonFromCurrentMember(AppModel app, BuildContext context,
+  Widget getProfilePhotoButtonFromCurrentMember(
+      AppModel app, BuildContext context,
       {RgbModel? iconColor, required double radius, VoidCallback? onPressed});
 
   Widget getProfilePhotoButtonFromURL(AppModel app, BuildContext context,
@@ -77,7 +80,8 @@ Widget getProfilePhotoButtonFromPublicMember(AppModel app, BuildContext context,
             iconColor: iconColor,
             onPressed: onPressed);
 
-Widget getProfilePhotoButtonFromExternalProvider(AppModel app, BuildContext context,
+Widget getProfilePhotoButtonFromExternalProvider(
+        AppModel app, BuildContext context,
         {required ExternalProfileURLProvider externalProfileURLProvider,
         required double radius,
         RgbModel? iconColor,
@@ -92,7 +96,8 @@ Widget getProfilePhotoButtonFromExternalProvider(AppModel app, BuildContext cont
             iconColor: iconColor,
             onPressed: onPressed);
 
-Widget getProfilePhotoButtonFromCurrentMember(AppModel app, BuildContext context,
+Widget getProfilePhotoButtonFromCurrentMember(
+        AppModel app, BuildContext context,
         {RgbModel? iconColor,
         required double radius,
         VoidCallback? onPressed}) =>

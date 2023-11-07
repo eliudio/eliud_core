@@ -21,9 +21,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:eliud_core/style/style_registry.dart';
 
-
-
-
 import 'package:eliud_core/model/internal_component.dart';
 
 import 'package:eliud_core/tools/enums.dart';
@@ -36,52 +33,65 @@ import 'package:eliud_core/model/app_policy_form_bloc.dart';
 import 'package:eliud_core/model/app_policy_form_event.dart';
 import 'package:eliud_core/model/app_policy_form_state.dart';
 
-
 class AppPolicyForm extends StatelessWidget {
   final AppModel app;
-  FormAction formAction;
-  AppPolicyModel? value;
-  ActionModel? submitAction;
+  final FormAction formAction;
+  final AppPolicyModel? value;
+  final ActionModel? submitAction;
 
-  AppPolicyForm({Key? key, required this.app, required this.formAction, required this.value, this.submitAction}) : super(key: key);
+  AppPolicyForm(
+      {super.key,
+      required this.app,
+      required this.formAction,
+      required this.value,
+      this.submitAction});
 
+  /// Build the AppPolicyForm
   @override
   Widget build(BuildContext context) {
-    var accessState = AccessBloc.getState(context);
+    //var accessState = AccessBloc.getState(context);
     var appId = app.documentID;
-    if (formAction == FormAction.ShowData) {
-      return BlocProvider<AppPolicyFormBloc >(
-            create: (context) => AppPolicyFormBloc(appId,
-                                       formAction: formAction,
-
-                                                )..add(InitialiseAppPolicyFormEvent(value: value)),
-  
-        child: MyAppPolicyForm(app:app, submitAction: submitAction, formAction: formAction),
-          );
-    } if (formAction == FormAction.ShowPreloadedData) {
-      return BlocProvider<AppPolicyFormBloc >(
-            create: (context) => AppPolicyFormBloc(appId,
-                                       formAction: formAction,
-
-                                                )..add(InitialiseAppPolicyFormNoLoadEvent(value: value)),
-  
-        child: MyAppPolicyForm(app:app, submitAction: submitAction, formAction: formAction),
-          );
+    if (formAction == FormAction.showData) {
+      return BlocProvider<AppPolicyFormBloc>(
+        create: (context) => AppPolicyFormBloc(
+          appId,
+          formAction: formAction,
+        )..add(InitialiseAppPolicyFormEvent(value: value)),
+        child: MyAppPolicyForm(
+            app: app, submitAction: submitAction, formAction: formAction),
+      );
+    }
+    if (formAction == FormAction.showPreloadedData) {
+      return BlocProvider<AppPolicyFormBloc>(
+        create: (context) => AppPolicyFormBloc(
+          appId,
+          formAction: formAction,
+        )..add(InitialiseAppPolicyFormNoLoadEvent(value: value)),
+        child: MyAppPolicyForm(
+            app: app, submitAction: submitAction, formAction: formAction),
+      );
     } else {
       return Scaffold(
-        appBar: StyleRegistry.registry().styleWithApp(app).adminFormStyle().appBarWithString(app, context, title: formAction == FormAction.UpdateAction ? 'Update AppPolicy' : 'Add AppPolicy'),
-        body: BlocProvider<AppPolicyFormBloc >(
-            create: (context) => AppPolicyFormBloc(appId,
-                                       formAction: formAction,
-
-                                                )..add((formAction == FormAction.UpdateAction ? InitialiseAppPolicyFormEvent(value: value) : InitialiseNewAppPolicyFormEvent())),
-  
-        child: MyAppPolicyForm(app: app, submitAction: submitAction, formAction: formAction),
+          appBar: StyleRegistry.registry()
+              .styleWithApp(app)
+              .adminFormStyle()
+              .appBarWithString(app, context,
+                  title: formAction == FormAction.updateAction
+                      ? 'Update AppPolicy'
+                      : 'Add AppPolicy'),
+          body: BlocProvider<AppPolicyFormBloc>(
+            create: (context) => AppPolicyFormBloc(
+              appId,
+              formAction: formAction,
+            )..add((formAction == FormAction.updateAction
+                ? InitialiseAppPolicyFormEvent(value: value)
+                : InitialiseNewAppPolicyFormEvent())),
+            child: MyAppPolicyForm(
+                app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
-
 
 class MyAppPolicyForm extends StatefulWidget {
   final AppModel app;
@@ -90,19 +100,17 @@ class MyAppPolicyForm extends StatefulWidget {
 
   MyAppPolicyForm({required this.app, this.formAction, this.submitAction});
 
-  _MyAppPolicyFormState createState() => _MyAppPolicyFormState(this.formAction);
+  @override
+  State<MyAppPolicyForm> createState() => _MyAppPolicyFormState(formAction);
 }
-
 
 class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
   final FormAction? formAction;
   late AppPolicyFormBloc _myFormBloc;
 
   final TextEditingController _documentIDController = TextEditingController();
-  final TextEditingController _appIdController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   String? _policy;
-
 
   _MyAppPolicyFormState(this.formAction);
 
@@ -111,150 +119,194 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
     super.initState();
     _myFormBloc = BlocProvider.of<AppPolicyFormBloc>(context);
     _documentIDController.addListener(_onDocumentIDChanged);
-    _appIdController.addListener(_onAppIdChanged);
     _nameController.addListener(_onNameChanged);
   }
 
   @override
   Widget build(BuildContext context) {
     var accessState = AccessBloc.getState(context);
-    return BlocBuilder<AppPolicyFormBloc, AppPolicyFormState>(builder: (context, state) {
-      if (state is AppPolicyFormUninitialized) return Center(
-        child: StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context),
-      );
+    return BlocBuilder<AppPolicyFormBloc, AppPolicyFormState>(
+        builder: (context, state) {
+      if (state is AppPolicyFormUninitialized) {
+        return Center(
+          child: StyleRegistry.registry()
+              .styleWithApp(widget.app)
+              .adminListStyle()
+              .progressIndicator(widget.app, context),
+        );
+      }
 
       if (state is AppPolicyFormLoaded) {
-        if (state.value!.documentID != null)
-          _documentIDController.text = state.value!.documentID.toString();
-        else
-          _documentIDController.text = "";
-        if (state.value!.appId != null)
-          _appIdController.text = state.value!.appId.toString();
-        else
-          _appIdController.text = "";
-        if (state.value!.name != null)
-          _nameController.text = state.value!.name.toString();
-        else
-          _nameController.text = "";
-        if (state.value!.policy != null)
-          _policy= state.value!.policy!.documentID;
-        else
-          _policy= "";
+        _documentIDController.text = state.value!.documentID.toString();
+        _nameController.text = state.value!.name.toString();
+        if (state.value!.policy != null) {
+          _policy = state.value!.policy!.documentID;
+        } else {
+          _policy = "";
+        }
       }
       if (state is AppPolicyFormInitialized) {
         List<Widget> children = [];
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
-                ));
+        children.add(Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminFormStyle()
+                .groupTitle(widget.app, context, 'General')));
 
         children.add(
-
-                DropdownButtonComponentFactory().createNew(app: widget.app, id: "platformMediums", value: _policy, trigger: (value, privilegeLevel) => _onPolicySelected(value), optional: false),
-          );
-
-
-
-        children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
-
-
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'General')
-                ));
-
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Document ID', icon: Icons.vpn_key, readOnly: (formAction == FormAction.UpdateAction), textEditingController: _documentIDController, keyboardType: TextInputType.text, validator: (_) => state is DocumentIDAppPolicyFormError ? state.message : null, hintText: null)
-          );
-
-        children.add(
-
-                  StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().textFormField(widget.app, context, labelText: 'Name', icon: Icons.text_format, readOnly: _readOnly(accessState, state), textEditingController: _nameController, keyboardType: TextInputType.text, validator: (_) => state is NameAppPolicyFormError ? state.message : null, hintText: null)
-          );
-
-
-        children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
-
-
-         children.add(Container(
-                  alignment: Alignment.centerLeft,
-                  padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
-                  child: StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().groupTitle(widget.app, context, 'Policies')
-                ));
-
-
-        children.add(Container(height: 20.0));
-        children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().divider(widget.app, context));
-
-
-        if ((formAction != FormAction.ShowData) && (formAction != FormAction.ShowPreloadedData))
-          children.add(StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().button(widget.app, context, label: 'Submit',
-                  onPressed: _readOnly(accessState, state) ? null : () {
-                    if (state is AppPolicyFormError) {
-                      return null;
-                    } else {
-                      if (formAction == FormAction.UpdateAction) {
-                        BlocProvider.of<AppPolicyListBloc>(context).add(
-                          UpdateAppPolicyList(value: state.value!.copyWith(
-                              documentID: state.value!.documentID, 
-                              appId: state.value!.appId, 
-                              name: state.value!.name, 
-                              policy: state.value!.policy, 
-                              conditions: state.value!.conditions, 
-                        )));
-                      } else {
-                        BlocProvider.of<AppPolicyListBloc>(context).add(
-                          AddAppPolicyList(value: AppPolicyModel(
-                              documentID: state.value!.documentID, 
-                              appId: state.value!.appId, 
-                              name: state.value!.name, 
-                              policy: state.value!.policy, 
-                              conditions: state.value!.conditions, 
-                          )));
-                      }
-                      if (widget.submitAction != null) {
-                        eliudrouter.Router.navigateTo(context, widget.submitAction!);
-                      } else {
-                        Navigator.pop(context);
-                      }
-                    }
-                  },
-                ));
-
-        return StyleRegistry.registry().styleWithApp(widget.app).adminFormStyle().container(widget.app, context, Form(
-            child: ListView(
-              padding: const EdgeInsets.all(8),
-              physics: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)) ? NeverScrollableScrollPhysics() : null,
-              shrinkWrap: ((formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData)),
-              children: children
-            ),
-          ), formAction!
+          DropdownButtonComponentFactory().createNew(
+              app: widget.app,
+              id: "platformMediums",
+              value: _policy,
+              trigger: (value, privilegeLevel) => _onPolicySelected(value),
+              optional: false),
         );
+
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .divider(widget.app, context));
+
+        children.add(Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminFormStyle()
+                .groupTitle(widget.app, context, 'General')));
+
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .textFormField(widget.app, context,
+                labelText: 'Document ID',
+                icon: Icons.vpn_key,
+                readOnly: (formAction == FormAction.updateAction),
+                textEditingController: _documentIDController,
+                keyboardType: TextInputType.text,
+                validator: (_) => state is DocumentIDAppPolicyFormError
+                    ? state.message
+                    : null,
+                hintText: null));
+
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .textFormField(widget.app, context,
+                labelText: 'Name',
+                icon: Icons.text_format,
+                readOnly: _readOnly(accessState, state),
+                textEditingController: _nameController,
+                keyboardType: TextInputType.text,
+                validator: (_) =>
+                    state is NameAppPolicyFormError ? state.message : null,
+                hintText: null));
+
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .divider(widget.app, context));
+
+        children.add(Container(
+            alignment: Alignment.centerLeft,
+            padding: const EdgeInsets.fromLTRB(0, 20, 0, 20),
+            child: StyleRegistry.registry()
+                .styleWithApp(widget.app)
+                .adminFormStyle()
+                .groupTitle(widget.app, context, 'Policies')));
+
+        children.add(Container(height: 20.0));
+        children.add(StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .divider(widget.app, context));
+
+        if ((formAction != FormAction.showData) &&
+            (formAction != FormAction.showPreloadedData)) {
+          children.add(StyleRegistry.registry()
+              .styleWithApp(widget.app)
+              .adminFormStyle()
+              .button(
+                widget.app,
+                context,
+                label: 'Submit',
+                onPressed: _readOnly(accessState, state)
+                    ? null
+                    : () {
+                        if (state is AppPolicyFormError) {
+                          return;
+                        } else {
+                          if (formAction == FormAction.updateAction) {
+                            BlocProvider.of<AppPolicyListBloc>(context)
+                                .add(UpdateAppPolicyList(
+                                    value: state.value!.copyWith(
+                              documentID: state.value!.documentID,
+                              appId: state.value!.appId,
+                              name: state.value!.name,
+                              policy: state.value!.policy,
+                              conditions: state.value!.conditions,
+                            )));
+                          } else {
+                            BlocProvider.of<AppPolicyListBloc>(context)
+                                .add(AddAppPolicyList(
+                                    value: AppPolicyModel(
+                              documentID: state.value!.documentID,
+                              appId: state.value!.appId,
+                              name: state.value!.name,
+                              policy: state.value!.policy,
+                              conditions: state.value!.conditions,
+                            )));
+                          }
+                          if (widget.submitAction != null) {
+                            eliudrouter.Router.navigateTo(
+                                context, widget.submitAction!);
+                          } else {
+                            Navigator.pop(context);
+                          }
+                        }
+                      },
+              ));
+        }
+
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminFormStyle()
+            .container(
+                widget.app,
+                context,
+                Form(
+                  child: ListView(
+                      padding: const EdgeInsets.all(8),
+                      physics: ((formAction == FormAction.showData) ||
+                              (formAction == FormAction.showPreloadedData))
+                          ? NeverScrollableScrollPhysics()
+                          : null,
+                      shrinkWrap: ((formAction == FormAction.showData) ||
+                          (formAction == FormAction.showPreloadedData)),
+                      children: children),
+                ),
+                formAction!);
       } else {
-        return StyleRegistry.registry().styleWithApp(widget.app).adminListStyle().progressIndicator(widget.app, context);
+        return StyleRegistry.registry()
+            .styleWithApp(widget.app)
+            .adminListStyle()
+            .progressIndicator(widget.app, context);
       }
     });
   }
 
   void _onDocumentIDChanged() {
-    _myFormBloc.add(ChangedAppPolicyDocumentID(value: _documentIDController.text));
+    _myFormBloc
+        .add(ChangedAppPolicyDocumentID(value: _documentIDController.text));
   }
-
-
-  void _onAppIdChanged() {
-    _myFormBloc.add(ChangedAppPolicyAppId(value: _appIdController.text));
-  }
-
 
   void _onNameChanged() {
     _myFormBloc.add(ChangedAppPolicyName(value: _nameController.text));
   }
-
 
   void _onPolicySelected(String? val) {
     setState(() {
@@ -263,22 +315,17 @@ class _MyAppPolicyFormState extends State<MyAppPolicyForm> {
     _myFormBloc.add(ChangedAppPolicyPolicy(value: val));
   }
 
-
-
   @override
   void dispose() {
     _documentIDController.dispose();
-    _appIdController.dispose();
     _nameController.dispose();
     super.dispose();
   }
 
+  /// Is the form read-only?
   bool _readOnly(AccessState accessState, AppPolicyFormInitialized state) {
-    return (formAction == FormAction.ShowData) || (formAction == FormAction.ShowPreloadedData) || (!accessState.memberIsOwner(widget.app.documentID));
+    return (formAction == FormAction.showData) ||
+        (formAction == FormAction.showPreloadedData) ||
+        (!accessState.memberIsOwner(widget.app.documentID));
   }
-  
-
 }
-
-
-

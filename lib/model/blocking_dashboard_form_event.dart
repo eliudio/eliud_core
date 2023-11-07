@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class BlockingDashboardFormEvent extends Equatable {
   const BlockingDashboardFormEvent();
@@ -26,24 +25,24 @@ abstract class BlockingDashboardFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewBlockingDashboardFormEvent extends BlockingDashboardFormEvent {
-}
-
+class InitialiseNewBlockingDashboardFormEvent
+    extends BlockingDashboardFormEvent {}
 
 class InitialiseBlockingDashboardFormEvent extends BlockingDashboardFormEvent {
   final BlockingDashboardModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseBlockingDashboardFormEvent({this.value});
 }
 
-class InitialiseBlockingDashboardFormNoLoadEvent extends BlockingDashboardFormEvent {
+class InitialiseBlockingDashboardFormNoLoadEvent
+    extends BlockingDashboardFormEvent {
   final BlockingDashboardModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseBlockingDashboardFormNoLoadEvent({this.value});
 }
@@ -54,7 +53,7 @@ class ChangedBlockingDashboardDocumentID extends BlockingDashboardFormEvent {
   ChangedBlockingDashboardDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBlockingDashboardDocumentID{ value: $value }';
@@ -66,7 +65,7 @@ class ChangedBlockingDashboardAppId extends BlockingDashboardFormEvent {
   ChangedBlockingDashboardAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBlockingDashboardAppId{ value: $value }';
@@ -78,7 +77,7 @@ class ChangedBlockingDashboardDescription extends BlockingDashboardFormEvent {
   ChangedBlockingDashboardDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBlockingDashboardDescription{ value: $value }';
@@ -90,9 +89,8 @@ class ChangedBlockingDashboardConditions extends BlockingDashboardFormEvent {
   ChangedBlockingDashboardConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBlockingDashboardConditions{ value: $value }';
 }
-

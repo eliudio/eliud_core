@@ -24,23 +24,22 @@ class BackgroundWidget extends StatefulWidget {
   final bool withTopicContainer;
 
   BackgroundWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.label,
     required this.value,
     required this.memberId,
     this.withTopicContainer = true,
-  }) : super(key: key);
+  });
 
   @override
-  _BackgroundWidgetWidgetState createState() => _BackgroundWidgetWidgetState();
+  State<BackgroundWidget> createState() => _BackgroundWidgetWidgetState();
 }
 
 class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
   @override
   void initState() {
-    if (widget.value.decorationColors == null)
-      widget.value.decorationColors = [];
+    widget.value.decorationColors ??= [];
     super.initState();
   }
 
@@ -108,7 +107,7 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
               setState(() {
                 if (value!) {
                   widget.value.borderRadius ??= BorderRadiusModel(
-                    borderRadiusType: BorderRadiusType.Circular,
+                    borderRadiusType: BorderRadiusType.circular,
                     circularValue: 1,
                     ellipticalX: 1,
                     ellipticalY: 1,
@@ -128,11 +127,11 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
                   });
                 },
                 borderRadiusType: widget.value.borderRadius!.borderRadiusType ??
-                    BorderRadiusType.Circular,
+                    BorderRadiusType.circular,
               ),
             if ((widget.value.borderRadius != null) &&
                 (widget.value.borderRadius!.borderRadiusType ==
-                    BorderRadiusType.Circular))
+                    BorderRadiusType.circular))
               getListTile(context, widget.app,
                   leading: Icon(Icons.description),
                   title: dialogField(
@@ -142,7 +141,7 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
                         widget.value.borderRadius!.circularValue.toString(),
                     valueChanged: (value) {
                       widget.value.borderRadius!.circularValue =
-                          double_parse(value);
+                          doubleParse(value);
                     },
                     maxLines: 1,
                     decoration: const InputDecoration(
@@ -152,7 +151,7 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
                   )),
             if ((widget.value.borderRadius != null) &&
                 (widget.value.borderRadius!.borderRadiusType ==
-                    BorderRadiusType.Elliptical))
+                    BorderRadiusType.elliptical))
               getListTile(context, widget.app,
                   leading: Icon(Icons.description),
                   title: dialogField(
@@ -162,7 +161,7 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
                         widget.value.borderRadius!.ellipticalX.toString(),
                     valueChanged: (value) {
                       widget.value.borderRadius!.ellipticalX =
-                          double_parse(value);
+                          doubleParse(value);
                     },
                     maxLines: 1,
                     decoration: const InputDecoration(
@@ -172,7 +171,7 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
                   )),
             if ((widget.value.borderRadius != null) &&
                 (widget.value.borderRadius!.borderRadiusType ==
-                    BorderRadiusType.Elliptical))
+                    BorderRadiusType.elliptical))
               getListTile(context, widget.app,
                   leading: Icon(Icons.description),
                   title: dialogField(
@@ -182,7 +181,7 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
                         widget.value.borderRadius!.ellipticalY.toString(),
                     valueChanged: (value) {
                       widget.value.borderRadius!.ellipticalY =
-                          double_parse(value);
+                          doubleParse(value);
                     },
                     maxLines: 1,
                     decoration: const InputDecoration(
@@ -196,17 +195,23 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
           collapsible: true,
           collapsed: true,
           children: [
-            checkboxListTile(widget.app, context, 'With margin',
-                widget.value.margin != null, (value) {
-                  setState(() {
-                    if (value!) {
-                      widget.value.margin = EdgeInsetsGeometryModel(left: 0, right: 0, top: 0, bottom: 0);
-                    } else {
-                      widget.value.margin = null;
-                    }
-                  });
-                }),
-            if (widget.value.margin != null) EdgeInsetsGeometryWidget(app: widget.app, edgeInsetsGeometryModel: widget.value.margin!, )
+            checkboxListTile(
+                widget.app, context, 'With margin', widget.value.margin != null,
+                (value) {
+              setState(() {
+                if (value!) {
+                  widget.value.margin = EdgeInsetsGeometryModel(
+                      left: 0, right: 0, top: 0, bottom: 0);
+                } else {
+                  widget.value.margin = null;
+                }
+              });
+            }),
+            if (widget.value.margin != null)
+              EdgeInsetsGeometryWidget(
+                app: widget.app,
+                edgeInsetsGeometryModel: widget.value.margin!,
+              )
           ]),
       topicContainer(widget.app, context,
           title: 'Padding',
@@ -215,15 +220,20 @@ class _BackgroundWidgetWidgetState extends State<BackgroundWidget> {
           children: [
             checkboxListTile(widget.app, context, 'With padding',
                 widget.value.padding != null, (value) {
-                  setState(() {
-                    if (value!) {
-                      widget.value.padding = EdgeInsetsGeometryModel(left: 0, right: 0, top: 0, bottom: 0);
-                    } else {
-                      widget.value.padding = null;
-                    }
-                  });
-                }),
-            if (widget.value.padding != null) EdgeInsetsGeometryWidget(app: widget.app, edgeInsetsGeometryModel: widget.value.padding!, )
+              setState(() {
+                if (value!) {
+                  widget.value.padding = EdgeInsetsGeometryModel(
+                      left: 0, right: 0, top: 0, bottom: 0);
+                } else {
+                  widget.value.padding = null;
+                }
+              });
+            }),
+            if (widget.value.padding != null)
+              EdgeInsetsGeometryWidget(
+                app: widget.app,
+                edgeInsetsGeometryModel: widget.value.padding!,
+              )
           ]),
       ShadowWidget(
         app: widget.app,

@@ -9,7 +9,6 @@ import 'package:flutter/foundation.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
-
 String generateNonce([int length = 32]) {
   const charset =
       '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
@@ -30,9 +29,11 @@ class UserRepository {
 
   UserRepository({FirebaseAuth? firebaseAuth, GoogleSignIn? googleSignin})
       : _firebaseAuth = firebaseAuth ?? FirebaseAuth.instance,
-        _googleSignIn = googleSignin ?? GoogleSignIn(
-            scopes: <String> ['email', 'profile']
-        ); // https://stackoverflow.com/questions/64079246/how-to-get-additional-scopes-from-googlesignin-in-flutter
+        _googleSignIn = googleSignin ??
+            GoogleSignIn(scopes: <String>[
+              'email',
+              'profile'
+            ]); // https://stackoverflow.com/questions/64079246/how-to-get-additional-scopes-from-googlesignin-in-flutter
 
   User? currentSignedinUser() {
     return _firebaseAuth.currentUser;
@@ -56,7 +57,7 @@ class UserRepository {
         throw Exception('User decided not to login');
       }
     } catch (t) {
-      throw Exception('Exception during google sign in ' + t.toString());
+      throw Exception('Exception during google sign in $t');
     }
   }
 
@@ -71,7 +72,6 @@ class UserRepository {
       }
     }
   }
-
 
   Future<User> signInWithAppleOnApple() async {
     final rawNonce = generateNonce();
@@ -90,10 +90,12 @@ class UserRepository {
       rawNonce: rawNonce,
     );
 
-    final UserCredential userCredential = await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+    final UserCredential userCredential =
+        await FirebaseAuth.instance.signInWithCredential(oauthCredential);
 
     if (userCredential.user?.displayName == null ||
-        (userCredential.user?.displayName != null && userCredential.user!.displayName!.isEmpty)) {
+        (userCredential.user?.displayName != null &&
+            userCredential.user!.displayName!.isEmpty)) {
       final fixDisplayNameFromApple = [
         appleCredential.givenName ?? '',
         appleCredential.familyName ?? '',
@@ -101,7 +103,8 @@ class UserRepository {
       await userCredential.user?.updateDisplayName(fixDisplayNameFromApple);
     }
     if (userCredential.user?.email == null ||
-        (userCredential.user?.email != null && userCredential.user!.email!.isEmpty)) {
+        (userCredential.user?.email != null &&
+            userCredential.user!.email!.isEmpty)) {
       await userCredential.user?.updateEmail(appleCredential.email ?? '');
     }
 
@@ -113,12 +116,13 @@ class UserRepository {
     AppleAuthProvider appleProvider = AppleAuthProvider();
     appleProvider.addScope('email');
     appleProvider.addScope('name');
-    final credential = await FirebaseAuth.instance.signInWithProvider(appleProvider);
+    final credential =
+        await FirebaseAuth.instance.signInWithProvider(appleProvider);
     if (credential.user != null) return credential.user!;
     throw Exception('credential.currentUser is null');
   }
 
-  Future<User> signInWithAppleOnWeb() async  {
+  Future<User> signInWithAppleOnWeb() async {
     final provider = OAuthProvider('apple.com')
       ..addScope('email')
       ..addScope('name');
@@ -129,10 +133,7 @@ class UserRepository {
   }
 
   Future<List<void>> signOut() async {
-    return Future.wait([
-      _firebaseAuth.signOut(),
-      _googleSignIn.signOut()
-    ]);
+    return Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
   }
 
   bool isSignedIn() {

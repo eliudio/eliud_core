@@ -20,31 +20,46 @@ import 'package:eliud_core/core/base/entity_base.dart';
 class MemberSubscriptionEntity implements EntityBase {
   final String? appId;
 
-  MemberSubscriptionEntity({this.appId, });
+  MemberSubscriptionEntity({
+    this.appId,
+  });
 
-  MemberSubscriptionEntity copyWith({String? documentID, String? appId, }) {
-    return MemberSubscriptionEntity(appId : appId ?? this.appId, );
+  MemberSubscriptionEntity copyWith({
+    String? documentID,
+    String? appId,
+  }) {
+    return MemberSubscriptionEntity(
+      appId: appId ?? this.appId,
+    );
   }
-  List<Object?> get props => [appId, ];
+
+  List<Object?> get props => [
+        appId,
+      ];
 
   @override
   String toString() {
     return 'MemberSubscriptionEntity{appId: $appId}';
   }
 
-  static MemberSubscriptionEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static MemberSubscriptionEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return MemberSubscriptionEntity(
-      appId: map['appId'], 
+      appId: map['appId'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
+    if (appId != null) {
+      theDocument["appId"] = appId;
+    } else {
+      theDocument["appId"] = null;
+    }
     return theDocument;
   }
 
@@ -54,7 +69,8 @@ class MemberSubscriptionEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberSubscriptionEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static MemberSubscriptionEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -63,9 +79,9 @@ class MemberSubscriptionEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

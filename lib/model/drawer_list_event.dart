@@ -30,10 +30,10 @@ class NewPage extends DrawerListEvent {}
 class AddDrawerList extends DrawerListEvent {
   final DrawerModel? value;
 
-  const AddDrawerList({ this.value });
+  const AddDrawerList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddDrawerList{ value: $value }';
@@ -42,10 +42,10 @@ class AddDrawerList extends DrawerListEvent {
 class UpdateDrawerList extends DrawerListEvent {
   final DrawerModel? value;
 
-  const UpdateDrawerList({ this.value });
+  const UpdateDrawerList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateDrawerList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateDrawerList extends DrawerListEvent {
 class DeleteDrawerList extends DrawerListEvent {
   final DrawerModel? value;
 
-  const DeleteDrawerList({ this.value });
+  const DeleteDrawerList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteDrawerList{ value: $value }';
@@ -67,24 +67,24 @@ class DrawerListUpdated extends DrawerListEvent {
   final List<DrawerModel?>? value;
   final bool? mightHaveMore;
 
-  const DrawerListUpdated({ this.value, this.mightHaveMore });
+  const DrawerListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'DrawerListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'DrawerListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class DrawerChangeQuery extends DrawerListEvent {
   final EliudQuery? newQuery;
 
-  const DrawerChangeQuery({ required this.newQuery });
+  const DrawerChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'DrawerChangeQuery{ value: $newQuery }';
 }
-

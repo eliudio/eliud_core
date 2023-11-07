@@ -7,30 +7,32 @@ import 'package:eliud_core/model/app_bar_model.dart';
 import 'extended_app_bar_component_event.dart';
 import 'extended_app_bar_component_state.dart';
 
-
-class ExtendedAppBarComponentBloc extends Bloc<ExtendedAppBarComponentEvent, ExtendedAppBarComponentState> {
+class ExtendedAppBarComponentBloc
+    extends Bloc<ExtendedAppBarComponentEvent, ExtendedAppBarComponentState> {
   StreamSubscription? _appBarSubscription;
   StreamSubscription? _menuDefSubscription;
 
-  void _listenToAppBar(AppBarModel appBar)  {
+  void _listenToAppBar(AppBarModel appBar) {
     _appBarSubscription?.cancel();
-    _appBarSubscription = appBarRepository(appId: appBar.appId)!.listenTo(appBar.documentID, (value) {
+    _appBarSubscription = appBarRepository(appId: appBar.appId)!
+        .listenTo(appBar.documentID, (value) {
       if (value != null) add(ExtendedAppBarComponentUpdated(value: value));
     });
 
     _menuDefSubscription?.cancel();
-    _menuDefSubscription = menuDefRepository(appId: appBar.appId)!.listenTo(appBar.iconMenu!.documentID, (value) {
+    _menuDefSubscription = menuDefRepository(appId: appBar.appId)!
+        .listenTo(appBar.iconMenu!.documentID, (value) {
       var newAppBar = appBar.copyWith(iconMenu: value);
       if (value != null) add(ExtendedAppBarComponentUpdated(value: newAppBar));
     });
   }
 
-  ExtendedAppBarComponentBloc(): super(ExtendedAppBarComponentUninitialized()) {
-    on<ExtendedAppBarInitEvent>((event, emit) =>
-      _listenToAppBar(event.value));
+  ExtendedAppBarComponentBloc()
+      : super(ExtendedAppBarComponentUninitialized()) {
+    on<ExtendedAppBarInitEvent>((event, emit) => _listenToAppBar(event.value));
 
     on<ExtendedAppBarComponentUpdated>((event, emit) =>
-      emit(ExtendedAppBarComponentLoaded(value: event.value)));
+        emit(ExtendedAppBarComponentLoaded(value: event.value)));
   }
 
   @override
@@ -39,6 +41,4 @@ class ExtendedAppBarComponentBloc extends Bloc<ExtendedAppBarComponentEvent, Ext
     _menuDefSubscription?.cancel();
     return super.close();
   }
-
 }
-

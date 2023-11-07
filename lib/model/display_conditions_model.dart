@@ -17,43 +17,52 @@ import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/display_conditions_entity.dart';
 
-
 enum PrivilegeLevelRequired {
-  NoPrivilegeRequired, Level1PrivilegeRequired, Level2PrivilegeRequired, OwnerPrivilegeRequired, Unknown
+  noPrivilegeRequired,
+  level1PrivilegeRequired,
+  level2PrivilegeRequired,
+  ownerPrivilegeRequired,
+  unknown
 }
 
 enum ConditionOverride {
-  ExactPrivilege, InclusiveForBlockedMembers, ExclusiveForBlockedMember, Unknown
+  exactPrivilege,
+  inclusiveForBlockedMembers,
+  exclusiveForBlockedMember,
+  unknown
 }
-
 
 PrivilegeLevelRequired toPrivilegeLevelRequired(int? index) {
   switch (index) {
-    case 0: return PrivilegeLevelRequired.NoPrivilegeRequired;
-    case 1: return PrivilegeLevelRequired.Level1PrivilegeRequired;
-    case 2: return PrivilegeLevelRequired.Level2PrivilegeRequired;
-    case 3: return PrivilegeLevelRequired.OwnerPrivilegeRequired;
+    case 0:
+      return PrivilegeLevelRequired.noPrivilegeRequired;
+    case 1:
+      return PrivilegeLevelRequired.level1PrivilegeRequired;
+    case 2:
+      return PrivilegeLevelRequired.level2PrivilegeRequired;
+    case 3:
+      return PrivilegeLevelRequired.ownerPrivilegeRequired;
   }
-  return PrivilegeLevelRequired.Unknown;
+  return PrivilegeLevelRequired.unknown;
 }
 
 ConditionOverride toConditionOverride(int? index) {
   switch (index) {
-    case 0: return ConditionOverride.ExactPrivilege;
-    case 1: return ConditionOverride.InclusiveForBlockedMembers;
-    case 2: return ConditionOverride.ExclusiveForBlockedMember;
+    case 0:
+      return ConditionOverride.exactPrivilege;
+    case 1:
+      return ConditionOverride.inclusiveForBlockedMembers;
+    case 2:
+      return ConditionOverride.exclusiveForBlockedMember;
   }
-  return ConditionOverride.Unknown;
+  return ConditionOverride.unknown;
 }
-
 
 class DisplayConditionsModel {
   static const String packageName = 'eliud_core';
   static const String id = 'displayConditionss';
-
 
   // see firestore rules
   PrivilegeLevelRequired? privilegeLevelRequired;
@@ -64,21 +73,36 @@ class DisplayConditionsModel {
   // see firestore rules
   ConditionOverride? conditionOverride;
 
-  DisplayConditionsModel({this.privilegeLevelRequired, this.packageCondition, this.conditionOverride, })  {
-  }
+  DisplayConditionsModel({
+    this.privilegeLevelRequired,
+    this.packageCondition,
+    this.conditionOverride,
+  });
 
-  DisplayConditionsModel copyWith({PrivilegeLevelRequired? privilegeLevelRequired, String? packageCondition, ConditionOverride? conditionOverride, }) {
-    return DisplayConditionsModel(privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, packageCondition: packageCondition ?? this.packageCondition, conditionOverride: conditionOverride ?? this.conditionOverride, );
+  DisplayConditionsModel copyWith({
+    PrivilegeLevelRequired? privilegeLevelRequired,
+    String? packageCondition,
+    ConditionOverride? conditionOverride,
+  }) {
+    return DisplayConditionsModel(
+      privilegeLevelRequired:
+          privilegeLevelRequired ?? this.privilegeLevelRequired,
+      packageCondition: packageCondition ?? this.packageCondition,
+      conditionOverride: conditionOverride ?? this.conditionOverride,
+    );
   }
 
   @override
-  int get hashCode => privilegeLevelRequired.hashCode ^ packageCondition.hashCode ^ conditionOverride.hashCode;
+  int get hashCode =>
+      privilegeLevelRequired.hashCode ^
+      packageCondition.hashCode ^
+      conditionOverride.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is DisplayConditionsModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is DisplayConditionsModel &&
+          runtimeType == other.runtimeType &&
           privilegeLevelRequired == other.privilegeLevelRequired &&
           packageCondition == other.packageCondition &&
           conditionOverride == other.conditionOverride;
@@ -95,32 +119,36 @@ class DisplayConditionsModel {
 
   DisplayConditionsEntity toEntity({String? appId}) {
     return DisplayConditionsEntity(
-          privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired!.index : null, 
-          packageCondition: (packageCondition != null) ? packageCondition : null, 
-          conditionOverride: (conditionOverride != null) ? conditionOverride!.index : null, 
+      privilegeLevelRequired: (privilegeLevelRequired != null)
+          ? privilegeLevelRequired!.index
+          : null,
+      packageCondition: (packageCondition != null) ? packageCondition : null,
+      conditionOverride:
+          (conditionOverride != null) ? conditionOverride!.index : null,
     );
   }
 
-  static Future<DisplayConditionsModel?> fromEntity(DisplayConditionsEntity? entity) async {
+  static Future<DisplayConditionsModel?> fromEntity(
+      DisplayConditionsEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return DisplayConditionsModel(
-          privilegeLevelRequired: toPrivilegeLevelRequired(entity.privilegeLevelRequired), 
-          packageCondition: entity.packageCondition, 
-          conditionOverride: toConditionOverride(entity.conditionOverride), 
+      privilegeLevelRequired:
+          toPrivilegeLevelRequired(entity.privilegeLevelRequired),
+      packageCondition: entity.packageCondition,
+      conditionOverride: toConditionOverride(entity.conditionOverride),
     );
   }
 
-  static Future<DisplayConditionsModel?> fromEntityPlus(DisplayConditionsEntity? entity, { String? appId}) async {
+  static Future<DisplayConditionsModel?> fromEntityPlus(
+      DisplayConditionsEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return DisplayConditionsModel(
-          privilegeLevelRequired: toPrivilegeLevelRequired(entity.privilegeLevelRequired), 
-          packageCondition: entity.packageCondition, 
-          conditionOverride: toConditionOverride(entity.conditionOverride), 
+      privilegeLevelRequired:
+          toPrivilegeLevelRequired(entity.privilegeLevelRequired),
+      packageCondition: entity.packageCondition,
+      conditionOverride: toConditionOverride(entity.conditionOverride),
     );
   }
-
 }
-

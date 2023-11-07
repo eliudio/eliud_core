@@ -15,33 +15,37 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 class MemberFirestore implements MemberRepository {
   @override
   Future<MemberEntity> addEntity(String documentID, MemberEntity value) {
-    return MemberCollection.doc(documentID)
+    return memberCollection
+        .doc(documentID)
         .set(value.toDocument())
         .then((_) => value);
   }
 
   @override
   Future<MemberEntity> updateEntity(String documentID, MemberEntity value) {
-    return MemberCollection.doc(documentID)
+    return memberCollection
+        .doc(documentID)
         .update(value.toDocument())
         .then((_) => value);
   }
 
   @override
   Future<MemberModel> add(MemberModel? value) {
-    return MemberCollection.doc(value!.documentID)
+    return memberCollection
+        .doc(value!.documentID)
         .set(value.toEntity().toDocument())
         .then((_) => value);
   }
 
   @override
   Future<void> delete(MemberModel? value) {
-    return MemberCollection.doc(value!.documentID).delete();
+    return memberCollection.doc(value!.documentID).delete();
   }
 
   @override
   Future<MemberModel> update(MemberModel? value) {
-    return MemberCollection.doc(value!.documentID)
+    return memberCollection
+        .doc(value!.documentID)
         .update(value.toEntity().toDocument())
         .then((_) => value);
   }
@@ -55,8 +59,8 @@ class MemberFirestore implements MemberRepository {
     var data = doc.data();
     if (data == null) return null;
     var map = data as Map<String, dynamic>;
-    var memberModel = await MemberModel.fromEntityPlus(
-        doc.id, MemberEntity.fromMap(map));
+    var memberModel =
+        await MemberModel.fromEntityPlus(doc.id, MemberEntity.fromMap(map));
     if (memberModel == null) return null;
     // it could be that the app is deleted after a member had subscribed and then this becomes corrupt. So we verify...
     var subscriptions = <MemberSubscriptionModel>[];
@@ -74,26 +78,37 @@ class MemberFirestore implements MemberRepository {
   }
 
   @override
-  Future<MemberModel?> get(String? id, { Function(Exception)? onError }) async {
+  Future<MemberModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
-      var collection = MemberCollection.doc(id);
+      var collection = memberCollection.doc(id);
       var doc = await collection.get();
       return await _populateDocPlus(doc);
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       print("Error whilst retrieving MemberModel with id $id");
       print("Exceptoin: $e");
       if (onError != null) {
         onError(e);
       }
-    };
-return null;
+    }
+    return null;
   }
 
   @override
-  StreamSubscription<List<MemberModel?>> listen(
-      MemberModelTrigger trigger,
-      {String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    var stream = getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
+  StreamSubscription<List<MemberModel?>> listen(MemberModelTrigger trigger,
+      {String? currentMember,
+      String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    var stream = getQuery(memberCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery)!
         .where('readAccess', arrayContains: currentMember)
         .snapshots()
         .asyncMap((data) async {
@@ -107,22 +122,49 @@ return null;
 
   @override
   StreamSubscription<List<MemberModel?>> listenWithDetails(
-      MemberModelTrigger trigger, { String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery }) {
-    var stream = getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
+      MemberModelTrigger trigger,
+      {String? currentMember,
+      String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    var stream = getQuery(memberCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery)!
         .where('readAccess', arrayContains: currentMember)
-          .snapshots()
-          .asyncMap((data) async {
-        return await Future.wait(
-            data.docs.map((doc) => _populateDocPlus(doc)).toList());
-      });
+        .snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(
+          data.docs.map((doc) => _populateDocPlus(doc)).toList());
+    });
     return stream.listen((listOfMemberModels) {
       trigger(listOfMemberModels);
     });
   }
 
   @override
-  Stream<List<MemberModel?>> values({String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
-    return getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
+  Stream<List<MemberModel?>> values(
+      {String? currentMember,
+      String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return getQuery(memberCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery)!
         .where('readAccess', arrayContains: currentMember)
         .snapshots()
         .asyncMap((snapshot) {
@@ -132,19 +174,47 @@ return null;
   }
 
   @override
-  Stream<List<MemberModel?>> valuesWithDetails({String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
-    return getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
-          .where('readAccess', arrayContains: currentMember)
-          .snapshots()
-          .asyncMap((snapshot) {
-        return Future.wait(
-            snapshot.docs.map((doc) => _populateDocPlus(doc)).toList());
-      });
+  Stream<List<MemberModel?>> valuesWithDetails(
+      {String? currentMember,
+      String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return getQuery(memberCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery)!
+        .where('readAccess', arrayContains: currentMember)
+        .snapshots()
+        .asyncMap((snapshot) {
+      return Future.wait(
+          snapshot.docs.map((doc) => _populateDocPlus(doc)).toList());
+    });
   }
 
   @override
-  Future<List<MemberModel?>> valuesList({String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
-    return await getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
+  Future<List<MemberModel?>> valuesList(
+      {String? currentMember,
+      String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
+    return await getQuery(memberCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery)!
         .where('readAccess', arrayContains: currentMember)
         .get()
         .then((value) {
@@ -154,14 +224,28 @@ return null;
   }
 
   @override
-  Future<List<MemberModel?>> valuesListWithDetails({String? currentMember, String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
-    return await getQuery(MemberCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery)!
+  Future<List<MemberModel?>> valuesListWithDetails(
+      {String? currentMember,
+      String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
+    return await getQuery(memberCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery)!
         .where('readAccess', arrayContains: currentMember)
-          .get()
-          .then((value) {
-        var list = value.docs;
-        return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
-      });
+        .get()
+        .then((value) {
+      var list = value.docs;
+      return Future.wait(list.map((doc) => _populateDocPlus(doc)).toList());
+    });
   }
 
   @override
@@ -169,7 +253,7 @@ return null;
 
   @override
   Future<void> deleteAll() {
-    return MemberCollection.get().then((snapshot) {
+    return memberCollection.get().then((snapshot) {
       for (var ds in snapshot.docs) {
         ds.reference.delete();
       }
@@ -178,7 +262,7 @@ return null;
 
   MemberFirestore();
 
-  final CollectionReference MemberCollection =
+  final CollectionReference memberCollection =
       FirebaseFirestore.instance.collection('member');
 
   @override
@@ -192,10 +276,10 @@ return null;
   }
 
   @override
-  StreamSubscription<MemberModel?> listenTo(String documentId, MemberChanged changed, {MemberErrorHandler? errorHandler}) {
-    var stream = MemberCollection.doc(documentId)
-        .snapshots()
-        .asyncMap((data) {
+  StreamSubscription<MemberModel?> listenTo(
+      String documentId, MemberChanged changed,
+      {MemberErrorHandler? errorHandler}) {
+    var stream = memberCollection.doc(documentId).snapshots().asyncMap((data) {
       return _populateDocPlus(data);
     });
     var returnMe = stream.listen((member) {
@@ -210,31 +294,34 @@ return null;
   }
 
   @override
-  Future<MemberModel?> changeValue(String documentId, String fieldName, num changeByThisValue) {
+  Future<MemberModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue) {
     var change = FieldValue.increment(changeByThisValue);
-    return MemberCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
+    return memberCollection
+        .doc(documentId)
+        .update({fieldName: change}).then((v) => get(documentId));
   }
 
   @override
-  Future<MemberEntity?> getEntity(String? id, {Function(Exception p1)? onError}) async {
+  Future<MemberEntity?> getEntity(String? id,
+      {Function(Exception p1)? onError}) async {
     try {
-      var collection = MemberCollection.doc(id);
+      var collection = memberCollection.doc(id);
       var doc = await collection.get();
       return MemberEntity.fromMap(doc.data());
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving MemberEntity with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
   @override
   MemberEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return MemberEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
-
 }

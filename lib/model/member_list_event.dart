@@ -30,10 +30,10 @@ class NewPage extends MemberListEvent {}
 class AddMemberList extends MemberListEvent {
   final MemberModel? value;
 
-  const AddMemberList({ this.value });
+  const AddMemberList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddMemberList{ value: $value }';
@@ -42,10 +42,10 @@ class AddMemberList extends MemberListEvent {
 class UpdateMemberList extends MemberListEvent {
   final MemberModel? value;
 
-  const UpdateMemberList({ this.value });
+  const UpdateMemberList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateMemberList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateMemberList extends MemberListEvent {
 class DeleteMemberList extends MemberListEvent {
   final MemberModel? value;
 
-  const DeleteMemberList({ this.value });
+  const DeleteMemberList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteMemberList{ value: $value }';
@@ -67,24 +67,24 @@ class MemberListUpdated extends MemberListEvent {
   final List<MemberModel?>? value;
   final bool? mightHaveMore;
 
-  const MemberListUpdated({ this.value, this.mightHaveMore });
+  const MemberListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'MemberListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'MemberListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class MemberChangeQuery extends MemberListEvent {
   final EliudQuery? newQuery;
 
-  const MemberChangeQuery({ required this.newQuery });
+  const MemberChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'MemberChangeQuery{ value: $newQuery }';
 }
-

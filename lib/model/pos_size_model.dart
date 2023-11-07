@@ -17,149 +17,225 @@ import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/pos_size_entity.dart';
 
+enum WidthTypePortrait { absoluteWidth, percentageWidth, unknown }
 
-enum WidthTypePortrait {
-  AbsoluteWidth, PercentageWidth, Unknown
-}
+enum WidthTypeLandscape { absoluteWidth, percentageWidth, unknown }
 
-enum WidthTypeLandscape {
-  AbsoluteWidth, PercentageWidth, Unknown
-}
+enum HeightTypePortrait { absoluteHeight, percentageHeight, unknown }
 
-enum HeightTypePortrait {
-  AbsoluteHeight, PercentageHeight, Unknown
-}
-
-enum HeightTypeLandscape {
-  AbsoluteHeight, PercentageHeight, Unknown
-}
+enum HeightTypeLandscape { absoluteHeight, percentageHeight, unknown }
 
 enum PortraitFitType {
-  PortraitFitWidth, PortraitFitHeight, PortraitFill, PortraitNone, PortraitContain, PortraitCover, PortraitScaleDown, Unknown
+  portraitFitWidth,
+  portraitFitHeight,
+  portraitFill,
+  portraitNone,
+  portraitContain,
+  portraitCover,
+  portraitScaleDown,
+  unknown
 }
 
 enum LandscapeFitType {
-  LandscapeFitWidth, LandscapeFitHeight, LandscapeFill, LandscapeNone, LandscapeContain, LandscapeCover, LandscapeScaleDown, Unknown
+  landscapeFitWidth,
+  landscapeFitHeight,
+  landscapeFill,
+  landscapeNone,
+  landscapeContain,
+  landscapeCover,
+  landscapeScaleDown,
+  unknown
 }
 
 enum PortraitAlignType {
-  PortraitAlignTopLeft, PortraitAlignTopCenter, PortraitAlignTopRight, PortraitAlignCenterLeft, PortraitAlignCenter, PortraitAlignCenterRight, PortraitAlignBottomLeft, PortraitAlignBottomCenter, PortraitAlignBottomRight, Unknown
+  portraitAlignTopLeft,
+  portraitAlignTopCenter,
+  portraitAlignTopRight,
+  portraitAlignCenterLeft,
+  portraitAlignCenter,
+  portraitAlignCenterRight,
+  portraitAlignBottomLeft,
+  portraitAlignBottomCenter,
+  portraitAlignBottomRight,
+  unknown
 }
 
 enum LandscapeAlignType {
-  LandscapeAlignTopLeft, LandscapeAlignTopCenter, LandscapeAlignTopRight, LandscapeAlignCenterLeft, LandscapeAlignCenter, LandscapeAlignCenterRight, LandscapeAlignBottomLeft, LandscapeAlignBottomCenter, LandscapeAlignBottomRight, Unknown
+  landscapeAlignTopLeft,
+  landscapeAlignTopCenter,
+  landscapeAlignTopRight,
+  landscapeAlignCenterLeft,
+  landscapeAlignCenter,
+  landscapeAlignCenterRight,
+  landscapeAlignBottomLeft,
+  landscapeAlignBottomCenter,
+  landscapeAlignBottomRight,
+  unknown
 }
 
 enum ClipType {
-  NoClip, ClipOval, ClipRRect5, ClipRRect10, ClipRRect15, ClipRRect20, ClipRRect30, ClipRRect40, Unknown
+  noClip,
+  clipOval,
+  clipRRect5,
+  clipRRect10,
+  clipRRect15,
+  clipRRect20,
+  clipRRect30,
+  clipRRect40,
+  unknown
 }
-
 
 WidthTypePortrait toWidthTypePortrait(int? index) {
   switch (index) {
-    case 0: return WidthTypePortrait.AbsoluteWidth;
-    case 1: return WidthTypePortrait.PercentageWidth;
+    case 0:
+      return WidthTypePortrait.absoluteWidth;
+    case 1:
+      return WidthTypePortrait.percentageWidth;
   }
-  return WidthTypePortrait.Unknown;
+  return WidthTypePortrait.unknown;
 }
 
 WidthTypeLandscape toWidthTypeLandscape(int? index) {
   switch (index) {
-    case 0: return WidthTypeLandscape.AbsoluteWidth;
-    case 1: return WidthTypeLandscape.PercentageWidth;
+    case 0:
+      return WidthTypeLandscape.absoluteWidth;
+    case 1:
+      return WidthTypeLandscape.percentageWidth;
   }
-  return WidthTypeLandscape.Unknown;
+  return WidthTypeLandscape.unknown;
 }
 
 HeightTypePortrait toHeightTypePortrait(int? index) {
   switch (index) {
-    case 0: return HeightTypePortrait.AbsoluteHeight;
-    case 1: return HeightTypePortrait.PercentageHeight;
+    case 0:
+      return HeightTypePortrait.absoluteHeight;
+    case 1:
+      return HeightTypePortrait.percentageHeight;
   }
-  return HeightTypePortrait.Unknown;
+  return HeightTypePortrait.unknown;
 }
 
 HeightTypeLandscape toHeightTypeLandscape(int? index) {
   switch (index) {
-    case 0: return HeightTypeLandscape.AbsoluteHeight;
-    case 1: return HeightTypeLandscape.PercentageHeight;
+    case 0:
+      return HeightTypeLandscape.absoluteHeight;
+    case 1:
+      return HeightTypeLandscape.percentageHeight;
   }
-  return HeightTypeLandscape.Unknown;
+  return HeightTypeLandscape.unknown;
 }
 
 PortraitFitType toPortraitFitType(int? index) {
   switch (index) {
-    case 0: return PortraitFitType.PortraitFitWidth;
-    case 1: return PortraitFitType.PortraitFitHeight;
-    case 2: return PortraitFitType.PortraitFill;
-    case 3: return PortraitFitType.PortraitNone;
-    case 4: return PortraitFitType.PortraitContain;
-    case 5: return PortraitFitType.PortraitCover;
-    case 6: return PortraitFitType.PortraitScaleDown;
+    case 0:
+      return PortraitFitType.portraitFitWidth;
+    case 1:
+      return PortraitFitType.portraitFitHeight;
+    case 2:
+      return PortraitFitType.portraitFill;
+    case 3:
+      return PortraitFitType.portraitNone;
+    case 4:
+      return PortraitFitType.portraitContain;
+    case 5:
+      return PortraitFitType.portraitCover;
+    case 6:
+      return PortraitFitType.portraitScaleDown;
   }
-  return PortraitFitType.Unknown;
+  return PortraitFitType.unknown;
 }
 
 LandscapeFitType toLandscapeFitType(int? index) {
   switch (index) {
-    case 0: return LandscapeFitType.LandscapeFitWidth;
-    case 1: return LandscapeFitType.LandscapeFitHeight;
-    case 2: return LandscapeFitType.LandscapeFill;
-    case 3: return LandscapeFitType.LandscapeNone;
-    case 4: return LandscapeFitType.LandscapeContain;
-    case 5: return LandscapeFitType.LandscapeCover;
-    case 6: return LandscapeFitType.LandscapeScaleDown;
+    case 0:
+      return LandscapeFitType.landscapeFitWidth;
+    case 1:
+      return LandscapeFitType.landscapeFitHeight;
+    case 2:
+      return LandscapeFitType.landscapeFill;
+    case 3:
+      return LandscapeFitType.landscapeNone;
+    case 4:
+      return LandscapeFitType.landscapeContain;
+    case 5:
+      return LandscapeFitType.landscapeCover;
+    case 6:
+      return LandscapeFitType.landscapeScaleDown;
   }
-  return LandscapeFitType.Unknown;
+  return LandscapeFitType.unknown;
 }
 
 PortraitAlignType toPortraitAlignType(int? index) {
   switch (index) {
-    case 0: return PortraitAlignType.PortraitAlignTopLeft;
-    case 1: return PortraitAlignType.PortraitAlignTopCenter;
-    case 2: return PortraitAlignType.PortraitAlignTopRight;
-    case 3: return PortraitAlignType.PortraitAlignCenterLeft;
-    case 4: return PortraitAlignType.PortraitAlignCenter;
-    case 5: return PortraitAlignType.PortraitAlignCenterRight;
-    case 6: return PortraitAlignType.PortraitAlignBottomLeft;
-    case 7: return PortraitAlignType.PortraitAlignBottomCenter;
-    case 8: return PortraitAlignType.PortraitAlignBottomRight;
+    case 0:
+      return PortraitAlignType.portraitAlignTopLeft;
+    case 1:
+      return PortraitAlignType.portraitAlignTopCenter;
+    case 2:
+      return PortraitAlignType.portraitAlignTopRight;
+    case 3:
+      return PortraitAlignType.portraitAlignCenterLeft;
+    case 4:
+      return PortraitAlignType.portraitAlignCenter;
+    case 5:
+      return PortraitAlignType.portraitAlignCenterRight;
+    case 6:
+      return PortraitAlignType.portraitAlignBottomLeft;
+    case 7:
+      return PortraitAlignType.portraitAlignBottomCenter;
+    case 8:
+      return PortraitAlignType.portraitAlignBottomRight;
   }
-  return PortraitAlignType.Unknown;
+  return PortraitAlignType.unknown;
 }
 
 LandscapeAlignType toLandscapeAlignType(int? index) {
   switch (index) {
-    case 0: return LandscapeAlignType.LandscapeAlignTopLeft;
-    case 1: return LandscapeAlignType.LandscapeAlignTopCenter;
-    case 2: return LandscapeAlignType.LandscapeAlignTopRight;
-    case 3: return LandscapeAlignType.LandscapeAlignCenterLeft;
-    case 4: return LandscapeAlignType.LandscapeAlignCenter;
-    case 5: return LandscapeAlignType.LandscapeAlignCenterRight;
-    case 6: return LandscapeAlignType.LandscapeAlignBottomLeft;
-    case 7: return LandscapeAlignType.LandscapeAlignBottomCenter;
-    case 8: return LandscapeAlignType.LandscapeAlignBottomRight;
+    case 0:
+      return LandscapeAlignType.landscapeAlignTopLeft;
+    case 1:
+      return LandscapeAlignType.landscapeAlignTopCenter;
+    case 2:
+      return LandscapeAlignType.landscapeAlignTopRight;
+    case 3:
+      return LandscapeAlignType.landscapeAlignCenterLeft;
+    case 4:
+      return LandscapeAlignType.landscapeAlignCenter;
+    case 5:
+      return LandscapeAlignType.landscapeAlignCenterRight;
+    case 6:
+      return LandscapeAlignType.landscapeAlignBottomLeft;
+    case 7:
+      return LandscapeAlignType.landscapeAlignBottomCenter;
+    case 8:
+      return LandscapeAlignType.landscapeAlignBottomRight;
   }
-  return LandscapeAlignType.Unknown;
+  return LandscapeAlignType.unknown;
 }
 
 ClipType toClipType(int? index) {
   switch (index) {
-    case 0: return ClipType.NoClip;
-    case 1: return ClipType.ClipOval;
-    case 2: return ClipType.ClipRRect5;
-    case 3: return ClipType.ClipRRect10;
-    case 4: return ClipType.ClipRRect15;
-    case 5: return ClipType.ClipRRect20;
-    case 6: return ClipType.ClipRRect30;
-    case 7: return ClipType.ClipRRect40;
+    case 0:
+      return ClipType.noClip;
+    case 1:
+      return ClipType.clipOval;
+    case 2:
+      return ClipType.clipRRect5;
+    case 3:
+      return ClipType.clipRRect10;
+    case 4:
+      return ClipType.clipRRect15;
+    case 5:
+      return ClipType.clipRRect20;
+    case 6:
+      return ClipType.clipRRect30;
+    case 7:
+      return ClipType.clipRRect40;
   }
-  return ClipType.Unknown;
+  return ClipType.unknown;
 }
-
 
 class PosSizeModel {
   static const String packageName = 'eliud_core';
@@ -197,21 +273,75 @@ class PosSizeModel {
   // Clip
   ClipType? clip;
 
-  PosSizeModel({this.widthPortrait, this.widthTypePortrait, this.widthLandscape, this.widthTypeLandscape, this.heightPortrait, this.heightTypePortrait, this.heightLandscape, this.heightTypeLandscape, this.fitPortrait, this.fitLandscape, this.alignTypePortrait, this.alignTypeLandscape, this.clip, })  {
-  }
+  PosSizeModel({
+    this.widthPortrait,
+    this.widthTypePortrait,
+    this.widthLandscape,
+    this.widthTypeLandscape,
+    this.heightPortrait,
+    this.heightTypePortrait,
+    this.heightLandscape,
+    this.heightTypeLandscape,
+    this.fitPortrait,
+    this.fitLandscape,
+    this.alignTypePortrait,
+    this.alignTypeLandscape,
+    this.clip,
+  });
 
-  PosSizeModel copyWith({double? widthPortrait, WidthTypePortrait? widthTypePortrait, double? widthLandscape, WidthTypeLandscape? widthTypeLandscape, double? heightPortrait, HeightTypePortrait? heightTypePortrait, double? heightLandscape, HeightTypeLandscape? heightTypeLandscape, PortraitFitType? fitPortrait, LandscapeFitType? fitLandscape, PortraitAlignType? alignTypePortrait, LandscapeAlignType? alignTypeLandscape, ClipType? clip, }) {
-    return PosSizeModel(widthPortrait: widthPortrait ?? this.widthPortrait, widthTypePortrait: widthTypePortrait ?? this.widthTypePortrait, widthLandscape: widthLandscape ?? this.widthLandscape, widthTypeLandscape: widthTypeLandscape ?? this.widthTypeLandscape, heightPortrait: heightPortrait ?? this.heightPortrait, heightTypePortrait: heightTypePortrait ?? this.heightTypePortrait, heightLandscape: heightLandscape ?? this.heightLandscape, heightTypeLandscape: heightTypeLandscape ?? this.heightTypeLandscape, fitPortrait: fitPortrait ?? this.fitPortrait, fitLandscape: fitLandscape ?? this.fitLandscape, alignTypePortrait: alignTypePortrait ?? this.alignTypePortrait, alignTypeLandscape: alignTypeLandscape ?? this.alignTypeLandscape, clip: clip ?? this.clip, );
+  PosSizeModel copyWith({
+    double? widthPortrait,
+    WidthTypePortrait? widthTypePortrait,
+    double? widthLandscape,
+    WidthTypeLandscape? widthTypeLandscape,
+    double? heightPortrait,
+    HeightTypePortrait? heightTypePortrait,
+    double? heightLandscape,
+    HeightTypeLandscape? heightTypeLandscape,
+    PortraitFitType? fitPortrait,
+    LandscapeFitType? fitLandscape,
+    PortraitAlignType? alignTypePortrait,
+    LandscapeAlignType? alignTypeLandscape,
+    ClipType? clip,
+  }) {
+    return PosSizeModel(
+      widthPortrait: widthPortrait ?? this.widthPortrait,
+      widthTypePortrait: widthTypePortrait ?? this.widthTypePortrait,
+      widthLandscape: widthLandscape ?? this.widthLandscape,
+      widthTypeLandscape: widthTypeLandscape ?? this.widthTypeLandscape,
+      heightPortrait: heightPortrait ?? this.heightPortrait,
+      heightTypePortrait: heightTypePortrait ?? this.heightTypePortrait,
+      heightLandscape: heightLandscape ?? this.heightLandscape,
+      heightTypeLandscape: heightTypeLandscape ?? this.heightTypeLandscape,
+      fitPortrait: fitPortrait ?? this.fitPortrait,
+      fitLandscape: fitLandscape ?? this.fitLandscape,
+      alignTypePortrait: alignTypePortrait ?? this.alignTypePortrait,
+      alignTypeLandscape: alignTypeLandscape ?? this.alignTypeLandscape,
+      clip: clip ?? this.clip,
+    );
   }
 
   @override
-  int get hashCode => widthPortrait.hashCode ^ widthTypePortrait.hashCode ^ widthLandscape.hashCode ^ widthTypeLandscape.hashCode ^ heightPortrait.hashCode ^ heightTypePortrait.hashCode ^ heightLandscape.hashCode ^ heightTypeLandscape.hashCode ^ fitPortrait.hashCode ^ fitLandscape.hashCode ^ alignTypePortrait.hashCode ^ alignTypeLandscape.hashCode ^ clip.hashCode;
+  int get hashCode =>
+      widthPortrait.hashCode ^
+      widthTypePortrait.hashCode ^
+      widthLandscape.hashCode ^
+      widthTypeLandscape.hashCode ^
+      heightPortrait.hashCode ^
+      heightTypePortrait.hashCode ^
+      heightLandscape.hashCode ^
+      heightTypeLandscape.hashCode ^
+      fitPortrait.hashCode ^
+      fitLandscape.hashCode ^
+      alignTypePortrait.hashCode ^
+      alignTypeLandscape.hashCode ^
+      clip.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is PosSizeModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is PosSizeModel &&
+          runtimeType == other.runtimeType &&
           widthPortrait == other.widthPortrait &&
           widthTypePortrait == other.widthTypePortrait &&
           widthLandscape == other.widthLandscape &&
@@ -238,62 +368,65 @@ class PosSizeModel {
 
   PosSizeEntity toEntity({String? appId}) {
     return PosSizeEntity(
-          widthPortrait: (widthPortrait != null) ? widthPortrait : null, 
-          widthTypePortrait: (widthTypePortrait != null) ? widthTypePortrait!.index : null, 
-          widthLandscape: (widthLandscape != null) ? widthLandscape : null, 
-          widthTypeLandscape: (widthTypeLandscape != null) ? widthTypeLandscape!.index : null, 
-          heightPortrait: (heightPortrait != null) ? heightPortrait : null, 
-          heightTypePortrait: (heightTypePortrait != null) ? heightTypePortrait!.index : null, 
-          heightLandscape: (heightLandscape != null) ? heightLandscape : null, 
-          heightTypeLandscape: (heightTypeLandscape != null) ? heightTypeLandscape!.index : null, 
-          fitPortrait: (fitPortrait != null) ? fitPortrait!.index : null, 
-          fitLandscape: (fitLandscape != null) ? fitLandscape!.index : null, 
-          alignTypePortrait: (alignTypePortrait != null) ? alignTypePortrait!.index : null, 
-          alignTypeLandscape: (alignTypeLandscape != null) ? alignTypeLandscape!.index : null, 
-          clip: (clip != null) ? clip!.index : null, 
+      widthPortrait: (widthPortrait != null) ? widthPortrait : null,
+      widthTypePortrait:
+          (widthTypePortrait != null) ? widthTypePortrait!.index : null,
+      widthLandscape: (widthLandscape != null) ? widthLandscape : null,
+      widthTypeLandscape:
+          (widthTypeLandscape != null) ? widthTypeLandscape!.index : null,
+      heightPortrait: (heightPortrait != null) ? heightPortrait : null,
+      heightTypePortrait:
+          (heightTypePortrait != null) ? heightTypePortrait!.index : null,
+      heightLandscape: (heightLandscape != null) ? heightLandscape : null,
+      heightTypeLandscape:
+          (heightTypeLandscape != null) ? heightTypeLandscape!.index : null,
+      fitPortrait: (fitPortrait != null) ? fitPortrait!.index : null,
+      fitLandscape: (fitLandscape != null) ? fitLandscape!.index : null,
+      alignTypePortrait:
+          (alignTypePortrait != null) ? alignTypePortrait!.index : null,
+      alignTypeLandscape:
+          (alignTypeLandscape != null) ? alignTypeLandscape!.index : null,
+      clip: (clip != null) ? clip!.index : null,
     );
   }
 
   static Future<PosSizeModel?> fromEntity(PosSizeEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return PosSizeModel(
-          widthPortrait: entity.widthPortrait, 
-          widthTypePortrait: toWidthTypePortrait(entity.widthTypePortrait), 
-          widthLandscape: entity.widthLandscape, 
-          widthTypeLandscape: toWidthTypeLandscape(entity.widthTypeLandscape), 
-          heightPortrait: entity.heightPortrait, 
-          heightTypePortrait: toHeightTypePortrait(entity.heightTypePortrait), 
-          heightLandscape: entity.heightLandscape, 
-          heightTypeLandscape: toHeightTypeLandscape(entity.heightTypeLandscape), 
-          fitPortrait: toPortraitFitType(entity.fitPortrait), 
-          fitLandscape: toLandscapeFitType(entity.fitLandscape), 
-          alignTypePortrait: toPortraitAlignType(entity.alignTypePortrait), 
-          alignTypeLandscape: toLandscapeAlignType(entity.alignTypeLandscape), 
-          clip: toClipType(entity.clip), 
+      widthPortrait: entity.widthPortrait,
+      widthTypePortrait: toWidthTypePortrait(entity.widthTypePortrait),
+      widthLandscape: entity.widthLandscape,
+      widthTypeLandscape: toWidthTypeLandscape(entity.widthTypeLandscape),
+      heightPortrait: entity.heightPortrait,
+      heightTypePortrait: toHeightTypePortrait(entity.heightTypePortrait),
+      heightLandscape: entity.heightLandscape,
+      heightTypeLandscape: toHeightTypeLandscape(entity.heightTypeLandscape),
+      fitPortrait: toPortraitFitType(entity.fitPortrait),
+      fitLandscape: toLandscapeFitType(entity.fitLandscape),
+      alignTypePortrait: toPortraitAlignType(entity.alignTypePortrait),
+      alignTypeLandscape: toLandscapeAlignType(entity.alignTypeLandscape),
+      clip: toClipType(entity.clip),
     );
   }
 
-  static Future<PosSizeModel?> fromEntityPlus(PosSizeEntity? entity, { String? appId}) async {
+  static Future<PosSizeModel?> fromEntityPlus(PosSizeEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return PosSizeModel(
-          widthPortrait: entity.widthPortrait, 
-          widthTypePortrait: toWidthTypePortrait(entity.widthTypePortrait), 
-          widthLandscape: entity.widthLandscape, 
-          widthTypeLandscape: toWidthTypeLandscape(entity.widthTypeLandscape), 
-          heightPortrait: entity.heightPortrait, 
-          heightTypePortrait: toHeightTypePortrait(entity.heightTypePortrait), 
-          heightLandscape: entity.heightLandscape, 
-          heightTypeLandscape: toHeightTypeLandscape(entity.heightTypeLandscape), 
-          fitPortrait: toPortraitFitType(entity.fitPortrait), 
-          fitLandscape: toLandscapeFitType(entity.fitLandscape), 
-          alignTypePortrait: toPortraitAlignType(entity.alignTypePortrait), 
-          alignTypeLandscape: toLandscapeAlignType(entity.alignTypeLandscape), 
-          clip: toClipType(entity.clip), 
+      widthPortrait: entity.widthPortrait,
+      widthTypePortrait: toWidthTypePortrait(entity.widthTypePortrait),
+      widthLandscape: entity.widthLandscape,
+      widthTypeLandscape: toWidthTypeLandscape(entity.widthTypeLandscape),
+      heightPortrait: entity.heightPortrait,
+      heightTypePortrait: toHeightTypePortrait(entity.heightTypePortrait),
+      heightLandscape: entity.heightLandscape,
+      heightTypeLandscape: toHeightTypeLandscape(entity.heightTypeLandscape),
+      fitPortrait: toPortraitFitType(entity.fitPortrait),
+      fitLandscape: toLandscapeFitType(entity.fitLandscape),
+      alignTypePortrait: toPortraitAlignType(entity.alignTypePortrait),
+      alignTypeLandscape: toLandscapeAlignType(entity.alignTypeLandscape),
+      clip: toClipType(entity.clip),
     );
   }
-
 }
-

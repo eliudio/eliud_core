@@ -16,8 +16,7 @@ class ModelReference {
   final String componentName;
   final ModelBase referenced;
 
-  ModelReference(this.packageName, this.componentName, this.referenced) {
-  }
+  ModelReference(this.packageName, this.componentName, this.referenced);
 
   @override
   bool operator ==(Object other) =>
@@ -28,5 +27,9 @@ class ModelReference {
           componentName == other.componentName &&
           referenced.documentID == other.referenced.documentID;
 
-  String key() => packageName + "-" + componentName + "-" + referenced.documentID;
+  String key() => "$packageName-$componentName-${referenced.documentID}";
+
+  @override
+  int get hashCode =>
+      packageName.hashCode ^ componentName.hashCode ^ referenced.hashCode;
 }

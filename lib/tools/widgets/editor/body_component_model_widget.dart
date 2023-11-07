@@ -9,7 +9,7 @@ import 'package:eliud_core/tools/extensiontype_formfield.dart';
 import 'package:eliud_core/tools/widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 
-typedef void BodyComponentModelCallback(
+typedef BodyComponentModelCallback = void Function(
     BodyComponentModel labelledBodyComponentModel);
 
 class BodyComponentModelWidget extends StatefulWidget {
@@ -22,7 +22,6 @@ class BodyComponentModelWidget extends StatefulWidget {
   final int containerPrivilege;
 
   BodyComponentModelWidget._({
-    Key? key,
     required this.app,
     required this.create,
     required this.widgetWidth,
@@ -30,7 +29,7 @@ class BodyComponentModelWidget extends StatefulWidget {
     required this.labelledBodyComponentModel,
     required this.labelledBodyComponentModelCallback,
     required this.containerPrivilege,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -59,8 +58,7 @@ class BodyComponentModelWidget extends StatefulWidget {
   }
 }
 
-class _BodyComponentModelWidgetState
-    extends State<BodyComponentModelWidget> {
+class _BodyComponentModelWidgetState extends State<BodyComponentModelWidget> {
   int? currentPrivilegeLevel;
 
   @override
@@ -108,7 +106,8 @@ class _BodyComponentModelWidgetState
                 title: ComponentIdField(widget.app,
                     componentName:
                         widget.labelledBodyComponentModel.componentName,
-                    value: widget.labelledBodyComponentModel.componentId,
+                    originalValue:
+                        widget.labelledBodyComponentModel.componentId,
                     currentPrivilegeLevel: currentPrivilegeLevel,
                     trigger: (value, privilegeLevel) {
                   setState(() {

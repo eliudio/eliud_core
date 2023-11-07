@@ -5,4 +5,3 @@ import 'package:flutter/cupertino.dart';
 abstract class HasFab {
   Widget? fab(BuildContext context);
 }
-

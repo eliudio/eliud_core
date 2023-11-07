@@ -9,11 +9,9 @@ import 'package:eliud_core/tools/action/action_model.dart';
 import 'package:eliud_core/tools/random.dart';
 import 'package:flutter/material.dart';
 
-
 abstract class AccessWizard extends NewAppWizardInfoWithActionSpecification {
   AccessWizard(
-      String newAppWizardName, String displayName, String wizardWidgetLabel)
-      : super(newAppWizardName, displayName, wizardWidgetLabel);
+      super.newAppWizardName, super.displayName, super.wizardWidgetLabel);
 
   @override
   List<NewAppTask>? getCreateTasks(
@@ -60,7 +58,7 @@ class LoginWizard extends AccessWizard {
             text: 'Sign in',
             description: 'Sign in',
             action: InternalAction(app,
-                internalActionEnum: InternalActionEnum.Login))
+                internalActionEnum: InternalActionEnum.login))
       ];
 
   @override
@@ -75,7 +73,9 @@ class LoginWizard extends AccessWizard {
       );
 
   @override
-  PublicMediumModel? getPublicMediumModel(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
+  PublicMediumModel? getPublicMediumModel(String uniqueId,
+          NewAppWizardParameters parameters, String mediumType) =>
+      null;
 }
 
 class LogoutWizard extends AccessWizard {
@@ -95,7 +95,7 @@ class LogoutWizard extends AccessWizard {
                 codePoint: Icons.power_settings_new.codePoint,
                 fontFamily: Icons.settings.fontFamily),
             action: InternalAction(app,
-                internalActionEnum: InternalActionEnum.Logout))
+                internalActionEnum: InternalActionEnum.logout))
       ];
 
   @override
@@ -110,6 +110,7 @@ class LogoutWizard extends AccessWizard {
       );
 
   @override
-  PublicMediumModel? getPublicMediumModel(String uniqueId, NewAppWizardParameters parameters, String pageType) => null;
+  PublicMediumModel? getPublicMediumModel(String uniqueId,
+          NewAppWizardParameters parameters, String mediumType) =>
+      null;
 }
-

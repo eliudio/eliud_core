@@ -25,9 +25,10 @@ class DeterminedApp extends Equatable {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is DeterminedApp &&
-              app == other.app &&
-              homePage == other.homePage;
+      other is DeterminedApp && app == other.app && homePage == other.homePage;
+
+  @override
+  int get hashCode => app.hashCode ^ homePage.hashCode;
 }
 
 abstract class AccessDetermined extends AccessState {
@@ -35,21 +36,27 @@ abstract class AccessDetermined extends AccessState {
   final AppModel? playstoreApp;
   final List<DeterminedApp> apps;
   final Map<String, PagesAndDialogAccesss> accesses;
-  bool? isProcessing;
-  String? tempMessage;
+  final bool? isProcessing;
+  final String? tempMessage;
 
   // flag to allow to force a new version of accessDetermined
-  int forceRefresh = 0;
+  final int forceRefresh;
 
   bool isProcessingStatus() => isProcessing ?? false;
 
   @override
-  List<Object?> get props =>
-      [apps, accesses];
+  List<Object?> get props => [apps, accesses];
 
   AccessDetermined newVersion();
 
-  AccessDetermined(this.apps, this.accesses, {this.playstoreApp, this.isProcessing, this.tempMessage});
+  AccessDetermined(
+    this.apps,
+    this.accesses, {
+    this.playstoreApp,
+    this.isProcessing,
+    this.tempMessage,
+    int? newForceRefresh,
+  }) : forceRefresh = newForceRefresh ?? 0;
 
   AppModel? getApp(String appId) {
     for (var app in apps) {
@@ -62,13 +69,14 @@ abstract class AccessDetermined extends AccessState {
     var appID = action.app.documentID;
     if (action.conditions != null) {
       var theAccess = accesses[appID];
-      if ((theAccess != null) && (!AccessHelper.displayConditionOk(
-          theAccess.packageConditionsAccess,
-          action.conditions!,
-          getPrivilegeLevel(appID),
-          memberIsOwner(appID),
-          isBlocked(appID),
-          isLoggedIn()))) return false;
+      if ((theAccess != null) &&
+          (!AccessHelper.displayConditionOk(
+              theAccess.packageConditionsAccess,
+              action.conditions!,
+              getPrivilegeLevel(appID),
+              memberIsOwner(appID),
+              isBlocked(appID),
+              isLoggedIn()))) return false;
     }
     if (action is GotoPage) {
       var theAccess = accesses[appID];
@@ -76,7 +84,9 @@ abstract class AccessDetermined extends AccessState {
       var pageID = action.pageID;
       var access = theAccess.pagesAccess[pageID];
       if (access == null) {
-        access = (await pageRepository(appId: action.app.documentID)!.get(pageID, onError: (_) {}) != null);
+        access = (await pageRepository(appId: action.app.documentID)!
+                .get(pageID, onError: (_) {}) !=
+            null);
         theAccess.pagesAccess[pageID] = access;
         return access;
       }
@@ -87,26 +97,34 @@ abstract class AccessDetermined extends AccessState {
       var dialogID = action.dialogID;
       var access = theAccess.dialogsAccess[dialogID];
       if (access == null) {
-        access = (await dialogRepository(appId: action.app.documentID)!.get(dialogID, onError: (_) {}) != null);
+        access = (await dialogRepository(appId: action.app.documentID)!
+                .get(dialogID, onError: (_) {}) !=
+            null);
         theAccess.dialogsAccess[dialogID] = access;
         return access;
       }
       return access;
     } else if (action is PopupMenu) {
       var access = false;
+      for (var item in action.menuDef!.menuItems!) {
+        var hasAccess = await menuItemHasAccess(item);
+        if (hasAccess) access = true;
+      }
+/*
       action.menuDef!.menuItems!.forEach((item) async {
         var hasAccess = await menuItemHasAccess(item);
         if (hasAccess) access = true;
       });
+*/
       return access;
     } else if (action is InternalAction) {
-      if (action.internalActionEnum == InternalActionEnum.Login) {
+      if (action.internalActionEnum == InternalActionEnum.login) {
         return !isLoggedIn();
-      } else if (action.internalActionEnum == InternalActionEnum.Logout) {
+      } else if (action.internalActionEnum == InternalActionEnum.logout) {
         return isLoggedIn();
-      } else if (action.internalActionEnum == InternalActionEnum.GoHome) {
+      } else if (action.internalActionEnum == InternalActionEnum.goHome) {
         return true;
-      } else if (action.internalActionEnum == InternalActionEnum.OtherApps) {
+      } else if (action.internalActionEnum == InternalActionEnum.otherApps) {
         return hasAccessToOtherApps();
       }
       return true;
@@ -131,14 +149,21 @@ abstract class AccessDetermined extends AccessState {
   MemberModel? getMember();
   PrivilegeLevel getPrivilegeLevel(String appId);
   bool isBlocked(String appId);
-  Future<AccessDetermined> addApp(AccessBloc accessBloc, AppModel newCurrentApp);
-  Future<AccessDetermined> addApp2(AccessBloc accessBloc, Map<String, PagesAndDialogAccesss> _accesses, List<DeterminedApp> _apps, AppModel newCurrentApp);
+  Future<AccessDetermined> addApp(
+      AccessBloc accessBloc, AppModel newCurrentApp);
+  Future<AccessDetermined> addApp2(
+      AccessBloc accessBloc,
+      Map<String, PagesAndDialogAccesss> accesses,
+      List<DeterminedApp> apps,
+      AppModel newCurrentApp);
 
   bool isCurrentAppBlocked(String currentAppId) => isBlocked(currentAppId);
-  PrivilegeLevel getPrivilegeLevelCurrentApp(String currentAppId) => getPrivilegeLevel(currentAppId);
+  PrivilegeLevel getPrivilegeLevelCurrentApp(String currentAppId) =>
+      getPrivilegeLevel(currentAppId);
 
-  static Future<PageModel?> getPage(String appId, String? pageId, { String? alternativePageId }) async {
-    var page;
+  static Future<PageModel?> getPage(String appId, String? pageId,
+      {String? alternativePageId}) async {
+    PageModel? page;
     if (pageId != null) {
       page = await pageRepository(appId: appId)!.get(pageId);
     }
@@ -158,10 +183,8 @@ abstract class AccessDetermined extends AccessState {
   AccessDetermined withTempMessage(String message);
   AccessDetermined clearTempMessage();
 
-  Future<AccessDetermined> withNewAccess(AccessBloc accessBloc, AccessModel access) async {
-    if (access.appId == null) {
-      throw Exception('appId is null');
-    }
+  Future<AccessDetermined> withNewAccess(
+      AccessBloc accessBloc, AccessModel access) async {
     var appId = access.appId;
     var newCurrentApp = await appRepository()!.get(appId);
     if (newCurrentApp == null) {
@@ -192,8 +215,11 @@ abstract class AccessDetermined extends AccessState {
       return this;
     }
   }
-  AccessDetermined withNewAccesses(Map<String, PagesAndDialogAccesss> newAccesses);
-  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc, AppModel app, PrivilegeLevel privilege, bool blocked);
+
+  AccessDetermined withNewAccesses(
+      Map<String, PagesAndDialogAccesss> newAccesses);
+  Future<AccessDetermined> withOtherPrivilege(AccessBloc accessBloc,
+      AppModel app, PrivilegeLevel privilege, bool blocked);
 
 /*
   Future<AccessDetermined> updateApp(
@@ -211,15 +237,13 @@ abstract class AccessDetermined extends AccessState {
   }
 
 */
-  @override
   Future<AccessDetermined> updateApp2(
-      AccessBloc accessBloc,
-      AppModel newCurrentApp);
+      AccessBloc accessBloc, AppModel newCurrentApp);
 
   Future<AccessDetermined> updateApps(
-      AppModel newCurrentApp,
-      List<DeterminedApp> newApps,
-      );
+    AppModel newCurrentApp,
+    List<DeterminedApp> newApps,
+  );
 
   PageModel? homePageForAppId(String appId) {
     for (var app in apps) {
@@ -231,5 +255,4 @@ abstract class AccessDetermined extends AccessState {
   }
 
   Future<PageModel?> reterminedHomePageForAppId(AppModel app);
-
 }

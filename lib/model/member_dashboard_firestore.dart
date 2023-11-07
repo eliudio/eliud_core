@@ -15,11 +15,9 @@
 
 import 'package:eliud_core/model/member_dashboard_repository.dart';
 
-
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
-
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,90 +27,121 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class MemberDashboardFirestore implements MemberDashboardRepository {
   @override
-  MemberDashboardEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  MemberDashboardEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     return MemberDashboardEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
-  Future<MemberDashboardEntity> addEntity(String documentID, MemberDashboardEntity value) {
-    return MemberDashboardCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  @override
+  Future<MemberDashboardEntity> addEntity(
+      String documentID, MemberDashboardEntity value) {
+    return memberDashboardCollection
+        .doc(documentID)
+        .set(value.toDocument())
+        .then((_) => value);
   }
 
-  Future<MemberDashboardEntity> updateEntity(String documentID, MemberDashboardEntity value) {
-    return MemberDashboardCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  @override
+  Future<MemberDashboardEntity> updateEntity(
+      String documentID, MemberDashboardEntity value) {
+    return memberDashboardCollection
+        .doc(documentID)
+        .update(value.toDocument())
+        .then((_) => value);
   }
 
+  @override
   Future<MemberDashboardModel> add(MemberDashboardModel value) {
-    return MemberDashboardCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return memberDashboardCollection
+        .doc(value.documentID)
+        .set(value.toEntity(appId: appId).toDocument())
+        .then((_) => value);
   }
 
+  @override
   Future<void> delete(MemberDashboardModel value) {
-    return MemberDashboardCollection.doc(value.documentID).delete();
+    return memberDashboardCollection.doc(value.documentID).delete();
   }
 
+  @override
   Future<MemberDashboardModel> update(MemberDashboardModel value) {
-    return MemberDashboardCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return memberDashboardCollection
+        .doc(value.documentID)
+        .update(value.toEntity(appId: appId).toDocument())
+        .then((_) => value);
   }
 
   Future<MemberDashboardModel?> _populateDoc(DocumentSnapshot value) async {
-    return MemberDashboardModel.fromEntity(value.id, MemberDashboardEntity.fromMap(value.data()));
+    return MemberDashboardModel.fromEntity(
+        value.id, MemberDashboardEntity.fromMap(value.data()));
   }
 
   Future<MemberDashboardModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return MemberDashboardModel.fromEntityPlus(value.id, MemberDashboardEntity.fromMap(value.data()), appId: appId);  }
+    return MemberDashboardModel.fromEntityPlus(
+        value.id, MemberDashboardEntity.fromMap(value.data()),
+        appId: appId);
+  }
 
-  Future<MemberDashboardEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+  @override
+  Future<MemberDashboardEntity?> getEntity(String? id,
+      {Function(Exception)? onError}) async {
     try {
-      var collection = MemberDashboardCollection.doc(id);
+      var collection = memberDashboardCollection.doc(id);
       var doc = await collection.get();
       return MemberDashboardEntity.fromMap(doc.data());
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving MemberDashboard with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
-  Future<MemberDashboardModel?> get(String? id, {Function(Exception)? onError}) async {
+  @override
+  Future<MemberDashboardModel?> get(String? id,
+      {Function(Exception)? onError}) async {
     try {
-      var collection = MemberDashboardCollection.doc(id);
+      var collection = memberDashboardCollection.doc(id);
       var doc = await collection.get();
       return await _populateDocPlus(doc);
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving MemberDashboard with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
-  StreamSubscription<List<MemberDashboardModel?>> listen(MemberDashboardModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  @override
+  StreamSubscription<List<MemberDashboardModel?>> listen(
+      MemberDashboardModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     Stream<List<MemberDashboardModel?>> stream;
-    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(getCollection(),
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
 //  see comment listen(...) above
-//  stream = getQuery(MemberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+//  stream = getQuery(memberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
-    });
-
-    return stream.listen((listOfMemberDashboardModels) {
-      trigger(listOfMemberDashboardModels);
-    });
-  }
-
-  StreamSubscription<List<MemberDashboardModel?>> listenWithDetails(MemberDashboardModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    Stream<List<MemberDashboardModel?>> stream;
-    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
-//  see comment listen(...) above
-//  stream = getQuery(MemberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+      return await Future.wait(
+          data.docs.map((doc) => _populateDoc(doc)).toList());
     });
 
     return stream.listen((listOfMemberDashboardModels) {
@@ -121,10 +150,42 @@ return null;
   }
 
   @override
-  StreamSubscription<MemberDashboardModel?> listenTo(String documentId, MemberDashboardChanged changed, {MemberDashboardErrorHandler? errorHandler}) {
-    var stream = MemberDashboardCollection.doc(documentId)
+  StreamSubscription<List<MemberDashboardModel?>> listenWithDetails(
+      MemberDashboardModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    Stream<List<MemberDashboardModel?>> stream;
+    stream = getQuery(getCollection(),
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
         .snapshots()
-        .asyncMap((data) {
+//  see comment listen(...) above
+//  stream = getQuery(memberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(
+          data.docs.map((doc) => _populateDocPlus(doc)).toList());
+    });
+
+    return stream.listen((listOfMemberDashboardModels) {
+      trigger(listOfMemberDashboardModels);
+    });
+  }
+
+  @override
+  StreamSubscription<MemberDashboardModel?> listenTo(
+      String documentId, MemberDashboardChanged changed,
+      {MemberDashboardErrorHandler? errorHandler}) {
+    var stream =
+        memberDashboardCollection.doc(documentId).snapshots().asyncMap((data) {
       return _populateDocPlus(data);
     });
     var theStream = stream.listen((value) {
@@ -138,33 +199,87 @@ return null;
     return theStream;
   }
 
-  Stream<List<MemberDashboardModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  @override
+  Stream<List<MemberDashboardModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     DocumentSnapshot? lastDoc;
-    Stream<List<MemberDashboardModel?>> _values = getQuery(MemberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
+    Stream<List<MemberDashboardModel?>> values = getQuery(
+            memberDashboardCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
+        .asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Stream<List<MemberDashboardModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  @override
+  Stream<List<MemberDashboardModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     DocumentSnapshot? lastDoc;
-    Stream<List<MemberDashboardModel?>> _values = getQuery(MemberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
+    Stream<List<MemberDashboardModel?>> values = getQuery(
+            memberDashboardCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
+        .asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Future<List<MemberDashboardModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+  @override
+  Future<List<MemberDashboardModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
     DocumentSnapshot? lastDoc;
-    List<MemberDashboardModel?> _values = await getQuery(MemberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
+    List<MemberDashboardModel?> values = await getQuery(
+            memberDashboardCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .get()
+        .then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -172,12 +287,30 @@ return null;
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Future<List<MemberDashboardModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+  @override
+  Future<List<MemberDashboardModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
     DocumentSnapshot? lastDoc;
-    List<MemberDashboardModel?> _values = await getQuery(MemberDashboardCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
+    List<MemberDashboardModel?> values = await getQuery(
+            memberDashboardCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .get()
+        .then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -185,37 +318,44 @@ return null;
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
+  @override
   void flush() {}
 
+  @override
   Future<void> deleteAll() {
-    return MemberDashboardCollection.get().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.docs){
+    return memberDashboardCollection.get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
         ds.reference.delete();
       }
     });
   }
 
+  @override
   dynamic getSubCollection(String documentId, String name) {
-    return MemberDashboardCollection.doc(documentId).collection(name);
+    return memberDashboardCollection.doc(documentId).collection(name);
   }
 
+  @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
-  } 
-
-  Future<MemberDashboardModel?> changeValue(String documentId, String fieldName, num changeByThisValue) {
-    var change = FieldValue.increment(changeByThisValue);
-    return MemberDashboardCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }
 
+  @override
+  Future<MemberDashboardModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return memberDashboardCollection
+        .doc(documentId)
+        .update({fieldName: change}).then((v) => get(documentId));
+  }
 
   final String appId;
-  MemberDashboardFirestore(this.getCollection, this.appId): MemberDashboardCollection = getCollection();
+  MemberDashboardFirestore(this.getCollection, this.appId)
+      : memberDashboardCollection = getCollection();
 
-  final CollectionReference MemberDashboardCollection;
+  final CollectionReference memberDashboardCollection;
   final GetCollection getCollection;
 }
-

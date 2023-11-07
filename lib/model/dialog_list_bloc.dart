@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'dialog_model.dart';
 
-typedef List<DialogModel?> FilterDialogModels(List<DialogModel?> values);
-
-
+typedef FilterDialogModels = List<DialogModel?> Function(
+    List<DialogModel?> values);
 
 class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final FilterDialogModels? filter;
@@ -39,23 +38,32 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   final bool? detailed;
   final int dialogLimit;
 
-  DialogListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required DialogRepository dialogRepository, this.dialogLimit = 5})
+  DialogListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required DialogRepository dialogRepository,
+      this.dialogLimit = 5})
       : _dialogRepository = dialogRepository,
         super(DialogListLoading()) {
-    on <LoadDialogList> ((event, emit) {
+    on<LoadDialogList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadDialogListToState();
       } else {
         _mapLoadDialogListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadDialogListWithDetailsToState();
     });
-    
-    on <DialogChangeQuery> ((event, emit) {
+
+    on<DialogChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadDialogListToState();
@@ -63,20 +71,20 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
         _mapLoadDialogListWithDetailsToState();
       }
     });
-      
-    on <AddDialogList> ((event, emit) async {
+
+    on<AddDialogList>((event, emit) async {
       await _mapAddDialogListToState(event);
     });
-    
-    on <UpdateDialogList> ((event, emit) async {
+
+    on<UpdateDialogList>((event, emit) async {
       await _mapUpdateDialogListToState(event);
     });
-    
-    on <DeleteDialogList> ((event, emit) async {
+
+    on<DeleteDialogList>((event, emit) async {
       await _mapDeleteDialogListToState(event);
     });
-    
-    on <DialogListUpdated> ((event, emit) {
+
+    on<DialogListUpdated>((event, emit) {
       emit(_mapDialogListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
   }
 
   Future<void> _mapLoadDialogListToState() async {
-    int amountNow =  (state is DialogListLoaded) ? (state as DialogListLoaded).values!.length : 0;
+    int amountNow = (state is DialogListLoaded)
+        ? (state as DialogListLoaded).values!.length
+        : 0;
     _dialogsListSubscription?.cancel();
     _dialogsListSubscription = _dialogRepository.listen(
-          (list) => add(DialogListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * dialogLimit : null
-    );
-  }
-
-  Future<void> _mapLoadDialogListWithDetailsToState() async {
-    int amountNow =  (state is DialogListLoaded) ? (state as DialogListLoaded).values!.length : 0;
-    _dialogsListSubscription?.cancel();
-    _dialogsListSubscription = _dialogRepository.listenWithDetails(
-            (list) => add(DialogListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(DialogListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * dialogLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * dialogLimit : null);
+  }
+
+  Future<void> _mapLoadDialogListWithDetailsToState() async {
+    int amountNow = (state is DialogListLoaded)
+        ? (state as DialogListLoaded).values!.length
+        : 0;
+    _dialogsListSubscription?.cancel();
+    _dialogsListSubscription = _dialogRepository.listenWithDetails(
+        (list) => add(DialogListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * dialogLimit : null);
   }
 
   Future<void> _mapAddDialogListToState(AddDialogList event) async {
@@ -134,8 +146,8 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     }
   }
 
-  DialogListLoaded _mapDialogListUpdatedToState(
-      DialogListUpdated event) => DialogListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  DialogListLoaded _mapDialogListUpdatedToState(DialogListUpdated event) =>
+      DialogListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +155,3 @@ class DialogListBloc extends Bloc<DialogListEvent, DialogListState> {
     return super.close();
   }
 }
-
-

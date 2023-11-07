@@ -27,7 +27,7 @@ class MemberComponentUninitialized extends MemberComponentState {}
 
 class MemberComponentError extends MemberComponentState {
   final String? message;
-  MemberComponentError({ this.message });
+  MemberComponentError({this.message});
 }
 
 class MemberComponentPermissionDenied extends MemberComponentState {
@@ -37,10 +37,10 @@ class MemberComponentPermissionDenied extends MemberComponentState {
 class MemberComponentLoaded extends MemberComponentState {
   final MemberModel value;
 
-  const MemberComponentLoaded({ required this.value });
+  const MemberComponentLoaded({required this.value});
 
-  MemberComponentLoaded copyWith({ MemberModel? copyThis }) {
-    return MemberComponentLoaded(value: copyThis ?? this.value);
+  MemberComponentLoaded copyWith({MemberModel? copyThis}) {
+    return MemberComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class MemberComponentLoaded extends MemberComponentState {
   @override
   String toString() => 'MemberComponentLoaded { value: $value }';
 }
-

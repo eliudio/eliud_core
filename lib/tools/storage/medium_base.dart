@@ -1,7 +1,6 @@
 import 'medium_data.dart';
 
-abstract class MediumBase {
-}
+abstract class MediumBase {}
 
 class PhotoWithThumbnail extends MediumBase {
   final ImageData photoData;

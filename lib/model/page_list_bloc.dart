@@ -23,9 +23,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'page_model.dart';
 
-typedef List<PageModel?> FilterPageModels(List<PageModel?> values);
-
-
+typedef FilterPageModels = List<PageModel?> Function(List<PageModel?> values);
 
 class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final FilterPageModels? filter;
@@ -39,23 +37,32 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
   final bool? detailed;
   final int pageLimit;
 
-  PageListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PageRepository pageRepository, this.pageLimit = 5})
+  PageListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required PageRepository pageRepository,
+      this.pageLimit = 5})
       : _pageRepository = pageRepository,
         super(PageListLoading()) {
-    on <LoadPageList> ((event, emit) {
+    on<LoadPageList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadPageListToState();
       } else {
         _mapLoadPageListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadPageListWithDetailsToState();
     });
-    
-    on <PageChangeQuery> ((event, emit) {
+
+    on<PageChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadPageListToState();
@@ -63,20 +70,20 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
         _mapLoadPageListWithDetailsToState();
       }
     });
-      
-    on <AddPageList> ((event, emit) async {
+
+    on<AddPageList>((event, emit) async {
       await _mapAddPageListToState(event);
     });
-    
-    on <UpdatePageList> ((event, emit) async {
+
+    on<UpdatePageList>((event, emit) async {
       await _mapUpdatePageListToState(event);
     });
-    
-    on <DeletePageList> ((event, emit) async {
+
+    on<DeletePageList>((event, emit) async {
       await _mapDeletePageListToState(event);
     });
-    
-    on <PageListUpdated> ((event, emit) {
+
+    on<PageListUpdated>((event, emit) {
       emit(_mapPageListUpdatedToState(event));
     });
   }
@@ -90,27 +97,31 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
   }
 
   Future<void> _mapLoadPageListToState() async {
-    int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values!.length : 0;
+    int amountNow = (state is PageListLoaded)
+        ? (state as PageListLoaded).values!.length
+        : 0;
     _pagesListSubscription?.cancel();
     _pagesListSubscription = _pageRepository.listen(
-          (list) => add(PageListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * pageLimit : null
-    );
-  }
-
-  Future<void> _mapLoadPageListWithDetailsToState() async {
-    int amountNow =  (state is PageListLoaded) ? (state as PageListLoaded).values!.length : 0;
-    _pagesListSubscription?.cancel();
-    _pagesListSubscription = _pageRepository.listenWithDetails(
-            (list) => add(PageListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(PageListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * pageLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * pageLimit : null);
+  }
+
+  Future<void> _mapLoadPageListWithDetailsToState() async {
+    int amountNow = (state is PageListLoaded)
+        ? (state as PageListLoaded).values!.length
+        : 0;
+    _pagesListSubscription?.cancel();
+    _pagesListSubscription = _pageRepository.listenWithDetails(
+        (list) => add(PageListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * pageLimit : null);
   }
 
   Future<void> _mapAddPageListToState(AddPageList event) async {
@@ -134,8 +145,8 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     }
   }
 
-  PageListLoaded _mapPageListUpdatedToState(
-      PageListUpdated event) => PageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  PageListLoaded _mapPageListUpdatedToState(PageListUpdated event) =>
+      PageListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +154,3 @@ class PageListBloc extends Bloc<PageListEvent, PageListState> {
     return super.close();
   }
 }
-
-

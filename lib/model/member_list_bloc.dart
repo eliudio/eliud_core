@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'member_model.dart';
 
-typedef List<MemberModel?> FilterMemberModels(List<MemberModel?> values);
-
-
+typedef FilterMemberModels = List<MemberModel?> Function(
+    List<MemberModel?> values);
 
 class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final FilterMemberModels? filter;
@@ -39,23 +38,32 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   final bool? detailed;
   final int memberLimit;
 
-  MemberListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberRepository memberRepository, this.memberLimit = 5})
+  MemberListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required MemberRepository memberRepository,
+      this.memberLimit = 5})
       : _memberRepository = memberRepository,
         super(MemberListLoading()) {
-    on <LoadMemberList> ((event, emit) {
+    on<LoadMemberList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadMemberListToState();
       } else {
         _mapLoadMemberListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadMemberListWithDetailsToState();
     });
-    
-    on <MemberChangeQuery> ((event, emit) {
+
+    on<MemberChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadMemberListToState();
@@ -63,20 +71,20 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
         _mapLoadMemberListWithDetailsToState();
       }
     });
-      
-    on <AddMemberList> ((event, emit) async {
+
+    on<AddMemberList>((event, emit) async {
       await _mapAddMemberListToState(event);
     });
-    
-    on <UpdateMemberList> ((event, emit) async {
+
+    on<UpdateMemberList>((event, emit) async {
       await _mapUpdateMemberListToState(event);
     });
-    
-    on <DeleteMemberList> ((event, emit) async {
+
+    on<DeleteMemberList>((event, emit) async {
       await _mapDeleteMemberListToState(event);
     });
-    
-    on <MemberListUpdated> ((event, emit) {
+
+    on<MemberListUpdated>((event, emit) {
       emit(_mapMemberListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
   }
 
   Future<void> _mapLoadMemberListToState() async {
-    int amountNow =  (state is MemberListLoaded) ? (state as MemberListLoaded).values!.length : 0;
+    int amountNow = (state is MemberListLoaded)
+        ? (state as MemberListLoaded).values!.length
+        : 0;
     _membersListSubscription?.cancel();
     _membersListSubscription = _memberRepository.listen(
-          (list) => add(MemberListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * memberLimit : null
-    );
-  }
-
-  Future<void> _mapLoadMemberListWithDetailsToState() async {
-    int amountNow =  (state is MemberListLoaded) ? (state as MemberListLoaded).values!.length : 0;
-    _membersListSubscription?.cancel();
-    _membersListSubscription = _memberRepository.listenWithDetails(
-            (list) => add(MemberListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(MemberListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * memberLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * memberLimit : null);
+  }
+
+  Future<void> _mapLoadMemberListWithDetailsToState() async {
+    int amountNow = (state is MemberListLoaded)
+        ? (state as MemberListLoaded).values!.length
+        : 0;
+    _membersListSubscription?.cancel();
+    _membersListSubscription = _memberRepository.listenWithDetails(
+        (list) => add(MemberListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * memberLimit : null);
   }
 
   Future<void> _mapAddMemberListToState(AddMemberList event) async {
@@ -134,8 +146,8 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
     }
   }
 
-  MemberListLoaded _mapMemberListUpdatedToState(
-      MemberListUpdated event) => MemberListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  MemberListLoaded _mapMemberListUpdatedToState(MemberListUpdated event) =>
+      MemberListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +155,3 @@ class MemberListBloc extends Bloc<MemberListEvent, MemberListState> {
     return super.close();
   }
 }
-
-

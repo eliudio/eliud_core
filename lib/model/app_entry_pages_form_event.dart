@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class AppEntryPagesFormEvent extends Equatable {
   const AppEntryPagesFormEvent();
@@ -26,15 +25,13 @@ abstract class AppEntryPagesFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewAppEntryPagesFormEvent extends AppEntryPagesFormEvent {
-}
-
+class InitialiseNewAppEntryPagesFormEvent extends AppEntryPagesFormEvent {}
 
 class InitialiseAppEntryPagesFormEvent extends AppEntryPagesFormEvent {
   final AppEntryPagesModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseAppEntryPagesFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseAppEntryPagesFormNoLoadEvent extends AppEntryPagesFormEvent {
   final AppEntryPagesModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseAppEntryPagesFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedAppEntryPagesDocumentID extends AppEntryPagesFormEvent {
   ChangedAppEntryPagesDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppEntryPagesDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedAppEntryPagesEntryPage extends AppEntryPagesFormEvent {
   ChangedAppEntryPagesEntryPage({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppEntryPagesEntryPage{ value: $value }';
@@ -78,9 +75,8 @@ class ChangedAppEntryPagesMinPrivilege extends AppEntryPagesFormEvent {
   ChangedAppEntryPagesMinPrivilege({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppEntryPagesMinPrivilege{ value: $value }';
 }
-

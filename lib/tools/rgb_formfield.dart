@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-typedef ChangeRgbField(RgbModel value);
+typedef ChangeRgbField = Function(RgbModel value);
 
 class RgbField extends StatefulWidget {
   final AppModel app;
@@ -17,7 +17,7 @@ class RgbField extends StatefulWidget {
 
   @override
   createState() {
-    return new RgbFieldState();
+    return RgbFieldState();
   }
 }
 
@@ -27,10 +27,12 @@ class RgbFieldState extends State<RgbField> {
   @override
   void initState() {
     super.initState();
-    if (widget.rgbModel != null)
-      color = Color.fromRGBO(widget.rgbModel!.r!, widget.rgbModel!.g!, widget.rgbModel!.b!, widget.rgbModel!.opacity!);
-    else
+    if (widget.rgbModel != null) {
+      color = Color.fromRGBO(widget.rgbModel!.r!, widget.rgbModel!.g!,
+          widget.rgbModel!.b!, widget.rgbModel!.opacity!);
+    } else {
       color = Color.fromRGBO(255, 0, 0, 1.0);
+    }
   }
 
   @override

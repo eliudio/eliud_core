@@ -20,58 +20,79 @@ typedef GetCollection = CollectionReference Function();
 //     query the pages with privilegeLevel = 0
 //
 // If not logged in, or if privilegeLevel <= 0, theh query the pages with privilegeLevel = 0
-Query? getQuery(collection, {String? orderBy, bool? descending, DocumentSnapshot? startAfter, int? limit, int? privilegeLevel, String? appId, EliudQuery? eliudQuery}) {
+Query? getQuery(collection,
+    {String? orderBy,
+    bool? descending,
+    DocumentSnapshot? startAfter,
+    int? limit,
+    int? privilegeLevel,
+    String? appId,
+    EliudQuery? eliudQuery}) {
   var useThisCollection = collection;
   // Are we ordering?
   if (orderBy != null) {
-    useThisCollection = useThisCollection.orderBy(orderBy, descending: descending);
+    useThisCollection =
+        useThisCollection.orderBy(orderBy, descending: descending);
   }
 
   if (privilegeLevel != null) {
     // Do we have some limits in terms of privilege?
-      useThisCollection =
-          useThisCollection.where('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel).where(
-              'appId', isEqualTo: appId);
+    useThisCollection = useThisCollection
+        .where('conditions.privilegeLevelRequired', isEqualTo: privilegeLevel)
+        .where('appId', isEqualTo: appId);
   }
 
-  if ((eliudQuery != null) && (eliudQuery.conditions != null) && (eliudQuery.conditions.isNotEmpty)) {
+  if ((eliudQuery != null) &&
+/*
+      (eliudQuery.conditions != null) &&
+*/
+      (eliudQuery.conditions.isNotEmpty)) {
     for (var i = 0; i < eliudQuery.conditions.length; i++) {
       var condition = eliudQuery.conditions[i];
       if (condition.isLessThanOrEqualTo != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), isLessThanOrEqualTo: condition.isLessThanOrEqualTo);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            isLessThanOrEqualTo: condition.isLessThanOrEqualTo);
       }
       if (condition.isLessThan != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), isLessThan: condition.isLessThan);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            isLessThan: condition.isLessThan);
       }
       if (condition.isEqualTo != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), isEqualTo: condition.isEqualTo);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            isEqualTo: condition.isEqualTo);
       }
       if (condition.isGreaterThanOrEqualTo != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), isGreaterThanOrEqualTo: condition.isGreaterThanOrEqualTo);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            isGreaterThanOrEqualTo: condition.isGreaterThanOrEqualTo);
       }
       if (condition.isGreaterThan != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), isGreaterThan: condition.isGreaterThan);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            isGreaterThan: condition.isGreaterThan);
       }
       if (condition.isNull != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), isNull: condition.isNull);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            isNull: condition.isNull);
       }
       if (condition.arrayContains != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), arrayContains: condition.arrayContains);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            arrayContains: condition.arrayContains);
       }
       if (condition.arrayContainsAny != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), arrayContainsAny: condition.arrayContainsAny);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            arrayContainsAny: condition.arrayContainsAny);
       }
       if (condition.whereIn != null) {
-        useThisCollection =
-            useThisCollection.where(getFirestoreField(condition.field), whereIn: condition.whereIn);
+        useThisCollection = useThisCollection.where(
+            getFirestoreField(condition.field),
+            whereIn: condition.whereIn);
       }
     }
   }
@@ -88,7 +109,6 @@ Query? getQuery(collection, {String? orderBy, bool? descending, DocumentSnapshot
 
 DateTime? timeStampToDateTime(Timestamp timestamp) {
   return timestamp.toDate();
-  return null;
 }
 
 String eliudDateFormat = "dd MM yyyy HH:mm:ss";
@@ -108,7 +128,7 @@ DateTime dateFromTimestampString(String dateTime) {
     var day = int.parse(dateTime.substring(0, 2));
     return DateTime(year, month, day);
   } else {
-    throw Exception('Can not parse ' + dateTime);
+    throw Exception('Can not parse $dateTime');
   }
 }
 
@@ -122,11 +142,14 @@ DateTime dateTimeFromTimestampString(String dateTime) {
     var second = int.parse(dateTime.substring(17, 19));
     return DateTime(year, month, day, hour, min, second);
   } else {
-    throw Exception('Can not parse ' + dateTime);
+    throw Exception('Can not parse $dateTime');
   }
 }
 
-bool isSameDate(DateTime? dateTime1, DateTime? dateTime2, ) {
+bool isSameDate(
+  DateTime? dateTime1,
+  DateTime? dateTime2,
+) {
   if (dateTime1 == dateTime2) return true;
   if ((dateTime1 == null) && (dateTime2 == null)) return true;
   if ((dateTime1 == null) || (dateTime2 == null)) return true;
@@ -136,7 +159,7 @@ bool isSameDate(DateTime? dateTime1, DateTime? dateTime2, ) {
   return true;
 }
 
-String formatHHMM(DateTime dateTime ) {
+String formatHHMM(DateTime dateTime) {
   return DateFormat('HH:mm').format(dateTime);
 }
 
@@ -159,11 +182,15 @@ String verboseDateTimeRepresentation(DateTime? dateTime) {
     return 'Just now';
   }
   var roughTimeString = DateFormat('jm').format(dateTime);
-  if (localDateTime.day == now.day && localDateTime.month == now.month && localDateTime.year == now.year) {
+  if (localDateTime.day == now.day &&
+      localDateTime.month == now.month &&
+      localDateTime.year == now.year) {
     return roughTimeString;
   }
   var yesterday = now.subtract(Duration(days: 1));
-  if (localDateTime.day == yesterday.day && localDateTime.month == now.month && localDateTime.year == now.year) {
+  if (localDateTime.day == yesterday.day &&
+      localDateTime.month == now.month &&
+      localDateTime.year == now.year) {
     return 'Yesterday, $roughTimeString';
   }
   if (now.difference(localDateTime).inDays < 7) {

@@ -1,4 +1,3 @@
-
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/member_medium_model.dart';
 import 'package:eliud_core/model/platform_medium_model.dart';
@@ -16,14 +15,14 @@ import 'access_rights.dart';
  * I assume these photos are stored in /appId/memberId/...
  * I assume we might want to have a ui to allow to organise photos in a user image repository
  */
-typedef void MediumAvailable(dynamic mediumModel);
-typedef AccessRights AccessRightsProvider();
+typedef MediumAvailable = void Function(dynamic mediumModel);
+typedef AccessRightsProvider = AccessRights Function();
 
 abstract class MediumApi {
   void showPhotos(BuildContext context, AppModel app,
       List<MemberMediumModel> media, int initialPage);
-  void showPhotosUrls(BuildContext context, AppModel app,
-      List<String> urls, int initialPage);
+  void showPhotosUrls(
+      BuildContext context, AppModel app, List<String> urls, int initialPage);
   void showPhotosPlatform(BuildContext context, AppModel app,
       List<PlatformMediumModel> media, int initialPage);
   void showPhotosPublic(BuildContext context, AppModel app,
@@ -71,7 +70,7 @@ abstract class MediumApi {
           defaultImage, // asset location of default image which the user can choose
       required MediumAvailable feedbackFunction,
       required PublicMediumModel? initialImage,
-        bool? allowCrop});
+      bool? allowCrop});
   Widget getPlatformPhotoWidget(
       {Key? key,
       required BuildContext context,
@@ -80,7 +79,7 @@ abstract class MediumApi {
           defaultImage, // asset location of default image which the user can choose
       required MediumAvailable feedbackFunction,
       required PlatformMediumModel? initialImage,
-        bool? allowCrop});
+      bool? allowCrop});
   /*
    * Currently default / only access is public. Should expand the api to allow to change
    */
@@ -92,5 +91,7 @@ abstract class MediumApi {
           defaultImage, // asset location of default image which the user can choose
       required MediumAvailable feedbackFunction,
       required MemberMediumModel? initialImage,
-        bool? allowCrop});
+      bool? allowCrop});
+  Widget embeddedVideo(
+      BuildContext context, AppModel app, MemberMediumModel memberMediumModel);
 }

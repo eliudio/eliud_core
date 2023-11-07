@@ -17,39 +17,48 @@ import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/storage_conditions_entity.dart';
 
-
 enum PrivilegeLevelRequiredSimple {
-  NoPrivilegeRequiredSimple, Level1PrivilegeRequiredSimple, Level2PrivilegeRequiredSimple, OwnerPrivilegeRequiredSimple, Unknown
+  noPrivilegeRequiredSimple,
+  level1PrivilegeRequiredSimple,
+  level2PrivilegeRequiredSimple,
+  ownerPrivilegeRequiredSimple,
+  unknown
 }
-
 
 PrivilegeLevelRequiredSimple toPrivilegeLevelRequiredSimple(int? index) {
   switch (index) {
-    case 0: return PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple;
-    case 1: return PrivilegeLevelRequiredSimple.Level1PrivilegeRequiredSimple;
-    case 2: return PrivilegeLevelRequiredSimple.Level2PrivilegeRequiredSimple;
-    case 3: return PrivilegeLevelRequiredSimple.OwnerPrivilegeRequiredSimple;
+    case 0:
+      return PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple;
+    case 1:
+      return PrivilegeLevelRequiredSimple.level1PrivilegeRequiredSimple;
+    case 2:
+      return PrivilegeLevelRequiredSimple.level2PrivilegeRequiredSimple;
+    case 3:
+      return PrivilegeLevelRequiredSimple.ownerPrivilegeRequiredSimple;
   }
-  return PrivilegeLevelRequiredSimple.Unknown;
+  return PrivilegeLevelRequiredSimple.unknown;
 }
-
 
 class StorageConditionsModel {
   static const String packageName = 'eliud_core';
   static const String id = 'storageConditionss';
 
-
   // see firestore rules
   PrivilegeLevelRequiredSimple? privilegeLevelRequired;
 
-  StorageConditionsModel({this.privilegeLevelRequired, })  {
-  }
+  StorageConditionsModel({
+    this.privilegeLevelRequired,
+  });
 
-  StorageConditionsModel copyWith({PrivilegeLevelRequiredSimple? privilegeLevelRequired, }) {
-    return StorageConditionsModel(privilegeLevelRequired: privilegeLevelRequired ?? this.privilegeLevelRequired, );
+  StorageConditionsModel copyWith({
+    PrivilegeLevelRequiredSimple? privilegeLevelRequired,
+  }) {
+    return StorageConditionsModel(
+      privilegeLevelRequired:
+          privilegeLevelRequired ?? this.privilegeLevelRequired,
+    );
   }
 
   @override
@@ -57,9 +66,9 @@ class StorageConditionsModel {
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is StorageConditionsModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is StorageConditionsModel &&
+          runtimeType == other.runtimeType &&
           privilegeLevelRequired == other.privilegeLevelRequired;
 
   @override
@@ -74,26 +83,29 @@ class StorageConditionsModel {
 
   StorageConditionsEntity toEntity({String? appId}) {
     return StorageConditionsEntity(
-          privilegeLevelRequired: (privilegeLevelRequired != null) ? privilegeLevelRequired!.index : null, 
+      privilegeLevelRequired: (privilegeLevelRequired != null)
+          ? privilegeLevelRequired!.index
+          : null,
     );
   }
 
-  static Future<StorageConditionsModel?> fromEntity(StorageConditionsEntity? entity) async {
+  static Future<StorageConditionsModel?> fromEntity(
+      StorageConditionsEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return StorageConditionsModel(
-          privilegeLevelRequired: toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired), 
+      privilegeLevelRequired:
+          toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired),
     );
   }
 
-  static Future<StorageConditionsModel?> fromEntityPlus(StorageConditionsEntity? entity, { String? appId}) async {
+  static Future<StorageConditionsModel?> fromEntityPlus(
+      StorageConditionsEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return StorageConditionsModel(
-          privilegeLevelRequired: toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired), 
+      privilegeLevelRequired:
+          toPrivilegeLevelRequiredSimple(entity.privilegeLevelRequired),
     );
   }
-
 }
-

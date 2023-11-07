@@ -6,7 +6,10 @@ import '../style_registry.dart';
 abstract class HasButton {
   // Most common button(s), e.g. to confirm a form
   Widget button(AppModel app, BuildContext context,
-      {Icon? icon, required String label, String? tooltip, VoidCallback? onPressed});
+      {Icon? icon,
+      required String label,
+      String? tooltip,
+      VoidCallback? onPressed});
   // Search for OutlineButton and RaisedButton
 
   // Simpler button, e.g. the 'like' or 'reply' button below a post in a feed
@@ -16,7 +19,10 @@ abstract class HasButton {
 
   // Button in a dialog, e.g. to close the dialog
   Widget dialogButton(AppModel app, BuildContext context,
-      {VoidCallback? onPressed, required String label, String? tooltip, bool? selected});
+      {VoidCallback? onPressed,
+      required String label,
+      String? tooltip,
+      bool? selected});
   List<Widget> dialogButtons(AppModel app, BuildContext context,
       {required List<String> labels, required List<VoidCallback?> functions});
 
@@ -50,12 +56,16 @@ abstract class HasButton {
 }
 
 Widget button(AppModel app, BuildContext context,
-        {Icon? icon, required String label, String? tooltip, VoidCallback? onPressed}) =>
+        {Icon? icon,
+        required String label,
+        String? tooltip,
+        VoidCallback? onPressed}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .buttonStyle()
-        .button(app, context, icon: icon, label: label, tooltip: tooltip, onPressed: onPressed);
+        .button(app, context,
+            icon: icon, label: label, tooltip: tooltip, onPressed: onPressed);
 
 Widget simpleButton(AppModel app, BuildContext context,
         {VoidCallback? onPressed, required String label}) =>
@@ -66,13 +76,19 @@ Widget simpleButton(AppModel app, BuildContext context,
         .simpleButton(app, context, onPressed: onPressed, label: label);
 
 Widget dialogButton(AppModel app, BuildContext context,
-        {VoidCallback? onPressed, required String label, String? tooltip, bool? selected}) =>
+        {VoidCallback? onPressed,
+        required String label,
+        String? tooltip,
+        bool? selected}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .buttonStyle()
         .dialogButton(app, context,
-            onPressed: onPressed, label: label, tooltip: tooltip, selected: selected);
+            onPressed: onPressed,
+            label: label,
+            tooltip: tooltip,
+            selected: selected);
 
 List<Widget> dialogButtons(AppModel app, BuildContext context,
         {required List<String> labels,
@@ -128,16 +144,24 @@ PopupMenuButton<T> popupMenuButton<T>(AppModel app, BuildContext context,
             itemBuilder: itemBuilder,
             onSelected: onSelected);
 
-DropdownButton<T> dropdownButton<T>(AppModel app, BuildContext context,
-        {T? value,
-        List<DropdownMenuItem<T>>? items,
-        Widget? hint,
-        ValueChanged<T?>? onChanged,
-          bool isDense = false,
-          bool isExpanded = false,}) =>
+DropdownButton<T> dropdownButton<T>(
+  AppModel app,
+  BuildContext context, {
+  T? value,
+  List<DropdownMenuItem<T>>? items,
+  Widget? hint,
+  ValueChanged<T?>? onChanged,
+  bool isDense = false,
+  bool isExpanded = false,
+}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .buttonStyle()
         .dropdownButton(app, context,
-            value: value, items: items, hint: hint, onChanged: onChanged, isDense: isDense, isExpanded: isExpanded);
+            value: value,
+            items: items,
+            hint: hint,
+            onChanged: onChanged,
+            isDense: isDense,
+            isExpanded: isExpanded);

@@ -34,10 +34,10 @@ class MenuItemMapper {
     var action = item.action;
     if (action == null) return null;
     if ((action is InternalAction) &&
-        (action.internalActionEnum == InternalActionEnum.OtherApps)) {
+        (action.internalActionEnum == InternalActionEnum.otherApps)) {
       if ((member != null) && (member.subscriptions != null)) {
         var items = <MenuItemAttributes>[];
-        member.subscriptions!.forEach((value) {
+        for (var value in member.subscriptions!) {
           if (value.app != null) {
             items.add(MenuItemAttributes(
                 label: value.app!.title == null ? '?' : value.app!.title!,
@@ -45,7 +45,7 @@ class MenuItemMapper {
                 onTap: () => eliudrouter.Router.navigateTo(context,
                     SwitchApp(value.app!, toAppID: value.app!.documentID))));
           }
-        });
+        }
         return MenuItemWithMenuItems(
           icon: item.icon,
           label: 'Switch to...',
@@ -58,13 +58,14 @@ class MenuItemMapper {
         var items = <AbstractMenuItemAttributes>[];
         var hasActive = false;
         if (action.menuDef != null) {
-          action.menuDef!.menuItems!.forEach((item) async {
+          for (var item in action.menuDef!.menuItems!) {
+//          action.menuDef!.menuItems!.forEach((item) async {
             var newItem = await mapMenuItem(context, item, member, currentPage);
             if (newItem != null) {
               items.add(newItem);
               hasActive = hasActive || newItem.isActive;
             }
-          });
+          }
           if (items.isNotEmpty) {
             return MenuItemWithMenuItems(
               icon: item.icon,

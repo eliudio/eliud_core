@@ -21,8 +21,8 @@ import 'model/abstract_repository_singleton.dart';
 import 'model/repository_singleton.dart';
 
 import 'core_package_stub.dart'
-if (dart.library.io) 'core_mobile_package.dart'
-if (dart.library.html) 'core_web_package.dart';
+    if (dart.library.io) 'core_mobile_package.dart'
+    if (dart.library.html) 'core_web_package.dart';
 
 class PrivilegeInfo {
   final PrivilegeLevel privilege;
@@ -30,28 +30,32 @@ class PrivilegeInfo {
 
   PrivilegeInfo(this.privilege, this.blocked);
 
-  @override
   List<Object?> get props => [privilege, blocked];
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is PrivilegeInfo &&
-              privilege == other.privilege &&
-              blocked == other.blocked &&
-              runtimeType == other.runtimeType;
+      other is PrivilegeInfo &&
+          privilege == other.privilege &&
+          blocked == other.blocked &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => blocked.hashCode ^ privilege.hashCode;
 }
 
 abstract class CorePackage extends Package {
-  static final String MUST_BE_LOGGED_ON = 'MustBeLoggedOn';
-  CorePackage() : super('eliud_core');
-  Map<String, StreamSubscription<AccessModel?>> subscription = {};
+  static final String mustBeLoggedIn = 'MustBeLoggedOn';
 
-  Map<String, PrivilegeInfo?> statePRIVILEGE = {};
+  CorePackage() : super('eliud_core');
+
+  final Map<String, StreamSubscription<AccessModel?>> subscription = {};
+  final Map<String, PrivilegeInfo?> statePRIVILEGE = {};
 
   /*
    * Register depending packages
    */
+  @override
   void registerDependencies(Eliud eliud) {}
 
   @override
@@ -82,9 +86,12 @@ abstract class CorePackage extends Package {
     subscription[appId]?.cancel();
     if (member != null) {
       final c = Completer<List<PackageConditionDetails>>();
-      subscription[appId] = accessRepository(appId: appId)!.listenTo(member.documentID, (value) {
+      subscription[appId] =
+          accessRepository(appId: appId)!.listenTo(member.documentID, (value) {
         if (value != null) {
-          var newPrivilegeInfo = PrivilegeInfo(value.privilegeLevel ?? PrivilegeLevel.NoPrivilege, value.blocked ?? false);
+          var newPrivilegeInfo = PrivilegeInfo(
+              value.privilegeLevel ?? PrivilegeLevel.noPrivilege,
+              value.blocked ?? false);
           if (!c.isCompleted) {
             // the first time we ignore because a) privilege is handled by the calling mechanism b) the condition itself is determined below
             statePRIVILEGE[appId] = newPrivilegeInfo;
@@ -104,11 +111,10 @@ abstract class CorePackage extends Package {
     return Future.value([
       PackageConditionDetails(
           packageName: packageName,
-          conditionName: MUST_BE_LOGGED_ON,
-          value:  (member != null))
+          conditionName: mustBeLoggedIn,
+          value: (member != null))
     ]);
   }
-
 
 /*  @override
   Future<List<PackageConditionDetails>>? getAndSubscribe(AccessBloc accessBloc, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel) {
@@ -121,23 +127,19 @@ abstract class CorePackage extends Package {
   }*/
 
   static EliudQuery getMemberAccessQuery(String? appId, String? memberId) {
-    return EliudQuery(
-        theConditions: [EliudQueryCondition(
-            DocumentIdField(),
-            isEqualTo: memberId
-        )]
-    );
+    return EliudQuery(theConditions: [
+      EliudQueryCondition(DocumentIdField(), isEqualTo: memberId)
+    ]);
   }
 
   @override
   List<String> retrieveAllPackageConditions() {
-    return [
-      MUST_BE_LOGGED_ON
-    ];
+    return [mustBeLoggedIn];
   }
 
   @override
-  List<MemberCollectionInfo> getMemberCollectionInfo() => AbstractRepositorySingleton.collections;
+  List<MemberCollectionInfo> getMemberCollectionInfo() =>
+      AbstractRepositorySingleton.collections;
 
   static CorePackage instance() => getCorePackage();
 }

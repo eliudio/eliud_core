@@ -15,7 +15,7 @@ MediumType memberMediumType(AbstractMediumType abstractMediumType) {
  * This helper allows to upload MemberMediumFiles, i.e. files in the category "read_access"
  */
 class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
-  static String PACKAGENAME = 'read_access';
+  static String thisPackageName = 'read_access';
 //  final List<String> readAccess;
   MemberMediumAccessibleByGroup accessibleByGroup;
   List<String>? accessibleByMembers;
@@ -23,7 +23,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
   MemberMediumHelper(AppModel app, String ownerId,
       /*this.readAccess, */ this.accessibleByGroup,
       {this.accessibleByMembers})
-      : super(app, ownerId, PACKAGENAME);
+      : super(app, ownerId, thisPackageName);
 
   /*
    * Create custom meta data.
@@ -44,7 +44,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
     var customMetaData = {
       'owner': ownerId,
 //      'accessibleByGroup': accessibleByGroup.index.toString(),
-      'readAccess': ownerId + ';',
+      'readAccess': '$ownerId;',
     };
 /*
     if (accessibleByMembers != null) {
@@ -60,17 +60,17 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
    */
   @override
   Future<MemberMediumModel> photoWithThumbnailToMediumModel(
-      String memberMediumDocumentId,
+      String mediumDocumentId,
       String baseName,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
       PhotoWithThumbnail photoWithThumbnail,
       {String? relatedMediumId}) async {
     // Create the MemberImageModel
-    var memberImageModel;
+    MemberMediumModel memberImageModel;
 
     memberImageModel = MemberMediumModel(
-      documentID: memberMediumDocumentId,
+      documentID: mediumDocumentId,
       base: MediumHelper.getBaseName(baseName),
       ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
@@ -80,7 +80,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       url: fileInfo.url,
       accessibleByGroup: accessibleByGroup,
       accessibleByMembers: accessibleByMembers,
-      mediumType: MediumType.Photo,
+      mediumType: MediumType.photo,
       urlThumbnail: fileInfoThumbnail.url,
       mediumWidth: photoWithThumbnail.photoData.width,
       mediumHeight: photoWithThumbnail.photoData.height,
@@ -99,18 +99,18 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
    */
   @override
   Future<MemberMediumModel> videoWithThumbnailToMediumModel(
-      String memberMediumDocumentId,
+      String mediumDocumentId,
       String baseName,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
       VideoWithThumbnail videoWithThumbnail,
       {String? relatedMediumId}) {
     // Create the MemberImageModel
-    var memberImageModel;
+    MemberMediumModel memberImageModel;
 
     // Create the MemberImageModel
     memberImageModel = MemberMediumModel(
-        documentID: memberMediumDocumentId,
+        documentID: mediumDocumentId,
         base: MediumHelper.getBaseName(baseName),
         ext: MediumHelper.getExtension(baseName),
         appId: app.documentID,
@@ -120,7 +120,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
         url: fileInfo.url,
         accessibleByGroup: accessibleByGroup,
         accessibleByMembers: accessibleByMembers,
-        mediumType: MediumType.Video,
+        mediumType: MediumType.video,
         urlThumbnail: fileInfoThumbnail.url,
         /*
       mediumWidth: videoWithThumbnail.videoData.width,
@@ -151,10 +151,10 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
       ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
       authorId: ownerId,
-      url: pageImage == null ? null : pageImage.url,
-      ref: pageImage == null ? null : pageImage.ref,
-      refThumbnail: pageThumbnail == null ? null : pageThumbnail.ref,
-      urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
+      url: pageImage?.url,
+      ref: pageImage?.ref,
+      refThumbnail: pageThumbnail?.ref,
+      urlThumbnail: pageThumbnail?.url,
       mediumType: memberMediumType(type),
       mediumWidth: pageData.photoData.width,
       mediumHeight: pageData.photoData.height,
@@ -173,13 +173,13 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
 
   @override
   Future<MemberMediumModel> textToMediumModel(
-      String memberMediumDocumentId, String baseName, UploadInfo fileInfo,
+      String mediumDocumentId, String baseName, UploadInfo fileInfo,
       {String? relatedMediumId}) async {
     // Create the MemberImageModel
-    var memberImageModel;
+    MemberMediumModel memberImageModel;
 
     memberImageModel = MemberMediumModel(
-        documentID: memberMediumDocumentId,
+        documentID: mediumDocumentId,
         base: MediumHelper.getBaseName(baseName),
         ext: MediumHelper.getExtension(baseName),
         appId: app.documentID,
@@ -189,7 +189,7 @@ class MemberMediumHelper extends MediumHelper<MemberMediumModel> {
         url: fileInfo.url,
         accessibleByGroup: accessibleByGroup,
         accessibleByMembers: accessibleByMembers,
-        mediumType: MediumType.Text,
+        mediumType: MediumType.text,
         urlThumbnail: null,
         mediumWidth: 0,
         mediumHeight: 0,

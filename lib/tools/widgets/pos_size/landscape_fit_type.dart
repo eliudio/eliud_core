@@ -1,22 +1,19 @@
-
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/pos_size_model.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:flutter/material.dart';
 
-typedef LandscapeFitTypeCallback = Function(
-    LandscapeFitType landscapeFitType);
+typedef LandscapeFitTypeCallback = Function(LandscapeFitType landscapeFitType);
 
 class LandscapeFitTypeWidget extends StatefulWidget {
-  LandscapeFitTypeCallback landscapeFitTypeCallback;
+  final LandscapeFitTypeCallback landscapeFitTypeCallback;
   final LandscapeFitType landscapeFitType;
   final AppModel app;
   LandscapeFitTypeWidget(
-      {Key? key,
-        required this.app,
-        required this.landscapeFitTypeCallback,
-        required this.landscapeFitType})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.landscapeFitTypeCallback,
+      required this.landscapeFitType});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +24,7 @@ class LandscapeFitTypeWidget extends StatefulWidget {
 class _LandscapeFitTypeWidgetState extends State<LandscapeFitTypeWidget> {
   int? value;
 
+  @override
   void initState() {
     super.initState();
     value = widget.landscapeFitType.index;
@@ -34,20 +32,24 @@ class _LandscapeFitTypeWidgetState extends State<LandscapeFitTypeWidget> {
 
   String widthtTypeLandscapeStringValue(LandscapeFitType? landscapeFitType) {
     switch (landscapeFitType) {
-      case LandscapeFitType.LandscapeContain:
+      case LandscapeFitType.landscapeContain:
         return 'Contains';
-      case LandscapeFitType.LandscapeCover:
+      case LandscapeFitType.landscapeCover:
         return 'Cover';
-      case LandscapeFitType.LandscapeFill:
+      case LandscapeFitType.landscapeFill:
         return 'Fill';
-      case LandscapeFitType.LandscapeFitHeight:
+      case LandscapeFitType.landscapeFitHeight:
         return 'Fit height';
-      case LandscapeFitType.LandscapeFitWidth:
+      case LandscapeFitType.landscapeFitWidth:
         return 'Fit width';
-      case LandscapeFitType.LandscapeScaleDown:
+      case LandscapeFitType.landscapeScaleDown:
         return 'Scale down';
-      case LandscapeFitType.LandscapeNone:
+      case LandscapeFitType.landscapeNone:
         return 'None';
+      case LandscapeFitType.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -63,26 +65,20 @@ class _LandscapeFitTypeWidgetState extends State<LandscapeFitTypeWidget> {
     if (landscapeFitType == null) return Text("?");
     var stringValue = widthtTypeLandscapeStringValue(landscapeFitType);
     return Center(
-        child: radioListTile(
-            widget.app,
-            context,
-            landscapeFitType.index,
-            value,
-            stringValue,
-            null,
-                (dynamic val) => setSelection(val)));
+        child: radioListTile(widget.app, context, landscapeFitType.index, value,
+            stringValue, null, (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getOption(LandscapeFitType.LandscapeContain),
-      getOption(LandscapeFitType.LandscapeCover),
-      getOption(LandscapeFitType.LandscapeFill),
-      getOption(LandscapeFitType.LandscapeFitHeight),
-      getOption(LandscapeFitType.LandscapeFitWidth),
-      getOption(LandscapeFitType.LandscapeScaleDown),
-      getOption(LandscapeFitType.LandscapeNone),
+      getOption(LandscapeFitType.landscapeContain),
+      getOption(LandscapeFitType.landscapeCover),
+      getOption(LandscapeFitType.landscapeFill),
+      getOption(LandscapeFitType.landscapeFitHeight),
+      getOption(LandscapeFitType.landscapeFitWidth),
+      getOption(LandscapeFitType.landscapeScaleDown),
+      getOption(LandscapeFitType.landscapeNone),
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

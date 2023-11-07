@@ -41,9 +41,9 @@ class BlockingFormInitialized extends BlockingFormState {
   final BlockingModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const BlockingFormInitialized({ this.value });
+  const BlockingFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class BlockingFormError extends BlockingFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const BlockingFormError({this.message, BlockingModel? value }) : super(value: value);
+  const BlockingFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class BlockingFormError extends BlockingFormInitialized {
     }''';
   }
 }
-class DocumentIDBlockingFormError extends BlockingFormError { 
-  const DocumentIDBlockingFormError({ String? message, BlockingModel? value }): super(message: message, value: value);
+
+class DocumentIDBlockingFormError extends BlockingFormError {
+  const DocumentIDBlockingFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDBlockingFormError extends BlockingFormError {
   }
 }
 
-
-class MemberBlockingBlockingFormError extends BlockingFormError { 
-  const MemberBlockingBlockingFormError({ String? message, BlockingModel? value }): super(message: message, value: value);
+class MemberBlockingBlockingFormError extends BlockingFormError {
+  const MemberBlockingBlockingFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class MemberBlockingBlockingFormError extends BlockingFormError {
   }
 }
 
-
-class MemberBeingBlockedBlockingFormError extends BlockingFormError { 
-  const MemberBeingBlockedBlockingFormError({ String? message, BlockingModel? value }): super(message: message, value: value);
+class MemberBeingBlockedBlockingFormError extends BlockingFormError {
+  const MemberBeingBlockedBlockingFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class MemberBeingBlockedBlockingFormError extends BlockingFormError {
   }
 }
 
-
-class BlockingFormLoaded extends BlockingFormInitialized { 
-  const BlockingFormLoaded({ BlockingModel? value }): super(value: value);
+class BlockingFormLoaded extends BlockingFormInitialized {
+  const BlockingFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -125,12 +123,11 @@ class BlockingFormLoaded extends BlockingFormInitialized {
   }
 }
 
-
-class SubmittableBlockingForm extends BlockingFormInitialized { 
-  const SubmittableBlockingForm({ BlockingModel? value }): super(value: value);
+class SubmittableBlockingForm extends BlockingFormInitialized {
+  const SubmittableBlockingForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -139,5 +136,3 @@ class SubmittableBlockingForm extends BlockingFormInitialized {
     }''';
   }
 }
-
-

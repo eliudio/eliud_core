@@ -18,6 +18,7 @@ class UploadInfo {
 
   UploadInfo(this.url, this.ref);
 
+  @override
   String toString() {
     return 'UploadInfo($url, $ref)';
   }
@@ -26,16 +27,24 @@ class UploadInfo {
    * Upload member data to firebase storage
    */
   static Future<UploadInfo?> uploadData(
-      String baseName,
-      Uint8List fileData,
-      String appId,
-      String ownerId,
-      String packageName,
-      Map<String, String> customMetaData,
-      {FeedbackProgress? feedbackProgress,}) async {
-    return _uploadData(baseName, fileData, appId, ownerId, packageName, ownerId,
-        customMetaData,
-        feedbackProgress: feedbackProgress, );
+    String baseName,
+    Uint8List fileData,
+    String appId,
+    String ownerId,
+    String packageName,
+    Map<String, String> customMetaData, {
+    FeedbackProgress? feedbackProgress,
+  }) async {
+    return _uploadData(
+      baseName,
+      fileData,
+      appId,
+      ownerId,
+      packageName,
+      ownerId,
+      customMetaData,
+      feedbackProgress: feedbackProgress,
+    );
   }
 
   /*
@@ -103,43 +112,41 @@ class UploadInfo {
       String ownerId,
       String packageName,
       Map<String, String> customMetaData,
-      {String? homeURL, FeedbackProgress? feedbackProgress}) async {
-    var file = File(filePath);
+      {String? homeURL,
+      FeedbackProgress? feedbackProgress}) async {
+//    var file = File(filePath);
     try {
       var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
-      print('baseName = ' + baseName);
+      print('baseName = $baseName');
       var ref = '$appId/$packageName/$ownerId/$baseName';
 
-      var uploadTask;
-      var bytes;
+      firebase_storage.UploadTask uploadTask;
+      Uint8List bytes;
       if (kIsWeb) {
         // todo: make parameter
-        var myUri = Uri.parse((homeURL ?? 'https://minkey.io') + '/assets/' + filePath);
+        var myUri =
+            Uri.parse('${homeURL ?? 'https://minkey.io'}/assets/$filePath');
         final response = await http.get(myUri);
         print('uploadTask = ');
         bytes = response.bodyBytes;
       } else {
         bytes = File(filePath).readAsBytesSync();
       }
-      uploadTask = firebase_storage.FirebaseStorage.instance
-          .ref(ref).putData(bytes, firebase_storage.SettableMetadata(
-          customMetadata: customMetaData));
-      if (uploadTask != null) {
-        uploadTask.snapshotEvents.listen((event) {
-          if (feedbackProgress != null) {
-            feedbackProgress(event.bytesTransferred / event.totalBytes);
-          }
-        });
-        var uploadedTask = await uploadTask;
-        var url = await uploadedTask.ref.getDownloadURL();
-        var uploadInfo = UploadInfo(url, ref);
-        return Tuple2(uploadInfo, bytes);
-      } else {
-        throw Exception(
-            'Exception during file upload. Could not upload file ' + filePath);
-      }
+      uploadTask = firebase_storage.FirebaseStorage.instance.ref(ref).putData(
+          bytes,
+          firebase_storage.SettableMetadata(customMetadata: customMetaData));
+      uploadTask.snapshotEvents.listen((event) {
+        if (feedbackProgress != null) {
+          feedbackProgress(event.bytesTransferred / event.totalBytes);
+        }
+      });
+      var uploadedTask = await uploadTask;
+      var url = await uploadedTask.ref.getDownloadURL();
+      var uploadInfo = UploadInfo(url, ref);
+      return Tuple2(uploadInfo, bytes);
     } on firebase_storage.FirebaseException catch (e) {
-      throw Exception('Exception during file upload. code = $e.code,  message = $e.message');
+      throw Exception(
+          'Exception during file upload. code = $e.code,  message = $e.message');
     }
   }
 }

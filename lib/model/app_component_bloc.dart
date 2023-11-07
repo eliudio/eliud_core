@@ -20,7 +20,6 @@ import 'package:eliud_core/model/app_component_event.dart';
 import 'package:eliud_core/model/app_component_state.dart';
 import 'package:eliud_core/model/app_repository.dart';
 
-
 class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
   final AppRepository? appRepository;
   StreamSubscription? _appSubscription;
@@ -34,11 +33,11 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
     });
   }
 
-  AppComponentBloc({ this.appRepository }): super(AppComponentUninitialized()) {
-    on <FetchAppComponent> ((event, emit) {
+  AppComponentBloc({this.appRepository}) : super(AppComponentUninitialized()) {
+    on<FetchAppComponent>((event, emit) {
       _mapLoadAppComponentUpdateToState(event.id!);
     });
-    on <AppComponentUpdated> ((event, emit) {
+    on<AppComponentUpdated>((event, emit) {
       emit(AppComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +47,4 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
     _appSubscription?.cancel();
     return super.close();
   }
-
 }
-

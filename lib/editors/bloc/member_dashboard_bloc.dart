@@ -8,8 +8,7 @@ import 'package:eliud_core/tools/random.dart';
 import '../../model/member_dashboard_entity.dart';
 
 class MemberDashboardBloc
-    extends EditorBaseBloc<MemberDashboardModel, MemberDashboardEntity > {
-
+    extends EditorBaseBloc<MemberDashboardModel, MemberDashboardEntity> {
   MemberDashboardBloc(String appId, EditorFeedback feedback)
       : super(appId, memberDashboardRepository(appId: appId)!, feedback);
 
@@ -24,7 +23,8 @@ class MemberDashboardBloc
   }
 
   @override
-  MemberDashboardModel setDefaultValues(MemberDashboardModel t, StorageConditionsModel conditions) {
+  MemberDashboardModel setDefaultValues(
+      MemberDashboardModel t, StorageConditionsModel conditions) {
     return t.copyWith(conditions: t.conditions ?? conditions);
   }
 }

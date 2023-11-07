@@ -24,13 +24,11 @@ abstract class PageComponentEvent extends Equatable {
 class FetchPageComponent extends PageComponentEvent {
   final String? id;
 
-  FetchPageComponent({ this.id });
+  FetchPageComponent({this.id});
 }
 
 class PageComponentUpdated extends PageComponentEvent {
   final PageModel value;
 
-  PageComponentUpdated({ required this.value });
+  PageComponentUpdated({required this.value});
 }
-
-

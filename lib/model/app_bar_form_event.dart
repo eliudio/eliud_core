@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class AppBarFormEvent extends Equatable {
   const AppBarFormEvent();
@@ -26,15 +25,13 @@ abstract class AppBarFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewAppBarFormEvent extends AppBarFormEvent {
-}
-
+class InitialiseNewAppBarFormEvent extends AppBarFormEvent {}
 
 class InitialiseAppBarFormEvent extends AppBarFormEvent {
   final AppBarModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseAppBarFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseAppBarFormNoLoadEvent extends AppBarFormEvent {
   final AppBarModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseAppBarFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedAppBarDocumentID extends AppBarFormEvent {
   ChangedAppBarDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedAppBarAppId extends AppBarFormEvent {
   ChangedAppBarAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedAppBarTitle extends AppBarFormEvent {
   ChangedAppBarTitle({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarTitle{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedAppBarHeader extends AppBarFormEvent {
   ChangedAppBarHeader({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarHeader{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedAppBarIcon extends AppBarFormEvent {
   ChangedAppBarIcon({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarIcon{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedAppBarImage extends AppBarFormEvent {
   ChangedAppBarImage({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarImage{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedAppBarIconMenu extends AppBarFormEvent {
   ChangedAppBarIconMenu({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarIconMenu{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedAppBarBackgroundOverride extends AppBarFormEvent {
   ChangedAppBarBackgroundOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarBackgroundOverride{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedAppBarIconColorOverride extends AppBarFormEvent {
   ChangedAppBarIconColorOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppBarIconColorOverride{ value: $value }';
@@ -162,10 +159,11 @@ class ChangedAppBarSelectedIconColorOverride extends AppBarFormEvent {
   ChangedAppBarSelectedIconColorOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedAppBarSelectedIconColorOverride{ value: $value }';
+  String toString() =>
+      'ChangedAppBarSelectedIconColorOverride{ value: $value }';
 }
 
 class ChangedAppBarMenuBackgroundColorOverride extends AppBarFormEvent {
@@ -174,9 +172,9 @@ class ChangedAppBarMenuBackgroundColorOverride extends AppBarFormEvent {
   ChangedAppBarMenuBackgroundColorOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedAppBarMenuBackgroundColorOverride{ value: $value }';
+  String toString() =>
+      'ChangedAppBarMenuBackgroundColorOverride{ value: $value }';
 }
-

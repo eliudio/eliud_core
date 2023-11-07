@@ -1,4 +1,4 @@
-typedef void ReportProgress(double progress);
+typedef ReportProgress = void Function(double progress);
 
 /*
  * Helper that allows to report progress of a process with a number of steps. For example, creation of a
@@ -18,7 +18,8 @@ class ProgressManager {
   // If some steps have a different weight than other steps, then provide a weight, e.g. if you want step 1 and step 3 to have weights of 2 and 5 respectively, then prove weightedSteps of { 1: 2, 3: 5 }
 //  final Map<int, int>? weightedSteps;
 
-  ProgressManager(int totalAmountOfSteps, this.reportProgress/*, {this.weightedSteps}*/) {
+  ProgressManager(
+      int totalAmountOfSteps, this.reportProgress /*, {this.weightedSteps}*/) {
     totalAmountOfWeightedSteps = totalAmountOfSteps;
 /*
     if (weightedSteps != null) {
@@ -54,7 +55,8 @@ class ProgressManager {
 
   void progressWithinCurrentStep(double progressWithinStep) {
     var weightedStep = getWeightCurrentStep();
-    var progress = (weightedProgress + weightedStep * progressWithinStep) / totalAmountOfWeightedSteps;
+    var progress = (weightedProgress + weightedStep * progressWithinStep) /
+        totalAmountOfWeightedSteps;
     reportProgress(progress);
   }
 }

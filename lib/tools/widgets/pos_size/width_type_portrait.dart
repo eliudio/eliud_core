@@ -8,15 +8,14 @@ typedef WidthTypePortraitCallback = Function(
     WidthTypePortrait widthTypePortrait);
 
 class WidthTypePortraitWidget extends StatefulWidget {
-  WidthTypePortraitCallback widthTypePortraitCallback;
+  final WidthTypePortraitCallback widthTypePortraitCallback;
   final WidthTypePortrait widthTypePortrait;
   final AppModel app;
   WidthTypePortraitWidget(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.widthTypePortraitCallback,
-      required this.widthTypePortrait})
-      : super(key: key);
+      required this.widthTypePortrait});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +26,7 @@ class WidthTypePortraitWidget extends StatefulWidget {
 class _WidthTypePortraitWidgetState extends State<WidthTypePortraitWidget> {
   int? _widthTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _widthTypeSelectedRadioTile = widget.widthTypePortrait.index;
@@ -34,10 +34,14 @@ class _WidthTypePortraitWidgetState extends State<WidthTypePortraitWidget> {
 
   String widthtTypePortraitStringValue(WidthTypePortrait? widthTypePortrait) {
     switch (widthTypePortrait) {
-      case WidthTypePortrait.AbsoluteWidth:
+      case WidthTypePortrait.absoluteWidth:
         return 'Absolute Width';
-      case WidthTypePortrait.PercentageWidth:
+      case WidthTypePortrait.percentageWidth:
         return 'Percentage Width';
+      case WidthTypePortrait.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -66,8 +70,8 @@ class _WidthTypePortraitWidgetState extends State<WidthTypePortraitWidget> {
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(WidthTypePortrait.PercentageWidth),
-      getPrivilegeOption(WidthTypePortrait.AbsoluteWidth)
+      getPrivilegeOption(WidthTypePortrait.percentageWidth),
+      getPrivilegeOption(WidthTypePortrait.absoluteWidth)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

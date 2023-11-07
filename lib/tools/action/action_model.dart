@@ -79,14 +79,16 @@ abstract class ActionModel {
 
     var mapper = ActionModelRegistry.registry()!.getMapper(entity.actionType);
     if (mapper != null) {
-      var app = await appRepository()!.get(entity.appID);
-
-      if (app != null) {
-        return mapper.fromEntityPlus(app, entity);
-      } else {
-        var appId = entity.appID;
-        throw Exception(
-            "ActionModel.fromEntityPlus App with id $appId not found");
+      var appRepo = appRepository();
+      if (appRepo != null) {
+        var app = await appRepo.get(entity.appID);
+        if (app != null) {
+          return mapper.fromEntityPlus(app, entity);
+        } else {
+          var appId = entity.appID;
+          throw Exception(
+              "ActionModel.fromEntityPlus App with id $appId not found");
+        }
       }
     }
 
@@ -121,9 +123,8 @@ abstract class ActionModelMapper {
 class FunctionToRun extends ActionModel {
   final Function() actionToRun;
 
-  FunctionToRun(AppModel app,
-      {DisplayConditionsModel? conditions, required this.actionToRun})
-      : super(app, conditions: conditions, actionType: 'FunctionToRun');
+  FunctionToRun(super.app, {super.conditions, required this.actionToRun})
+      : super(actionType: 'FunctionToRun');
 
   @override
   String message() => 'Running Function';
@@ -153,10 +154,9 @@ class FunctionToRun extends ActionModel {
 class GotoPage extends ActionModel {
   final String pageID;
 
-  GotoPage(AppModel app,
-      {DisplayConditionsModel? conditions, required String pageID})
-      : this.pageID = pageID.toLowerCase(),
-        super(app, conditions: conditions, actionType: GotoPageEntity.label);
+  GotoPage(super.app, {super.conditions, required String pageID})
+      : pageID = pageID.toLowerCase(),
+        super(actionType: GotoPageEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -168,8 +168,9 @@ class GotoPage extends ActionModel {
   static Future<ActionModel> fromEntity(
       AppModel app, GotoPageEntity entity) async {
     if (entity.appID == null) throw Exception('entity GotoPage.appID is null');
-    if (entity.pageID == null)
+    if (entity.pageID == null) {
       throw Exception('entity GotoPage.pageID is null');
+    }
 
     return GotoPage(app,
         conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
@@ -187,7 +188,7 @@ class GotoPage extends ActionModel {
   }
 
   @override
-  String describe() => 'Goto page ' + pageID;
+  String describe() => 'Goto page $pageID';
 
   @override
   String toString() => describe();
@@ -222,10 +223,9 @@ class GotoPageModelMapper implements ActionModelMapper {
 class OpenDialog extends ActionModel {
   final String dialogID;
 
-  OpenDialog(AppModel app,
-      {DisplayConditionsModel? conditions, required String dialogID})
-      : this.dialogID = dialogID.toLowerCase(),
-        super(app, conditions: conditions, actionType: OpenDialogEntity.label);
+  OpenDialog(super.app, {super.conditions, required String dialogID})
+      : dialogID = dialogID.toLowerCase(),
+        super(actionType: OpenDialogEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -243,10 +243,12 @@ class OpenDialog extends ActionModel {
 
   static Future<ActionModel> fromEntity(
       AppModel app, OpenDialogEntity entity) async {
-    if (entity.appID == null)
+    if (entity.appID == null) {
       throw Exception('entity OpenDialog.appID is null');
-    if (entity.dialogID == null)
+    }
+    if (entity.dialogID == null) {
       throw Exception('entity OpenDialog.dialogID is null');
+    }
     return OpenDialog(app,
         conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
         dialogID: entity.dialogID!);
@@ -263,7 +265,7 @@ class OpenDialog extends ActionModel {
   }
 
   @override
-  String describe() => 'Open dialog ' + dialogID;
+  String describe() => 'Open dialog $dialogID';
 
   @override
   String toString() => describe();
@@ -291,9 +293,8 @@ class OpenDialogModelMapper implements ActionModelMapper {
 class SwitchApp extends ActionModel {
   final String toAppID;
 
-  SwitchApp(AppModel app,
-      {DisplayConditionsModel? conditions, required this.toAppID})
-      : super(app, conditions: conditions, actionType: SwitchAppEntity.label);
+  SwitchApp(super.app, {super.conditions, required this.toAppID})
+      : super(actionType: SwitchAppEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -312,8 +313,9 @@ class SwitchApp extends ActionModel {
   static Future<ActionModel> fromEntity(
       AppModel app, SwitchAppEntity entity) async {
     if (entity.appID == null) throw Exception('entity SwitchApp.appID is null');
-    if (entity.toAppID == null)
+    if (entity.toAppID == null) {
       throw Exception('entity SwitchApp.toAppID is null');
+    }
     return SwitchApp(app,
         conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
         toAppID: entity.toAppID!);
@@ -332,7 +334,7 @@ class SwitchApp extends ActionModel {
   }
 
   @override
-  String describe() => 'Switch to app ' + toAppID;
+  String describe() => 'Switch to app $toAppID';
 
   @override
   ActionModel copyWith(AppModel newApp) =>
@@ -357,8 +359,8 @@ class SwitchAppModelMapper implements ActionModelMapper {
 class PopupMenu extends ActionModel {
   final MenuDefModel? menuDef;
 
-  PopupMenu(AppModel app, {DisplayConditionsModel? conditions, this.menuDef})
-      : super(app, conditions: conditions, actionType: PopupMenuEntity.label);
+  PopupMenu(super.app, {super.conditions, this.menuDef})
+      : super(actionType: PopupMenuEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -372,9 +374,10 @@ class PopupMenu extends ActionModel {
     String? appId,
   }) async {
     var referencesCollector = <ModelReference>[];
-    if (menuDef != null)
+    if (menuDef != null) {
       referencesCollector.add(
           ModelReference(MenuDefModel.packageName, MenuDefModel.id, menuDef!));
+    }
     return referencesCollector;
   }
 
@@ -435,15 +438,13 @@ class PopupMenuModelMapper implements ActionModelMapper {
  * LoginLogout = Login when logged out, Logout when logged in.
  * OtherApps = Allows to specify that n internal action is to switch to other apps where this user has been registered before. It will translate into a specific SwitchApp action
  */
-enum InternalActionEnum { Login, Logout, GoHome, OtherApps, Unknown }
+enum InternalActionEnum { login, logout, goHome, otherApps, unknown }
 
 class InternalAction extends ActionModel {
   final InternalActionEnum? internalActionEnum;
 
-  InternalAction(AppModel app,
-      {DisplayConditionsModel? conditions, this.internalActionEnum})
-      : super(app,
-            conditions: conditions, actionType: InternalActionEntity.label);
+  InternalAction(super.app, {super.conditions, this.internalActionEnum})
+      : super(actionType: InternalActionEntity.label);
 
   @override
   ActionEntity toEntity({String? appId}) {
@@ -462,20 +463,34 @@ class InternalAction extends ActionModel {
   static Future<ActionModel> fromEntity(
       AppModel app, InternalActionEntity entity) async {
     var internalAction = entity.action;
-    if (entity.appID == null)
+    if (entity.appID == null) {
       throw Exception('entity InternalAction.appID is null');
-    if (internalAction == InternalActionEnum.Login.toString())
-      return InternalAction(app, internalActionEnum: InternalActionEnum.Login);
-    if (internalAction == InternalActionEnum.Logout.toString())
-      return InternalAction(app, internalActionEnum: InternalActionEnum.Logout);
-    if (internalAction == InternalActionEnum.GoHome.toString())
-      return InternalAction(app, internalActionEnum: InternalActionEnum.GoHome);
-    if (internalAction == InternalActionEnum.OtherApps.toString())
-      return InternalAction(app,
-          internalActionEnum: InternalActionEnum.OtherApps);
+    }
+    if (internalAction != null) {
+      if (internalAction.toLowerCase() ==
+          InternalActionEnum.login.toString().toLowerCase()) {
+        return InternalAction(app,
+            internalActionEnum: InternalActionEnum.login);
+      }
+      if (internalAction.toLowerCase() ==
+          InternalActionEnum.logout.toString().toLowerCase()) {
+        return InternalAction(app,
+            internalActionEnum: InternalActionEnum.logout);
+      }
+      if (internalAction.toLowerCase() ==
+          InternalActionEnum.goHome.toString().toLowerCase()) {
+        return InternalAction(app,
+            internalActionEnum: InternalActionEnum.goHome);
+      }
+      if (internalAction.toLowerCase() ==
+          InternalActionEnum.otherApps.toString().toLowerCase()) {
+        return InternalAction(app,
+            internalActionEnum: InternalActionEnum.otherApps);
+      }
+    }
     return InternalAction(app,
         conditions: await DisplayConditionsModel.fromEntity(entity.conditions),
-        internalActionEnum: InternalActionEnum.Unknown);
+        internalActionEnum: InternalActionEnum.unknown);
   }
 
   static Future<ActionModel> fromEntityPlus(
@@ -488,16 +503,18 @@ class InternalAction extends ActionModel {
   @override
   String message() {
     switch (internalActionEnum) {
-      case InternalActionEnum.Login:
+      case InternalActionEnum.login:
         return 'Logging in';
-      case InternalActionEnum.Logout:
+      case InternalActionEnum.logout:
         return 'Logging out';
-      case InternalActionEnum.GoHome:
+      case InternalActionEnum.goHome:
         return 'Go Home';
-      case InternalActionEnum.OtherApps:
+      case InternalActionEnum.otherApps:
         return 'Other apps';
-      case InternalActionEnum.Unknown:
+      case InternalActionEnum.unknown:
         return unknownMsg;
+      case null:
+        break;
     }
     return unknownMsg;
   }
@@ -505,14 +522,18 @@ class InternalAction extends ActionModel {
   @override
   String describe() {
     switch (internalActionEnum) {
-      case InternalActionEnum.Login:
+      case InternalActionEnum.login:
         return 'Login';
-      case InternalActionEnum.Logout:
+      case InternalActionEnum.logout:
         return 'Logout';
-      case InternalActionEnum.GoHome:
+      case InternalActionEnum.goHome:
         return 'Go Home';
-      case InternalActionEnum.OtherApps:
+      case InternalActionEnum.otherApps:
         return 'Other apps';
+      case InternalActionEnum.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }

@@ -13,7 +13,7 @@ class CurrentPageUninitialized extends CurrentPageState {}
 
 class CurrentPageError extends CurrentPageState {
   final String? message;
-  CurrentPageError({ this.message });
+  CurrentPageError({this.message});
 }
 
 class CurrentPagePermissionDenied extends CurrentPageState {
@@ -22,7 +22,7 @@ class CurrentPagePermissionDenied extends CurrentPageState {
 
 class CurrentPageLoadError extends CurrentPageState {
   final AppModel app;
-  String pageId;
+  final String pageId;
   CurrentPageLoadError({required this.app, required this.pageId});
 }
 
@@ -30,10 +30,13 @@ class CurrentPageLoaded extends CurrentPageState {
   final PageModel page;
   final AppModel app;
 
-  const CurrentPageLoaded({ required this.page, required this.app, });
+  const CurrentPageLoaded({
+    required this.page,
+    required this.app,
+  });
 
-  CurrentPageLoaded copyWith({ PageModel? copyThis }) {
-    return CurrentPageLoaded(page: copyThis ?? this.page, app: this.app);
+  CurrentPageLoaded copyWith({PageModel? copyThis}) {
+    return CurrentPageLoaded(page: copyThis ?? page, app: app);
   }
 
   @override
@@ -42,4 +45,3 @@ class CurrentPageLoaded extends CurrentPageState {
   @override
   String toString() => 'CurrentPageLoaded { value: $page }';
 }
-

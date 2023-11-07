@@ -12,18 +12,18 @@ import 'style_color_widget.dart';
 
 class ShadowWidget extends StatefulWidget {
   final AppModel app;
-  BackgroundModel backgroundModel;
+  final BackgroundModel backgroundModel;
   final String label;
 
   ShadowWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.label,
     required this.backgroundModel,
-  }) : super(key: key);
+  });
 
   @override
-  _ShadowState createState() => _ShadowState();
+  State<ShadowWidget> createState() => _ShadowState();
 }
 
 class _ShadowState extends State<ShadowWidget> {
@@ -41,12 +41,12 @@ class _ShadowState extends State<ShadowWidget> {
   Widget build(BuildContext context) {
     return (widget.backgroundModel.shadow == null)
         ? inContainer(context, widget.label, [
-            checkboxListTile(widget.app, context, 'Shadow', false,
-                (_) => _createShadow())
+            checkboxListTile(
+                widget.app, context, 'Shadow', false, (_) => _createShadow())
           ])
         : inContainer(context, widget.label, [
-            checkboxListTile(widget.app, context, 'Shadow', true,
-                (_) => _removeShadow()),
+            checkboxListTile(
+                widget.app, context, 'Shadow', true, (_) => _removeShadow()),
             StyleColorWidget(
               value: widget.backgroundModel.shadow!.color!,
               label: 'Color, e.g. grey opacity .5',
@@ -86,8 +86,10 @@ class _ShadowState extends State<ShadowWidget> {
           widget.app,
           context,
           initialValue: (initialValue ?? 0).toString(),
-          valueChanged: (value) => valueChanged(double_parse(value)),
-          keyboardType: TextInputType.numberWithOptions(signed: false, ),
+          valueChanged: (value) => valueChanged(doubleParse(value)),
+          keyboardType: TextInputType.numberWithOptions(
+            signed: false,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             labelText: label,
@@ -97,10 +99,7 @@ class _ShadowState extends State<ShadowWidget> {
 
   Widget inContainer(BuildContext context, String label, List<Widget> widgets) {
     return topicContainer(widget.app, context,
-        title: label,
-        collapsible: true,
-        collapsed: true,
-        children: widgets);
+        title: label, collapsible: true, collapsed: true, children: widgets);
   }
 
   void _createShadow() {

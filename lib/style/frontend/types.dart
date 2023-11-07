@@ -17,18 +17,19 @@ class MenuItemAttributes extends AbstractMenuItemAttributes {
   final VoidCallback onTap;
 
   MenuItemAttributes(
-      {required bool isActive,
-        required this.onTap,
-        String? label,
-        String? imageURL,
-        IconModel? icon})
-      : super(label: label, imageURL: imageURL, icon: icon, isActive: isActive);
+      {required super.isActive,
+      required this.onTap,
+      super.label,
+      super.imageURL,
+      super.icon});
 }
 
 class MenuItemWithMenuItems extends AbstractMenuItemAttributes {
   List<AbstractMenuItemAttributes> items;
 
   MenuItemWithMenuItems(
-      {required this.items, required String label, IconModel? icon, required bool isActive})
-      : super(label: label, icon: icon, isActive: isActive);
+      {required this.items,
+      required String super.label,
+      super.icon,
+      required super.isActive});
 }

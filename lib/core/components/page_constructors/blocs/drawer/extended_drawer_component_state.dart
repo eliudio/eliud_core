@@ -8,24 +8,26 @@ abstract class ExtendedDrawerComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class ExtendedDrawerComponentUninitialized extends ExtendedDrawerComponentState {}
+class ExtendedDrawerComponentUninitialized
+    extends ExtendedDrawerComponentState {}
 
 class ExtendedDrawerComponentError extends ExtendedDrawerComponentState {
   final String? message;
-  ExtendedDrawerComponentError({ this.message });
+  ExtendedDrawerComponentError({this.message});
 }
 
-class ExtendedDrawerComponentPermissionDenied extends ExtendedDrawerComponentState {
+class ExtendedDrawerComponentPermissionDenied
+    extends ExtendedDrawerComponentState {
   ExtendedDrawerComponentPermissionDenied();
 }
 
 class ExtendedDrawerComponentLoaded extends ExtendedDrawerComponentState {
   final DrawerModel? value;
 
-  const ExtendedDrawerComponentLoaded({ this.value });
+  const ExtendedDrawerComponentLoaded({this.value});
 
-  ExtendedDrawerComponentLoaded copyWith({ DrawerModel? copyThis }) {
-    return ExtendedDrawerComponentLoaded(value: copyThis ?? this.value);
+  ExtendedDrawerComponentLoaded copyWith({DrawerModel? copyThis}) {
+    return ExtendedDrawerComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -34,4 +36,3 @@ class ExtendedDrawerComponentLoaded extends ExtendedDrawerComponentState {
   @override
   String toString() => 'DrawerComponentLoaded { value: $value }';
 }
-

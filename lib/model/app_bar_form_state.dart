@@ -41,9 +41,9 @@ class AppBarFormInitialized extends AppBarFormState {
   final AppBarModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const AppBarFormInitialized({ this.value });
+  const AppBarFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class AppBarFormError extends AppBarFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const AppBarFormError({this.message, AppBarModel? value }) : super(value: value);
+  const AppBarFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class AppBarFormError extends AppBarFormInitialized {
     }''';
   }
 }
-class DocumentIDAppBarFormError extends AppBarFormError { 
-  const DocumentIDAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+
+class DocumentIDAppBarFormError extends AppBarFormError {
+  const DocumentIDAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class AppIdAppBarFormError extends AppBarFormError { 
-  const AppIdAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class AppIdAppBarFormError extends AppBarFormError {
+  const AppIdAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class TitleAppBarFormError extends AppBarFormError { 
-  const TitleAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class TitleAppBarFormError extends AppBarFormError {
+  const TitleAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class TitleAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class HeaderAppBarFormError extends AppBarFormError { 
-  const HeaderAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class HeaderAppBarFormError extends AppBarFormError {
+  const HeaderAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class HeaderAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class IconAppBarFormError extends AppBarFormError { 
-  const IconAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class IconAppBarFormError extends AppBarFormError {
+  const IconAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class IconAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class ImageAppBarFormError extends AppBarFormError { 
-  const ImageAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class ImageAppBarFormError extends AppBarFormError {
+  const ImageAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class ImageAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class IconMenuAppBarFormError extends AppBarFormError { 
-  const IconMenuAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class IconMenuAppBarFormError extends AppBarFormError {
+  const IconMenuAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class IconMenuAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class BackgroundOverrideAppBarFormError extends AppBarFormError { 
-  const BackgroundOverrideAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class BackgroundOverrideAppBarFormError extends AppBarFormError {
+  const BackgroundOverrideAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class BackgroundOverrideAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class IconColorOverrideAppBarFormError extends AppBarFormError { 
-  const IconColorOverrideAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class IconColorOverrideAppBarFormError extends AppBarFormError {
+  const IconColorOverrideAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,11 @@ class IconColorOverrideAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class SelectedIconColorOverrideAppBarFormError extends AppBarFormError { 
-  const SelectedIconColorOverrideAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class SelectedIconColorOverrideAppBarFormError extends AppBarFormError {
+  const SelectedIconColorOverrideAppBarFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +214,12 @@ class SelectedIconColorOverrideAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class MenuBackgroundColorOverrideAppBarFormError extends AppBarFormError { 
-  const MenuBackgroundColorOverrideAppBarFormError({ String? message, AppBarModel? value }): super(message: message, value: value);
+class MenuBackgroundColorOverrideAppBarFormError extends AppBarFormError {
+  const MenuBackgroundColorOverrideAppBarFormError(
+      {super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -238,12 +230,11 @@ class MenuBackgroundColorOverrideAppBarFormError extends AppBarFormError {
   }
 }
 
-
-class AppBarFormLoaded extends AppBarFormInitialized { 
-  const AppBarFormLoaded({ AppBarModel? value }): super(value: value);
+class AppBarFormLoaded extends AppBarFormInitialized {
+  const AppBarFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -253,12 +244,11 @@ class AppBarFormLoaded extends AppBarFormInitialized {
   }
 }
 
-
-class SubmittableAppBarForm extends AppBarFormInitialized { 
-  const SubmittableAppBarForm({ AppBarModel? value }): super(value: value);
+class SubmittableAppBarForm extends AppBarFormInitialized {
+  const SubmittableAppBarForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -267,5 +257,3 @@ class SubmittableAppBarForm extends AppBarFormInitialized {
     }''';
   }
 }
-
-

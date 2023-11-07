@@ -87,7 +87,7 @@
       "fieldName": "mediumType",
       "fieldType": "enum",
       "enumName": "PlatformMediumType",
-      "enumValues" : [ "Photo", "Video", "Pdf", "Text" ]
+      "enumValues" : [ "photo", "video", "pdf", "text" ]
     },
     {
       "fieldName": "mediumWidth",
@@ -127,7 +127,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID))",
     "subTitle": "value.url != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.url!)) : Container()"
   }
 }

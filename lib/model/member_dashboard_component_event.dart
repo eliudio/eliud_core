@@ -24,13 +24,11 @@ abstract class MemberDashboardComponentEvent extends Equatable {
 class FetchMemberDashboardComponent extends MemberDashboardComponentEvent {
   final String? id;
 
-  FetchMemberDashboardComponent({ this.id });
+  FetchMemberDashboardComponent({this.id});
 }
 
 class MemberDashboardComponentUpdated extends MemberDashboardComponentEvent {
   final MemberDashboardModel value;
 
-  MemberDashboardComponentUpdated({ required this.value });
+  MemberDashboardComponentUpdated({required this.value});
 }
-
-

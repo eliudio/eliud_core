@@ -8,24 +8,26 @@ abstract class ExtendedAppBarComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class ExtendedAppBarComponentUninitialized extends ExtendedAppBarComponentState {}
+class ExtendedAppBarComponentUninitialized
+    extends ExtendedAppBarComponentState {}
 
 class ExtendedAppBarComponentError extends ExtendedAppBarComponentState {
   final String? message;
-  ExtendedAppBarComponentError({ this.message });
+  ExtendedAppBarComponentError({this.message});
 }
 
-class ExtendedAppBarComponentPermissionDenied extends ExtendedAppBarComponentState {
+class ExtendedAppBarComponentPermissionDenied
+    extends ExtendedAppBarComponentState {
   ExtendedAppBarComponentPermissionDenied();
 }
 
 class ExtendedAppBarComponentLoaded extends ExtendedAppBarComponentState {
   final AppBarModel value;
 
-  const ExtendedAppBarComponentLoaded({ required this.value });
+  const ExtendedAppBarComponentLoaded({required this.value});
 
-  ExtendedAppBarComponentLoaded copyWith({ AppBarModel? copyThis }) {
-    return ExtendedAppBarComponentLoaded(value: copyThis ?? this.value);
+  ExtendedAppBarComponentLoaded copyWith({AppBarModel? copyThis}) {
+    return ExtendedAppBarComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -34,4 +36,3 @@ class ExtendedAppBarComponentLoaded extends ExtendedAppBarComponentState {
   @override
   String toString() => 'AppBarComponentLoaded { value: $value }';
 }
-

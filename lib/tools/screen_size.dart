@@ -6,9 +6,10 @@ double fullScreenWidth(BuildContext context) {
 
 double fullScreenHeight(BuildContext context) {
   // TODO: Need to find out if the AppBar and BottomNavigationBar are visible on the current screen
-  return MediaQuery.of(context).size.height
-      - kToolbarHeight // AppBar
-      - kBottomNavigationBarHeight; // BottomNavigationBar
+  return MediaQuery.of(context).size.height -
+      kToolbarHeight // AppBar
+      -
+      kBottomNavigationBarHeight; // BottomNavigationBar
 }
 
 double fullFullScreenHeight(BuildContext context) {

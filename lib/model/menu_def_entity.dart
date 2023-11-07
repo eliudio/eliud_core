@@ -24,12 +24,34 @@ class MenuDefEntity implements EntityBase {
   final List<MenuItemEntity>? menuItems;
   final bool? admin;
 
-  MenuDefEntity({required this.appId, this.name, this.menuItems, this.admin, });
+  MenuDefEntity({
+    required this.appId,
+    this.name,
+    this.menuItems,
+    this.admin,
+  });
 
-  MenuDefEntity copyWith({String? documentID, String? appId, String? name, List<MenuItemEntity>? menuItems, bool? admin, }) {
-    return MenuDefEntity(appId : appId ?? this.appId, name : name ?? this.name, menuItems : menuItems ?? this.menuItems, admin : admin ?? this.admin, );
+  MenuDefEntity copyWith({
+    String? documentID,
+    String? appId,
+    String? name,
+    List<MenuItemEntity>? menuItems,
+    bool? admin,
+  }) {
+    return MenuDefEntity(
+      appId: appId ?? this.appId,
+      name: name ?? this.name,
+      menuItems: menuItems ?? this.menuItems,
+      admin: admin ?? this.admin,
+    );
   }
-  List<Object?> get props => [appId, name, menuItems, admin, ];
+
+  List<Object?> get props => [
+        appId,
+        name,
+        menuItems,
+        admin,
+      ];
 
   @override
   String toString() {
@@ -38,44 +60,57 @@ class MenuDefEntity implements EntityBase {
     return 'MenuDefEntity{appId: $appId, name: $name, menuItems: MenuItem[] { $menuItemsCsv }, admin: $admin}';
   }
 
-  static MenuDefEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static MenuDefEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    var menuItemsFromMap;
-    menuItemsFromMap = map['menuItems'];
+    var menuItemsFromMap = map['menuItems'];
     List<MenuItemEntity> menuItemsList;
     if (menuItemsFromMap != null) {
       menuItemsList = (map['menuItems'] as List<dynamic>)
-        .map((dynamic item) =>
-        MenuItemEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
-        .toList();
+          .map((dynamic item) => MenuItemEntity.fromMap(item as Map,
+              newDocumentIds: newDocumentIds)!)
+          .toList();
     } else {
       menuItemsList = [];
     }
 
     return MenuDefEntity(
-      appId: map['appId'], 
-      name: map['name'], 
-      menuItems: menuItemsList, 
-      admin: map['admin'], 
+      appId: map['appId'],
+      name: map['name'],
+      menuItems: menuItemsList,
+      admin: map['admin'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
-    final List<Map<String?, dynamic>>? menuItemsListMap = menuItems != null 
+    final List<Map<String?, dynamic>>? menuItemsListMap = menuItems != null
         ? menuItems!.map((item) => item.toDocument()).toList()
         : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (appId != null) theDocument["appId"] = appId;
-      else theDocument["appId"] = null;
-    if (name != null) theDocument["name"] = name;
-      else theDocument["name"] = null;
-    if (menuItems != null) theDocument["menuItems"] = menuItemsListMap;
-      else theDocument["menuItems"] = null;
-    if (admin != null) theDocument["admin"] = admin;
-      else theDocument["admin"] = null;
+    if (appId != null) {
+      theDocument["appId"] = appId;
+    } else {
+      theDocument["appId"] = null;
+    }
+    if (name != null) {
+      theDocument["name"] = name;
+    } else {
+      theDocument["name"] = null;
+    }
+    if (menuItems != null) {
+      theDocument["menuItems"] = menuItemsListMap;
+    } else {
+      theDocument["menuItems"] = null;
+    }
+    if (admin != null) {
+      theDocument["admin"] = admin;
+    } else {
+      theDocument["admin"] = null;
+    }
     return theDocument;
   }
 
@@ -85,7 +120,8 @@ class MenuDefEntity implements EntityBase {
     return newEntity;
   }
 
-  static MenuDefEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static MenuDefEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -94,9 +130,9 @@ class MenuDefEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

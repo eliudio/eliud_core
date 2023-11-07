@@ -12,14 +12,14 @@ abstract class HasMenu {
 }
 
 Future<void> openMenu(AppModel app, BuildContext context,
-    {required RelativeRect position,
-      required List<AbstractMenuItemAttributes> menuItems,
-      RgbModel? popupMenuBackgroundColorOverride}) =>
+        {required RelativeRect position,
+        required List<AbstractMenuItemAttributes> menuItems,
+        RgbModel? popupMenuBackgroundColorOverride}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .menuStyle()
         .openMenu(app, context,
-        position: position,
-          menuItems: menuItems,
-          popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);
+            position: position,
+            menuItems: menuItems,
+            popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride);

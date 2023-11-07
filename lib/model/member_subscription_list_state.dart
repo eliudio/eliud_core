@@ -30,21 +30,24 @@ class MemberSubscriptionListLoaded extends MemberSubscriptionListState {
   final List<MemberSubscriptionModel?>? values;
   final bool? mightHaveMore;
 
-  const MemberSubscriptionListLoaded({this.mightHaveMore, this.values = const []});
+  const MemberSubscriptionListLoaded(
+      {this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object?> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [values, mightHaveMore];
 
   @override
   String toString() => 'MemberSubscriptionListLoaded { values: $values }';
 
   @override
-  bool operator ==(Object other) => 
-          other is MemberSubscriptionListLoaded &&
-              runtimeType == other.runtimeType &&
-              ListEquality().equals(values, other.values) &&
-              mightHaveMore == other.mightHaveMore;
+  bool operator ==(Object other) =>
+      other is MemberSubscriptionListLoaded &&
+      runtimeType == other.runtimeType &&
+      ListEquality().equals(values, other.values) &&
+      mightHaveMore == other.mightHaveMore;
+
+  @override
+  int get hashCode => values.hashCode ^ mightHaveMore.hashCode;
 }
 
 class MemberSubscriptionNotLoaded extends MemberSubscriptionListState {}
-

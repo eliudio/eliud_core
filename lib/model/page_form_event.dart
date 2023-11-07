@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class PageFormEvent extends Equatable {
   const PageFormEvent();
@@ -26,15 +25,13 @@ abstract class PageFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewPageFormEvent extends PageFormEvent {
-}
-
+class InitialiseNewPageFormEvent extends PageFormEvent {}
 
 class InitialisePageFormEvent extends PageFormEvent {
   final PageModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialisePageFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialisePageFormNoLoadEvent extends PageFormEvent {
   final PageModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialisePageFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedPageDocumentID extends PageFormEvent {
   ChangedPageDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedPageAppId extends PageFormEvent {
   ChangedPageAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedPageDescription extends PageFormEvent {
   ChangedPageDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageDescription{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedPageTitle extends PageFormEvent {
   ChangedPageTitle({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageTitle{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedPageAppBar extends PageFormEvent {
   ChangedPageAppBar({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageAppBar{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedPageDrawer extends PageFormEvent {
   ChangedPageDrawer({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageDrawer{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedPageEndDrawer extends PageFormEvent {
   ChangedPageEndDrawer({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageEndDrawer{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedPageHomeMenu extends PageFormEvent {
   ChangedPageHomeMenu({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageHomeMenu{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedPageBodyComponents extends PageFormEvent {
   ChangedPageBodyComponents({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageBodyComponents{ value: $value }';
@@ -162,7 +159,7 @@ class ChangedPageBackgroundOverride extends PageFormEvent {
   ChangedPageBackgroundOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageBackgroundOverride{ value: $value }';
@@ -174,7 +171,7 @@ class ChangedPageLayout extends PageFormEvent {
   ChangedPageLayout({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageLayout{ value: $value }';
@@ -186,7 +183,7 @@ class ChangedPageGridView extends PageFormEvent {
   ChangedPageGridView({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageGridView{ value: $value }';
@@ -198,9 +195,8 @@ class ChangedPageConditions extends PageFormEvent {
   ChangedPageConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPageConditions{ value: $value }';
 }
-

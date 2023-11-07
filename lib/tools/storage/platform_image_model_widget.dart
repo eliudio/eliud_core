@@ -8,7 +8,14 @@ class PlatformImageModelWidget extends StatefulWidget {
   final bool showThumbnail;
   final Widget? defaultWidget;
 
-  const PlatformImageModelWidget({Key? key, required this.platformMediumModel, this.width, this.height, required this.showThumbnail, this.defaultWidget, }) : super(key: key);
+  const PlatformImageModelWidget({
+    super.key,
+    required this.platformMediumModel,
+    this.width,
+    this.height,
+    required this.showThumbnail,
+    this.defaultWidget,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -19,19 +26,23 @@ class PlatformImageModelWidget extends StatefulWidget {
 class _PlatformImageModelState extends State<PlatformImageModelWidget> {
   @override
   Widget build(BuildContext context) {
-    var url;
+    String? url;
     if (widget.showThumbnail) {
-      url = widget.platformMediumModel.urlThumbnail!;
+      url = widget.platformMediumModel.urlThumbnail;
     } else {
-      url = widget.platformMediumModel.url!;
+      url = widget.platformMediumModel.url;
     }
-    if ((url == null) && (widget.defaultWidget != null)) {
-      return widget.defaultWidget!;
+    if (url == null) {
+      if (widget.defaultWidget != null) {
+        return widget.defaultWidget!;
+      }
+    } else {
+      return Image.network(
+        url,
+        width: widget.width,
+        height: widget.height,
+      );
     }
-    return Image.network(
-      url,
-      width: widget.width,
-      height: widget.height,
-    );
+    throw Exception("Could not determine url");
   }
 }

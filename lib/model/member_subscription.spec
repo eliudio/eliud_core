@@ -43,7 +43,7 @@
     }
   ],
   "listFields": {
-    "title": "value.app!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.documentID)) : Container()",
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.documentID))",
     "subTitle": "value.app!.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.app!.title!)) : Container()"
   }
 }

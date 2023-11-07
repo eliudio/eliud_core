@@ -9,16 +9,16 @@ import '../../helpers/parse_helper.dart';
 
 class EdgeInsetsGeometryWidget extends StatefulWidget {
   final AppModel app;
-  EdgeInsetsGeometryModel edgeInsetsGeometryModel;
+  final EdgeInsetsGeometryModel edgeInsetsGeometryModel;
 
   EdgeInsetsGeometryWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.edgeInsetsGeometryModel,
-  }) : super(key: key);
+  });
 
   @override
-  _EdgeInsetsGeometryState createState() => _EdgeInsetsGeometryState();
+  State<EdgeInsetsGeometryWidget> createState() => _EdgeInsetsGeometryState();
 }
 
 class _EdgeInsetsGeometryState extends State<EdgeInsetsGeometryWidget> {
@@ -27,25 +27,22 @@ class _EdgeInsetsGeometryState extends State<EdgeInsetsGeometryWidget> {
     return inContainer(context, 'Parameters', [
       doubleField(
           widget.edgeInsetsGeometryModel.left,
-              (value) => widget.edgeInsetsGeometryModel.left = value,
+          (value) => widget.edgeInsetsGeometryModel.left = value,
           'Left',
           'Left'),
       doubleField(
           widget.edgeInsetsGeometryModel.right,
-              (value) => widget.edgeInsetsGeometryModel.right = value,
+          (value) => widget.edgeInsetsGeometryModel.right = value,
           'Right',
           'Right'),
-      doubleField(
-          widget.edgeInsetsGeometryModel.top,
-              (value) => widget.edgeInsetsGeometryModel.top = value,
-          'Top',
-          'Top'),
+      doubleField(widget.edgeInsetsGeometryModel.top,
+          (value) => widget.edgeInsetsGeometryModel.top = value, 'Top', 'Top'),
       doubleField(
           widget.edgeInsetsGeometryModel.bottom,
-              (value) => widget.edgeInsetsGeometryModel.bottom = value,
+          (value) => widget.edgeInsetsGeometryModel.bottom = value,
           'Bottom',
           'Bottom'),
-          ]);
+    ]);
   }
 
   Widget doubleField(double? initialValue, ValueChanged<double> valueChanged,
@@ -56,8 +53,10 @@ class _EdgeInsetsGeometryState extends State<EdgeInsetsGeometryWidget> {
           widget.app,
           context,
           initialValue: (initialValue ?? 0).toString(),
-          valueChanged: (value) => valueChanged(double_parse(value)),
-          keyboardType: TextInputType.numberWithOptions(signed: false, ),
+          valueChanged: (value) => valueChanged(doubleParse(value)),
+          keyboardType: TextInputType.numberWithOptions(
+            signed: false,
+          ),
           decoration: InputDecoration(
             hintText: hint,
             labelText: label,
@@ -67,10 +66,6 @@ class _EdgeInsetsGeometryState extends State<EdgeInsetsGeometryWidget> {
 
   Widget inContainer(BuildContext context, String label, List<Widget> widgets) {
     return topicContainer(widget.app, context,
-        title: label,
-        collapsible: true,
-        collapsed: true,
-        children: widgets);
+        title: label, collapsible: true, collapsed: true, children: widgets);
   }
-
 }

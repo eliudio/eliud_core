@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/page_component_bloc.dart';
 import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_model.dart';
@@ -31,20 +30,21 @@ abstract class AbstractPageComponent extends StatelessWidget {
   final AppModel app;
   final String pageId;
 
-  AbstractPageComponent({Key? key, required this.app, required this.pageId}): super(key: key);
+  AbstractPageComponent({super.key, required this.app, required this.pageId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<PageComponentBloc> (
-          create: (context) => PageComponentBloc(
-            pageRepository: pageRepository(appId: app.documentID)!)
+    return BlocProvider<PageComponentBloc>(
+      create: (context) => PageComponentBloc(
+          pageRepository: pageRepository(appId: app.documentID)!)
         ..add(FetchPageComponent(id: pageId)),
       child: _pageBlockBuilder(context),
     );
   }
 
   Widget _pageBlockBuilder(BuildContext context) {
-    return BlocBuilder<PageComponentBloc, PageComponentState>(builder: (context, state) {
+    return BlocBuilder<PageComponentBloc, PageComponentState>(
+        builder: (context, state) {
       if (state is PageComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is PageComponentPermissionDenied) {
@@ -57,7 +57,11 @@ abstract class AbstractPageComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +69,3 @@ abstract class AbstractPageComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, PageModel value);
 }
-

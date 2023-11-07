@@ -24,13 +24,11 @@ abstract class MemberPublicInfoComponentEvent extends Equatable {
 class FetchMemberPublicInfoComponent extends MemberPublicInfoComponentEvent {
   final String? id;
 
-  FetchMemberPublicInfoComponent({ this.id });
+  FetchMemberPublicInfoComponent({this.id});
 }
 
 class MemberPublicInfoComponentUpdated extends MemberPublicInfoComponentEvent {
   final MemberPublicInfoModel value;
 
-  MemberPublicInfoComponentUpdated({ required this.value });
+  MemberPublicInfoComponentUpdated({required this.value});
 }
-
-

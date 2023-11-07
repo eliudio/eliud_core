@@ -4,10 +4,10 @@ import 'package:eliud_core/model/background_model.dart';
 import 'package:eliud_core/model/body_component_model.dart';
 import 'package:eliud_core/model/grid_view_model.dart';
 import 'package:eliud_core/style/frontend/has_page_body.dart';
-import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
+import '../../tools/has_fab.dart';
 import '../registry.dart';
 
 class ComponentInfo {
@@ -19,22 +19,16 @@ class ComponentInfo {
   final BackgroundModel? backgroundOverride;
   final GridViewModel? gridView;
 
-  ComponentInfo(
-      this.componentModels,
-      this.parameters,
-      this.widgets,
-      this.hasFab,
-      this.layout,
-      this.backgroundOverride,
-      this.gridView);
+  ComponentInfo(this.componentModels, this.parameters, this.widgets,
+      this.hasFab, this.layout, this.backgroundOverride, this.gridView);
 
   static HasFab? _getFab(List<Widget?> components) {
     HasFab? hasFab;
-    components.forEach((element) {
+    for (var element in components) {
       if (element is HasFab) {
         hasFab = element as HasFab?;
       }
-    });
+    }
     return hasFab;
   }
 
@@ -53,7 +47,8 @@ class ComponentInfo {
     var widgets = <Widget>[];
     for (var model in componentModels) {
       var key = GlobalKey();
-      var bodyComponent = Decorations.instance().createDecoratedBodyComponent(app,
+      var bodyComponent = Decorations.instance().createDecoratedBodyComponent(
+          app,
           context,
           key,
           () => Registry.registry()!.component(context, app,
@@ -62,9 +57,9 @@ class ComponentInfo {
           model)();
       widgets.add(bodyComponent);
     }
-    ;
 
     var hasFab = _getFab(widgets);
-    return ComponentInfo(componentModels, parameters, widgets, hasFab, layout, background, gridView);
+    return ComponentInfo(componentModels, parameters, widgets, hasFab, layout,
+        background, gridView);
   }
 }

@@ -11,8 +11,7 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
   StreamSubscription? _pageSubscription;
   StreamSubscription? _appSubscription;
 
-  void _mapLoadCurrentPageUpdateToState(
-      String appId, String pageId) {
+  void _mapLoadCurrentPageUpdateToState(String appId, String pageId) {
     appId = appId.toUpperCase();
     pageId = pageId.toLowerCase();
     _pageSubscription?.cancel();
@@ -44,12 +43,13 @@ class CurrentPageBloc extends Bloc<CurrentPageEvent, CurrentPageState> {
     });
 
     on<ErrorLoadingPage>((event, emit) async {
-      var theState = state;
+      //var theState = state;
       var app = await appRepository()!.get(event.appId);
       if (app != null) {
         emit(CurrentPageLoadError(app: app, pageId: event.pageId));
       } else {
-        print("App " + event.appId + " not available whilst trying to load the page " + event.pageId);
+        print(
+            "App ${event.appId} not available whilst trying to load the page ${event.pageId}");
       }
     });
   }

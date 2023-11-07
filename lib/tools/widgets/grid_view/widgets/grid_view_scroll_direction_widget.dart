@@ -8,15 +8,14 @@ typedef GridViewScrollDirectionCallback = Function(
     GridViewScrollDirection gridViewScrollDirection);
 
 class GridViewScrollDirectionWidget extends StatefulWidget {
-  GridViewScrollDirectionCallback gridViewScrollDirectionCallback;
+  final GridViewScrollDirectionCallback gridViewScrollDirectionCallback;
   final GridViewScrollDirection gridViewScrollDirection;
   final AppModel app;
   GridViewScrollDirectionWidget(
-      {Key? key,
-        required this.app,
-        required this.gridViewScrollDirectionCallback,
-        required this.gridViewScrollDirection})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.gridViewScrollDirectionCallback,
+      required this.gridViewScrollDirection});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,20 +23,27 @@ class GridViewScrollDirectionWidget extends StatefulWidget {
   }
 }
 
-class _GridViewScrollDirectionWidgetState extends State<GridViewScrollDirectionWidget> {
+class _GridViewScrollDirectionWidgetState
+    extends State<GridViewScrollDirectionWidget> {
   int? _heightTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _heightTypeSelectedRadioTile = widget.gridViewScrollDirection.index;
   }
 
-  String heighttTypeLandscapeStringValue(GridViewScrollDirection? gridViewScrollDirection) {
+  String heighttTypeLandscapeStringValue(
+      GridViewScrollDirection? gridViewScrollDirection) {
     switch (gridViewScrollDirection) {
-      case GridViewScrollDirection.Vertical:
+      case GridViewScrollDirection.vertical:
         return 'Vertical';
-      case GridViewScrollDirection.Horizontal:
+      case GridViewScrollDirection.horizontal:
         return 'Horizontal';
+      case GridViewScrollDirection.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -60,14 +66,14 @@ class _GridViewScrollDirectionWidgetState extends State<GridViewScrollDirectionW
             _heightTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(GridViewScrollDirection.Horizontal),
-      getPrivilegeOption(GridViewScrollDirection.Vertical)
+      getPrivilegeOption(GridViewScrollDirection.horizontal),
+      getPrivilegeOption(GridViewScrollDirection.vertical)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

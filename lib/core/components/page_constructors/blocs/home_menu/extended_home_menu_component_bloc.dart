@@ -7,27 +7,34 @@ import 'package:eliud_core/model/home_menu_model.dart';
 import 'extended_home_menu_component_event.dart';
 import 'extended_home_menu_component_state.dart';
 
-
-class ExtendedHomeMenuComponentBloc extends Bloc<ExtendedHomeMenuComponentEvent, ExtendedHomeMenuComponentState> {
+class ExtendedHomeMenuComponentBloc extends Bloc<ExtendedHomeMenuComponentEvent,
+    ExtendedHomeMenuComponentState> {
   StreamSubscription? _homeMenuSubscription;
   StreamSubscription? _menuDefSubscription;
 
-  void _listenToHomeMenu(HomeMenuModel homeMenu)  {
+  void _listenToHomeMenu(HomeMenuModel homeMenu) {
     _homeMenuSubscription?.cancel();
-    _homeMenuSubscription = homeMenuRepository(appId: homeMenu.appId)!.listenTo(homeMenu.documentID, (value) {
+    _homeMenuSubscription = homeMenuRepository(appId: homeMenu.appId)!
+        .listenTo(homeMenu.documentID, (value) {
       if (value != null) add(ExtendedHomeMenuComponentUpdated(value: value));
     });
 
     _menuDefSubscription?.cancel();
-    _menuDefSubscription = menuDefRepository(appId: homeMenu.appId)!.listenTo(homeMenu.menu!.documentID, (value) {
+    _menuDefSubscription = menuDefRepository(appId: homeMenu.appId)!
+        .listenTo(homeMenu.menu!.documentID, (value) {
       var newHomeMenu = homeMenu.copyWith(menu: value);
-      if (value != null) add(ExtendedHomeMenuComponentUpdated(value: newHomeMenu));
+      if (value != null) {
+        add(ExtendedHomeMenuComponentUpdated(value: newHomeMenu));
+      }
     });
   }
 
-  ExtendedHomeMenuComponentBloc(): super(ExtendedHomeMenuComponentUninitialized()) {
-    on <ExtendedHomeMenuInitEvent> ((event, emit) => _listenToHomeMenu(event.value));
-    on <ExtendedHomeMenuComponentUpdated> ((event, emit) => emit(ExtendedHomeMenuComponentLoaded(value: event.value)));
+  ExtendedHomeMenuComponentBloc()
+      : super(ExtendedHomeMenuComponentUninitialized()) {
+    on<ExtendedHomeMenuInitEvent>(
+        (event, emit) => _listenToHomeMenu(event.value));
+    on<ExtendedHomeMenuComponentUpdated>((event, emit) =>
+        emit(ExtendedHomeMenuComponentLoaded(value: event.value)));
   }
 
   @override
@@ -36,6 +43,4 @@ class ExtendedHomeMenuComponentBloc extends Bloc<ExtendedHomeMenuComponentEvent,
     _menuDefSubscription?.cancel();
     return super.close();
   }
-
 }
-

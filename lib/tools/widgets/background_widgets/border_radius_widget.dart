@@ -5,19 +5,17 @@ import 'package:flutter/widgets.dart';
 
 import '../../../model/border_radius_model.dart';
 
-typedef BorderRadiusTypeCallback = Function(
-    BorderRadiusType borderRadiusType);
+typedef BorderRadiusTypeCallback = Function(BorderRadiusType borderRadiusType);
 
 class BorderRadiusTypeWidget extends StatefulWidget {
-  BorderRadiusTypeCallback borderRadiusTypeCallback;
+  final BorderRadiusTypeCallback borderRadiusTypeCallback;
   final BorderRadiusType borderRadiusType;
   final AppModel app;
   BorderRadiusTypeWidget(
-      {Key? key,
-        required this.app,
-        required this.borderRadiusTypeCallback,
-        required this.borderRadiusType})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.borderRadiusTypeCallback,
+      required this.borderRadiusType});
 
   @override
   State<StatefulWidget> createState() {
@@ -28,6 +26,7 @@ class BorderRadiusTypeWidget extends StatefulWidget {
 class _BorderRadiusTypeWidgetState extends State<BorderRadiusTypeWidget> {
   int? _heightTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _heightTypeSelectedRadioTile = widget.borderRadiusType.index;
@@ -35,10 +34,14 @@ class _BorderRadiusTypeWidgetState extends State<BorderRadiusTypeWidget> {
 
   String heighttTypeLandscapeStringValue(BorderRadiusType? borderRadiusType) {
     switch (borderRadiusType) {
-      case BorderRadiusType.Circular:
+      case BorderRadiusType.circular:
         return 'Circular';
-      case BorderRadiusType.Elliptical:
+      case BorderRadiusType.elliptical:
         return 'Elliptical';
+      case BorderRadiusType.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -61,14 +64,14 @@ class _BorderRadiusTypeWidgetState extends State<BorderRadiusTypeWidget> {
             _heightTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(BorderRadiusType.Circular),
-      getPrivilegeOption(BorderRadiusType.Elliptical)
+      getPrivilegeOption(BorderRadiusType.circular),
+      getPrivilegeOption(BorderRadiusType.elliptical)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

@@ -18,25 +18,34 @@ import 'package:eliud_core/core/base/model_base.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/decoration_color_entity.dart';
-
-
-
 
 class DecorationColorModel implements ModelBase {
   static const String packageName = 'eliud_core';
   static const String id = 'decorationColors';
 
+  @override
   String documentID;
   RgbModel? color;
   double? stop;
 
-  DecorationColorModel({required this.documentID, this.color, this.stop, })  {
-  }
+  DecorationColorModel({
+    required this.documentID,
+    this.color,
+    this.stop,
+  });
 
-  DecorationColorModel copyWith({String? documentID, RgbModel? color, double? stop, }) {
-    return DecorationColorModel(documentID: documentID ?? this.documentID, color: color ?? this.color, stop: stop ?? this.stop, );
+  @override
+  DecorationColorModel copyWith({
+    String? documentID,
+    RgbModel? color,
+    double? stop,
+  }) {
+    return DecorationColorModel(
+      documentID: documentID ?? this.documentID,
+      color: color ?? this.color,
+      stop: stop ?? this.stop,
+    );
   }
 
   @override
@@ -44,9 +53,9 @@ class DecorationColorModel implements ModelBase {
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is DecorationColorModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is DecorationColorModel &&
+          runtimeType == other.runtimeType &&
           documentID == other.documentID &&
           color == other.color &&
           stop == other.stop;
@@ -56,41 +65,42 @@ class DecorationColorModel implements ModelBase {
     return 'DecorationColorModel{documentID: $documentID, color: $color, stop: $stop}';
   }
 
+  @override
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
-    if (color != null) referencesCollector.addAll(await color!.collectReferences(appId: appId));
+    if (color != null) {
+      referencesCollector.addAll(await color!.collectReferences(appId: appId));
+    }
     return referencesCollector;
   }
 
+  @override
   DecorationColorEntity toEntity({String? appId}) {
     return DecorationColorEntity(
-          color: (color != null) ? color!.toEntity(appId: appId) : null, 
-          stop: (stop != null) ? stop : null, 
+      color: (color != null) ? color!.toEntity(appId: appId) : null,
+      stop: (stop != null) ? stop : null,
     );
   }
 
-  static Future<DecorationColorModel?> fromEntity(String documentID, DecorationColorEntity? entity) async {
+  static Future<DecorationColorModel?> fromEntity(
+      String documentID, DecorationColorEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return DecorationColorModel(
-          documentID: documentID, 
-          color: 
-            await RgbModel.fromEntity(entity.color), 
-          stop: entity.stop, 
+      documentID: documentID,
+      color: await RgbModel.fromEntity(entity.color),
+      stop: entity.stop,
     );
   }
 
-  static Future<DecorationColorModel?> fromEntityPlus(String documentID, DecorationColorEntity? entity, { String? appId}) async {
+  static Future<DecorationColorModel?> fromEntityPlus(
+      String documentID, DecorationColorEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return DecorationColorModel(
-          documentID: documentID, 
-          color: 
-            await RgbModel.fromEntityPlus(entity.color, appId: appId), 
-          stop: entity.stop, 
+      documentID: documentID,
+      color: await RgbModel.fromEntityPlus(entity.color, appId: appId),
+      stop: entity.stop,
     );
   }
-
 }
-

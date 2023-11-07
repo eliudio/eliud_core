@@ -4,19 +4,17 @@ import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-typedef DialogLayoutCallback = Function(
-    DialogLayout dialogLayout);
+typedef DialogLayoutCallback = Function(DialogLayout dialogLayout);
 
 class DialogLayoutWidget extends StatefulWidget {
-  DialogLayoutCallback dialogLayoutCallback;
+  final DialogLayoutCallback dialogLayoutCallback;
   final DialogLayout dialogLayout;
   final AppModel app;
   DialogLayoutWidget(
-      {Key? key,
-        required this.app,
-        required this.dialogLayoutCallback,
-        required this.dialogLayout})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.dialogLayoutCallback,
+      required this.dialogLayout});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +25,7 @@ class DialogLayoutWidget extends StatefulWidget {
 class _DialogLayoutWidgetState extends State<DialogLayoutWidget> {
   int? _heightTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _heightTypeSelectedRadioTile = widget.dialogLayout.index;
@@ -34,12 +33,16 @@ class _DialogLayoutWidgetState extends State<DialogLayoutWidget> {
 
   String heighttTypeLandscapeStringValue(DialogLayout? dialogLayout) {
     switch (dialogLayout) {
-      case DialogLayout.ListView:
+      case DialogLayout.listView:
         return 'List';
-      case DialogLayout.GridView:
+      case DialogLayout.gridView:
         return 'Grid';
-      case DialogLayout.OnlyTheFirstComponent:
+      case DialogLayout.onlyTheFirstComponent:
         return 'Only first';
+      case DialogLayout.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -62,15 +65,15 @@ class _DialogLayoutWidgetState extends State<DialogLayoutWidget> {
             _heightTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(DialogLayout.ListView),
-      getPrivilegeOption(DialogLayout.GridView),
-      getPrivilegeOption(DialogLayout.OnlyTheFirstComponent),
+      getPrivilegeOption(DialogLayout.listView),
+      getPrivilegeOption(DialogLayout.gridView),
+      getPrivilegeOption(DialogLayout.onlyTheFirstComponent),
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

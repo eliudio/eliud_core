@@ -25,7 +25,7 @@
       "remark": "see firestore rules",
       "fieldType": "enum",
       "enumName": "PrivilegeLevelRequiredSimple",
-      "enumValues" : [ "NoPrivilegeRequiredSimple", "Level1PrivilegeRequiredSimple", "Level2PrivilegeRequiredSimple", "OwnerPrivilegeRequiredSimple" ],
+      "enumValues" : [ "noPrivilegeRequiredSimple", "level1PrivilegeRequiredSimple", "level2PrivilegeRequiredSimple", "ownerPrivilegeRequiredSimple" ],
       "defaultValue": "0",
       "group": "conditional"
     }

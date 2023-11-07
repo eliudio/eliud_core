@@ -30,7 +30,7 @@
       "remark": "Is width an absolute value or a percentage of the device width?",
       "fieldType": "enum",
       "enumName": "WidthTypePortrait",
-      "enumValues" : [ "AbsoluteWidth", "PercentageWidth" ],
+      "enumValues" : [ "absoluteWidth", "percentageWidth" ],
       "group": "widthTypePortrait"
     },
     {
@@ -45,7 +45,7 @@
       "remark": "Is width an absolute value or a percentage of the device width?",
       "fieldType": "enum",
       "enumName": "WidthTypeLandscape",
-      "enumValues" : [ "AbsoluteWidth", "PercentageWidth" ],
+      "enumValues" : [ "absoluteWidth", "percentageWidth" ],
       "group": "widthTypeLandscape"
     },
     {
@@ -60,7 +60,7 @@
       "remark": "Is height an absolute value or a percentage of the device height?",
       "fieldType": "enum",
       "enumName": "HeightTypePortrait",
-      "enumValues" : [ "AbsoluteHeight", "PercentageHeight" ],
+      "enumValues" : [ "absoluteHeight", "percentageHeight" ],
       "group": "heightTypePortrait"
     },
     {
@@ -75,7 +75,7 @@
       "remark": "Is height an absolute value or a percentage of the device height?",
       "fieldType": "enum",
       "enumName": "HeightTypeLandscape",
-      "enumValues" : [ "AbsoluteHeight", "PercentageHeight" ],
+      "enumValues" : [ "absoluteHeight", "percentageHeight" ],
       "group": "heightTypeLandscape"
     },
     {
@@ -84,7 +84,7 @@
       "remark": "How to fit the item within the box, when portrait",
       "fieldType": "enum",
       "enumName": "PortraitFitType",
-      "enumValues" : [ "PortraitFitWidth", "PortraitFitHeight" , "PortraitFill", "PortraitNone", "PortraitContain", "PortraitCover", "PortraitScaleDown" ],
+      "enumValues" : [ "portraitFitWidth", "portraitFitHeight" , "portraitFill", "portraitNone", "portraitContain", "portraitCover", "portraitScaleDown" ],
       "group": "fitPortrait"
     },
     {
@@ -93,7 +93,7 @@
       "remark": "How to fit the item within the box, when landscape",
       "fieldType": "enum",
       "enumName": "LandscapeFitType",
-      "enumValues" : [ "LandscapeFitWidth", "LandscapeFitHeight" , "LandscapeFill", "LandscapeNone", "LandscapeContain", "LandscapeCover", "LandscapeScaleDown" ],
+      "enumValues" : [ "landscapeFitWidth", "landscapeFitHeight", "landscapeFill", "landscapeNone", "landscapeContain", "landscapeCover", "landscapeScaleDown" ],
       "group": "fitLandscape"
     },
     {
@@ -102,7 +102,7 @@
       "remark": "Align when Portrait",
       "fieldType": "enum",
       "enumName": "PortraitAlignType",
-      "enumValues" : [ "PortraitAlignTopLeft", "PortraitAlignTopCenter", "PortraitAlignTopRight", "PortraitAlignCenterLeft", "PortraitAlignCenter", "PortraitAlignCenterRight", "PortraitAlignBottomLeft", "PortraitAlignBottomCenter", "PortraitAlignBottomRight" ],
+      "enumValues" : [ "portraitAlignTopLeft", "portraitAlignTopCenter", "portraitAlignTopRight", "portraitAlignCenterLeft", "portraitAlignCenter", "portraitAlignCenterRight", "portraitAlignBottomLeft", "portraitAlignBottomCenter", "portraitAlignBottomRight" ],
       "group": "alignPortrait"
     },
     {
@@ -111,7 +111,7 @@
       "remark": "Align when Landscape",
       "fieldType": "enum",
       "enumName": "LandscapeAlignType",
-      "enumValues" : [ "LandscapeAlignTopLeft", "LandscapeAlignTopCenter", "LandscapeAlignTopRight", "LandscapeAlignCenterLeft", "LandscapeAlignCenter", "LandscapeAlignCenterRight", "LandscapeAlignBottomLeft", "LandscapeAlignBottomCenter", "LandscapeAlignBottomRight" ],
+      "enumValues" : [ "landscapeAlignTopLeft", "landscapeAlignTopCenter", "landscapeAlignTopRight", "landscapeAlignCenterLeft", "landscapeAlignCenter", "landscapeAlignCenterRight", "landscapeAlignBottomLeft", "landscapeAlignBottomCenter", "landscapeAlignBottomRight" ],
       "group": "alignLandscape"
     },
     {
@@ -120,7 +120,7 @@
       "remark": "Clip",
       "fieldType": "enum",
       "enumName": "ClipType",
-      "enumValues" : [ "NoClip", "ClipOval", "ClipRRect5", "ClipRRect10", "ClipRRect15", "ClipRRect20", "ClipRRect30", "ClipRRect40" ],
+      "enumValues" : [ "noClip", "clipOval", "clipRRect5", "clipRRect10", "clipRRect15", "clipRRect20", "clipRRect30", "clipRRect40" ],
       "group": "clip"
     }
   ],
@@ -187,7 +187,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID))",
     "subTitle": "value.name != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.name!)) : Container()"
   }
 }

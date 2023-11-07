@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/app_bar_component_bloc.dart';
 import 'package:eliud_core/model/app_bar_component_event.dart';
 import 'package:eliud_core/model/app_bar_model.dart';
@@ -31,20 +30,22 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
   final AppModel app;
   final String appBarId;
 
-  AbstractAppBarComponent({Key? key, required this.app, required this.appBarId}): super(key: key);
+  AbstractAppBarComponent(
+      {super.key, required this.app, required this.appBarId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AppBarComponentBloc> (
-          create: (context) => AppBarComponentBloc(
-            appBarRepository: appBarRepository(appId: app.documentID)!)
+    return BlocProvider<AppBarComponentBloc>(
+      create: (context) => AppBarComponentBloc(
+          appBarRepository: appBarRepository(appId: app.documentID)!)
         ..add(FetchAppBarComponent(id: appBarId)),
       child: _appBarBlockBuilder(context),
     );
   }
 
   Widget _appBarBlockBuilder(BuildContext context) {
-    return BlocBuilder<AppBarComponentBloc, AppBarComponentState>(builder: (context, state) {
+    return BlocBuilder<AppBarComponentBloc, AppBarComponentState>(
+        builder: (context, state) {
       if (state is AppBarComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is AppBarComponentPermissionDenied) {
@@ -57,7 +58,11 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +70,3 @@ abstract class AbstractAppBarComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, AppBarModel value);
 }
-

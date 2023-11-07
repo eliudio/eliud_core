@@ -22,14 +22,17 @@ class DialogComponent extends StatefulWidget {
   final AppModel app;
   final String dialogId;
   final Map<String, dynamic>? parameters;
-  bool? includeHeading = true;
+  final bool? includeHeading;
 
   DialogComponent(
-      {Key? key, required this.app, required this.dialogId, this.parameters, this.includeHeading})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.dialogId,
+      this.parameters,
+      this.includeHeading = true});
 
   @override
-  _DialogComponentState createState() => _DialogComponentState();
+  State<DialogComponent> createState() => _DialogComponentState();
 }
 
 class _DialogComponentState extends State<DialogComponent> {
@@ -37,54 +40,57 @@ class _DialogComponentState extends State<DialogComponent> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<DialogComponentBloc> (
+    return BlocProvider<DialogComponentBloc>(
         create: (context) => DialogComponentBloc(
-        dialogRepository: dialogRepository(appId: widget.app.documentID))
-      ..add(FetchDialogComponent(id: widget.dialogId)),
-    child: BlocBuilder<DialogComponentBloc, DialogComponentState>(builder: (context, state) {
-    if (state is DialogComponentLoaded) {
-      var dialog = state.value;
-      return Decorations.instance().createDecoratedDialog(widget.app,
-          context,
-          _dialogKey,
-              () =>
-              flexibleDialog(widget.app, context,
-                  key: _dialogKey,
-                  title: dialog.title!,
-                  child: BlocBuilder<AccessBloc, AccessState>(
-                      builder: (context, accessState) {
-                        if (accessState is AccessDetermined) {
-                            var componentInfo = ComponentInfo.getComponentInfo(
-                                context,
-                                widget.app,
-                                dialog.bodyComponents!,
-                                widget.parameters,
-                                fromDialogLayout(dialog.layout),
-                                null,
-                                dialog.gridView);
+            dialogRepository: dialogRepository(appId: widget.app.documentID))
+          ..add(FetchDialogComponent(id: widget.dialogId)),
+        child: BlocBuilder<DialogComponentBloc, DialogComponentState>(
+            builder: (context, state) {
+          if (state is DialogComponentLoaded) {
+            var dialog = state.value;
+            return Decorations.instance().createDecoratedDialog(
+                widget.app,
+                context,
+                _dialogKey,
+                () => flexibleDialog(widget.app, context,
+                        key: _dialogKey, title: dialog.title!, child:
+                            BlocBuilder<AccessBloc, AccessState>(
+                                builder: (context, accessState) {
+                      if (accessState is AccessDetermined) {
+                        var componentInfo = ComponentInfo.getComponentInfo(
+                            context,
+                            widget.app,
+                            dialog.bodyComponents!,
+                            widget.parameters,
+                            fromDialogLayout(dialog.layout),
+                            null,
+                            dialog.gridView);
 
-                            return simpleTopicContainer(widget.app,
-                                context, children: <Widget>[pageBody(widget.app,context,
-                                backgroundOverride: componentInfo
-                                    .backgroundOverride,
-                                components: componentInfo.widgets,
-                                layout: componentInfo.layout,
-                                gridView: componentInfo.gridView)
+                        return simpleTopicContainer(widget.app, context,
+                            children: <Widget>[
+                              pageBody(widget.app, context,
+                                  backgroundOverride:
+                                      componentInfo.backgroundOverride,
+                                  components: componentInfo.widgets,
+                                  layout: componentInfo.layout,
+                                  gridView: componentInfo.gridView)
                             ]);
-                        } else {
-                          return progressIndicator(widget.app,context);
-                        }
-                      }),
-                  includeHeading: widget.includeHeading ?? dialog.includeHeading ?? true,
-                  buttons: [
-                    dialogButton(widget.app,context,
-                        label: 'Close', onPressed: () => pressed(true)),
-                  ]),
-          dialog)();
-    } else {
-      return progressIndicator(widget.app,context);
-    }
-    }));
+                      } else {
+                        return progressIndicator(widget.app, context);
+                      }
+                    }),
+                        includeHeading: widget.includeHeading ??
+                            dialog.includeHeading ??
+                            true,
+                        buttons: [
+                          dialogButton(widget.app, context,
+                              label: 'Close', onPressed: () => pressed(true)),
+                        ]),
+                dialog)();
+          } else {
+            return progressIndicator(widget.app, context);
+          }
+        }));
   }
 
   void pressed(bool success) {

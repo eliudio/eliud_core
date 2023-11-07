@@ -23,11 +23,11 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'member_medium_model.dart';
 
-typedef List<MemberMediumModel?> FilterMemberMediumModels(List<MemberMediumModel?> values);
+typedef FilterMemberMediumModels = List<MemberMediumModel?> Function(
+    List<MemberMediumModel?> values);
 
-
-
-class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListState> {
+class MemberMediumListBloc
+    extends Bloc<MemberMediumListEvent, MemberMediumListState> {
   final FilterMemberMediumModels? filter;
   final MemberMediumRepository _memberMediumRepository;
   StreamSubscription? _memberMediumsListSubscription;
@@ -39,23 +39,32 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
   final bool? detailed;
   final int memberMediumLimit;
 
-  MemberMediumListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberMediumRepository memberMediumRepository, this.memberMediumLimit = 5})
+  MemberMediumListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required MemberMediumRepository memberMediumRepository,
+      this.memberMediumLimit = 5})
       : _memberMediumRepository = memberMediumRepository,
         super(MemberMediumListLoading()) {
-    on <LoadMemberMediumList> ((event, emit) {
+    on<LoadMemberMediumList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadMemberMediumListToState();
       } else {
         _mapLoadMemberMediumListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadMemberMediumListWithDetailsToState();
     });
-    
-    on <MemberMediumChangeQuery> ((event, emit) {
+
+    on<MemberMediumChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadMemberMediumListToState();
@@ -63,20 +72,20 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
         _mapLoadMemberMediumListWithDetailsToState();
       }
     });
-      
-    on <AddMemberMediumList> ((event, emit) async {
+
+    on<AddMemberMediumList>((event, emit) async {
       await _mapAddMemberMediumListToState(event);
     });
-    
-    on <UpdateMemberMediumList> ((event, emit) async {
+
+    on<UpdateMemberMediumList>((event, emit) async {
       await _mapUpdateMemberMediumListToState(event);
     });
-    
-    on <DeleteMemberMediumList> ((event, emit) async {
+
+    on<DeleteMemberMediumList>((event, emit) async {
       await _mapDeleteMemberMediumListToState(event);
     });
-    
-    on <MemberMediumListUpdated> ((event, emit) {
+
+    on<MemberMediumListUpdated>((event, emit) {
       emit(_mapMemberMediumListUpdatedToState(event));
     });
   }
@@ -90,27 +99,31 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
   }
 
   Future<void> _mapLoadMemberMediumListToState() async {
-    int amountNow =  (state is MemberMediumListLoaded) ? (state as MemberMediumListLoaded).values!.length : 0;
+    int amountNow = (state is MemberMediumListLoaded)
+        ? (state as MemberMediumListLoaded).values!.length
+        : 0;
     _memberMediumsListSubscription?.cancel();
     _memberMediumsListSubscription = _memberMediumRepository.listen(
-          (list) => add(MemberMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * memberMediumLimit : null
-    );
-  }
-
-  Future<void> _mapLoadMemberMediumListWithDetailsToState() async {
-    int amountNow =  (state is MemberMediumListLoaded) ? (state as MemberMediumListLoaded).values!.length : 0;
-    _memberMediumsListSubscription?.cancel();
-    _memberMediumsListSubscription = _memberMediumRepository.listenWithDetails(
-            (list) => add(MemberMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(MemberMediumListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * memberMediumLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * memberMediumLimit : null);
+  }
+
+  Future<void> _mapLoadMemberMediumListWithDetailsToState() async {
+    int amountNow = (state is MemberMediumListLoaded)
+        ? (state as MemberMediumListLoaded).values!.length
+        : 0;
+    _memberMediumsListSubscription?.cancel();
+    _memberMediumsListSubscription = _memberMediumRepository.listenWithDetails(
+        (list) => add(MemberMediumListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * memberMediumLimit : null);
   }
 
   Future<void> _mapAddMemberMediumListToState(AddMemberMediumList event) async {
@@ -120,14 +133,16 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
     }
   }
 
-  Future<void> _mapUpdateMemberMediumListToState(UpdateMemberMediumList event) async {
+  Future<void> _mapUpdateMemberMediumListToState(
+      UpdateMemberMediumList event) async {
     var value = event.value;
     if (value != null) {
       await _memberMediumRepository.update(value);
     }
   }
 
-  Future<void> _mapDeleteMemberMediumListToState(DeleteMemberMediumList event) async {
+  Future<void> _mapDeleteMemberMediumListToState(
+      DeleteMemberMediumList event) async {
     var value = event.value;
     if (value != null) {
       await _memberMediumRepository.delete(value);
@@ -135,7 +150,9 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
   }
 
   MemberMediumListLoaded _mapMemberMediumListUpdatedToState(
-      MemberMediumListUpdated event) => MemberMediumListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          MemberMediumListUpdated event) =>
+      MemberMediumListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +160,3 @@ class MemberMediumListBloc extends Bloc<MemberMediumListEvent, MemberMediumListS
     return super.close();
   }
 }
-
-

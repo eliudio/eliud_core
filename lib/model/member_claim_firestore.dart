@@ -15,11 +15,9 @@
 
 import 'package:eliud_core/model/member_claim_repository.dart';
 
-
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
-
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,86 +31,118 @@ class MemberClaimFirestore implements MemberClaimRepository {
     return MemberClaimEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
-  Future<MemberClaimEntity> addEntity(String documentID, MemberClaimEntity value) {
-    return MemberClaimCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  @override
+  Future<MemberClaimEntity> addEntity(
+      String documentID, MemberClaimEntity value) {
+    return memberClaimCollection
+        .doc(documentID)
+        .set(value.toDocument())
+        .then((_) => value);
   }
 
-  Future<MemberClaimEntity> updateEntity(String documentID, MemberClaimEntity value) {
-    return MemberClaimCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  @override
+  Future<MemberClaimEntity> updateEntity(
+      String documentID, MemberClaimEntity value) {
+    return memberClaimCollection
+        .doc(documentID)
+        .update(value.toDocument())
+        .then((_) => value);
   }
 
+  @override
   Future<MemberClaimModel> add(MemberClaimModel value) {
-    return MemberClaimCollection.doc(value.documentID).set(value.toEntity().toDocument()).then((_) => value);
+    return memberClaimCollection
+        .doc(value.documentID)
+        .set(value.toEntity().toDocument())
+        .then((_) => value);
   }
 
+  @override
   Future<void> delete(MemberClaimModel value) {
-    return MemberClaimCollection.doc(value.documentID).delete();
+    return memberClaimCollection.doc(value.documentID).delete();
   }
 
+  @override
   Future<MemberClaimModel> update(MemberClaimModel value) {
-    return MemberClaimCollection.doc(value.documentID).update(value.toEntity().toDocument()).then((_) => value);
+    return memberClaimCollection
+        .doc(value.documentID)
+        .update(value.toEntity().toDocument())
+        .then((_) => value);
   }
 
   Future<MemberClaimModel?> _populateDoc(DocumentSnapshot value) async {
-    return MemberClaimModel.fromEntity(value.id, MemberClaimEntity.fromMap(value.data()));
+    return MemberClaimModel.fromEntity(
+        value.id, MemberClaimEntity.fromMap(value.data()));
   }
 
   Future<MemberClaimModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return MemberClaimModel.fromEntityPlus(value.id, MemberClaimEntity.fromMap(value.data()), );  }
+    return MemberClaimModel.fromEntityPlus(
+      value.id,
+      MemberClaimEntity.fromMap(value.data()),
+    );
+  }
 
-  Future<MemberClaimEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+  @override
+  Future<MemberClaimEntity?> getEntity(String? id,
+      {Function(Exception)? onError}) async {
     try {
-      var collection = MemberClaimCollection.doc(id);
+      var collection = memberClaimCollection.doc(id);
       var doc = await collection.get();
       return MemberClaimEntity.fromMap(doc.data());
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving MemberClaim with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
-  Future<MemberClaimModel?> get(String? id, {Function(Exception)? onError}) async {
+  @override
+  Future<MemberClaimModel?> get(String? id,
+      {Function(Exception)? onError}) async {
     try {
-      var collection = MemberClaimCollection.doc(id);
+      var collection = memberClaimCollection.doc(id);
       var doc = await collection.get();
       return await _populateDocPlus(doc);
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving MemberClaim with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
-  StreamSubscription<List<MemberClaimModel?>> listen(MemberClaimModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  @override
+  StreamSubscription<List<MemberClaimModel?>> listen(
+      MemberClaimModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     Stream<List<MemberClaimModel?>> stream;
-    stream = getQuery(FirebaseFirestore.instance.collection('memberclaim'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+    stream = getQuery(
+      FirebaseFirestore.instance.collection('memberclaim'),
+      orderBy: orderBy,
+      descending: descending,
+      startAfter: startAfter as DocumentSnapshot?,
+      limit: limit,
+      privilegeLevel: privilegeLevel,
+      eliudQuery: eliudQuery,
+    )!
+        .snapshots()
 //  see comment listen(...) above
-//  stream = getQuery(MemberClaimCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+//  stream = getQuery(memberClaimCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
         .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
-    });
-
-    return stream.listen((listOfMemberClaimModels) {
-      trigger(listOfMemberClaimModels);
-    });
-  }
-
-  StreamSubscription<List<MemberClaimModel?>> listenWithDetails(MemberClaimModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    Stream<List<MemberClaimModel?>> stream;
-    stream = getQuery(FirebaseFirestore.instance.collection('memberclaim'), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
-//  see comment listen(...) above
-//  stream = getQuery(MemberClaimCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+      return await Future.wait(
+          data.docs.map((doc) => _populateDoc(doc)).toList());
     });
 
     return stream.listen((listOfMemberClaimModels) {
@@ -121,10 +151,43 @@ return null;
   }
 
   @override
-  StreamSubscription<MemberClaimModel?> listenTo(String documentId, MemberClaimChanged changed, {MemberClaimErrorHandler? errorHandler}) {
-    var stream = MemberClaimCollection.doc(documentId)
+  StreamSubscription<List<MemberClaimModel?>> listenWithDetails(
+      MemberClaimModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    Stream<List<MemberClaimModel?>> stream;
+    stream = getQuery(
+      FirebaseFirestore.instance.collection('memberclaim'),
+      orderBy: orderBy,
+      descending: descending,
+      startAfter: startAfter as DocumentSnapshot?,
+      limit: limit,
+      privilegeLevel: privilegeLevel,
+      eliudQuery: eliudQuery,
+    )!
         .snapshots()
-        .asyncMap((data) {
+//  see comment listen(...) above
+//  stream = getQuery(memberClaimCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(
+          data.docs.map((doc) => _populateDocPlus(doc)).toList());
+    });
+
+    return stream.listen((listOfMemberClaimModels) {
+      trigger(listOfMemberClaimModels);
+    });
+  }
+
+  @override
+  StreamSubscription<MemberClaimModel?> listenTo(
+      String documentId, MemberClaimChanged changed,
+      {MemberClaimErrorHandler? errorHandler}) {
+    var stream =
+        memberClaimCollection.doc(documentId).snapshots().asyncMap((data) {
       return _populateDocPlus(data);
     });
     var theStream = stream.listen((value) {
@@ -138,33 +201,87 @@ return null;
     return theStream;
   }
 
-  Stream<List<MemberClaimModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  @override
+  Stream<List<MemberClaimModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     DocumentSnapshot? lastDoc;
-    Stream<List<MemberClaimModel?>> _values = getQuery(MemberClaimCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().asyncMap((snapshot) {
+    Stream<List<MemberClaimModel?>> values = getQuery(
+      memberClaimCollection,
+      orderBy: orderBy,
+      descending: descending,
+      startAfter: startAfter as DocumentSnapshot?,
+      limit: limit,
+      privilegeLevel: privilegeLevel,
+      eliudQuery: eliudQuery,
+    )!
+        .snapshots()
+        .asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Stream<List<MemberClaimModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  @override
+  Stream<List<MemberClaimModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     DocumentSnapshot? lastDoc;
-    Stream<List<MemberClaimModel?>> _values = getQuery(MemberClaimCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.snapshots().asyncMap((snapshot) {
+    Stream<List<MemberClaimModel?>> values = getQuery(
+      memberClaimCollection,
+      orderBy: orderBy,
+      descending: descending,
+      startAfter: startAfter as DocumentSnapshot?,
+      limit: limit,
+      privilegeLevel: privilegeLevel,
+      eliudQuery: eliudQuery,
+    )!
+        .snapshots()
+        .asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Future<List<MemberClaimModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+  @override
+  Future<List<MemberClaimModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
     DocumentSnapshot? lastDoc;
-    List<MemberClaimModel?> _values = await getQuery(MemberClaimCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.get().then((value) {
+    List<MemberClaimModel?> values = await getQuery(
+      memberClaimCollection,
+      orderBy: orderBy,
+      descending: descending,
+      startAfter: startAfter as DocumentSnapshot?,
+      limit: limit,
+      privilegeLevel: privilegeLevel,
+      eliudQuery: eliudQuery,
+    )!
+        .get()
+        .then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -172,12 +289,30 @@ return null;
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Future<List<MemberClaimModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+  @override
+  Future<List<MemberClaimModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
     DocumentSnapshot? lastDoc;
-    List<MemberClaimModel?> _values = await getQuery(MemberClaimCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, )!.get().then((value) {
+    List<MemberClaimModel?> values = await getQuery(
+      memberClaimCollection,
+      orderBy: orderBy,
+      descending: descending,
+      startAfter: startAfter as DocumentSnapshot?,
+      limit: limit,
+      privilegeLevel: privilegeLevel,
+      eliudQuery: eliudQuery,
+    )!
+        .get()
+        .then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -185,36 +320,42 @@ return null;
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
+  @override
   void flush() {}
 
+  @override
   Future<void> deleteAll() {
-    return MemberClaimCollection.get().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.docs){
+    return memberClaimCollection.get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
         ds.reference.delete();
       }
     });
   }
 
+  @override
   dynamic getSubCollection(String documentId, String name) {
-    return MemberClaimCollection.doc(documentId).collection(name);
+    return memberClaimCollection.doc(documentId).collection(name);
   }
 
+  @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
-  } 
-
-  Future<MemberClaimModel?> changeValue(String documentId, String fieldName, num changeByThisValue) {
-    var change = FieldValue.increment(changeByThisValue);
-    return MemberClaimCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }
 
+  @override
+  Future<MemberClaimModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return memberClaimCollection
+        .doc(documentId)
+        .update({fieldName: change}).then((v) => get(documentId));
+  }
 
   MemberClaimFirestore();
 
-  final CollectionReference MemberClaimCollection = FirebaseFirestore.instance.collection('memberclaim');
-
+  final CollectionReference memberClaimCollection =
+      FirebaseFirestore.instance.collection('memberclaim');
 }
-

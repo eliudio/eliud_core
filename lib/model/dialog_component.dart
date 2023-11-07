@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/dialog_component_bloc.dart';
 import 'package:eliud_core/model/dialog_component_event.dart';
 import 'package:eliud_core/model/dialog_model.dart';
@@ -31,20 +30,22 @@ abstract class AbstractDialogComponent extends StatelessWidget {
   final AppModel app;
   final String dialogId;
 
-  AbstractDialogComponent({Key? key, required this.app, required this.dialogId}): super(key: key);
+  AbstractDialogComponent(
+      {super.key, required this.app, required this.dialogId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<DialogComponentBloc> (
-          create: (context) => DialogComponentBloc(
-            dialogRepository: dialogRepository(appId: app.documentID)!)
+    return BlocProvider<DialogComponentBloc>(
+      create: (context) => DialogComponentBloc(
+          dialogRepository: dialogRepository(appId: app.documentID)!)
         ..add(FetchDialogComponent(id: dialogId)),
       child: _dialogBlockBuilder(context),
     );
   }
 
   Widget _dialogBlockBuilder(BuildContext context) {
-    return BlocBuilder<DialogComponentBloc, DialogComponentState>(builder: (context, state) {
+    return BlocBuilder<DialogComponentBloc, DialogComponentState>(
+        builder: (context, state) {
       if (state is DialogComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is DialogComponentPermissionDenied) {
@@ -57,7 +58,11 @@ abstract class AbstractDialogComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +70,3 @@ abstract class AbstractDialogComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, DialogModel value);
 }
-

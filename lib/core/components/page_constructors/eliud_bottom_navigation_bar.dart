@@ -22,15 +22,14 @@ class EliudBottomNavigationBar extends StatefulWidget {
   final AccessState accessState;
 
   EliudBottomNavigationBar(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.accessState,
       required this.homeMenu,
-      required this.currentPage})
-      : super(key: key);
+      required this.currentPage});
 
   @override
-  _EliudBottomNavigationBarState createState() {
+  State<EliudBottomNavigationBar> createState() {
     return _EliudBottomNavigationBarState();
   }
 }
@@ -67,16 +66,15 @@ class EliudBottomNavigationBarWithItems extends StatefulWidget {
   final ExtendedHomeMenuComponentLoaded state;
 
   EliudBottomNavigationBarWithItems(
-      {Key? key,
+      {super.key,
       required this.app,
       required this.accessState,
       required this.homeMenu,
       required this.currentPage,
-      required this.state})
-      : super(key: key);
+      required this.state});
 
   @override
-  _EliudBottomNavigationBarWithItemsState createState() {
+  State<EliudBottomNavigationBarWithItems> createState() {
     return _EliudBottomNavigationBarWithItemsState();
   }
 }
@@ -106,7 +104,7 @@ class _EliudBottomNavigationBarWithItemsState
                     items: itemList,
                     backgroundOverride: widget.homeMenu.backgroundOverride,
                     popupMenuBackgroundColorOverride:
-                    widget.homeMenu.popupMenuBackgroundColorOverride);
+                        widget.homeMenu.popupMenuBackgroundColorOverride);
               } else {
                 return Container(height: 0);
               }

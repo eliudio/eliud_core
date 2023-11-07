@@ -12,20 +12,20 @@ import 'package:flutter/material.dart';
 
 class ImageWidget extends StatefulWidget {
   final AppModel app;
-  BackgroundModel backgroundModel;
+  final BackgroundModel backgroundModel;
   final String label;
   final String ownerId;
 
   ImageWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.label,
     required this.backgroundModel,
     required this.ownerId,
-  }) : super(key: key);
+  });
 
   @override
-  _ImageWidgetState createState() => _ImageWidgetState();
+  State<ImageWidget> createState() => _ImageWidgetState();
 }
 
 class _ImageWidgetState extends State<ImageWidget> {
@@ -52,7 +52,7 @@ class _ImageWidgetState extends State<ImageWidget> {
           Spacer(),
           button(widget.app, context, label: 'Remove', onPressed: () {
             openAckNackDialog(widget.app, context,
-                widget.app.documentID + '/_removepprofilephoto',
+                '${widget.app.documentID}/_removepprofilephoto',
                 title: 'Confirm',
                 message: 'Remove profile photo as background?',
                 onSelection: (value) async {
@@ -77,7 +77,7 @@ class _ImageWidgetState extends State<ImageWidget> {
         Spacer(),
         button(widget.app, context, label: 'Remove', onPressed: () {
           openAckNackDialog(
-              widget.app, context, widget.app.documentID + '/_removephoto',
+              widget.app, context, '${widget.app.documentID}/_removephoto',
               title: 'Confirm',
               message: 'Remove photo?', onSelection: (value) async {
             if (value == 0) {
@@ -99,12 +99,12 @@ class _ImageWidgetState extends State<ImageWidget> {
                 child: Icon(Icons.photo_camera),
                 onTap: () {
                   Registry.registry()!.getMediumApi().takePhoto(
-                      context,
-                      widget.app,
-                      () => PublicMediumAccessRights(), (photo) {
+                      context, widget.app, () => PublicMediumAccessRights(),
+                      (photo) {
                     setState(() {
                       _progress = null;
-                      widget.backgroundModel.useProfilePhotoAsBackground = false;
+                      widget.backgroundModel.useProfilePhotoAsBackground =
+                          false;
                       widget.backgroundModel.backgroundImage = photo;
                     });
                   }, (progress) {
@@ -118,9 +118,8 @@ class _ImageWidgetState extends State<ImageWidget> {
               child: Icon(Icons.upload),
               onTap: () {
                 Registry.registry()!.getMediumApi().uploadPhoto(
-                    context,
-                    widget.app,
-                    () => PublicMediumAccessRights(), (photo) {
+                    context, widget.app, () => PublicMediumAccessRights(),
+                    (photo) {
                   setState(() {
                     _progress = null;
                     widget.backgroundModel.useProfilePhotoAsBackground = false;

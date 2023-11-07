@@ -17,16 +17,11 @@ import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/rgb_entity.dart';
-
-
-
 
 class RgbModel {
   static const String packageName = 'eliud_core';
   static const String id = 'rgbs';
-
 
   // r is red, from 0 to 255. An out of range value is brought into range using modulo 255.
   int? r;
@@ -40,11 +35,25 @@ class RgbModel {
   // opacity is alpha channel of this color as a double, with 0.0 being transparent and 1.0 being fully opaque.
   double? opacity;
 
-  RgbModel({this.r, this.g, this.b, this.opacity, })  {
-  }
+  RgbModel({
+    this.r,
+    this.g,
+    this.b,
+    this.opacity,
+  });
 
-  RgbModel copyWith({int? r, int? g, int? b, double? opacity, }) {
-    return RgbModel(r: r ?? this.r, g: g ?? this.g, b: b ?? this.b, opacity: opacity ?? this.opacity, );
+  RgbModel copyWith({
+    int? r,
+    int? g,
+    int? b,
+    double? opacity,
+  }) {
+    return RgbModel(
+      r: r ?? this.r,
+      g: g ?? this.g,
+      b: b ?? this.b,
+      opacity: opacity ?? this.opacity,
+    );
   }
 
   @override
@@ -52,9 +61,9 @@ class RgbModel {
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is RgbModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is RgbModel &&
+          runtimeType == other.runtimeType &&
           r == other.r &&
           g == other.g &&
           b == other.b &&
@@ -72,35 +81,32 @@ class RgbModel {
 
   RgbEntity toEntity({String? appId}) {
     return RgbEntity(
-          r: (r != null) ? r : null, 
-          g: (g != null) ? g : null, 
-          b: (b != null) ? b : null, 
-          opacity: (opacity != null) ? opacity : null, 
+      r: (r != null) ? r : null,
+      g: (g != null) ? g : null,
+      b: (b != null) ? b : null,
+      opacity: (opacity != null) ? opacity : null,
     );
   }
 
   static Future<RgbModel?> fromEntity(RgbEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return RgbModel(
-          r: entity.r, 
-          g: entity.g, 
-          b: entity.b, 
-          opacity: entity.opacity, 
+      r: entity.r,
+      g: entity.g,
+      b: entity.b,
+      opacity: entity.opacity,
     );
   }
 
-  static Future<RgbModel?> fromEntityPlus(RgbEntity? entity, { String? appId}) async {
+  static Future<RgbModel?> fromEntityPlus(RgbEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return RgbModel(
-          r: entity.r, 
-          g: entity.g, 
-          b: entity.b, 
-          opacity: entity.opacity, 
+      r: entity.r,
+      g: entity.g,
+      b: entity.b,
+      opacity: entity.opacity,
     );
   }
-
 }
-

@@ -18,11 +18,7 @@ import 'package:eliud_core/core/base/model_base.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/shadow_entity.dart';
-
-
-
 
 class ShadowModel {
   static const String packageName = 'eliud_core';
@@ -42,21 +38,43 @@ class ShadowModel {
   // The standard deviation of the Gaussian to convolve with the shadow's shape.
   double? blurRadius;
 
-  ShadowModel({this.color, this.offsetDX, this.offsetDY, this.spreadRadius, this.blurRadius, })  {
-  }
+  ShadowModel({
+    this.color,
+    this.offsetDX,
+    this.offsetDY,
+    this.spreadRadius,
+    this.blurRadius,
+  });
 
-  ShadowModel copyWith({RgbModel? color, double? offsetDX, double? offsetDY, double? spreadRadius, double? blurRadius, }) {
-    return ShadowModel(color: color ?? this.color, offsetDX: offsetDX ?? this.offsetDX, offsetDY: offsetDY ?? this.offsetDY, spreadRadius: spreadRadius ?? this.spreadRadius, blurRadius: blurRadius ?? this.blurRadius, );
+  ShadowModel copyWith({
+    RgbModel? color,
+    double? offsetDX,
+    double? offsetDY,
+    double? spreadRadius,
+    double? blurRadius,
+  }) {
+    return ShadowModel(
+      color: color ?? this.color,
+      offsetDX: offsetDX ?? this.offsetDX,
+      offsetDY: offsetDY ?? this.offsetDY,
+      spreadRadius: spreadRadius ?? this.spreadRadius,
+      blurRadius: blurRadius ?? this.blurRadius,
+    );
   }
 
   @override
-  int get hashCode => color.hashCode ^ offsetDX.hashCode ^ offsetDY.hashCode ^ spreadRadius.hashCode ^ blurRadius.hashCode;
+  int get hashCode =>
+      color.hashCode ^
+      offsetDX.hashCode ^
+      offsetDY.hashCode ^
+      spreadRadius.hashCode ^
+      blurRadius.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is ShadowModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is ShadowModel &&
+          runtimeType == other.runtimeType &&
           color == other.color &&
           offsetDX == other.offsetDX &&
           offsetDY == other.offsetDY &&
@@ -70,46 +88,43 @@ class ShadowModel {
 
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
-    if (color != null) referencesCollector.addAll(await color!.collectReferences(appId: appId));
+    if (color != null) {
+      referencesCollector.addAll(await color!.collectReferences(appId: appId));
+    }
     return referencesCollector;
   }
 
   ShadowEntity toEntity({String? appId}) {
     return ShadowEntity(
-          color: (color != null) ? color!.toEntity(appId: appId) : null, 
-          offsetDX: (offsetDX != null) ? offsetDX : null, 
-          offsetDY: (offsetDY != null) ? offsetDY : null, 
-          spreadRadius: (spreadRadius != null) ? spreadRadius : null, 
-          blurRadius: (blurRadius != null) ? blurRadius : null, 
+      color: (color != null) ? color!.toEntity(appId: appId) : null,
+      offsetDX: (offsetDX != null) ? offsetDX : null,
+      offsetDY: (offsetDY != null) ? offsetDY : null,
+      spreadRadius: (spreadRadius != null) ? spreadRadius : null,
+      blurRadius: (blurRadius != null) ? blurRadius : null,
     );
   }
 
   static Future<ShadowModel?> fromEntity(ShadowEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return ShadowModel(
-          color: 
-            await RgbModel.fromEntity(entity.color), 
-          offsetDX: entity.offsetDX, 
-          offsetDY: entity.offsetDY, 
-          spreadRadius: entity.spreadRadius, 
-          blurRadius: entity.blurRadius, 
+      color: await RgbModel.fromEntity(entity.color),
+      offsetDX: entity.offsetDX,
+      offsetDY: entity.offsetDY,
+      spreadRadius: entity.spreadRadius,
+      blurRadius: entity.blurRadius,
     );
   }
 
-  static Future<ShadowModel?> fromEntityPlus(ShadowEntity? entity, { String? appId}) async {
+  static Future<ShadowModel?> fromEntityPlus(ShadowEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return ShadowModel(
-          color: 
-            await RgbModel.fromEntityPlus(entity.color, appId: appId), 
-          offsetDX: entity.offsetDX, 
-          offsetDY: entity.offsetDY, 
-          spreadRadius: entity.spreadRadius, 
-          blurRadius: entity.blurRadius, 
+      color: await RgbModel.fromEntityPlus(entity.color, appId: appId),
+      offsetDX: entity.offsetDX,
+      offsetDY: entity.offsetDY,
+      spreadRadius: entity.spreadRadius,
+      blurRadius: entity.blurRadius,
     );
   }
-
 }
-

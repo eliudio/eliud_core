@@ -41,19 +41,20 @@ class MemberPublicInfoFormInitialized extends MemberPublicInfoFormState {
   final MemberPublicInfoModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const MemberPublicInfoFormInitialized({ this.value });
+  const MemberPublicInfoFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
-abstract class MemberPublicInfoFormError extends MemberPublicInfoFormInitialized {
+abstract class MemberPublicInfoFormError
+    extends MemberPublicInfoFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const MemberPublicInfoFormError({this.message, MemberPublicInfoModel? value }) : super(value: value);
+  const MemberPublicInfoFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +64,12 @@ abstract class MemberPublicInfoFormError extends MemberPublicInfoFormInitialized
     }''';
   }
 }
-class DocumentIDMemberPublicInfoFormError extends MemberPublicInfoFormError { 
-  const DocumentIDMemberPublicInfoFormError({ String? message, MemberPublicInfoModel? value }): super(message: message, value: value);
+
+class DocumentIDMemberPublicInfoFormError extends MemberPublicInfoFormError {
+  const DocumentIDMemberPublicInfoFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +80,11 @@ class DocumentIDMemberPublicInfoFormError extends MemberPublicInfoFormError {
   }
 }
 
-
-class NameMemberPublicInfoFormError extends MemberPublicInfoFormError { 
-  const NameMemberPublicInfoFormError({ String? message, MemberPublicInfoModel? value }): super(message: message, value: value);
+class NameMemberPublicInfoFormError extends MemberPublicInfoFormError {
+  const NameMemberPublicInfoFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +95,11 @@ class NameMemberPublicInfoFormError extends MemberPublicInfoFormError {
   }
 }
 
-
-class PhotoURLMemberPublicInfoFormError extends MemberPublicInfoFormError { 
-  const PhotoURLMemberPublicInfoFormError({ String? message, MemberPublicInfoModel? value }): super(message: message, value: value);
+class PhotoURLMemberPublicInfoFormError extends MemberPublicInfoFormError {
+  const PhotoURLMemberPublicInfoFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +110,11 @@ class PhotoURLMemberPublicInfoFormError extends MemberPublicInfoFormError {
   }
 }
 
-
-class SubscriptionsMemberPublicInfoFormError extends MemberPublicInfoFormError { 
-  const SubscriptionsMemberPublicInfoFormError({ String? message, MemberPublicInfoModel? value }): super(message: message, value: value);
+class SubscriptionsMemberPublicInfoFormError extends MemberPublicInfoFormError {
+  const SubscriptionsMemberPublicInfoFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +125,11 @@ class SubscriptionsMemberPublicInfoFormError extends MemberPublicInfoFormError {
   }
 }
 
-
-class MemberPublicInfoFormLoaded extends MemberPublicInfoFormInitialized { 
-  const MemberPublicInfoFormLoaded({ MemberPublicInfoModel? value }): super(value: value);
+class MemberPublicInfoFormLoaded extends MemberPublicInfoFormInitialized {
+  const MemberPublicInfoFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -141,12 +139,11 @@ class MemberPublicInfoFormLoaded extends MemberPublicInfoFormInitialized {
   }
 }
 
-
-class SubmittableMemberPublicInfoForm extends MemberPublicInfoFormInitialized { 
-  const SubmittableMemberPublicInfoForm({ MemberPublicInfoModel? value }): super(value: value);
+class SubmittableMemberPublicInfoForm extends MemberPublicInfoFormInitialized {
+  const SubmittableMemberPublicInfoForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -155,5 +152,3 @@ class SubmittableMemberPublicInfoForm extends MemberPublicInfoFormInitialized {
     }''';
   }
 }
-
-

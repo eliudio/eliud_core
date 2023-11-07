@@ -23,12 +23,33 @@ class RgbEntity implements EntityBase {
   final int? b;
   final double? opacity;
 
-  RgbEntity({this.r, this.g, this.b, this.opacity, });
+  RgbEntity({
+    this.r,
+    this.g,
+    this.b,
+    this.opacity,
+  });
 
-  RgbEntity copyWith({int? r, int? g, int? b, double? opacity, }) {
-    return RgbEntity(r : r ?? this.r, g : g ?? this.g, b : b ?? this.b, opacity : opacity ?? this.opacity, );
+  RgbEntity copyWith({
+    int? r,
+    int? g,
+    int? b,
+    double? opacity,
+  }) {
+    return RgbEntity(
+      r: r ?? this.r,
+      g: g ?? this.g,
+      b: b ?? this.b,
+      opacity: opacity ?? this.opacity,
+    );
   }
-  List<Object?> get props => [r, g, b, opacity, ];
+
+  List<Object?> get props => [
+        r,
+        g,
+        b,
+        opacity,
+      ];
 
   @override
   String toString() {
@@ -40,23 +61,36 @@ class RgbEntity implements EntityBase {
     var map = o as Map<String, dynamic>;
 
     return RgbEntity(
-      r: int.tryParse(map['r'].toString()), 
-      g: int.tryParse(map['g'].toString()), 
-      b: int.tryParse(map['b'].toString()), 
-      opacity: double.tryParse(map['opacity'].toString()), 
+      r: int.tryParse(map['r'].toString()),
+      g: int.tryParse(map['g'].toString()),
+      b: int.tryParse(map['b'].toString()),
+      opacity: double.tryParse(map['opacity'].toString()),
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (r != null) theDocument["r"] = r;
-      else theDocument["r"] = null;
-    if (g != null) theDocument["g"] = g;
-      else theDocument["g"] = null;
-    if (b != null) theDocument["b"] = b;
-      else theDocument["b"] = null;
-    if (opacity != null) theDocument["opacity"] = opacity;
-      else theDocument["opacity"] = null;
+    if (r != null) {
+      theDocument["r"] = r;
+    } else {
+      theDocument["r"] = null;
+    }
+    if (g != null) {
+      theDocument["g"] = g;
+    } else {
+      theDocument["g"] = null;
+    }
+    if (b != null) {
+      theDocument["b"] = b;
+    } else {
+      theDocument["b"] = null;
+    }
+    if (opacity != null) {
+      theDocument["opacity"] = opacity;
+    } else {
+      theDocument["opacity"] = null;
+    }
     return theDocument;
   }
 
@@ -66,7 +100,8 @@ class RgbEntity implements EntityBase {
     return newEntity;
   }
 
-  static RgbEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static RgbEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -75,9 +110,9 @@ class RgbEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

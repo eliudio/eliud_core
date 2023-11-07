@@ -25,56 +25,92 @@ class MenuItemEntity implements EntityBase {
   final IconEntity? icon;
   final ActionEntity? action;
 
-  MenuItemEntity({this.text, this.description, this.icon, this.action, });
+  MenuItemEntity({
+    this.text,
+    this.description,
+    this.icon,
+    this.action,
+  });
 
-  MenuItemEntity copyWith({String? documentID, String? text, String? description, IconEntity? icon, ActionEntity? action, }) {
-    return MenuItemEntity(text : text ?? this.text, description : description ?? this.description, icon : icon ?? this.icon, action : action ?? this.action, );
+  MenuItemEntity copyWith({
+    String? documentID,
+    String? text,
+    String? description,
+    IconEntity? icon,
+    ActionEntity? action,
+  }) {
+    return MenuItemEntity(
+      text: text ?? this.text,
+      description: description ?? this.description,
+      icon: icon ?? this.icon,
+      action: action ?? this.action,
+    );
   }
-  List<Object?> get props => [text, description, icon, action, ];
+
+  List<Object?> get props => [
+        text,
+        description,
+        icon,
+        action,
+      ];
 
   @override
   String toString() {
     return 'MenuItemEntity{text: $text, description: $description, icon: $icon, action: $action}';
   }
 
-  static MenuItemEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static MenuItemEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    var iconFromMap;
-    iconFromMap = map['icon'];
-    if (iconFromMap != null)
-      iconFromMap = IconEntity.fromMap(iconFromMap, newDocumentIds: newDocumentIds);
-    var actionFromMap;
-    actionFromMap = map['action'];
-    if (actionFromMap != null)
-      actionFromMap = ActionEntity.fromMap(actionFromMap, newDocumentIds: newDocumentIds);
+    var iconFromMap = map['icon'];
+    if (iconFromMap != null) {
+      iconFromMap =
+          IconEntity.fromMap(iconFromMap, newDocumentIds: newDocumentIds);
+    }
+    var actionFromMap = map['action'];
+    if (actionFromMap != null) {
+      actionFromMap =
+          ActionEntity.fromMap(actionFromMap, newDocumentIds: newDocumentIds);
+    }
 
     return MenuItemEntity(
-      text: map['text'], 
-      description: map['description'], 
-      icon: iconFromMap, 
-      action: actionFromMap, 
+      text: map['text'],
+      description: map['description'],
+      icon: iconFromMap,
+      action: actionFromMap,
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
-    final Map<String, dynamic>? iconMap = icon != null 
-        ? icon!.toDocument()
-        : null;
-    final Map<String, dynamic>? actionMap = action != null 
-        ? action!.toDocument()
-        : null;
+    final Map<String, dynamic>? iconMap =
+        icon != null ? icon!.toDocument() : null;
+    final Map<String, dynamic>? actionMap =
+        action != null ? action!.toDocument() : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (text != null) theDocument["text"] = text;
-      else theDocument["text"] = null;
-    if (description != null) theDocument["description"] = description;
-      else theDocument["description"] = null;
-    if (icon != null) theDocument["icon"] = iconMap;
-      else theDocument["icon"] = null;
-    if (action != null) theDocument["action"] = actionMap;
-      else theDocument["action"] = null;
+    if (text != null) {
+      theDocument["text"] = text;
+    } else {
+      theDocument["text"] = null;
+    }
+    if (description != null) {
+      theDocument["description"] = description;
+    } else {
+      theDocument["description"] = null;
+    }
+    if (icon != null) {
+      theDocument["icon"] = iconMap;
+    } else {
+      theDocument["icon"] = null;
+    }
+    if (action != null) {
+      theDocument["action"] = actionMap;
+    } else {
+      theDocument["action"] = null;
+    }
     return theDocument;
   }
 
@@ -84,7 +120,8 @@ class MenuItemEntity implements EntityBase {
     return newEntity;
   }
 
-  static MenuItemEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static MenuItemEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -93,9 +130,9 @@ class MenuItemEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

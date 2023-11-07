@@ -41,9 +41,9 @@ class DrawerFormInitialized extends DrawerFormState {
   final DrawerModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const DrawerFormInitialized({ this.value });
+  const DrawerFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class DrawerFormError extends DrawerFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const DrawerFormError({this.message, DrawerModel? value }) : super(value: value);
+  const DrawerFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class DrawerFormError extends DrawerFormInitialized {
     }''';
   }
 }
-class DocumentIDDrawerFormError extends DrawerFormError { 
-  const DocumentIDDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+
+class DocumentIDDrawerFormError extends DrawerFormError {
+  const DocumentIDDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class AppIdDrawerFormError extends DrawerFormError { 
-  const AppIdDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class AppIdDrawerFormError extends DrawerFormError {
+  const AppIdDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class NameDrawerFormError extends DrawerFormError { 
-  const NameDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class NameDrawerFormError extends DrawerFormError {
+  const NameDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class NameDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class BackgroundOverrideDrawerFormError extends DrawerFormError { 
-  const BackgroundOverrideDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class BackgroundOverrideDrawerFormError extends DrawerFormError {
+  const BackgroundOverrideDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class BackgroundOverrideDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class HeaderTextDrawerFormError extends DrawerFormError { 
-  const HeaderTextDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class HeaderTextDrawerFormError extends DrawerFormError {
+  const HeaderTextDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class HeaderTextDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class SecondHeaderTextDrawerFormError extends DrawerFormError { 
-  const SecondHeaderTextDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class SecondHeaderTextDrawerFormError extends DrawerFormError {
+  const SecondHeaderTextDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class SecondHeaderTextDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class HeaderHeightDrawerFormError extends DrawerFormError { 
-  const HeaderHeightDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class HeaderHeightDrawerFormError extends DrawerFormError {
+  const HeaderHeightDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class HeaderHeightDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class PopupMenuBackgroundColorDrawerFormError extends DrawerFormError { 
-  const PopupMenuBackgroundColorDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class PopupMenuBackgroundColorDrawerFormError extends DrawerFormError {
+  const PopupMenuBackgroundColorDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class PopupMenuBackgroundColorDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class HeaderBackgroundOverrideDrawerFormError extends DrawerFormError { 
-  const HeaderBackgroundOverrideDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class HeaderBackgroundOverrideDrawerFormError extends DrawerFormError {
+  const HeaderBackgroundOverrideDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,12 @@ class HeaderBackgroundOverrideDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class PopupMenuBackgroundColorOverrideDrawerFormError extends DrawerFormError { 
-  const PopupMenuBackgroundColorOverrideDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class PopupMenuBackgroundColorOverrideDrawerFormError extends DrawerFormError {
+  const PopupMenuBackgroundColorOverrideDrawerFormError(
+      {super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +215,11 @@ class PopupMenuBackgroundColorOverrideDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class MenuDrawerFormError extends DrawerFormError { 
-  const MenuDrawerFormError({ String? message, DrawerModel? value }): super(message: message, value: value);
+class MenuDrawerFormError extends DrawerFormError {
+  const MenuDrawerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -238,12 +230,11 @@ class MenuDrawerFormError extends DrawerFormError {
   }
 }
 
-
-class DrawerFormLoaded extends DrawerFormInitialized { 
-  const DrawerFormLoaded({ DrawerModel? value }): super(value: value);
+class DrawerFormLoaded extends DrawerFormInitialized {
+  const DrawerFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -253,12 +244,11 @@ class DrawerFormLoaded extends DrawerFormInitialized {
   }
 }
 
-
-class SubmittableDrawerForm extends DrawerFormInitialized { 
-  const SubmittableDrawerForm({ DrawerModel? value }): super(value: value);
+class SubmittableDrawerForm extends DrawerFormInitialized {
+  const SubmittableDrawerForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -267,5 +257,3 @@ class SubmittableDrawerForm extends DrawerFormInitialized {
     }''';
   }
 }
-
-

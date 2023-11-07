@@ -33,8 +33,9 @@ class DefaultAppBarImpl implements HasAppBar {
     var selectedIconColor = selectedIconColorOverride ?? EliudColors.green;
     var menuBackgroundColor = menuBackgroundColorOverride ?? EliudColors.white;
 
-    var appBarHelper = AppBarHelper(_frontEndStyle, DefaultMenuImpl(_frontEndStyle));
-    var _title = appBarHelper.title(app, context, headerAttributes, pageName);
+    var appBarHelper =
+        AppBarHelper(_frontEndStyle, DefaultMenuImpl(_frontEndStyle));
+    var title = appBarHelper.title(app, context, headerAttributes, pageName);
 
     var iconThemeData = IconThemeData(color: RgbHelper.color(rgbo: iconColor));
 
@@ -42,8 +43,8 @@ class DefaultAppBarImpl implements HasAppBar {
     List<Widget>? buttons;
     if (items != null) {
       buttons = items
-          .map((item) => appBarHelper.button(app,
-              context, item, menuBackgroundColor, selectedIconColor, iconColor))
+          .map((item) => appBarHelper.button(app, context, item,
+              menuBackgroundColor, selectedIconColor, iconColor))
           .toList();
     } else {
       buttons = [];
@@ -63,12 +64,16 @@ class DefaultAppBarImpl implements HasAppBar {
     return AppBar(
         key: key,
         iconTheme: iconThemeData,
-        title: _title,
+        title: title,
         actions: buttons,
         flexibleSpace: Container(
-            clipBehavior: BoxDecorationHelper.determineClipBehaviour(app, member, backgroundOverride),
-            margin: BoxDecorationHelper.determineMargin(app, member, backgroundOverride),
-            padding: BoxDecorationHelper.determinePadding(app, member, backgroundOverride),
-            decoration: BoxDecorationHelper.boxDecoration(app, member, backgroundOverride)));
+            clipBehavior: BoxDecorationHelper.determineClipBehaviour(
+                app, member, backgroundOverride),
+            margin: BoxDecorationHelper.determineMargin(
+                app, member, backgroundOverride),
+            padding: BoxDecorationHelper.determinePadding(
+                app, member, backgroundOverride),
+            decoration: BoxDecorationHelper.boxDecoration(
+                app, member, backgroundOverride)));
   }
 }

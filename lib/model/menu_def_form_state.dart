@@ -41,9 +41,9 @@ class MenuDefFormInitialized extends MenuDefFormState {
   final MenuDefModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const MenuDefFormInitialized({ this.value });
+  const MenuDefFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class MenuDefFormError extends MenuDefFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const MenuDefFormError({this.message, MenuDefModel? value }) : super(value: value);
+  const MenuDefFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class MenuDefFormError extends MenuDefFormInitialized {
     }''';
   }
 }
-class DocumentIDMenuDefFormError extends MenuDefFormError { 
-  const DocumentIDMenuDefFormError({ String? message, MenuDefModel? value }): super(message: message, value: value);
+
+class DocumentIDMenuDefFormError extends MenuDefFormError {
+  const DocumentIDMenuDefFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDMenuDefFormError extends MenuDefFormError {
   }
 }
 
-
-class AppIdMenuDefFormError extends MenuDefFormError { 
-  const AppIdMenuDefFormError({ String? message, MenuDefModel? value }): super(message: message, value: value);
+class AppIdMenuDefFormError extends MenuDefFormError {
+  const AppIdMenuDefFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdMenuDefFormError extends MenuDefFormError {
   }
 }
 
-
-class NameMenuDefFormError extends MenuDefFormError { 
-  const NameMenuDefFormError({ String? message, MenuDefModel? value }): super(message: message, value: value);
+class NameMenuDefFormError extends MenuDefFormError {
+  const NameMenuDefFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class NameMenuDefFormError extends MenuDefFormError {
   }
 }
 
-
-class MenuItemsMenuDefFormError extends MenuDefFormError { 
-  const MenuItemsMenuDefFormError({ String? message, MenuDefModel? value }): super(message: message, value: value);
+class MenuItemsMenuDefFormError extends MenuDefFormError {
+  const MenuItemsMenuDefFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class MenuItemsMenuDefFormError extends MenuDefFormError {
   }
 }
 
-
-class AdminMenuDefFormError extends MenuDefFormError { 
-  const AdminMenuDefFormError({ String? message, MenuDefModel? value }): super(message: message, value: value);
+class AdminMenuDefFormError extends MenuDefFormError {
+  const AdminMenuDefFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class AdminMenuDefFormError extends MenuDefFormError {
   }
 }
 
-
-class MenuDefFormLoaded extends MenuDefFormInitialized { 
-  const MenuDefFormLoaded({ MenuDefModel? value }): super(value: value);
+class MenuDefFormLoaded extends MenuDefFormInitialized {
+  const MenuDefFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -157,12 +153,11 @@ class MenuDefFormLoaded extends MenuDefFormInitialized {
   }
 }
 
-
-class SubmittableMenuDefForm extends MenuDefFormInitialized { 
-  const SubmittableMenuDefForm({ MenuDefModel? value }): super(value: value);
+class SubmittableMenuDefForm extends MenuDefFormInitialized {
+  const SubmittableMenuDefForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -171,5 +166,3 @@ class SubmittableMenuDefForm extends MenuDefFormInitialized {
     }''';
   }
 }
-
-

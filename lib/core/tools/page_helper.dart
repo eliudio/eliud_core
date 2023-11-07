@@ -12,31 +12,34 @@ class PageHelper {
   }
 }
 
-
 Layout fromPageLayout(PageLayout? pageLayout) {
   switch (pageLayout) {
-    case PageLayout.GridView:
-      return Layout.GridView;
-    case PageLayout.ListView:
-      return Layout.ListView;
-    case PageLayout.OnlyTheFirstComponent:
-      return Layout.OnlyTheFirstComponent;
-    case PageLayout.Unknown:
-      return Layout.Unknown;
+    case PageLayout.gridView:
+      return Layout.gridView;
+    case PageLayout.listView:
+      return Layout.listView;
+    case PageLayout.onlyTheFirstComponent:
+      return Layout.onlyTheFirstComponent;
+    case PageLayout.unknown:
+      return Layout.unknown;
+    case null:
+      break;
   }
-  return Layout.Unknown;
+  return Layout.unknown;
 }
 
 Layout fromDialogLayout(DialogLayout? dialogLayout) {
   switch (dialogLayout) {
-    case DialogLayout.GridView:
-      return Layout.GridView;
-    case DialogLayout.ListView:
-      return Layout.ListView;
-    case DialogLayout.OnlyTheFirstComponent:
-      return Layout.OnlyTheFirstComponent;
-    case DialogLayout.Unknown:
-      return Layout.Unknown;
+    case DialogLayout.gridView:
+      return Layout.gridView;
+    case DialogLayout.listView:
+      return Layout.listView;
+    case DialogLayout.onlyTheFirstComponent:
+      return Layout.onlyTheFirstComponent;
+    case DialogLayout.unknown:
+      return Layout.unknown;
+    case null:
+      break;
   }
-  return Layout.Unknown;
+  return Layout.unknown;
 }

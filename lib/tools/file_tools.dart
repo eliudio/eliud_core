@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 
 class FileTools {
-  static String FIREBASE_STORAGE_DIRECTORY = "mydirectory";
+  static String firebaseStorageDirectory = "mydirectory";
 
   static Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
@@ -22,24 +22,21 @@ class FileTools {
     return File('$path/counter.txt');
   }
 
-  static var httpClient = new HttpClient();
+  static var httpClient = HttpClient();
   static Future<File?> downloadFile(String url, String fileName) async {
     try {
       return await httpClient.getUrl(Uri.parse(url)).then((value) async {
         return value.close().then((response) async {
-          return await consolidateHttpClientResponseBytes(response).then((bytes) async {
+          return await consolidateHttpClientResponseBytes(response)
+              .then((bytes) async {
             return await _localFile.then((file) async {
               return await file.writeAsBytes(bytes);
-            }).catchError((onError) =>
-            null);
-          }).catchError((onError) =>
-          null);
-        }).catchError((onError) =>
-        null);
-      }).catchError((onError) =>
-      null);
+            }).catchError((onError) => throw ("Error 1"));
+          }).catchError((onError) => throw ("Error 2"));
+        }).catchError((onError) => throw ("Error 3"));
+      }).catchError((onError) => throw ("Error 4"));
     } catch (error) {
-      return null;
+      return Future.value(null);
     }
   }
 }

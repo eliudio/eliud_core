@@ -23,11 +23,11 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'public_medium_model.dart';
 
-typedef List<PublicMediumModel?> FilterPublicMediumModels(List<PublicMediumModel?> values);
+typedef FilterPublicMediumModels = List<PublicMediumModel?> Function(
+    List<PublicMediumModel?> values);
 
-
-
-class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListState> {
+class PublicMediumListBloc
+    extends Bloc<PublicMediumListEvent, PublicMediumListState> {
   final FilterPublicMediumModels? filter;
   final PublicMediumRepository _publicMediumRepository;
   StreamSubscription? _publicMediumsListSubscription;
@@ -39,23 +39,32 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
   final bool? detailed;
   final int publicMediumLimit;
 
-  PublicMediumListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PublicMediumRepository publicMediumRepository, this.publicMediumLimit = 5})
+  PublicMediumListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required PublicMediumRepository publicMediumRepository,
+      this.publicMediumLimit = 5})
       : _publicMediumRepository = publicMediumRepository,
         super(PublicMediumListLoading()) {
-    on <LoadPublicMediumList> ((event, emit) {
+    on<LoadPublicMediumList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadPublicMediumListToState();
       } else {
         _mapLoadPublicMediumListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadPublicMediumListWithDetailsToState();
     });
-    
-    on <PublicMediumChangeQuery> ((event, emit) {
+
+    on<PublicMediumChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadPublicMediumListToState();
@@ -63,20 +72,20 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
         _mapLoadPublicMediumListWithDetailsToState();
       }
     });
-      
-    on <AddPublicMediumList> ((event, emit) async {
+
+    on<AddPublicMediumList>((event, emit) async {
       await _mapAddPublicMediumListToState(event);
     });
-    
-    on <UpdatePublicMediumList> ((event, emit) async {
+
+    on<UpdatePublicMediumList>((event, emit) async {
       await _mapUpdatePublicMediumListToState(event);
     });
-    
-    on <DeletePublicMediumList> ((event, emit) async {
+
+    on<DeletePublicMediumList>((event, emit) async {
       await _mapDeletePublicMediumListToState(event);
     });
-    
-    on <PublicMediumListUpdated> ((event, emit) {
+
+    on<PublicMediumListUpdated>((event, emit) {
       emit(_mapPublicMediumListUpdatedToState(event));
     });
   }
@@ -90,27 +99,31 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
   }
 
   Future<void> _mapLoadPublicMediumListToState() async {
-    int amountNow =  (state is PublicMediumListLoaded) ? (state as PublicMediumListLoaded).values!.length : 0;
+    int amountNow = (state is PublicMediumListLoaded)
+        ? (state as PublicMediumListLoaded).values!.length
+        : 0;
     _publicMediumsListSubscription?.cancel();
     _publicMediumsListSubscription = _publicMediumRepository.listen(
-          (list) => add(PublicMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * publicMediumLimit : null
-    );
-  }
-
-  Future<void> _mapLoadPublicMediumListWithDetailsToState() async {
-    int amountNow =  (state is PublicMediumListLoaded) ? (state as PublicMediumListLoaded).values!.length : 0;
-    _publicMediumsListSubscription?.cancel();
-    _publicMediumsListSubscription = _publicMediumRepository.listenWithDetails(
-            (list) => add(PublicMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(PublicMediumListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * publicMediumLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * publicMediumLimit : null);
+  }
+
+  Future<void> _mapLoadPublicMediumListWithDetailsToState() async {
+    int amountNow = (state is PublicMediumListLoaded)
+        ? (state as PublicMediumListLoaded).values!.length
+        : 0;
+    _publicMediumsListSubscription?.cancel();
+    _publicMediumsListSubscription = _publicMediumRepository.listenWithDetails(
+        (list) => add(PublicMediumListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * publicMediumLimit : null);
   }
 
   Future<void> _mapAddPublicMediumListToState(AddPublicMediumList event) async {
@@ -120,14 +133,16 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
     }
   }
 
-  Future<void> _mapUpdatePublicMediumListToState(UpdatePublicMediumList event) async {
+  Future<void> _mapUpdatePublicMediumListToState(
+      UpdatePublicMediumList event) async {
     var value = event.value;
     if (value != null) {
       await _publicMediumRepository.update(value);
     }
   }
 
-  Future<void> _mapDeletePublicMediumListToState(DeletePublicMediumList event) async {
+  Future<void> _mapDeletePublicMediumListToState(
+      DeletePublicMediumList event) async {
     var value = event.value;
     if (value != null) {
       await _publicMediumRepository.delete(value);
@@ -135,7 +150,9 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
   }
 
   PublicMediumListLoaded _mapPublicMediumListUpdatedToState(
-      PublicMediumListUpdated event) => PublicMediumListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          PublicMediumListUpdated event) =>
+      PublicMediumListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +160,3 @@ class PublicMediumListBloc extends Bloc<PublicMediumListEvent, PublicMediumListS
     return super.close();
   }
 }
-
-

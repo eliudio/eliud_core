@@ -11,11 +11,11 @@ class ActionSpecificationWidget extends StatefulWidget {
   final ActionSpecification actionSpecification;
 
   ActionSpecificationWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.label,
     required this.actionSpecification,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {

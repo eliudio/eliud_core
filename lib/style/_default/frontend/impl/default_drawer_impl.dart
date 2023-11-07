@@ -26,10 +26,9 @@ class DefaultDrawerImpl implements HasDrawer {
     var widgets = <Widget>[];
     if (header1 != null) {
       var child = Center(
-          child: _frontEndStyle
-              .textStyle()
-              .h3(app, context, header1.text));
-      var padding = BoxDecorationHelper.determinePadding(app, member, header1.backgroundOverride);
+          child: _frontEndStyle.textStyle().h3(app, context, header1.text));
+      var padding = BoxDecorationHelper.determinePadding(
+          app, member, header1.backgroundOverride);
       if (padding != null) {
         widgets.add(
           Container(
@@ -40,8 +39,8 @@ class DefaultDrawerImpl implements HasDrawer {
                   margin: BoxDecorationHelper.determineMargin(
                       app, member, header1.backgroundOverride),
                   padding: padding,
-                  decoration: BoxDecorationHelper.boxDecoration(app,
-                      member, header1.backgroundOverride))),
+                  decoration: BoxDecorationHelper.boxDecoration(
+                      app, member, header1.backgroundOverride))),
         );
       } else {
         widgets.add(
@@ -50,9 +49,10 @@ class DefaultDrawerImpl implements HasDrawer {
               height: header1.height == 0 ? null : header1.height,
               child: DrawerHeader(
                   child: child,
-                  margin: BoxDecorationHelper.determineMargin(app, member, header1.backgroundOverride),
-                  decoration: BoxDecorationHelper.boxDecoration(app,
-                      member, header1.backgroundOverride))),
+                  margin: BoxDecorationHelper.determineMargin(
+                      app, member, header1.backgroundOverride),
+                  decoration: BoxDecorationHelper.boxDecoration(
+                      app, member, header1.backgroundOverride))),
         );
       }
     }
@@ -102,9 +102,12 @@ class DefaultDrawerImpl implements HasDrawer {
         key: key,
         child: Container(
             clipBehavior: (background == null) ? Clip.none : Clip.hardEdge,
-            margin: BoxDecorationHelper.determineMargin(app, member, background),
-            padding: BoxDecorationHelper.determinePadding(app, member, background),
-            decoration: BoxDecorationHelper.boxDecoration(app, member, background),
+            margin:
+                BoxDecorationHelper.determineMargin(app, member, background),
+            padding:
+                BoxDecorationHelper.determinePadding(app, member, background),
+            decoration:
+                BoxDecorationHelper.boxDecoration(app, member, background),
             child: ListView(
               shrinkWrap: true,
               scrollDirection: Axis.vertical,

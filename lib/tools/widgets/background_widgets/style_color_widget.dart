@@ -14,19 +14,19 @@ class StyleColorWidget extends StatefulWidget {
   final RgbModel value;
   final String label;
   final bool withContainer;
-  VoidCallback? changeTrigger;
+  final VoidCallback? changeTrigger;
 
   StyleColorWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.label,
     required this.value,
     this.withContainer = true,
     this.changeTrigger,
-  }) : super(key: key);
+  });
 
   @override
-  _StyleColorWidgetState createState() => _StyleColorWidgetState();
+  State<StyleColorWidget> createState() => _StyleColorWidgetState();
 }
 
 class _StyleColorWidgetState extends State<StyleColorWidget>
@@ -83,7 +83,7 @@ class _StyleColorWidgetState extends State<StyleColorWidget>
                 initialValue: (widget.value.r ?? 0).toString(),
                 valueChanged: (value) {
                   setState(() {
-                    var colourValue = int_parse(value);
+                    var colourValue = intParse(value);
                     if ((colourValue >= 0) && (colourValue <= 255)) {
                       widget.value.r = colourValue;
                       defineColor();
@@ -106,7 +106,7 @@ class _StyleColorWidgetState extends State<StyleColorWidget>
                 initialValue: (widget.value.g ?? 0).toString(),
                 valueChanged: (value) {
                   setState(() {
-                    var colourValue = int_parse(value);
+                    var colourValue = intParse(value);
                     if ((colourValue >= 0) && (colourValue <= 255)) {
                       widget.value.g = colourValue;
                       defineColor();
@@ -129,7 +129,7 @@ class _StyleColorWidgetState extends State<StyleColorWidget>
                 initialValue: (widget.value.b ?? 0).toString(),
                 valueChanged: (value) {
                   setState(() {
-                    var colourValue = int_parse(value);
+                    var colourValue = intParse(value);
                     if ((colourValue >= 0) && (colourValue <= 255)) {
                       widget.value.b = colourValue;
                       defineColor();
@@ -152,7 +152,7 @@ class _StyleColorWidgetState extends State<StyleColorWidget>
                 initialValue: (widget.value.opacity ?? 0).toString(),
                 valueChanged: (value) {
                   setState(() {
-                    var opacity = double_parse(value);
+                    var opacity = doubleParse(value);
                     if ((opacity >= 0) && (opacity <= 100)) {
                       widget.value.opacity = opacity;
                       defineColor();

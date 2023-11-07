@@ -4,12 +4,18 @@ import 'package:flutter/material.dart';
 
 class DefaultProgressIndicatorImpl implements HasProgressIndicator {
   @override
-  Widget progressIndicator(AppModel app, BuildContext context, {Animation<Color>? valueColor}) {
-    return Center(child: CircularProgressIndicator(valueColor: valueColor,));
+  Widget progressIndicator(AppModel app, BuildContext context,
+      {Animation<Color>? valueColor}) {
+    return Center(
+        child: CircularProgressIndicator(
+      valueColor: valueColor,
+    ));
   }
 
   @override
-  Widget progressIndicatorWithValue(AppModel app, BuildContext context, {Animation<Color>? valueColor, required double value}) {
-    return Center(child: CircularProgressIndicator(value: value, valueColor: valueColor));
+  Widget progressIndicatorWithValue(AppModel app, BuildContext context,
+      {Animation<Color>? valueColor, required double value}) {
+    return Center(
+        child: CircularProgressIndicator(value: value, valueColor: valueColor));
   }
 }

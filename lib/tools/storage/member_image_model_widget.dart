@@ -12,7 +12,14 @@ class MemberImageModelWidget extends StatefulWidget {
   final bool showThumbnail;
   final Widget? defaultWidget;
 
-  const MemberImageModelWidget({Key? key, required this.memberMediumModel, this.width, this.height, required this.showThumbnail, this.defaultWidget, }) : super(key: key);
+  const MemberImageModelWidget({
+    super.key,
+    required this.memberMediumModel,
+    this.width,
+    this.height,
+    required this.showThumbnail,
+    this.defaultWidget,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -23,20 +30,24 @@ class MemberImageModelWidget extends StatefulWidget {
 class _MemberImageModelState extends State<MemberImageModelWidget> {
   @override
   Widget build(BuildContext context) {
-    var url;
+    String? url;
     if (widget.showThumbnail) {
-      url = widget.memberMediumModel.urlThumbnail!;
+      url = widget.memberMediumModel.urlThumbnail;
     } else {
-      url = widget.memberMediumModel.url!;
+      url = widget.memberMediumModel.url;
     }
-    if ((url == null) && (widget.defaultWidget != null)) {
-      return widget.defaultWidget!;
+    if (url == null) {
+      if (widget.defaultWidget != null) {
+        return widget.defaultWidget!;
+      }
+    } else {
+      return Image.network(
+        url,
+        width: widget.width,
+        height: widget.height,
+      );
     }
-    return Image.network(
-      url,
-      width: widget.width,
-      height: widget.height,
-    );
+    throw Exception("Could not determine url");
   }
 }
 
@@ -47,7 +58,13 @@ class FbStorageImageDoesntWork extends StatefulWidget {
   final double? width;
   final double? height;
 
-  const FbStorageImageDoesntWork({Key? key, required this.app, required this.ref, this.width, this.height, }) : super(key: key);
+  const FbStorageImageDoesntWork({
+    super.key,
+    required this.app,
+    required this.ref,
+    this.width,
+    this.height,
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -60,7 +77,8 @@ class _FbStorageImageState extends State<FbStorageImageDoesntWork> {
 
   @override
   void initState() {
-    future = firebase_storage.FirebaseStorage.instance.ref(widget.ref).getData();
+    future =
+        firebase_storage.FirebaseStorage.instance.ref(widget.ref).getData();
     super.initState();
   }
 
@@ -71,7 +89,11 @@ class _FbStorageImageState extends State<FbStorageImageDoesntWork> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             if (snapshot.data != null) {
-              return Image.memory(snapshot.data!, width: widget.width, height: widget.height,);
+              return Image.memory(
+                snapshot.data!,
+                width: widget.width,
+                height: widget.height,
+              );
             } else {
               return Image.asset(
                   "assets/manypixels_co/404_Page_Not_Found _Flatline.png",

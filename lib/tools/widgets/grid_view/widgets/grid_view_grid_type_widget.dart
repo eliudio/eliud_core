@@ -4,19 +4,17 @@ import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-typedef GridViewGridTypeCallback = Function(
-    GridViewGridType gridViewGridType);
+typedef GridViewGridTypeCallback = Function(GridViewGridType gridViewGridType);
 
 class GridViewGridTypeWidget extends StatefulWidget {
-  GridViewGridTypeCallback gridViewGridTypeCallback;
+  final GridViewGridTypeCallback gridViewGridTypeCallback;
   final GridViewGridType gridViewGridType;
   final AppModel app;
   GridViewGridTypeWidget(
-      {Key? key,
-        required this.app,
-        required this.gridViewGridTypeCallback,
-        required this.gridViewGridType})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.gridViewGridTypeCallback,
+      required this.gridViewGridType});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +25,7 @@ class GridViewGridTypeWidget extends StatefulWidget {
 class _GridViewGridTypeWidgetState extends State<GridViewGridTypeWidget> {
   int? _heightTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _heightTypeSelectedRadioTile = widget.gridViewGridType.index;
@@ -34,10 +33,14 @@ class _GridViewGridTypeWidgetState extends State<GridViewGridTypeWidget> {
 
   String heighttTypeLandscapeStringValue(GridViewGridType? gridViewGridType) {
     switch (gridViewGridType) {
-      case GridViewGridType.Count:
+      case GridViewGridType.count:
         return 'Count';
-      case GridViewGridType.Extent:
+      case GridViewGridType.extent:
         return 'Extent';
+      case GridViewGridType.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -60,14 +63,14 @@ class _GridViewGridTypeWidgetState extends State<GridViewGridTypeWidget> {
             _heightTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(GridViewGridType.Extent),
-      getPrivilegeOption(GridViewGridType.Count)
+      getPrivilegeOption(GridViewGridType.extent),
+      getPrivilegeOption(GridViewGridType.count)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

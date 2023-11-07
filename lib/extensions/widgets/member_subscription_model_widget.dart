@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 
 import '../../model/member_subscription_model.dart';
 
-typedef void MemberSubscriptionModelCallback(
+typedef MemberSubscriptionModelCallback = void Function(
     MemberSubscriptionModel documentItemModel);
 
 class MemberSubscriptionModelWidget extends StatefulWidget {
@@ -20,14 +20,13 @@ class MemberSubscriptionModelWidget extends StatefulWidget {
   final MemberSubscriptionModelCallback documentItemModelCallback;
 
   MemberSubscriptionModelWidget._({
-    Key? key,
     required this.app,
     required this.create,
     required this.widgetWidth,
     required this.widgetHeight,
     required this.documentItemModel,
     required this.documentItemModelCallback,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {

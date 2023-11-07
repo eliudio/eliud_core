@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/member_public_info_component_bloc.dart';
 import 'package:eliud_core/model/member_public_info_component_event.dart';
 import 'package:eliud_core/model/member_public_info_model.dart';
@@ -31,20 +30,23 @@ abstract class AbstractMemberPublicInfoComponent extends StatelessWidget {
   final AppModel app;
   final String memberPublicInfoId;
 
-  AbstractMemberPublicInfoComponent({Key? key, required this.app, required this.memberPublicInfoId}): super(key: key);
+  AbstractMemberPublicInfoComponent(
+      {super.key, required this.app, required this.memberPublicInfoId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MemberPublicInfoComponentBloc> (
-          create: (context) => MemberPublicInfoComponentBloc(
-            memberPublicInfoRepository: memberPublicInfoRepository(appId: app.documentID)!)
+    return BlocProvider<MemberPublicInfoComponentBloc>(
+      create: (context) => MemberPublicInfoComponentBloc(
+          memberPublicInfoRepository:
+              memberPublicInfoRepository(appId: app.documentID)!)
         ..add(FetchMemberPublicInfoComponent(id: memberPublicInfoId)),
       child: _memberPublicInfoBlockBuilder(context),
     );
   }
 
   Widget _memberPublicInfoBlockBuilder(BuildContext context) {
-    return BlocBuilder<MemberPublicInfoComponentBloc, MemberPublicInfoComponentState>(builder: (context, state) {
+    return BlocBuilder<MemberPublicInfoComponentBloc,
+        MemberPublicInfoComponentState>(builder: (context, state) {
       if (state is MemberPublicInfoComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is MemberPublicInfoComponentPermissionDenied) {
@@ -57,7 +59,11 @@ abstract class AbstractMemberPublicInfoComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +71,3 @@ abstract class AbstractMemberPublicInfoComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, MemberPublicInfoModel value);
 }
-

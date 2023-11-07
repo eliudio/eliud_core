@@ -19,7 +19,6 @@ import 'package:bloc/bloc.dart';
 
 import 'package:eliud_core/tools/enums.dart';
 
-
 import 'package:eliud_core/tools/string_validator.dart';
 
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
@@ -32,132 +31,141 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
   final FormAction? formAction;
   final String? appId;
 
-  DrawerFormBloc(this.appId, { this.formAction }): super(DrawerFormUninitialized()) {
-      on <InitialiseNewDrawerFormEvent> ((event, emit) {
-        DrawerFormLoaded loaded = DrawerFormLoaded(value: DrawerModel(
-                                               documentID: "",
-                                 appId: "",
-                                 name: "",
-                                 headerText: "",
-                                 secondHeaderText: "",
-                                 headerHeight: 0.0,
-                                 popupMenuBackgroundColor: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
-                                 popupMenuBackgroundColorOverride: RgbModel(r: 255, g: 255, b: 255, opacity: 1.00), 
+  DrawerFormBloc(this.appId, {this.formAction})
+      : super(DrawerFormUninitialized()) {
+    on<InitialiseNewDrawerFormEvent>((event, emit) {
+      DrawerFormLoaded loaded = DrawerFormLoaded(
+          value: DrawerModel(
+        documentID: "",
+        appId: "",
+        name: "",
+        headerText: "",
+        secondHeaderText: "",
+        headerHeight: 0.0,
+        popupMenuBackgroundColor:
+            RgbModel(r: 255, g: 255, b: 255, opacity: 1.00),
+        popupMenuBackgroundColorOverride:
+            RgbModel(r: 255, g: 255, b: 255, opacity: 1.00),
+      ));
+      emit(loaded);
+    });
 
-        ));
-        emit(loaded);
-      });
-
-
-      on <InitialiseDrawerFormEvent> ((event, emit) async {
-        // Need to re-retrieve the document from the repository so that I get all associated types
-        DrawerFormLoaded loaded = DrawerFormLoaded(value: await drawerRepository(appId: appId)!.get(event.value!.documentID));
-        emit(loaded);
-      });
-      on <InitialiseDrawerFormNoLoadEvent> ((event, emit) async {
-        DrawerFormLoaded loaded = DrawerFormLoaded(value: event.value);
-        emit(loaded);
-      });
-      DrawerModel? newValue = null;
-      on <ChangedDrawerDocumentID> ((event, emit) async {
+    on<InitialiseDrawerFormEvent>((event, emit) async {
+      // Need to re-retrieve the document from the repository so that I get all associated types
+      DrawerFormLoaded loaded = DrawerFormLoaded(
+          value: await drawerRepository(appId: appId)!
+              .get(event.value!.documentID));
+      emit(loaded);
+    });
+    on<InitialiseDrawerFormNoLoadEvent>((event, emit) async {
+      DrawerFormLoaded loaded = DrawerFormLoaded(value: event.value);
+      emit(loaded);
+    });
+    DrawerModel? newValue;
+    on<ChangedDrawerDocumentID>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
         newValue = currentState.value!.copyWith(documentID: event.value);
-        if (formAction == FormAction.AddAction) {
+        if (formAction == FormAction.addAction) {
           emit(await _isDocumentIDValid(event.value, newValue!));
         } else {
           emit(SubmittableDrawerForm(value: newValue));
         }
-
       }
-      });
-      on <ChangedDrawerName> ((event, emit) async {
+    });
+    on<ChangedDrawerName>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
         newValue = currentState.value!.copyWith(name: event.value);
         emit(SubmittableDrawerForm(value: newValue));
-
       }
-      });
-      on <ChangedDrawerBackgroundOverride> ((event, emit) async {
+    });
+    on<ChangedDrawerBackgroundOverride>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
-        newValue = currentState.value!.copyWith(backgroundOverride: event.value);
+        newValue =
+            currentState.value!.copyWith(backgroundOverride: event.value);
         emit(SubmittableDrawerForm(value: newValue));
-
       }
-      });
-      on <ChangedDrawerHeaderText> ((event, emit) async {
+    });
+    on<ChangedDrawerHeaderText>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
         newValue = currentState.value!.copyWith(headerText: event.value);
         emit(SubmittableDrawerForm(value: newValue));
-
       }
-      });
-      on <ChangedDrawerSecondHeaderText> ((event, emit) async {
+    });
+    on<ChangedDrawerSecondHeaderText>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
         newValue = currentState.value!.copyWith(secondHeaderText: event.value);
         emit(SubmittableDrawerForm(value: newValue));
-
       }
-      });
-      on <ChangedDrawerHeaderHeight> ((event, emit) async {
+    });
+    on<ChangedDrawerHeaderHeight>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
         if (isDouble(event.value!)) {
-          newValue = currentState.value!.copyWith(headerHeight: double.parse(event.value!));
+          newValue = currentState.value!
+              .copyWith(headerHeight: double.parse(event.value!));
           emit(SubmittableDrawerForm(value: newValue));
-
         } else {
           newValue = currentState.value!.copyWith(headerHeight: 0.0);
-          emit(HeaderHeightDrawerFormError(message: "Value should be a number or decimal number", value: newValue));
+          emit(HeaderHeightDrawerFormError(
+              message: "Value should be a number or decimal number",
+              value: newValue));
         }
       }
-      });
-      on <ChangedDrawerPopupMenuBackgroundColor> ((event, emit) async {
+    });
+    on<ChangedDrawerPopupMenuBackgroundColor>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
-        newValue = currentState.value!.copyWith(popupMenuBackgroundColor: event.value);
+        newValue =
+            currentState.value!.copyWith(popupMenuBackgroundColor: event.value);
         emit(SubmittableDrawerForm(value: newValue));
-
       }
-      });
-      on <ChangedDrawerHeaderBackgroundOverride> ((event, emit) async {
+    });
+    on<ChangedDrawerHeaderBackgroundOverride>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
-        newValue = currentState.value!.copyWith(headerBackgroundOverride: event.value);
+        newValue =
+            currentState.value!.copyWith(headerBackgroundOverride: event.value);
         emit(SubmittableDrawerForm(value: newValue));
-
       }
-      });
-      on <ChangedDrawerPopupMenuBackgroundColorOverride> ((event, emit) async {
+    });
+    on<ChangedDrawerPopupMenuBackgroundColorOverride>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
-        newValue = currentState.value!.copyWith(popupMenuBackgroundColorOverride: event.value);
+        newValue = currentState.value!
+            .copyWith(popupMenuBackgroundColorOverride: event.value);
         emit(SubmittableDrawerForm(value: newValue));
-
       }
-      });
-      on <ChangedDrawerMenu> ((event, emit) async {
+    });
+    on<ChangedDrawerMenu>((event, emit) async {
       if (state is DrawerFormInitialized) {
         final currentState = state as DrawerFormInitialized;
-        if (event.value != null)
-          newValue = currentState.value!.copyWith(menu: await menuDefRepository(appId: appId)!.get(event.value));
+        if (event.value != null) {
+          newValue = currentState.value!.copyWith(
+              menu: await menuDefRepository(appId: appId)!.get(event.value));
+        }
         emit(SubmittableDrawerForm(value: newValue));
-
       }
-      });
+    });
   }
 
+  DocumentIDDrawerFormError error(String message, DrawerModel newValue) =>
+      DocumentIDDrawerFormError(message: message, value: newValue);
 
-  DocumentIDDrawerFormError error(String message, DrawerModel newValue) => DocumentIDDrawerFormError(message: message, value: newValue);
-
-  Future<DrawerFormState> _isDocumentIDValid(String? value, DrawerModel newValue) async {
-    if (value == null) return Future.value(error("Provide value for documentID", newValue));
-    if (value.length == 0) return Future.value(error("Provide value for documentID", newValue));
-    Future<DrawerModel?> findDocument = drawerRepository(appId: appId)!.get(value);
+  Future<DrawerFormState> _isDocumentIDValid(
+      String? value, DrawerModel newValue) async {
+    if (value == null) {
+      return Future.value(error("Provide value for documentID", newValue));
+    }
+    if (value.isEmpty) {
+      return Future.value(error("Provide value for documentID", newValue));
+    }
+    Future<DrawerModel?> findDocument =
+        drawerRepository(appId: appId)!.get(value);
     return await findDocument.then((documentFound) {
       if (documentFound == null) {
         return SubmittableDrawerForm(value: newValue);
@@ -166,7 +174,4 @@ class DrawerFormBloc extends Bloc<DrawerFormEvent, DrawerFormState> {
       }
     });
   }
-
-
 }
-

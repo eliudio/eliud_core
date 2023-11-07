@@ -5,8 +5,8 @@ import 'package:eliud_core/model/member_model.dart';
 import 'package:eliud_core/style/style.dart';
 import 'package:equatable/equatable.dart';
 
-typedef StylesTrigger(List<Style> list);
-typedef CurrentStyleTrigger();
+typedef StylesTrigger = Function(List<Style> list);
+typedef CurrentStyleTrigger = Function();
 
 abstract class StyleFamily extends Equatable {
   final String familyName;
@@ -26,12 +26,13 @@ abstract class StyleFamily extends Equatable {
   /*
    * Retrieve all styles supported by this family
    */
-  StreamSubscription<dynamic>? listenToStyles(String appId, StylesTrigger stylesTrigger);
+  StreamSubscription<dynamic>? listenToStyles(
+      String appId, StylesTrigger stylesTrigger);
 
   /*
    * Subscribe for a change of the current style
    */
-  void subscribeForChange(CurrentStyleTrigger? currentStyleTrigger);
+  void subscribeForChange(CurrentStyleTrigger currentStyleTrigger);
 
   /*
    * Delete style
@@ -54,13 +55,16 @@ abstract class StyleFamily extends Equatable {
   Future<void> addApp(MemberModel? currentMember, AppModel app);
 
   @override
-  List<Object?> get props => [ familyName, canInsert ];
+  List<Object?> get props => [familyName, canInsert];
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
-          other is StyleFamily &&
-              runtimeType == other.runtimeType &&
-              familyName == other.familyName &&
-              canInsert == other.canInsert;
+      other is StyleFamily &&
+          runtimeType == other.runtimeType &&
+          familyName == other.familyName &&
+          canInsert == other.canInsert;
+
+  @override
+  int get hashCode => familyName.hashCode ^ canInsert.hashCode;
 }

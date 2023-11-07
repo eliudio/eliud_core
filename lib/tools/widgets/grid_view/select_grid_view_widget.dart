@@ -46,7 +46,7 @@ Widget selectGridViewWidget(
       });
     },
     containerPrivilege: containerStorageConditions == null ||
-        containerStorageConditions.privilegeLevelRequired == null
+            containerStorageConditions.privilegeLevelRequired == null
         ? 0
         : containerStorageConditions.privilegeLevelRequired!.index,
     selectedCallback: selectedCallback,
@@ -56,8 +56,7 @@ Widget selectGridViewWidget(
         GridViewDashboard.updateGridView(app, context, item),
     changePrivilegeEventCallback: (BuildContext context, int privilegeLevel) {
       BlocProvider.of<GridViewListBloc>(context).add(GridViewChangeQuery(
-          newQuery:
-              getComponentSelectorQuery(privilegeLevel, app.documentID)));
+          newQuery: getComponentSelectorQuery(privilegeLevel, app.documentID)));
     },
   );
 }

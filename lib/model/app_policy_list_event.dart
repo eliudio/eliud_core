@@ -30,10 +30,10 @@ class NewPage extends AppPolicyListEvent {}
 class AddAppPolicyList extends AppPolicyListEvent {
   final AppPolicyModel? value;
 
-  const AddAppPolicyList({ this.value });
+  const AddAppPolicyList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddAppPolicyList{ value: $value }';
@@ -42,10 +42,10 @@ class AddAppPolicyList extends AppPolicyListEvent {
 class UpdateAppPolicyList extends AppPolicyListEvent {
   final AppPolicyModel? value;
 
-  const UpdateAppPolicyList({ this.value });
+  const UpdateAppPolicyList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateAppPolicyList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateAppPolicyList extends AppPolicyListEvent {
 class DeleteAppPolicyList extends AppPolicyListEvent {
   final AppPolicyModel? value;
 
-  const DeleteAppPolicyList({ this.value });
+  const DeleteAppPolicyList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteAppPolicyList{ value: $value }';
@@ -67,24 +67,24 @@ class AppPolicyListUpdated extends AppPolicyListEvent {
   final List<AppPolicyModel?>? value;
   final bool? mightHaveMore;
 
-  const AppPolicyListUpdated({ this.value, this.mightHaveMore });
+  const AppPolicyListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'AppPolicyListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'AppPolicyListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class AppPolicyChangeQuery extends AppPolicyListEvent {
   final EliudQuery? newQuery;
 
-  const AppPolicyChangeQuery({ required this.newQuery });
+  const AppPolicyChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'AppPolicyChangeQuery{ value: $newQuery }';
 }
-

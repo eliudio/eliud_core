@@ -2,20 +2,16 @@ import 'package:eliud_core/style/frontend/has_app.dart';
 import 'package:flutter/material.dart';
 
 class DefaultAppImpl implements HasApp {
-
   @override
   // on apple we would possibly use CupertinoApp
   Widget app(
-          {
-          Key? key,
+          {Key? key,
           GlobalKey<NavigatorState>? navigatorKey,
           GlobalKey<ScaffoldMessengerState>? scaffoldMessengerKey,
           String? initialRoute,
           RouteFactory? onGenerateRoute,
           RouteFactory? onUnknownRoute,
-          required String title
-          }
-        ) =>
+          required String title}) =>
       MaterialApp(
         key: key,
         debugShowCheckedModeBanner: false,

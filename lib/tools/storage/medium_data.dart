@@ -16,16 +16,21 @@ import 'package:http/http.dart' as http;
 
 abstract class MediumData {
   static int thumbnailSize = 200;
-  static String videoImage = 'packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.png';
+  static String videoImage =
+      'packages/eliud_core/assets/undraw_co/undraw_online_video_ivvq.png';
 
-  static Future<PhotoWithThumbnail> enrichPhotoWithPath(String memberMediumdocumentID, String path) async {
+  static Future<PhotoWithThumbnail> enrichPhotoWithPath(
+      String memberMediumdocumentID, String path) async {
     var baseName = BaseNameHelper.baseName(memberMediumdocumentID, path);
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(memberMediumdocumentID, path);
+    var thumbnailBaseName =
+        BaseNameHelper.thumbnailBaseName(memberMediumdocumentID, path);
 
     var imageBytes = await File(path).readAsBytes();
+/*
     if (imageBytes == null) {
       throw Exception("Can't read $path. imageBytes is null");
     }
+*/
 
     return enrichPhoto(baseName, thumbnailBaseName, imageBytes);
   }
@@ -34,8 +39,8 @@ abstract class MediumData {
    * Create thumbnail from image
    */
   static Uint8List getThumbnail(Image img) {
-    var thumbnailWidth;
-    var thumbnailHeight;
+    int thumbnailWidth = 0;
+    int thumbnailHeight = 0;
     if (img.width > img.height) {
       thumbnailWidth = thumbnailSize;
     } else {
@@ -88,23 +93,29 @@ abstract class MediumData {
     );
   }
 
-  static Future<VideoWithThumbnail> enrichVideoWithPath(String memberMediumDocumentID, String filePath) async {
+  static Future<VideoWithThumbnail> enrichVideoWithPath(
+      String memberMediumDocumentID, String filePath) async {
     var baseName = BaseNameHelper.baseName(memberMediumDocumentID, filePath);
-    var thumbnailBaseName = BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, baseName);
+    var thumbnailBaseName =
+        BaseNameHelper.thumbnailBaseName(memberMediumDocumentID, baseName);
     var videoBytes = await File(filePath).readAsBytes();
+/*
     if (videoBytes == null) {
       throw Exception("Can't read $filePath. videoBytes is null");
     }
+*/
 
     var thumbNailData = await VideoThumbnail.thumbnailData(
       video: filePath,
       imageFormat: ImageFormat.PNG,
-      maxWidth: thumbnailSize, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
+      maxWidth:
+          thumbnailSize, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
       quality: 30,
     );
 
     if (thumbNailData == null) {
-      throw Exception("Could not create thumbnail for video with path $filePath");
+      throw Exception(
+          "Could not create thumbnail for video with path $filePath");
     }
 
     // return the data
@@ -140,9 +151,9 @@ abstract class MediumData {
     }
   }
 
-  static Future<VideoWithThumbnail> enrichVideoUsngHerokuapp(
-      String baseName, String thumbnailBaseName, Uint8List imgBytes, String url) async {
-    print('url: ' + url);
+  static Future<VideoWithThumbnail> enrichVideoUsngHerokuapp(String baseName,
+      String thumbnailBaseName, Uint8List imgBytes, String url) async {
+    print('url: $url');
     var thumbNailData = await getThumbnailUsingHerokuapp(url);
 
     // return the data
@@ -197,7 +208,8 @@ abstract class MediumData {
       String filePath, String name, int pageNumber) async {
     final document = await PdfDocument.openFile(filePath);
     final page = await document.getPage(pageNumber);
-    final pageImage = await page.render(width: page.width, height: page.height, format: PdfPageImageFormat.png);
+    final pageImage = await page.render(
+        width: page.width, height: page.height, format: PdfPageImageFormat.png);
     await page.close();
     if (pageImage == null) {
       throw Exception("Can't find render image $filePath");
@@ -206,8 +218,8 @@ abstract class MediumData {
     if (img == null) {
       throw Exception('Could not decode image');
     }
-    var thumbnailWidth;
-    var thumbnailHeight;
+    int thumbnailWidth = 0;
+    int thumbnailHeight = 0;
     if (img.width > img.height) {
       thumbnailWidth = thumbnailSize;
     } else {
@@ -217,8 +229,8 @@ abstract class MediumData {
         width: thumbnailWidth, height: thumbnailHeight);
     var thumbNailData = Uint8List.fromList(imgpackage.encodePng(thumbnail));
 
-    var baseName = name + '.png';
-    var thumbnailBaseName = name + '.thumbnail.png';
+    var baseName = '$name.png';
+    var thumbnailBaseName = '$name.thumbnail.png';
     return PhotoWithThumbnail(
         photoData: ImageData(
             baseName: baseName,
@@ -240,7 +252,8 @@ abstract class MediumData {
       Uint8List fileData, String name, int pageNumber) async {
     final document = await PdfDocument.openData(fileData);
     final page = await document.getPage(pageNumber);
-    final pageImage = await page.render(width: page.width, height: page.height, format: PdfPageImageFormat.png);
+    final pageImage = await page.render(
+        width: page.width, height: page.height, format: PdfPageImageFormat.png);
     await page.close();
     if (pageImage == null) {
       throw Exception("Can't find render image $name");
@@ -249,8 +262,8 @@ abstract class MediumData {
     if (img == null) {
       throw Exception('Could not decode image');
     }
-    var thumbnailWidth;
-    var thumbnailHeight;
+    int thumbnailWidth = 0;
+    int thumbnailHeight = 0;
     if (img.width > img.height) {
       thumbnailWidth = thumbnailSize;
     } else {
@@ -260,8 +273,8 @@ abstract class MediumData {
         width: thumbnailWidth, height: thumbnailHeight);
     var thumbNailData = Uint8List.fromList(imgpackage.encodePng(thumbnail));
 
-    var baseName = name + '.png';
-    var thumbnailBaseName = name + '.thumbnail.png';
+    var baseName = '$name.png';
+    var thumbnailBaseName = '$name.thumbnail.png';
     return PhotoWithThumbnail(
         photoData: ImageData(
             baseName: baseName,
@@ -279,8 +292,8 @@ abstract class MediumData {
    * Create an image from a specific page of a pdf doc
    * Before: _createImageFromPdfPage(with thumbnail FALSE)
    */
-  static Future<ImageData> createPhotoFromPdfPage(String memberMediumDocumentID,
-      String filePath, int pageNumber) async {
+  static Future<ImageData> createPhotoFromPdfPage(
+      String memberMediumDocumentID, String filePath, int pageNumber) async {
     final document = await PdfDocument.openFile(filePath);
     final page = await document.getPage(pageNumber);
     final pageImage = await page.render(width: page.width, height: page.height);

@@ -20,8 +20,8 @@ import 'package:eliud_core/model/app_bar_component_event.dart';
 import 'package:eliud_core/model/app_bar_component_state.dart';
 import 'package:eliud_core/model/app_bar_repository.dart';
 
-
-class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentState> {
+class AppBarComponentBloc
+    extends Bloc<AppBarComponentEvent, AppBarComponentState> {
   final AppBarRepository? appBarRepository;
   StreamSubscription? _appBarSubscription;
 
@@ -34,11 +34,12 @@ class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentStat
     });
   }
 
-  AppBarComponentBloc({ this.appBarRepository }): super(AppBarComponentUninitialized()) {
-    on <FetchAppBarComponent> ((event, emit) {
+  AppBarComponentBloc({this.appBarRepository})
+      : super(AppBarComponentUninitialized()) {
+    on<FetchAppBarComponent>((event, emit) {
       _mapLoadAppBarComponentUpdateToState(event.id!);
     });
-    on <AppBarComponentUpdated> ((event, emit) {
+    on<AppBarComponentUpdated>((event, emit) {
       emit(AppBarComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +49,4 @@ class AppBarComponentBloc extends Bloc<AppBarComponentEvent, AppBarComponentStat
     _appBarSubscription?.cancel();
     return super.close();
   }
-
 }
-

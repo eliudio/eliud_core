@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class PublicMediumFormEvent extends Equatable {
   const PublicMediumFormEvent();
@@ -26,15 +25,13 @@ abstract class PublicMediumFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewPublicMediumFormEvent extends PublicMediumFormEvent {
-}
-
+class InitialiseNewPublicMediumFormEvent extends PublicMediumFormEvent {}
 
 class InitialisePublicMediumFormEvent extends PublicMediumFormEvent {
   final PublicMediumModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialisePublicMediumFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialisePublicMediumFormNoLoadEvent extends PublicMediumFormEvent {
   final PublicMediumModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialisePublicMediumFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedPublicMediumDocumentID extends PublicMediumFormEvent {
   ChangedPublicMediumDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedPublicMediumAuthorId extends PublicMediumFormEvent {
   ChangedPublicMediumAuthorId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumAuthorId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedPublicMediumBase extends PublicMediumFormEvent {
   ChangedPublicMediumBase({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumBase{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedPublicMediumExt extends PublicMediumFormEvent {
   ChangedPublicMediumExt({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumExt{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedPublicMediumUrl extends PublicMediumFormEvent {
   ChangedPublicMediumUrl({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumUrl{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedPublicMediumRef extends PublicMediumFormEvent {
   ChangedPublicMediumRef({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumRef{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedPublicMediumUrlThumbnail extends PublicMediumFormEvent {
   ChangedPublicMediumUrlThumbnail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumUrlThumbnail{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedPublicMediumRefThumbnail extends PublicMediumFormEvent {
   ChangedPublicMediumRefThumbnail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumRefThumbnail{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedPublicMediumMediumType extends PublicMediumFormEvent {
   ChangedPublicMediumMediumType({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumMediumType{ value: $value }';
@@ -162,7 +159,7 @@ class ChangedPublicMediumMediumWidth extends PublicMediumFormEvent {
   ChangedPublicMediumMediumWidth({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumMediumWidth{ value: $value }';
@@ -174,7 +171,7 @@ class ChangedPublicMediumMediumHeight extends PublicMediumFormEvent {
   ChangedPublicMediumMediumHeight({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumMediumHeight{ value: $value }';
@@ -186,7 +183,7 @@ class ChangedPublicMediumThumbnailWidth extends PublicMediumFormEvent {
   ChangedPublicMediumThumbnailWidth({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumThumbnailWidth{ value: $value }';
@@ -198,7 +195,7 @@ class ChangedPublicMediumThumbnailHeight extends PublicMediumFormEvent {
   ChangedPublicMediumThumbnailHeight({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumThumbnailHeight{ value: $value }';
@@ -210,9 +207,8 @@ class ChangedPublicMediumRelatedMediumId extends PublicMediumFormEvent {
   ChangedPublicMediumRelatedMediumId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPublicMediumRelatedMediumId{ value: $value }';
 }
-

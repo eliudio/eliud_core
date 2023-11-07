@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class MemberMediumContainerFormEvent extends Equatable {
   const MemberMediumContainerFormEvent();
@@ -26,61 +25,67 @@ abstract class MemberMediumContainerFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewMemberMediumContainerFormEvent extends MemberMediumContainerFormEvent {
-}
+class InitialiseNewMemberMediumContainerFormEvent
+    extends MemberMediumContainerFormEvent {}
 
-
-class InitialiseMemberMediumContainerFormEvent extends MemberMediumContainerFormEvent {
+class InitialiseMemberMediumContainerFormEvent
+    extends MemberMediumContainerFormEvent {
   final MemberMediumContainerModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberMediumContainerFormEvent({this.value});
 }
 
-class InitialiseMemberMediumContainerFormNoLoadEvent extends MemberMediumContainerFormEvent {
+class InitialiseMemberMediumContainerFormNoLoadEvent
+    extends MemberMediumContainerFormEvent {
   final MemberMediumContainerModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberMediumContainerFormNoLoadEvent({this.value});
 }
 
-class ChangedMemberMediumContainerDocumentID extends MemberMediumContainerFormEvent {
+class ChangedMemberMediumContainerDocumentID
+    extends MemberMediumContainerFormEvent {
   final String? value;
 
   ChangedMemberMediumContainerDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberMediumContainerDocumentID{ value: $value }';
+  String toString() =>
+      'ChangedMemberMediumContainerDocumentID{ value: $value }';
 }
 
-class ChangedMemberMediumContainerHtmlReference extends MemberMediumContainerFormEvent {
+class ChangedMemberMediumContainerHtmlReference
+    extends MemberMediumContainerFormEvent {
   final String? value;
 
   ChangedMemberMediumContainerHtmlReference({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberMediumContainerHtmlReference{ value: $value }';
+  String toString() =>
+      'ChangedMemberMediumContainerHtmlReference{ value: $value }';
 }
 
-class ChangedMemberMediumContainerMemberMedium extends MemberMediumContainerFormEvent {
+class ChangedMemberMediumContainerMemberMedium
+    extends MemberMediumContainerFormEvent {
   final String? value;
 
   ChangedMemberMediumContainerMemberMedium({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberMediumContainerMemberMedium{ value: $value }';
+  String toString() =>
+      'ChangedMemberMediumContainerMemberMedium{ value: $value }';
 }
-

@@ -50,7 +50,7 @@
       "fieldType": "enum",
       "remark": "Enum indicating which header to use, and hence which field to use: title, icon or image",
       "enumName": "HeaderSelection",
-      "enumValues" : [ "Title", "Image", "Icon", "None" ],
+      "enumValues" : [ "title", "image", "icon", "none" ],
       "group": "header"
     },
     {
@@ -150,7 +150,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID))",
     "subTitle": "value.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.title!)) : Container()"
   }
 }

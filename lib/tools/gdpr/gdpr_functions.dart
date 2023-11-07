@@ -31,9 +31,11 @@ class GDPR {
     });
   }
 
-  static Future<void> dumpMemberData(MemberModel member, String appId, String? subject,
-      List<MemberCollectionInfo> memberCollectionInfo) async {
-    var dumpMemberData = FirebaseFunctions.instance.httpsCallable('dumpMemberData');
+  static Future<void> dumpMemberData(MemberModel member, String appId,
+      String? subject, List<MemberCollectionInfo> memberCollectionInfo) async {
+    /*var dumpMemberData =
+        */
+    FirebaseFunctions.instance.httpsCallable('dumpMemberData');
 
     await backendRequestRepository(appId: appId)!.add(BackendRequestModel(
         documentID: newRandomKey(),
@@ -43,7 +45,7 @@ class GDPR {
         description: subject,
         authorId: member.documentID,
         processed: false,
-        requestType: RequestType.RequestEmailData,
+        requestType: RequestType.requestEmailData,
         collections: _toFunctionFormat(memberCollectionInfo)));
   }
 
@@ -73,7 +75,9 @@ class GDPR {
       String? from,
       String? message,
       List<MemberCollectionInfo> memberCollectionInfo) async {
-    var dumpMemberData = FirebaseFunctions.instance.httpsCallable('dumpMemberData');
+    /*var dumpMemberData =
+        */
+    FirebaseFunctions.instance.httpsCallable('dumpMemberData');
 
     await backendRequestRepository(appId: appId)!.add(BackendRequestModel(
         documentID: newRandomKey(),
@@ -83,8 +87,7 @@ class GDPR {
         description: subject,
         authorId: member.documentID,
         processed: false,
-        requestType: RequestType.DestroyAccount,
+        requestType: RequestType.destroyAccount,
         collections: _toFunctionFormat(memberCollectionInfo)));
   }
-
 }

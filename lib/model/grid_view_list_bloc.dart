@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'grid_view_model.dart';
 
-typedef List<GridViewModel?> FilterGridViewModels(List<GridViewModel?> values);
-
-
+typedef FilterGridViewModels = List<GridViewModel?> Function(
+    List<GridViewModel?> values);
 
 class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   final FilterGridViewModels? filter;
@@ -39,23 +38,32 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   final bool? detailed;
   final int gridViewLimit;
 
-  GridViewListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required GridViewRepository gridViewRepository, this.gridViewLimit = 5})
+  GridViewListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required GridViewRepository gridViewRepository,
+      this.gridViewLimit = 5})
       : _gridViewRepository = gridViewRepository,
         super(GridViewListLoading()) {
-    on <LoadGridViewList> ((event, emit) {
+    on<LoadGridViewList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadGridViewListToState();
       } else {
         _mapLoadGridViewListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadGridViewListWithDetailsToState();
     });
-    
-    on <GridViewChangeQuery> ((event, emit) {
+
+    on<GridViewChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadGridViewListToState();
@@ -63,20 +71,20 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
         _mapLoadGridViewListWithDetailsToState();
       }
     });
-      
-    on <AddGridViewList> ((event, emit) async {
+
+    on<AddGridViewList>((event, emit) async {
       await _mapAddGridViewListToState(event);
     });
-    
-    on <UpdateGridViewList> ((event, emit) async {
+
+    on<UpdateGridViewList>((event, emit) async {
       await _mapUpdateGridViewListToState(event);
     });
-    
-    on <DeleteGridViewList> ((event, emit) async {
+
+    on<DeleteGridViewList>((event, emit) async {
       await _mapDeleteGridViewListToState(event);
     });
-    
-    on <GridViewListUpdated> ((event, emit) {
+
+    on<GridViewListUpdated>((event, emit) {
       emit(_mapGridViewListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   }
 
   Future<void> _mapLoadGridViewListToState() async {
-    int amountNow =  (state is GridViewListLoaded) ? (state as GridViewListLoaded).values!.length : 0;
+    int amountNow = (state is GridViewListLoaded)
+        ? (state as GridViewListLoaded).values!.length
+        : 0;
     _gridViewsListSubscription?.cancel();
     _gridViewsListSubscription = _gridViewRepository.listen(
-          (list) => add(GridViewListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * gridViewLimit : null
-    );
-  }
-
-  Future<void> _mapLoadGridViewListWithDetailsToState() async {
-    int amountNow =  (state is GridViewListLoaded) ? (state as GridViewListLoaded).values!.length : 0;
-    _gridViewsListSubscription?.cancel();
-    _gridViewsListSubscription = _gridViewRepository.listenWithDetails(
-            (list) => add(GridViewListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(GridViewListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * gridViewLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * gridViewLimit : null);
+  }
+
+  Future<void> _mapLoadGridViewListWithDetailsToState() async {
+    int amountNow = (state is GridViewListLoaded)
+        ? (state as GridViewListLoaded).values!.length
+        : 0;
+    _gridViewsListSubscription?.cancel();
+    _gridViewsListSubscription = _gridViewRepository.listenWithDetails(
+        (list) => add(GridViewListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * gridViewLimit : null);
   }
 
   Future<void> _mapAddGridViewListToState(AddGridViewList event) async {
@@ -135,7 +147,9 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
   }
 
   GridViewListLoaded _mapGridViewListUpdatedToState(
-      GridViewListUpdated event) => GridViewListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          GridViewListUpdated event) =>
+      GridViewListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +157,3 @@ class GridViewListBloc extends Bloc<GridViewListEvent, GridViewListState> {
     return super.close();
   }
 }
-
-

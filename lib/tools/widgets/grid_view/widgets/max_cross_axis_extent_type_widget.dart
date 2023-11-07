@@ -8,15 +8,14 @@ typedef MaxCrossAxisExtentTypeCallback = Function(
     MaxCrossAxisExtentType maxCrossAxisExtentType);
 
 class MaxCrossAxisExtentTypeWidget extends StatefulWidget {
-  MaxCrossAxisExtentTypeCallback maxCrossAxisExtentTypeCallback;
+  final MaxCrossAxisExtentTypeCallback maxCrossAxisExtentTypeCallback;
   final MaxCrossAxisExtentType maxCrossAxisExtentType;
   final AppModel app;
   MaxCrossAxisExtentTypeWidget(
-      {Key? key,
-        required this.app,
-        required this.maxCrossAxisExtentTypeCallback,
-        required this.maxCrossAxisExtentType})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.maxCrossAxisExtentTypeCallback,
+      required this.maxCrossAxisExtentType});
 
   @override
   State<StatefulWidget> createState() {
@@ -24,20 +23,27 @@ class MaxCrossAxisExtentTypeWidget extends StatefulWidget {
   }
 }
 
-class _MaxCrossAxisExtentTypeWidgetState extends State<MaxCrossAxisExtentTypeWidget> {
+class _MaxCrossAxisExtentTypeWidgetState
+    extends State<MaxCrossAxisExtentTypeWidget> {
   int? _heightTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _heightTypeSelectedRadioTile = widget.maxCrossAxisExtentType.index;
   }
 
-  String heighttTypeLandscapeStringValue(MaxCrossAxisExtentType? maxCrossAxisExtentType) {
+  String heighttTypeLandscapeStringValue(
+      MaxCrossAxisExtentType? maxCrossAxisExtentType) {
     switch (maxCrossAxisExtentType) {
-      case MaxCrossAxisExtentType.Absolute:
+      case MaxCrossAxisExtentType.absolute:
         return 'Absolute';
-      case MaxCrossAxisExtentType.Relative:
+      case MaxCrossAxisExtentType.relative:
         return 'Relative';
+      case MaxCrossAxisExtentType.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -60,14 +66,14 @@ class _MaxCrossAxisExtentTypeWidgetState extends State<MaxCrossAxisExtentTypeWid
             _heightTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(MaxCrossAxisExtentType.Relative),
-      getPrivilegeOption(MaxCrossAxisExtentType.Absolute)
+      getPrivilegeOption(MaxCrossAxisExtentType.relative),
+      getPrivilegeOption(MaxCrossAxisExtentType.absolute)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

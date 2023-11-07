@@ -48,4 +48,3 @@ Widget textBubble(
           delivered: delivered,
           seen: seen,
         );
-

@@ -41,9 +41,9 @@ class PlatformMediumFormInitialized extends PlatformMediumFormState {
   final PlatformMediumModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const PlatformMediumFormInitialized({ this.value });
+  const PlatformMediumFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class PlatformMediumFormError extends PlatformMediumFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const PlatformMediumFormError({this.message, PlatformMediumModel? value }) : super(value: value);
+  const PlatformMediumFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class PlatformMediumFormError extends PlatformMediumFormInitialized {
     }''';
   }
 }
-class DocumentIDPlatformMediumFormError extends PlatformMediumFormError { 
-  const DocumentIDPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+
+class DocumentIDPlatformMediumFormError extends PlatformMediumFormError {
+  const DocumentIDPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class AppIdPlatformMediumFormError extends PlatformMediumFormError { 
-  const AppIdPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class AppIdPlatformMediumFormError extends PlatformMediumFormError {
+  const AppIdPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class AuthorIdPlatformMediumFormError extends PlatformMediumFormError { 
-  const AuthorIdPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class AuthorIdPlatformMediumFormError extends PlatformMediumFormError {
+  const AuthorIdPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class AuthorIdPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class BasePlatformMediumFormError extends PlatformMediumFormError { 
-  const BasePlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class BasePlatformMediumFormError extends PlatformMediumFormError {
+  const BasePlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class BasePlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class ExtPlatformMediumFormError extends PlatformMediumFormError { 
-  const ExtPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class ExtPlatformMediumFormError extends PlatformMediumFormError {
+  const ExtPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class ExtPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class UrlPlatformMediumFormError extends PlatformMediumFormError { 
-  const UrlPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class UrlPlatformMediumFormError extends PlatformMediumFormError {
+  const UrlPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class UrlPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class RefPlatformMediumFormError extends PlatformMediumFormError { 
-  const RefPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class RefPlatformMediumFormError extends PlatformMediumFormError {
+  const RefPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class RefPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class UrlThumbnailPlatformMediumFormError extends PlatformMediumFormError { 
-  const UrlThumbnailPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class UrlThumbnailPlatformMediumFormError extends PlatformMediumFormError {
+  const UrlThumbnailPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class UrlThumbnailPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class RefThumbnailPlatformMediumFormError extends PlatformMediumFormError { 
-  const RefThumbnailPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class RefThumbnailPlatformMediumFormError extends PlatformMediumFormError {
+  const RefThumbnailPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,11 @@ class RefThumbnailPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class ConditionsPlatformMediumFormError extends PlatformMediumFormError { 
-  const ConditionsPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class ConditionsPlatformMediumFormError extends PlatformMediumFormError {
+  const ConditionsPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +214,11 @@ class ConditionsPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class MediumTypePlatformMediumFormError extends PlatformMediumFormError { 
-  const MediumTypePlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class MediumTypePlatformMediumFormError extends PlatformMediumFormError {
+  const MediumTypePlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -238,12 +229,11 @@ class MediumTypePlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class MediumWidthPlatformMediumFormError extends PlatformMediumFormError { 
-  const MediumWidthPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class MediumWidthPlatformMediumFormError extends PlatformMediumFormError {
+  const MediumWidthPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -254,12 +244,11 @@ class MediumWidthPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class MediumHeightPlatformMediumFormError extends PlatformMediumFormError { 
-  const MediumHeightPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class MediumHeightPlatformMediumFormError extends PlatformMediumFormError {
+  const MediumHeightPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -270,12 +259,11 @@ class MediumHeightPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class ThumbnailWidthPlatformMediumFormError extends PlatformMediumFormError { 
-  const ThumbnailWidthPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class ThumbnailWidthPlatformMediumFormError extends PlatformMediumFormError {
+  const ThumbnailWidthPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -286,12 +274,11 @@ class ThumbnailWidthPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class ThumbnailHeightPlatformMediumFormError extends PlatformMediumFormError { 
-  const ThumbnailHeightPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class ThumbnailHeightPlatformMediumFormError extends PlatformMediumFormError {
+  const ThumbnailHeightPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -302,12 +289,11 @@ class ThumbnailHeightPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class RelatedMediumIdPlatformMediumFormError extends PlatformMediumFormError { 
-  const RelatedMediumIdPlatformMediumFormError({ String? message, PlatformMediumModel? value }): super(message: message, value: value);
+class RelatedMediumIdPlatformMediumFormError extends PlatformMediumFormError {
+  const RelatedMediumIdPlatformMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -318,12 +304,11 @@ class RelatedMediumIdPlatformMediumFormError extends PlatformMediumFormError {
   }
 }
 
-
-class PlatformMediumFormLoaded extends PlatformMediumFormInitialized { 
-  const PlatformMediumFormLoaded({ PlatformMediumModel? value }): super(value: value);
+class PlatformMediumFormLoaded extends PlatformMediumFormInitialized {
+  const PlatformMediumFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -333,12 +318,11 @@ class PlatformMediumFormLoaded extends PlatformMediumFormInitialized {
   }
 }
 
-
-class SubmittablePlatformMediumForm extends PlatformMediumFormInitialized { 
-  const SubmittablePlatformMediumForm({ PlatformMediumModel? value }): super(value: value);
+class SubmittablePlatformMediumForm extends PlatformMediumFormInitialized {
+  const SubmittablePlatformMediumForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -347,5 +331,3 @@ class SubmittablePlatformMediumForm extends PlatformMediumFormInitialized {
     }''';
   }
 }
-
-

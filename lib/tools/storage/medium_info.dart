@@ -14,40 +14,46 @@ class MediumInfo {
 }
 
 class ChainOfMediumModels {
-  static void _addMemberMediumUrl(List<String?> urls, MemberMediumModel currentPolicy) {
-    if (currentPolicy.mediumType == MediumType.Photo) {
+  static void _addMemberMediumUrl(
+      List<String?> urls, MemberMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == MediumType.photo) {
       urls.add(currentPolicy.url);
     }
   }
 
-  static void _addPlatformMediumUrl(List<String?> urls, PlatformMediumModel currentPolicy) {
-    if (currentPolicy.mediumType == PlatformMediumType.Photo) {
+  static void _addPlatformMediumUrl(
+      List<String?> urls, PlatformMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == PlatformMediumType.photo) {
       urls.add(currentPolicy.url);
     }
   }
 
-  static void _addPublicMediumUrl(List<String?> urls, PublicMediumModel currentPolicy) {
-    if (currentPolicy.mediumType == PublicMediumType.Photo) {
+  static void _addPublicMediumUrl(
+      List<String?> urls, PublicMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == PublicMediumType.photo) {
       urls.add(currentPolicy.url);
     }
   }
 
-  static void _addMemberMediumInfo(List<MediumInfo> infos, MemberMediumModel currentPolicy) {
-    if (currentPolicy.mediumType == MediumType.Photo) {
+  static void _addMemberMediumInfo(
+      List<MediumInfo> infos, MemberMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == MediumType.photo) {
       infos.add(MediumInfo(currentPolicy.mediumWidth,
           currentPolicy.mediumHeight, currentPolicy.url));
     }
   }
 
-  static void _addPlatformMediumInfo(List<MediumInfo> infos, PlatformMediumModel currentPolicy) {
-    if (currentPolicy.mediumType == PlatformMediumType.Photo) {
+  static void _addPlatformMediumInfo(
+      List<MediumInfo> infos, PlatformMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == PlatformMediumType.photo) {
       infos.add(MediumInfo(currentPolicy.mediumWidth,
           currentPolicy.mediumHeight, currentPolicy.url));
     }
   }
 
-  static void _addPublicMediumInfo(List<MediumInfo> infos, PublicMediumModel currentPolicy) {
-    if (currentPolicy.mediumType == PublicMediumType.Photo) {
+  static void _addPublicMediumInfo(
+      List<MediumInfo> infos, PublicMediumModel currentPolicy) {
+    if (currentPolicy.mediumType == PublicMediumType.photo) {
       infos.add(MediumInfo(currentPolicy.mediumWidth,
           currentPolicy.mediumHeight, currentPolicy.url));
     }
@@ -160,7 +166,6 @@ class ChainOfMediumModels {
     }
     return infos;
   }
-
 
   static Future<List<MemberMediumModel>> getMemberMediumModelChainOfMedium(
       String? appId, MemberMediumModel memberMediumModel) async {

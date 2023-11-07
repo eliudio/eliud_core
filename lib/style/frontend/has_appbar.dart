@@ -35,28 +35,28 @@ abstract class HasAppBar {
 }
 
 PreferredSizeWidget appBar(AppModel app, BuildContext context,
-    {required AppbarHeaderAttributes headerAttributes,
-      required MemberModel? member,
-      required String pageName,
-      List<AbstractMenuItemAttributes>? items,
-      BackgroundModel? backgroundOverride,
-      RgbModel? menuBackgroundColorOverride,
-      RgbModel? selectedIconColorOverride,
-      RgbModel? iconColorOverride,
-      VoidCallback? openDrawer,
-      Key? key}) =>
+        {required AppbarHeaderAttributes headerAttributes,
+        required MemberModel? member,
+        required String pageName,
+        List<AbstractMenuItemAttributes>? items,
+        BackgroundModel? backgroundOverride,
+        RgbModel? menuBackgroundColorOverride,
+        RgbModel? selectedIconColorOverride,
+        RgbModel? iconColorOverride,
+        VoidCallback? openDrawer,
+        Key? key}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .appBarStyle()
         .appBar(app, context,
-        headerAttributes: headerAttributes,
-        member: member,
-        pageName: pageName,
-        items: items,
-        backgroundOverride: backgroundOverride,
-        menuBackgroundColorOverride: menuBackgroundColorOverride,
-        selectedIconColorOverride: selectedIconColorOverride,
-        iconColorOverride: iconColorOverride,
-        openDrawer: openDrawer,
-        key: key);
+            headerAttributes: headerAttributes,
+            member: member,
+            pageName: pageName,
+            items: items,
+            backgroundOverride: backgroundOverride,
+            menuBackgroundColorOverride: menuBackgroundColorOverride,
+            selectedIconColorOverride: selectedIconColorOverride,
+            iconColorOverride: iconColorOverride,
+            openDrawer: openDrawer,
+            key: key);

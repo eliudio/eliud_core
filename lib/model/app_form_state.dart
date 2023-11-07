@@ -41,9 +41,9 @@ class AppFormInitialized extends AppFormState {
   final AppModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const AppFormInitialized({ this.value });
+  const AppFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class AppFormError extends AppFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const AppFormError({this.message, AppModel? value }) : super(value: value);
+  const AppFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class AppFormError extends AppFormInitialized {
     }''';
   }
 }
-class DocumentIDAppFormError extends AppFormError { 
-  const DocumentIDAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+
+class DocumentIDAppFormError extends AppFormError {
+  const DocumentIDAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDAppFormError extends AppFormError {
   }
 }
 
-
-class OwnerIDAppFormError extends AppFormError { 
-  const OwnerIDAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class OwnerIDAppFormError extends AppFormError {
+  const OwnerIDAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class OwnerIDAppFormError extends AppFormError {
   }
 }
 
-
-class TitleAppFormError extends AppFormError { 
-  const TitleAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class TitleAppFormError extends AppFormError {
+  const TitleAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class TitleAppFormError extends AppFormError {
   }
 }
 
-
-class HomeURLAppFormError extends AppFormError { 
-  const HomeURLAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class HomeURLAppFormError extends AppFormError {
+  const HomeURLAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class HomeURLAppFormError extends AppFormError {
   }
 }
 
-
-class EmailAppFormError extends AppFormError { 
-  const EmailAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class EmailAppFormError extends AppFormError {
+  const EmailAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class EmailAppFormError extends AppFormError {
   }
 }
 
-
-class DescriptionAppFormError extends AppFormError { 
-  const DescriptionAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class DescriptionAppFormError extends AppFormError {
+  const DescriptionAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class DescriptionAppFormError extends AppFormError {
   }
 }
 
-
-class AppStatusAppFormError extends AppFormError { 
-  const AppStatusAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class AppStatusAppFormError extends AppFormError {
+  const AppStatusAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class AppStatusAppFormError extends AppFormError {
   }
 }
 
-
-class AnonymousProfilePhotoAppFormError extends AppFormError { 
-  const AnonymousProfilePhotoAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class AnonymousProfilePhotoAppFormError extends AppFormError {
+  const AnonymousProfilePhotoAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class AnonymousProfilePhotoAppFormError extends AppFormError {
   }
 }
 
-
-class HomePagesAppFormError extends AppFormError { 
-  const HomePagesAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class HomePagesAppFormError extends AppFormError {
+  const HomePagesAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,11 @@ class HomePagesAppFormError extends AppFormError {
   }
 }
 
-
-class LogoAppFormError extends AppFormError { 
-  const LogoAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class LogoAppFormError extends AppFormError {
+  const LogoAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +214,11 @@ class LogoAppFormError extends AppFormError {
   }
 }
 
-
-class StyleFamilyAppFormError extends AppFormError { 
-  const StyleFamilyAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class StyleFamilyAppFormError extends AppFormError {
+  const StyleFamilyAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -238,12 +229,11 @@ class StyleFamilyAppFormError extends AppFormError {
   }
 }
 
-
-class StyleNameAppFormError extends AppFormError { 
-  const StyleNameAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class StyleNameAppFormError extends AppFormError {
+  const StyleNameAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -254,12 +244,11 @@ class StyleNameAppFormError extends AppFormError {
   }
 }
 
-
-class AutoPrivileged1AppFormError extends AppFormError { 
-  const AutoPrivileged1AppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class AutoPrivileged1AppFormError extends AppFormError {
+  const AutoPrivileged1AppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -270,12 +259,11 @@ class AutoPrivileged1AppFormError extends AppFormError {
   }
 }
 
-
-class IsFeaturedAppFormError extends AppFormError { 
-  const IsFeaturedAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class IsFeaturedAppFormError extends AppFormError {
+  const IsFeaturedAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -286,12 +274,11 @@ class IsFeaturedAppFormError extends AppFormError {
   }
 }
 
-
-class IncludeShippingAddressAppFormError extends AppFormError { 
-  const IncludeShippingAddressAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class IncludeShippingAddressAppFormError extends AppFormError {
+  const IncludeShippingAddressAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -302,12 +289,11 @@ class IncludeShippingAddressAppFormError extends AppFormError {
   }
 }
 
-
-class IncludeInvoiceAddressAppFormError extends AppFormError { 
-  const IncludeInvoiceAddressAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class IncludeInvoiceAddressAppFormError extends AppFormError {
+  const IncludeInvoiceAddressAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -318,12 +304,11 @@ class IncludeInvoiceAddressAppFormError extends AppFormError {
   }
 }
 
-
-class IncludeSubscriptionsAppFormError extends AppFormError { 
-  const IncludeSubscriptionsAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class IncludeSubscriptionsAppFormError extends AppFormError {
+  const IncludeSubscriptionsAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -334,12 +319,11 @@ class IncludeSubscriptionsAppFormError extends AppFormError {
   }
 }
 
-
-class WelcomeMessageAppFormError extends AppFormError { 
-  const WelcomeMessageAppFormError({ String? message, AppModel? value }): super(message: message, value: value);
+class WelcomeMessageAppFormError extends AppFormError {
+  const WelcomeMessageAppFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -350,12 +334,11 @@ class WelcomeMessageAppFormError extends AppFormError {
   }
 }
 
-
-class AppFormLoaded extends AppFormInitialized { 
-  const AppFormLoaded({ AppModel? value }): super(value: value);
+class AppFormLoaded extends AppFormInitialized {
+  const AppFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -365,12 +348,11 @@ class AppFormLoaded extends AppFormInitialized {
   }
 }
 
-
-class SubmittableAppForm extends AppFormInitialized { 
-  const SubmittableAppForm({ AppModel? value }): super(value: value);
+class SubmittableAppForm extends AppFormInitialized {
+  const SubmittableAppForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -379,5 +361,3 @@ class SubmittableAppForm extends AppFormInitialized {
     }''';
   }
 }
-
-

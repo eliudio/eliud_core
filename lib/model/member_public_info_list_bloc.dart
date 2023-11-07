@@ -23,11 +23,11 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'member_public_info_model.dart';
 
-typedef List<MemberPublicInfoModel?> FilterMemberPublicInfoModels(List<MemberPublicInfoModel?> values);
+typedef FilterMemberPublicInfoModels = List<MemberPublicInfoModel?> Function(
+    List<MemberPublicInfoModel?> values);
 
-
-
-class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPublicInfoListState> {
+class MemberPublicInfoListBloc
+    extends Bloc<MemberPublicInfoListEvent, MemberPublicInfoListState> {
   final FilterMemberPublicInfoModels? filter;
   final MemberPublicInfoRepository _memberPublicInfoRepository;
   StreamSubscription? _memberPublicInfosListSubscription;
@@ -39,23 +39,32 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
   final bool? detailed;
   final int memberPublicInfoLimit;
 
-  MemberPublicInfoListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required MemberPublicInfoRepository memberPublicInfoRepository, this.memberPublicInfoLimit = 5})
+  MemberPublicInfoListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required MemberPublicInfoRepository memberPublicInfoRepository,
+      this.memberPublicInfoLimit = 5})
       : _memberPublicInfoRepository = memberPublicInfoRepository,
         super(MemberPublicInfoListLoading()) {
-    on <LoadMemberPublicInfoList> ((event, emit) {
+    on<LoadMemberPublicInfoList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadMemberPublicInfoListToState();
       } else {
         _mapLoadMemberPublicInfoListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadMemberPublicInfoListWithDetailsToState();
     });
-    
-    on <MemberPublicInfoChangeQuery> ((event, emit) {
+
+    on<MemberPublicInfoChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadMemberPublicInfoListToState();
@@ -63,20 +72,20 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
         _mapLoadMemberPublicInfoListWithDetailsToState();
       }
     });
-      
-    on <AddMemberPublicInfoList> ((event, emit) async {
+
+    on<AddMemberPublicInfoList>((event, emit) async {
       await _mapAddMemberPublicInfoListToState(event);
     });
-    
-    on <UpdateMemberPublicInfoList> ((event, emit) async {
+
+    on<UpdateMemberPublicInfoList>((event, emit) async {
       await _mapUpdateMemberPublicInfoListToState(event);
     });
-    
-    on <DeleteMemberPublicInfoList> ((event, emit) async {
+
+    on<DeleteMemberPublicInfoList>((event, emit) async {
       await _mapDeleteMemberPublicInfoListToState(event);
     });
-    
-    on <MemberPublicInfoListUpdated> ((event, emit) {
+
+    on<MemberPublicInfoListUpdated>((event, emit) {
       emit(_mapMemberPublicInfoListUpdatedToState(event));
     });
   }
@@ -90,44 +99,55 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
   }
 
   Future<void> _mapLoadMemberPublicInfoListToState() async {
-    int amountNow =  (state is MemberPublicInfoListLoaded) ? (state as MemberPublicInfoListLoaded).values!.length : 0;
+    int amountNow = (state is MemberPublicInfoListLoaded)
+        ? (state as MemberPublicInfoListLoaded).values!.length
+        : 0;
     _memberPublicInfosListSubscription?.cancel();
     _memberPublicInfosListSubscription = _memberPublicInfoRepository.listen(
-          (list) => add(MemberPublicInfoListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * memberPublicInfoLimit : null
-    );
-  }
-
-  Future<void> _mapLoadMemberPublicInfoListWithDetailsToState() async {
-    int amountNow =  (state is MemberPublicInfoListLoaded) ? (state as MemberPublicInfoListLoaded).values!.length : 0;
-    _memberPublicInfosListSubscription?.cancel();
-    _memberPublicInfosListSubscription = _memberPublicInfoRepository.listenWithDetails(
-            (list) => add(MemberPublicInfoListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(MemberPublicInfoListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * memberPublicInfoLimit : null
-    );
+        limit:
+            ((paged != null) && paged!) ? pages * memberPublicInfoLimit : null);
   }
 
-  Future<void> _mapAddMemberPublicInfoListToState(AddMemberPublicInfoList event) async {
+  Future<void> _mapLoadMemberPublicInfoListWithDetailsToState() async {
+    int amountNow = (state is MemberPublicInfoListLoaded)
+        ? (state as MemberPublicInfoListLoaded).values!.length
+        : 0;
+    _memberPublicInfosListSubscription?.cancel();
+    _memberPublicInfosListSubscription =
+        _memberPublicInfoRepository.listenWithDetails(
+            (list) => add(MemberPublicInfoListUpdated(
+                value: _filter(list), mightHaveMore: amountNow != list.length)),
+            orderBy: orderBy,
+            descending: descending,
+            eliudQuery: eliudQuery,
+            limit: ((paged != null) && paged!)
+                ? pages * memberPublicInfoLimit
+                : null);
+  }
+
+  Future<void> _mapAddMemberPublicInfoListToState(
+      AddMemberPublicInfoList event) async {
     var value = event.value;
     if (value != null) {
       await _memberPublicInfoRepository.add(value);
     }
   }
 
-  Future<void> _mapUpdateMemberPublicInfoListToState(UpdateMemberPublicInfoList event) async {
+  Future<void> _mapUpdateMemberPublicInfoListToState(
+      UpdateMemberPublicInfoList event) async {
     var value = event.value;
     if (value != null) {
       await _memberPublicInfoRepository.update(value);
     }
   }
 
-  Future<void> _mapDeleteMemberPublicInfoListToState(DeleteMemberPublicInfoList event) async {
+  Future<void> _mapDeleteMemberPublicInfoListToState(
+      DeleteMemberPublicInfoList event) async {
     var value = event.value;
     if (value != null) {
       await _memberPublicInfoRepository.delete(value);
@@ -135,7 +155,9 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
   }
 
   MemberPublicInfoListLoaded _mapMemberPublicInfoListUpdatedToState(
-      MemberPublicInfoListUpdated event) => MemberPublicInfoListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          MemberPublicInfoListUpdated event) =>
+      MemberPublicInfoListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +165,3 @@ class MemberPublicInfoListBloc extends Bloc<MemberPublicInfoListEvent, MemberPub
     return super.close();
   }
 }
-
-

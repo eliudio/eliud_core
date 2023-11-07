@@ -30,10 +30,10 @@ class NewPage extends MemberSubscriptionListEvent {}
 class AddMemberSubscriptionList extends MemberSubscriptionListEvent {
   final MemberSubscriptionModel? value;
 
-  const AddMemberSubscriptionList({ this.value });
+  const AddMemberSubscriptionList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddMemberSubscriptionList{ value: $value }';
@@ -42,10 +42,10 @@ class AddMemberSubscriptionList extends MemberSubscriptionListEvent {
 class UpdateMemberSubscriptionList extends MemberSubscriptionListEvent {
   final MemberSubscriptionModel? value;
 
-  const UpdateMemberSubscriptionList({ this.value });
+  const UpdateMemberSubscriptionList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateMemberSubscriptionList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateMemberSubscriptionList extends MemberSubscriptionListEvent {
 class DeleteMemberSubscriptionList extends MemberSubscriptionListEvent {
   final MemberSubscriptionModel? value;
 
-  const DeleteMemberSubscriptionList({ this.value });
+  const DeleteMemberSubscriptionList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteMemberSubscriptionList{ value: $value }';
@@ -67,24 +67,24 @@ class MemberSubscriptionListUpdated extends MemberSubscriptionListEvent {
   final List<MemberSubscriptionModel?>? value;
   final bool? mightHaveMore;
 
-  const MemberSubscriptionListUpdated({ this.value, this.mightHaveMore });
+  const MemberSubscriptionListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'MemberSubscriptionListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'MemberSubscriptionListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class MemberSubscriptionChangeQuery extends MemberSubscriptionListEvent {
   final EliudQuery? newQuery;
 
-  const MemberSubscriptionChangeQuery({ required this.newQuery });
+  const MemberSubscriptionChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'MemberSubscriptionChangeQuery{ value: $newQuery }';
 }
-

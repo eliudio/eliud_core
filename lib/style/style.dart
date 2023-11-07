@@ -19,16 +19,20 @@ class AllowedUpdates extends Equatable {
   static AllowedUpdates noneAllowed() => AllowedUpdates(false, false, false);
 
   @override
-  List<Object?> get props => [ canUpdate, canCopy, canDelete ];
+  List<Object?> get props => [canUpdate, canCopy, canDelete];
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AllowedUpdates &&
-              runtimeType == other.runtimeType &&
-              canUpdate == other.canUpdate &&
-              canCopy == other.canCopy &&
-              canDelete == other.canDelete;
+      other is AllowedUpdates &&
+          runtimeType == other.runtimeType &&
+          canUpdate == other.canUpdate &&
+          canCopy == other.canCopy &&
+          canDelete == other.canDelete;
+
+  @override
+  int get hashCode =>
+      canUpdate.hashCode ^ canCopy.hashCode ^ canDelete.hashCode;
 }
 
 abstract class Style extends Equatable {
@@ -57,14 +61,18 @@ abstract class Style extends Equatable {
   Future<Style?> copy(AppModel app, String newName);
 
   @override
-  List<Object?> get props => [ styleFamily, styleName, allowedUpdates ];
+  List<Object?> get props => [/*styleFamily,*/ styleName, allowedUpdates];
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
-          other is Style &&
-              runtimeType == other.runtimeType &&
-              styleFamily == other.styleFamily &&
-              styleName == other.styleName &&
-              allowedUpdates == other.allowedUpdates;
+      other is Style &&
+          runtimeType == other.runtimeType &&
+          //styleFamily == other.styleFamily &&
+          styleName == other.styleName &&
+          allowedUpdates == other.allowedUpdates;
+
+  @override
+  int get hashCode => /*styleFamily.hashCode & */
+      styleName.hashCode ^ allowedUpdates.hashCode;
 }

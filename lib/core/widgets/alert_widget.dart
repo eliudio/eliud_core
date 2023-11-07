@@ -15,7 +15,11 @@ class AlertWidget extends StatelessWidget {
       title: Text(title!),
       content: Text(content!),
       actions: <Widget>[
-        button(app, context, label: 'Close',onPressed: () {
+        button(
+          app,
+          context,
+          label: 'Close',
+          onPressed: () {
             Navigator.of(context).pop();
           },
         ),

@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/app_policy_component_bloc.dart';
 import 'package:eliud_core/model/app_policy_component_event.dart';
 import 'package:eliud_core/model/app_policy_model.dart';
@@ -31,20 +30,22 @@ abstract class AbstractAppPolicyComponent extends StatelessWidget {
   final AppModel app;
   final String appPolicyId;
 
-  AbstractAppPolicyComponent({Key? key, required this.app, required this.appPolicyId}): super(key: key);
+  AbstractAppPolicyComponent(
+      {super.key, required this.app, required this.appPolicyId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AppPolicyComponentBloc> (
-          create: (context) => AppPolicyComponentBloc(
-            appPolicyRepository: appPolicyRepository(appId: app.documentID)!)
+    return BlocProvider<AppPolicyComponentBloc>(
+      create: (context) => AppPolicyComponentBloc(
+          appPolicyRepository: appPolicyRepository(appId: app.documentID)!)
         ..add(FetchAppPolicyComponent(id: appPolicyId)),
       child: _appPolicyBlockBuilder(context),
     );
   }
 
   Widget _appPolicyBlockBuilder(BuildContext context) {
-    return BlocBuilder<AppPolicyComponentBloc, AppPolicyComponentState>(builder: (context, state) {
+    return BlocBuilder<AppPolicyComponentBloc, AppPolicyComponentState>(
+        builder: (context, state) {
       if (state is AppPolicyComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is AppPolicyComponentPermissionDenied) {
@@ -57,7 +58,11 @@ abstract class AbstractAppPolicyComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +70,3 @@ abstract class AbstractAppPolicyComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, AppPolicyModel value);
 }
-

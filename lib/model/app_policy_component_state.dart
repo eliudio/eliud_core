@@ -27,7 +27,7 @@ class AppPolicyComponentUninitialized extends AppPolicyComponentState {}
 
 class AppPolicyComponentError extends AppPolicyComponentState {
   final String? message;
-  AppPolicyComponentError({ this.message });
+  AppPolicyComponentError({this.message});
 }
 
 class AppPolicyComponentPermissionDenied extends AppPolicyComponentState {
@@ -37,10 +37,10 @@ class AppPolicyComponentPermissionDenied extends AppPolicyComponentState {
 class AppPolicyComponentLoaded extends AppPolicyComponentState {
   final AppPolicyModel value;
 
-  const AppPolicyComponentLoaded({ required this.value });
+  const AppPolicyComponentLoaded({required this.value});
 
-  AppPolicyComponentLoaded copyWith({ AppPolicyModel? copyThis }) {
-    return AppPolicyComponentLoaded(value: copyThis ?? this.value);
+  AppPolicyComponentLoaded copyWith({AppPolicyModel? copyThis}) {
+    return AppPolicyComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class AppPolicyComponentLoaded extends AppPolicyComponentState {
   @override
   String toString() => 'AppPolicyComponentLoaded { value: $value }';
 }
-

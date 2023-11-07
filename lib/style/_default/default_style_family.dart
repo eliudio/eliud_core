@@ -16,15 +16,20 @@ class DefaultStyleFamily extends StyleFamily {
   static final String defaultStyleFamilyName = 'DefaultFamilyStyle';
 
   static DefaultStyleFamily? _instance;
-  late DefaultStyle defaultStyle;
+//  late DefaultStyle defaultStyle;
+  final Map<int, Style> _defaultStyles = {};
 
   static DefaultStyleFamily instance() {
     _instance ??= DefaultStyleFamily._();
     return _instance!;
   }
 
-  DefaultStyleFamily._() : super(defaultStyleFamilyName, false, ) {
-    defaultStyle = DefaultStyle(this);
+  DefaultStyleFamily._()
+      : super(
+          defaultStyleFamilyName,
+          false,
+        ) {
+    _defaultStyles[0] = DefaultStyle(this);
   }
 
   /*
@@ -42,13 +47,13 @@ class DefaultStyleFamily extends StyleFamily {
 
   @override
   Style? getStyle(AppModel currentApp, String styleName) {
-    return defaultStyle;
+    return _defaultStyles[0];
   }
 
   @override
   StreamSubscription? listenToStyles(
       String appId, StylesTrigger stylesTrigger) {
-    stylesTrigger([defaultStyle]);
+    stylesTrigger([_defaultStyles[0]!]);
     return null;
   }
 
@@ -58,7 +63,7 @@ class DefaultStyleFamily extends StyleFamily {
   }
 
   @override
-  void subscribeForChange(CurrentStyleTrigger? currentStyleTrigger) {}
+  void subscribeForChange(CurrentStyleTrigger currentStyleTrigger) {}
 
   @override
   Future<void> update(AppModel app, Style style) {
@@ -69,26 +74,31 @@ class DefaultStyleFamily extends StyleFamily {
   Future<Style> newStyle(AppModel app, String newName) {
     throw Exception('Readonly style');
   }
+
+  Style defaultStyle() {
+    return _defaultStyles[0]!;
+  }
 }
 
 class DefaultStyle extends Style {
   static final String defaultStyleName = 'DefaultStyle';
 
-  late AdminFormStyle _adminFormStyle;
-  late AdminListStyle _adminListStyle;
-  late FrontEndStyle _frontEndFormStyle;
+  final AdminFormStyle _adminFormStyle;
+  final AdminListStyle _adminListStyle;
+  final FrontEndStyle _frontEndFormStyle;
 
   DefaultStyle(StyleFamily styleFamily)
-      : super(styleFamily, defaultStyleName, AllowedUpdates.noneAllowed()) {
-    _adminFormStyle = DefaultAdminFormStyle();
-    _adminListStyle = DefaultAdminListStyle();
-    _frontEndFormStyle = DefaultFrontEndStyle();
-  }
+      : _adminFormStyle = DefaultAdminFormStyle(),
+        _adminListStyle = DefaultAdminListStyle(),
+        _frontEndFormStyle = DefaultFrontEndStyle(),
+        super(styleFamily, defaultStyleName, AllowedUpdates.noneAllowed());
 
   @override
   AdminFormStyle adminFormStyle() => _adminFormStyle;
+
   @override
   AdminListStyle adminListStyle() => _adminListStyle;
+
   @override
   FrontEndStyle frontEndStyle() => _frontEndFormStyle;
 

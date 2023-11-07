@@ -11,8 +11,7 @@ import 'package:flutter/material.dart';
 
 class ProfilePhotoHelper {
   Widget getProfilePhotoButtonFromMember(
-      BuildContext context,
-      AppModel appModel,
+      BuildContext context, AppModel appModel,
       {MemberModel? member,
       required double radius,
       RgbModel? iconColor,
@@ -53,7 +52,8 @@ class ProfilePhotoHelper {
         url: null, radius: radius, iconColor: iconColor, onPressed: onPressed);
   }
 
-  Widget getProfilePhotoButtonFromExternalProvider(AppModel app, BuildContext context,
+  Widget getProfilePhotoButtonFromExternalProvider(
+      AppModel app, BuildContext context,
       {required ExternalProfileURLProvider externalProfileURLProvider,
       BackupProfileURLProvider? fallBackURLProvider,
       required double radius,
@@ -69,10 +69,17 @@ class ProfilePhotoHelper {
               return _defaultProfile(iconColor, onPressed, radius);
             } else {
               return _formatProfilePhotoButton(
-                  Image.network(profileAttributes.url!), iconColor, radius, onPressed);
+                  Image.network(profileAttributes.url!),
+                  iconColor,
+                  radius,
+                  onPressed);
             }
           }
-          return StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context);
+          return StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context);
         });
   }
 
@@ -99,27 +106,40 @@ class ProfilePhotoHelper {
       RgbModel? iconColor,
       VoidCallback? onPressed}) {
     if (url != null) {
-      return _formatProfilePhotoButton(Image.network(url), iconColor, radius, onPressed);
+      return _formatProfilePhotoButton(
+          Image.network(url), iconColor, radius, onPressed);
     } else {
       return _defaultProfile(iconColor, onPressed, radius);
     }
   }
 
-  Widget _defaultProfile(RgbModel? color, VoidCallback? onPressed, double radius) {
+  Widget _defaultProfile(
+      RgbModel? color, VoidCallback? onPressed, double radius) {
 //    return ;
-    return _formatProfilePhotoButton(Container(color: Color.fromRGBO(0, 0, 0, 0), width: 50, height: 50, child: Icon(Icons.person_outline),), color, radius, onPressed);
+    return _formatProfilePhotoButton(
+        Container(
+          color: Color.fromRGBO(0, 0, 0, 0),
+          width: 50,
+          height: 50,
+          child: Icon(Icons.person_outline),
+        ),
+        color,
+        radius,
+        onPressed);
   }
 
-  Widget _formatProfilePhotoButton(
-      Widget widget, RgbModel? iconColor, double radius, VoidCallback? onPressed) {
+  Widget _formatProfilePhotoButton(Widget widget, RgbModel? iconColor,
+      double radius, VoidCallback? onPressed) {
     return GestureDetector(
         onTap: onPressed,
         child: CircleAvatar(
             radius: radius,
-            backgroundColor: iconColor == null ? Colors.black : RgbHelper.color(rgbo: iconColor),            // border color
+            backgroundColor: iconColor == null
+                ? Colors.black
+                : RgbHelper.color(rgbo: iconColor), // border color
             child: CircleAvatar(
-              radius: radius-2,
-              backgroundColor: Colors.white,         // background color
+              radius: radius - 2,
+              backgroundColor: Colors.white, // background color
               child: CircleAvatar(
                 radius: radius - 4,
                 backgroundColor: Colors.transparent,

@@ -13,16 +13,17 @@ import '../../style/frontend/has_divider.dart';
 import '../../style/style_registry.dart';
 import '../../tools/widgets/header_widget.dart';
 
-void openLoginWidget(BuildContext context, AppModel app, {PostLoginAction? actions}) {
+void openLoginWidget(BuildContext context, AppModel app,
+    {PostLoginAction? actions}) {
   StyleRegistry.registry()
       .styleWithApp(app)
       .frontEndStyle()
       .dialogStyle()
-      .openComplexDialog(
-      app, context, app.documentID + '/_style',
-      widthFraction: .5,
-      includeHeading: false,child: LoginWidget(app: app, actions: actions),
-      title: 'Style');
+      .openComplexDialog(app, context, '${app.documentID}/_style',
+          widthFraction: .5,
+          includeHeading: false,
+          child: LoginWidget(app: app, actions: actions),
+          title: 'Style');
 }
 
 class LoginWidget extends StatefulWidget {
@@ -39,32 +40,36 @@ class LoginWidget extends StatefulWidget {
     required this.app,
     this.actions,
     this.excludeHeader,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _LoginWidgetState createState() => _LoginWidgetState();
+  State<LoginWidget> createState() => _LoginWidgetState();
 }
 
 class _LoginWidgetState extends State<LoginWidget> {
-
   @override
   Widget build(BuildContext context) {
-    var widgets = (widget.excludeHeader ?? false) ?<Widget>[] :
-       <Widget>[
-        HeaderWidget(app: widget.app,
-          cancelAction: () async {
-            return true;
-          },
-          title: 'Login',
-        ),
-        divider(widget.app, context),
-      ];
+    var widgets = (widget.excludeHeader ?? false)
+        ? <Widget>[]
+        : <Widget>[
+            HeaderWidget(
+              app: widget.app,
+              cancelAction: () async {
+                return true;
+              },
+              title: 'Login',
+            ),
+            divider(widget.app, context),
+          ];
 
     widgets.add(SignInButton(
       Buttons.Google,
       onPressed: () {
-        BlocProvider.of<AccessBloc>(context).add(LoginEvent(app: widget.app, loginType: LoginType.GoogleLogin, actions: widget.actions));
+        BlocProvider.of<AccessBloc>(context).add(LoginEvent(
+            app: widget.app,
+            loginType: LoginType.googleLogin,
+            actions: widget.actions));
         Navigator.of(context).pop();
       },
     ));
@@ -72,7 +77,10 @@ class _LoginWidgetState extends State<LoginWidget> {
     var appleButton = SignInButton(
       Buttons.Apple,
       onPressed: () async {
-        BlocProvider.of<AccessBloc>(context).add(LoginEvent(app: widget.app, loginType: LoginType.AppleLogin, actions: widget.actions));
+        BlocProvider.of<AccessBloc>(context).add(LoginEvent(
+            app: widget.app,
+            loginType: LoginType.appleLogin,
+            actions: widget.actions));
         Navigator.of(context).pop();
       },
     );
@@ -85,8 +93,6 @@ class _LoginWidgetState extends State<LoginWidget> {
     }
 
     return ListView(
-        shrinkWrap: true,
-        physics: ScrollPhysics(),
-        children: widgets);
+        shrinkWrap: true, physics: ScrollPhysics(), children: widgets);
   }
 }

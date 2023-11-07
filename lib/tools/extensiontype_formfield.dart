@@ -35,20 +35,21 @@ class ExtensionTypeFieldState extends State<ExtensionTypeField> {
     var accessState = AccessBloc.getState(context);
     var extensions = Registry.registry()!.getExtensions();
     var dropDownItems = extensions
-        .map((extension) =>
-            DropdownMenuItem(value: extension, child: text(widget.app, context, extension)))
+        .map((extension) => DropdownMenuItem(
+            value: extension, child: text(widget.app, context, extension)))
         .toList();
 
     if (extensions.indexWhere((extension) => (extension == value)) == -1) {
       value = null;
     }
 
-    return dropdownButton<String>(
-      widget.app, context,
+    return dropdownButton<String>(widget.app, context,
         value: value,
         items: dropDownItems,
         hint: text(widget.app, context, 'Select component type'),
-        onChanged: !accessState.memberIsOwner(widget.app.documentID) ? null : _onChangedDropDownItem);
+        onChanged: !accessState.memberIsOwner(widget.app.documentID)
+            ? null
+            : _onChangedDropDownItem);
   }
 
   void _onChangedDropDownItem(val) {

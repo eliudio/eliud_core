@@ -17,16 +17,11 @@ import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/app_home_page_references_entity.dart';
-
-
-
 
 class AppHomePageReferencesModel {
   static const String packageName = 'eliud_core';
   static const String id = 'appHomePageReferencess';
-
 
   // Entry page for blocked member
   String? homePageBlockedMember;
@@ -46,21 +41,49 @@ class AppHomePageReferencesModel {
   // Entry page for the owner
   String? homePageOwner;
 
-  AppHomePageReferencesModel({this.homePageBlockedMember, this.homePagePublic, this.homePageSubscribedMember, this.homePageLevel1Member, this.homePageLevel2Member, this.homePageOwner, })  {
-  }
+  AppHomePageReferencesModel({
+    this.homePageBlockedMember,
+    this.homePagePublic,
+    this.homePageSubscribedMember,
+    this.homePageLevel1Member,
+    this.homePageLevel2Member,
+    this.homePageOwner,
+  });
 
-  AppHomePageReferencesModel copyWith({String? homePageBlockedMember, String? homePagePublic, String? homePageSubscribedMember, String? homePageLevel1Member, String? homePageLevel2Member, String? homePageOwner, }) {
-    return AppHomePageReferencesModel(homePageBlockedMember: homePageBlockedMember ?? this.homePageBlockedMember, homePagePublic: homePagePublic ?? this.homePagePublic, homePageSubscribedMember: homePageSubscribedMember ?? this.homePageSubscribedMember, homePageLevel1Member: homePageLevel1Member ?? this.homePageLevel1Member, homePageLevel2Member: homePageLevel2Member ?? this.homePageLevel2Member, homePageOwner: homePageOwner ?? this.homePageOwner, );
+  AppHomePageReferencesModel copyWith({
+    String? homePageBlockedMember,
+    String? homePagePublic,
+    String? homePageSubscribedMember,
+    String? homePageLevel1Member,
+    String? homePageLevel2Member,
+    String? homePageOwner,
+  }) {
+    return AppHomePageReferencesModel(
+      homePageBlockedMember:
+          homePageBlockedMember ?? this.homePageBlockedMember,
+      homePagePublic: homePagePublic ?? this.homePagePublic,
+      homePageSubscribedMember:
+          homePageSubscribedMember ?? this.homePageSubscribedMember,
+      homePageLevel1Member: homePageLevel1Member ?? this.homePageLevel1Member,
+      homePageLevel2Member: homePageLevel2Member ?? this.homePageLevel2Member,
+      homePageOwner: homePageOwner ?? this.homePageOwner,
+    );
   }
 
   @override
-  int get hashCode => homePageBlockedMember.hashCode ^ homePagePublic.hashCode ^ homePageSubscribedMember.hashCode ^ homePageLevel1Member.hashCode ^ homePageLevel2Member.hashCode ^ homePageOwner.hashCode;
+  int get hashCode =>
+      homePageBlockedMember.hashCode ^
+      homePagePublic.hashCode ^
+      homePageSubscribedMember.hashCode ^
+      homePageLevel1Member.hashCode ^
+      homePageLevel2Member.hashCode ^
+      homePageOwner.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is AppHomePageReferencesModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is AppHomePageReferencesModel &&
+          runtimeType == other.runtimeType &&
           homePageBlockedMember == other.homePageBlockedMember &&
           homePagePublic == other.homePagePublic &&
           homePageSubscribedMember == other.homePageSubscribedMember &&
@@ -80,41 +103,44 @@ class AppHomePageReferencesModel {
 
   AppHomePageReferencesEntity toEntity({String? appId}) {
     return AppHomePageReferencesEntity(
-          homePageBlockedMember: (homePageBlockedMember != null) ? homePageBlockedMember : null, 
-          homePagePublic: (homePagePublic != null) ? homePagePublic : null, 
-          homePageSubscribedMember: (homePageSubscribedMember != null) ? homePageSubscribedMember : null, 
-          homePageLevel1Member: (homePageLevel1Member != null) ? homePageLevel1Member : null, 
-          homePageLevel2Member: (homePageLevel2Member != null) ? homePageLevel2Member : null, 
-          homePageOwner: (homePageOwner != null) ? homePageOwner : null, 
+      homePageBlockedMember:
+          (homePageBlockedMember != null) ? homePageBlockedMember : null,
+      homePagePublic: (homePagePublic != null) ? homePagePublic : null,
+      homePageSubscribedMember:
+          (homePageSubscribedMember != null) ? homePageSubscribedMember : null,
+      homePageLevel1Member:
+          (homePageLevel1Member != null) ? homePageLevel1Member : null,
+      homePageLevel2Member:
+          (homePageLevel2Member != null) ? homePageLevel2Member : null,
+      homePageOwner: (homePageOwner != null) ? homePageOwner : null,
     );
   }
 
-  static Future<AppHomePageReferencesModel?> fromEntity(AppHomePageReferencesEntity? entity) async {
+  static Future<AppHomePageReferencesModel?> fromEntity(
+      AppHomePageReferencesEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return AppHomePageReferencesModel(
-          homePageBlockedMember: entity.homePageBlockedMember, 
-          homePagePublic: entity.homePagePublic, 
-          homePageSubscribedMember: entity.homePageSubscribedMember, 
-          homePageLevel1Member: entity.homePageLevel1Member, 
-          homePageLevel2Member: entity.homePageLevel2Member, 
-          homePageOwner: entity.homePageOwner, 
+      homePageBlockedMember: entity.homePageBlockedMember,
+      homePagePublic: entity.homePagePublic,
+      homePageSubscribedMember: entity.homePageSubscribedMember,
+      homePageLevel1Member: entity.homePageLevel1Member,
+      homePageLevel2Member: entity.homePageLevel2Member,
+      homePageOwner: entity.homePageOwner,
     );
   }
 
-  static Future<AppHomePageReferencesModel?> fromEntityPlus(AppHomePageReferencesEntity? entity, { String? appId}) async {
+  static Future<AppHomePageReferencesModel?> fromEntityPlus(
+      AppHomePageReferencesEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return AppHomePageReferencesModel(
-          homePageBlockedMember: entity.homePageBlockedMember, 
-          homePagePublic: entity.homePagePublic, 
-          homePageSubscribedMember: entity.homePageSubscribedMember, 
-          homePageLevel1Member: entity.homePageLevel1Member, 
-          homePageLevel2Member: entity.homePageLevel2Member, 
-          homePageOwner: entity.homePageOwner, 
+      homePageBlockedMember: entity.homePageBlockedMember,
+      homePagePublic: entity.homePagePublic,
+      homePageSubscribedMember: entity.homePageSubscribedMember,
+      homePageLevel1Member: entity.homePageLevel1Member,
+      homePageLevel2Member: entity.homePageLevel2Member,
+      homePageOwner: entity.homePageOwner,
     );
   }
-
 }
-

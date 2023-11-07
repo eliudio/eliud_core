@@ -26,11 +26,14 @@ class PageBodyHelper {
         } else {
           return Stack(children: <Widget>[
             Container(
-              clipBehavior:BoxDecorationHelper.determineClipBehaviour(app, accessState.getMember(), background),
-              margin: BoxDecorationHelper.determineMargin(app, accessState.getMember(), background),
-              padding: BoxDecorationHelper.determinePadding(app, accessState.getMember(), background),
-              decoration:
-                  BoxDecorationHelper.boxDecoration(app, accessState.getMember(), background),
+              clipBehavior: BoxDecorationHelper.determineClipBehaviour(
+                  app, accessState.getMember(), background),
+              margin: BoxDecorationHelper.determineMargin(
+                  app, accessState.getMember(), background),
+              padding: BoxDecorationHelper.determinePadding(
+                  app, accessState.getMember(), background),
+              decoration: BoxDecorationHelper.boxDecoration(
+                  app, accessState.getMember(), background),
             ),
             _container(context, components, layout, gridView)
           ]);
@@ -38,7 +41,9 @@ class PageBodyHelper {
       }
       return Container(color: Colors.white);
     } catch (_) {
-      return _frontEndStyle.textStyle().text(app, context, "Error whilst constructing the body");
+      return _frontEndStyle
+          .textStyle()
+          .text(app, context, "Error whilst constructing the body");
     }
   }
 
@@ -47,14 +52,16 @@ class PageBodyHelper {
     // for PolicyPresentation /
 //    if (components.length == 1) return _justTheFirst(components);
     switch (layout) {
-      case Layout.GridView:
+      case Layout.gridView:
         return _gridView(context, components, gridView);
-      case Layout.ListView:
+      case Layout.listView:
         return _listView(context, components);
-      case Layout.OnlyTheFirstComponent:
+      case Layout.onlyTheFirstComponent:
         return _justTheFirst(components);
-      case Layout.Unknown:
+      case Layout.unknown:
         return _listView(context, components);
+      case null:
+        break;
     }
     return _listView(context, components);
   }

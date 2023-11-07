@@ -22,37 +22,66 @@ class DisplayConditionsEntity implements EntityBase {
   final String? packageCondition;
   final int? conditionOverride;
 
-  DisplayConditionsEntity({this.privilegeLevelRequired, this.packageCondition, this.conditionOverride, });
+  DisplayConditionsEntity({
+    this.privilegeLevelRequired,
+    this.packageCondition,
+    this.conditionOverride,
+  });
 
-  DisplayConditionsEntity copyWith({int? privilegeLevelRequired, String? packageCondition, int? conditionOverride, }) {
-    return DisplayConditionsEntity(privilegeLevelRequired : privilegeLevelRequired ?? this.privilegeLevelRequired, packageCondition : packageCondition ?? this.packageCondition, conditionOverride : conditionOverride ?? this.conditionOverride, );
+  DisplayConditionsEntity copyWith({
+    int? privilegeLevelRequired,
+    String? packageCondition,
+    int? conditionOverride,
+  }) {
+    return DisplayConditionsEntity(
+      privilegeLevelRequired:
+          privilegeLevelRequired ?? this.privilegeLevelRequired,
+      packageCondition: packageCondition ?? this.packageCondition,
+      conditionOverride: conditionOverride ?? this.conditionOverride,
+    );
   }
-  List<Object?> get props => [privilegeLevelRequired, packageCondition, conditionOverride, ];
+
+  List<Object?> get props => [
+        privilegeLevelRequired,
+        packageCondition,
+        conditionOverride,
+      ];
 
   @override
   String toString() {
     return 'DisplayConditionsEntity{privilegeLevelRequired: $privilegeLevelRequired, packageCondition: $packageCondition, conditionOverride: $conditionOverride}';
   }
 
-  static DisplayConditionsEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static DisplayConditionsEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return DisplayConditionsEntity(
-      privilegeLevelRequired: map['privilegeLevelRequired'], 
-      packageCondition: map['packageCondition'], 
-      conditionOverride: map['conditionOverride'], 
+      privilegeLevelRequired: map['privilegeLevelRequired'],
+      packageCondition: map['packageCondition'],
+      conditionOverride: map['conditionOverride'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
-      else theDocument["privilegeLevelRequired"] = null;
-    if (packageCondition != null) theDocument["packageCondition"] = packageCondition;
-      else theDocument["packageCondition"] = null;
-    if (conditionOverride != null) theDocument["conditionOverride"] = conditionOverride;
-      else theDocument["conditionOverride"] = null;
+    if (privilegeLevelRequired != null) {
+      theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
+    } else {
+      theDocument["privilegeLevelRequired"] = null;
+    }
+    if (packageCondition != null) {
+      theDocument["packageCondition"] = packageCondition;
+    } else {
+      theDocument["packageCondition"] = null;
+    }
+    if (conditionOverride != null) {
+      theDocument["conditionOverride"] = conditionOverride;
+    } else {
+      theDocument["conditionOverride"] = null;
+    }
     return theDocument;
   }
 
@@ -62,7 +91,8 @@ class DisplayConditionsEntity implements EntityBase {
     return newEntity;
   }
 
-  static DisplayConditionsEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static DisplayConditionsEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -71,9 +101,9 @@ class DisplayConditionsEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

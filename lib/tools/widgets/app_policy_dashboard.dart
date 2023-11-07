@@ -51,7 +51,7 @@ class AppPolicyDashboard {
     openComplexDialog(
       app,
       context,
-      app.documentID + '/app_policy',
+      '${app.documentID}/app_policy',
       title: create ? 'Create Policy' : 'Update Policy',
       includeHeading: false,
       widthFraction: .9,
@@ -71,9 +71,9 @@ class AppPolicyDashboardWidget extends StatefulWidget {
   final AppModel app;
 
   const AppPolicyDashboardWidget({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() => _AppPolicyDashboardWidgetState();
@@ -150,9 +150,11 @@ class _AppPolicyDashboardWidgetState extends State<AppPolicyDashboardWidget> {
                               app: widget.app,
                               readOnly: appPolicyState.values != null &&
                                   appPolicyState.values!.isNotEmpty,
-                              value: appPolicyState.appPolicy.conditions ?? StorageConditionsModel(
-                                  privilegeLevelRequired:
-                                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                              value: appPolicyState.appPolicy.conditions ??
+                                  StorageConditionsModel(
+                                      privilegeLevelRequired:
+                                          PrivilegeLevelRequiredSimple
+                                              .noPrivilegeRequiredSimple),
                             )),
                       ]),
                 ]);
@@ -174,7 +176,7 @@ class _AppPolicyDashboardWidgetState extends State<AppPolicyDashboardWidget> {
         widgets.add(GestureDetector(
             onTap: () {
               openAckNackDialog(widget.app, context,
-                  widget.app.documentID + '/policy_delete_image',
+                  '${widget.app.documentID}/policy_delete_image',
                   title: 'Confirm',
                   message: 'Delete page?', onSelection: (value) async {
                 if (value == 0) {

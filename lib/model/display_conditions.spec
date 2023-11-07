@@ -25,7 +25,7 @@
       "remark": "see firestore rules",
       "fieldType": "enum",
       "enumName": "PrivilegeLevelRequired",
-      "enumValues" : [ "NoPrivilegeRequired", "Level1PrivilegeRequired", "Level2PrivilegeRequired", "OwnerPrivilegeRequired" ],
+      "enumValues" : [ "noPrivilegeRequired", "level1PrivilegeRequired", "level2PrivilegeRequired", "ownerPrivilegeRequired" ],
       "defaultValue": "0",
       "group": "conditional"
     },
@@ -44,7 +44,7 @@
       "remark": "see firestore rules",
       "fieldType": "enum",
       "enumName": "ConditionOverride",
-      "enumValues" : [ "ExactPrivilege", "InclusiveForBlockedMembers", "ExclusiveForBlockedMember" ],
+      "enumValues" : [ "exactPrivilege", "inclusiveForBlockedMembers", "exclusiveForBlockedMember" ],
       "group": "conditional3"
     }
   ],

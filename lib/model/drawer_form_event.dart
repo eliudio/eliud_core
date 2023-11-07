@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class DrawerFormEvent extends Equatable {
   const DrawerFormEvent();
@@ -26,15 +25,13 @@ abstract class DrawerFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewDrawerFormEvent extends DrawerFormEvent {
-}
-
+class InitialiseNewDrawerFormEvent extends DrawerFormEvent {}
 
 class InitialiseDrawerFormEvent extends DrawerFormEvent {
   final DrawerModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseDrawerFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseDrawerFormNoLoadEvent extends DrawerFormEvent {
   final DrawerModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseDrawerFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedDrawerDocumentID extends DrawerFormEvent {
   ChangedDrawerDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedDrawerAppId extends DrawerFormEvent {
   ChangedDrawerAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedDrawerName extends DrawerFormEvent {
   ChangedDrawerName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerName{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedDrawerBackgroundOverride extends DrawerFormEvent {
   ChangedDrawerBackgroundOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerBackgroundOverride{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedDrawerHeaderText extends DrawerFormEvent {
   ChangedDrawerHeaderText({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerHeaderText{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedDrawerSecondHeaderText extends DrawerFormEvent {
   ChangedDrawerSecondHeaderText({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerSecondHeaderText{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedDrawerHeaderHeight extends DrawerFormEvent {
   ChangedDrawerHeaderHeight({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerHeaderHeight{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedDrawerPopupMenuBackgroundColor extends DrawerFormEvent {
   ChangedDrawerPopupMenuBackgroundColor({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerPopupMenuBackgroundColor{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedDrawerHeaderBackgroundOverride extends DrawerFormEvent {
   ChangedDrawerHeaderBackgroundOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerHeaderBackgroundOverride{ value: $value }';
@@ -162,10 +159,11 @@ class ChangedDrawerPopupMenuBackgroundColorOverride extends DrawerFormEvent {
   ChangedDrawerPopupMenuBackgroundColorOverride({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedDrawerPopupMenuBackgroundColorOverride{ value: $value }';
+  String toString() =>
+      'ChangedDrawerPopupMenuBackgroundColorOverride{ value: $value }';
 }
 
 class ChangedDrawerMenu extends DrawerFormEvent {
@@ -174,9 +172,8 @@ class ChangedDrawerMenu extends DrawerFormEvent {
   ChangedDrawerMenu({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDrawerMenu{ value: $value }';
 }
-

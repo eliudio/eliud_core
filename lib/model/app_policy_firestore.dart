@@ -15,11 +15,9 @@
 
 import 'package:eliud_core/model/app_policy_repository.dart';
 
-
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
-
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -33,86 +31,115 @@ class AppPolicyFirestore implements AppPolicyRepository {
     return AppPolicyEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  @override
   Future<AppPolicyEntity> addEntity(String documentID, AppPolicyEntity value) {
-    return AppPolicyCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+    return appPolicyCollection
+        .doc(documentID)
+        .set(value.toDocument())
+        .then((_) => value);
   }
 
-  Future<AppPolicyEntity> updateEntity(String documentID, AppPolicyEntity value) {
-    return AppPolicyCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  @override
+  Future<AppPolicyEntity> updateEntity(
+      String documentID, AppPolicyEntity value) {
+    return appPolicyCollection
+        .doc(documentID)
+        .update(value.toDocument())
+        .then((_) => value);
   }
 
+  @override
   Future<AppPolicyModel> add(AppPolicyModel value) {
-    return AppPolicyCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return appPolicyCollection
+        .doc(value.documentID)
+        .set(value.toEntity(appId: appId).toDocument())
+        .then((_) => value);
   }
 
+  @override
   Future<void> delete(AppPolicyModel value) {
-    return AppPolicyCollection.doc(value.documentID).delete();
+    return appPolicyCollection.doc(value.documentID).delete();
   }
 
+  @override
   Future<AppPolicyModel> update(AppPolicyModel value) {
-    return AppPolicyCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return appPolicyCollection
+        .doc(value.documentID)
+        .update(value.toEntity(appId: appId).toDocument())
+        .then((_) => value);
   }
 
   Future<AppPolicyModel?> _populateDoc(DocumentSnapshot value) async {
-    return AppPolicyModel.fromEntity(value.id, AppPolicyEntity.fromMap(value.data()));
+    return AppPolicyModel.fromEntity(
+        value.id, AppPolicyEntity.fromMap(value.data()));
   }
 
   Future<AppPolicyModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return AppPolicyModel.fromEntityPlus(value.id, AppPolicyEntity.fromMap(value.data()), appId: appId);  }
+    return AppPolicyModel.fromEntityPlus(
+        value.id, AppPolicyEntity.fromMap(value.data()),
+        appId: appId);
+  }
 
-  Future<AppPolicyEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+  @override
+  Future<AppPolicyEntity?> getEntity(String? id,
+      {Function(Exception)? onError}) async {
     try {
-      var collection = AppPolicyCollection.doc(id);
+      var collection = appPolicyCollection.doc(id);
       var doc = await collection.get();
       return AppPolicyEntity.fromMap(doc.data());
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving AppPolicy with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
-  Future<AppPolicyModel?> get(String? id, {Function(Exception)? onError}) async {
+  @override
+  Future<AppPolicyModel?> get(String? id,
+      {Function(Exception)? onError}) async {
     try {
-      var collection = AppPolicyCollection.doc(id);
+      var collection = appPolicyCollection.doc(id);
       var doc = await collection.get();
       return await _populateDocPlus(doc);
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving AppPolicy with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
-  StreamSubscription<List<AppPolicyModel?>> listen(AppPolicyModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  @override
+  StreamSubscription<List<AppPolicyModel?>> listen(
+      AppPolicyModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     Stream<List<AppPolicyModel?>> stream;
-    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(getCollection(),
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
 //  see comment listen(...) above
-//  stream = getQuery(AppPolicyCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+//  stream = getQuery(appPolicyCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
-    });
-
-    return stream.listen((listOfAppPolicyModels) {
-      trigger(listOfAppPolicyModels);
-    });
-  }
-
-  StreamSubscription<List<AppPolicyModel?>> listenWithDetails(AppPolicyModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    Stream<List<AppPolicyModel?>> stream;
-    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
-//  see comment listen(...) above
-//  stream = getQuery(AppPolicyCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+      return await Future.wait(
+          data.docs.map((doc) => _populateDoc(doc)).toList());
     });
 
     return stream.listen((listOfAppPolicyModels) {
@@ -121,10 +148,42 @@ return null;
   }
 
   @override
-  StreamSubscription<AppPolicyModel?> listenTo(String documentId, AppPolicyChanged changed, {AppPolicyErrorHandler? errorHandler}) {
-    var stream = AppPolicyCollection.doc(documentId)
+  StreamSubscription<List<AppPolicyModel?>> listenWithDetails(
+      AppPolicyModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    Stream<List<AppPolicyModel?>> stream;
+    stream = getQuery(getCollection(),
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
         .snapshots()
-        .asyncMap((data) {
+//  see comment listen(...) above
+//  stream = getQuery(appPolicyCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(
+          data.docs.map((doc) => _populateDocPlus(doc)).toList());
+    });
+
+    return stream.listen((listOfAppPolicyModels) {
+      trigger(listOfAppPolicyModels);
+    });
+  }
+
+  @override
+  StreamSubscription<AppPolicyModel?> listenTo(
+      String documentId, AppPolicyChanged changed,
+      {AppPolicyErrorHandler? errorHandler}) {
+    var stream =
+        appPolicyCollection.doc(documentId).snapshots().asyncMap((data) {
       return _populateDocPlus(data);
     });
     var theStream = stream.listen((value) {
@@ -138,33 +197,84 @@ return null;
     return theStream;
   }
 
-  Stream<List<AppPolicyModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  @override
+  Stream<List<AppPolicyModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     DocumentSnapshot? lastDoc;
-    Stream<List<AppPolicyModel?>> _values = getQuery(AppPolicyCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
+    Stream<List<AppPolicyModel?>> values = getQuery(appPolicyCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
+        .asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Stream<List<AppPolicyModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  @override
+  Stream<List<AppPolicyModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     DocumentSnapshot? lastDoc;
-    Stream<List<AppPolicyModel?>> _values = getQuery(AppPolicyCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
+    Stream<List<AppPolicyModel?>> values = getQuery(appPolicyCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
+        .asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Future<List<AppPolicyModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+  @override
+  Future<List<AppPolicyModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
     DocumentSnapshot? lastDoc;
-    List<AppPolicyModel?> _values = await getQuery(AppPolicyCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
+    List<AppPolicyModel?> values = await getQuery(appPolicyCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .get()
+        .then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -172,12 +282,29 @@ return null;
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Future<List<AppPolicyModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+  @override
+  Future<List<AppPolicyModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
     DocumentSnapshot? lastDoc;
-    List<AppPolicyModel?> _values = await getQuery(AppPolicyCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
+    List<AppPolicyModel?> values = await getQuery(appPolicyCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .get()
+        .then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -185,37 +312,44 @@ return null;
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
+  @override
   void flush() {}
 
+  @override
   Future<void> deleteAll() {
-    return AppPolicyCollection.get().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.docs){
+    return appPolicyCollection.get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
         ds.reference.delete();
       }
     });
   }
 
+  @override
   dynamic getSubCollection(String documentId, String name) {
-    return AppPolicyCollection.doc(documentId).collection(name);
+    return appPolicyCollection.doc(documentId).collection(name);
   }
 
+  @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
-  } 
-
-  Future<AppPolicyModel?> changeValue(String documentId, String fieldName, num changeByThisValue) {
-    var change = FieldValue.increment(changeByThisValue);
-    return AppPolicyCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }
 
+  @override
+  Future<AppPolicyModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return appPolicyCollection
+        .doc(documentId)
+        .update({fieldName: change}).then((v) => get(documentId));
+  }
 
   final String appId;
-  AppPolicyFirestore(this.getCollection, this.appId): AppPolicyCollection = getCollection();
+  AppPolicyFirestore(this.getCollection, this.appId)
+      : appPolicyCollection = getCollection();
 
-  final CollectionReference AppPolicyCollection;
+  final CollectionReference appPolicyCollection;
   final GetCollection getCollection;
 }
-

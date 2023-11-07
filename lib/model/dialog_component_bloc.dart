@@ -20,8 +20,8 @@ import 'package:eliud_core/model/dialog_component_event.dart';
 import 'package:eliud_core/model/dialog_component_state.dart';
 import 'package:eliud_core/model/dialog_repository.dart';
 
-
-class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentState> {
+class DialogComponentBloc
+    extends Bloc<DialogComponentEvent, DialogComponentState> {
   final DialogRepository? dialogRepository;
   StreamSubscription? _dialogSubscription;
 
@@ -34,11 +34,12 @@ class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentStat
     });
   }
 
-  DialogComponentBloc({ this.dialogRepository }): super(DialogComponentUninitialized()) {
-    on <FetchDialogComponent> ((event, emit) {
+  DialogComponentBloc({this.dialogRepository})
+      : super(DialogComponentUninitialized()) {
+    on<FetchDialogComponent>((event, emit) {
       _mapLoadDialogComponentUpdateToState(event.id!);
     });
-    on <DialogComponentUpdated> ((event, emit) {
+    on<DialogComponentUpdated>((event, emit) {
       emit(DialogComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +49,4 @@ class DialogComponentBloc extends Bloc<DialogComponentEvent, DialogComponentStat
     _dialogSubscription?.cancel();
     return super.close();
   }
-
 }
-

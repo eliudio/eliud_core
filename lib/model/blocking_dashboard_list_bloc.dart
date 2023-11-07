@@ -23,11 +23,11 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'blocking_dashboard_model.dart';
 
-typedef List<BlockingDashboardModel?> FilterBlockingDashboardModels(List<BlockingDashboardModel?> values);
+typedef FilterBlockingDashboardModels = List<BlockingDashboardModel?> Function(
+    List<BlockingDashboardModel?> values);
 
-
-
-class BlockingDashboardListBloc extends Bloc<BlockingDashboardListEvent, BlockingDashboardListState> {
+class BlockingDashboardListBloc
+    extends Bloc<BlockingDashboardListEvent, BlockingDashboardListState> {
   final FilterBlockingDashboardModels? filter;
   final BlockingDashboardRepository _blockingDashboardRepository;
   StreamSubscription? _blockingDashboardsListSubscription;
@@ -39,23 +39,32 @@ class BlockingDashboardListBloc extends Bloc<BlockingDashboardListEvent, Blockin
   final bool? detailed;
   final int blockingDashboardLimit;
 
-  BlockingDashboardListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required BlockingDashboardRepository blockingDashboardRepository, this.blockingDashboardLimit = 5})
+  BlockingDashboardListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required BlockingDashboardRepository blockingDashboardRepository,
+      this.blockingDashboardLimit = 5})
       : _blockingDashboardRepository = blockingDashboardRepository,
         super(BlockingDashboardListLoading()) {
-    on <LoadBlockingDashboardList> ((event, emit) {
+    on<LoadBlockingDashboardList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadBlockingDashboardListToState();
       } else {
         _mapLoadBlockingDashboardListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadBlockingDashboardListWithDetailsToState();
     });
-    
-    on <BlockingDashboardChangeQuery> ((event, emit) {
+
+    on<BlockingDashboardChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadBlockingDashboardListToState();
@@ -63,25 +72,26 @@ class BlockingDashboardListBloc extends Bloc<BlockingDashboardListEvent, Blockin
         _mapLoadBlockingDashboardListWithDetailsToState();
       }
     });
-      
-    on <AddBlockingDashboardList> ((event, emit) async {
+
+    on<AddBlockingDashboardList>((event, emit) async {
       await _mapAddBlockingDashboardListToState(event);
     });
-    
-    on <UpdateBlockingDashboardList> ((event, emit) async {
+
+    on<UpdateBlockingDashboardList>((event, emit) async {
       await _mapUpdateBlockingDashboardListToState(event);
     });
-    
-    on <DeleteBlockingDashboardList> ((event, emit) async {
+
+    on<DeleteBlockingDashboardList>((event, emit) async {
       await _mapDeleteBlockingDashboardListToState(event);
     });
-    
-    on <BlockingDashboardListUpdated> ((event, emit) {
+
+    on<BlockingDashboardListUpdated>((event, emit) {
       emit(_mapBlockingDashboardListUpdatedToState(event));
     });
   }
 
-  List<BlockingDashboardModel?> _filter(List<BlockingDashboardModel?> original) {
+  List<BlockingDashboardModel?> _filter(
+      List<BlockingDashboardModel?> original) {
     if (filter != null) {
       return filter!(original);
     } else {
@@ -90,44 +100,56 @@ class BlockingDashboardListBloc extends Bloc<BlockingDashboardListEvent, Blockin
   }
 
   Future<void> _mapLoadBlockingDashboardListToState() async {
-    int amountNow =  (state is BlockingDashboardListLoaded) ? (state as BlockingDashboardListLoaded).values!.length : 0;
+    int amountNow = (state is BlockingDashboardListLoaded)
+        ? (state as BlockingDashboardListLoaded).values!.length
+        : 0;
     _blockingDashboardsListSubscription?.cancel();
     _blockingDashboardsListSubscription = _blockingDashboardRepository.listen(
-          (list) => add(BlockingDashboardListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * blockingDashboardLimit : null
-    );
-  }
-
-  Future<void> _mapLoadBlockingDashboardListWithDetailsToState() async {
-    int amountNow =  (state is BlockingDashboardListLoaded) ? (state as BlockingDashboardListLoaded).values!.length : 0;
-    _blockingDashboardsListSubscription?.cancel();
-    _blockingDashboardsListSubscription = _blockingDashboardRepository.listenWithDetails(
-            (list) => add(BlockingDashboardListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(BlockingDashboardListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * blockingDashboardLimit : null
-    );
+        limit: ((paged != null) && paged!)
+            ? pages * blockingDashboardLimit
+            : null);
   }
 
-  Future<void> _mapAddBlockingDashboardListToState(AddBlockingDashboardList event) async {
+  Future<void> _mapLoadBlockingDashboardListWithDetailsToState() async {
+    int amountNow = (state is BlockingDashboardListLoaded)
+        ? (state as BlockingDashboardListLoaded).values!.length
+        : 0;
+    _blockingDashboardsListSubscription?.cancel();
+    _blockingDashboardsListSubscription =
+        _blockingDashboardRepository.listenWithDetails(
+            (list) => add(BlockingDashboardListUpdated(
+                value: _filter(list), mightHaveMore: amountNow != list.length)),
+            orderBy: orderBy,
+            descending: descending,
+            eliudQuery: eliudQuery,
+            limit: ((paged != null) && paged!)
+                ? pages * blockingDashboardLimit
+                : null);
+  }
+
+  Future<void> _mapAddBlockingDashboardListToState(
+      AddBlockingDashboardList event) async {
     var value = event.value;
     if (value != null) {
       await _blockingDashboardRepository.add(value);
     }
   }
 
-  Future<void> _mapUpdateBlockingDashboardListToState(UpdateBlockingDashboardList event) async {
+  Future<void> _mapUpdateBlockingDashboardListToState(
+      UpdateBlockingDashboardList event) async {
     var value = event.value;
     if (value != null) {
       await _blockingDashboardRepository.update(value);
     }
   }
 
-  Future<void> _mapDeleteBlockingDashboardListToState(DeleteBlockingDashboardList event) async {
+  Future<void> _mapDeleteBlockingDashboardListToState(
+      DeleteBlockingDashboardList event) async {
     var value = event.value;
     if (value != null) {
       await _blockingDashboardRepository.delete(value);
@@ -135,7 +157,9 @@ class BlockingDashboardListBloc extends Bloc<BlockingDashboardListEvent, Blockin
   }
 
   BlockingDashboardListLoaded _mapBlockingDashboardListUpdatedToState(
-      BlockingDashboardListUpdated event) => BlockingDashboardListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          BlockingDashboardListUpdated event) =>
+      BlockingDashboardListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +167,3 @@ class BlockingDashboardListBloc extends Bloc<BlockingDashboardListEvent, Blockin
     return super.close();
   }
 }
-
-

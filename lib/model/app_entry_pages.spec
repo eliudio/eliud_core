@@ -54,7 +54,7 @@
     }
   ],
   "listFields": {
-    "title": "value.entryPage!.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.documentID)) : Container()",
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.documentID))",
     "subTitle": "value.entryPage!.title != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.entryPage!.title!)) : Container()"
   }
 }

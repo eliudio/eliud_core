@@ -4,15 +4,13 @@ import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/menu_item_model.dart';
 import 'package:eliud_core/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 abstract class NewAppWizardInfoWithActionSpecification
     extends NewAppWizardInfo {
   final String wizardWidgetLabel;
 
   NewAppWizardInfoWithActionSpecification(
-      String newAppWizardName, String displayName, this.wizardWidgetLabel)
-      : super(newAppWizardName, displayName);
+      super.newAppWizardName, super.displayName, this.wizardWidgetLabel);
 
   @override
   List<MenuItemModel>? getMenuItemsFor(String uniqueId, AppModel app,
@@ -22,8 +20,7 @@ abstract class NewAppWizardInfoWithActionSpecification
         return getThoseMenuItems(uniqueId, app);
       }
     } else {
-      throw Exception(
-          'Unexpected class for parameters: ' + parameters.toString());
+      throw Exception('Unexpected class for parameters: $parameters');
     }
     return null;
   }
@@ -39,8 +36,7 @@ abstract class NewAppWizardInfoWithActionSpecification
           actionSpecification: parameters.actionSpecifications,
           label: wizardWidgetLabel);
     } else {
-      return text(app, context,
-          'Unexpected class for parameters: ' + parameters.toString());
+      return text(app, context, 'Unexpected class for parameters: $parameters');
     }
   }
 

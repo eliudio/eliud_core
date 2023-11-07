@@ -16,7 +16,7 @@ class MenuHelper {
       RgbModel? popupMenuBackgroundColor}) async {
     var popupMenuItems = <PopupMenuItem<int>>[];
     var i = 0;
-    menuItems.forEach((element) {
+    for (var element in menuItems) {
       var label = element.label ?? '?';
       var p = PopupMenuItem<int>(
           value: i,
@@ -25,7 +25,7 @@ class MenuHelper {
               : _frontEndStyle.textStyle().h4(app, context, label));
       popupMenuItems.add(p);
       i++;
-    });
+    }
 
     final result = await showMenu<int>(
         context: context,

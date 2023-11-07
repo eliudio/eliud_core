@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'app_policy_model.dart';
 
-typedef List<AppPolicyModel?> FilterAppPolicyModels(List<AppPolicyModel?> values);
-
-
+typedef FilterAppPolicyModels = List<AppPolicyModel?> Function(
+    List<AppPolicyModel?> values);
 
 class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   final FilterAppPolicyModels? filter;
@@ -39,23 +38,32 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   final bool? detailed;
   final int appPolicyLimit;
 
-  AppPolicyListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppPolicyRepository appPolicyRepository, this.appPolicyLimit = 5})
+  AppPolicyListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required AppPolicyRepository appPolicyRepository,
+      this.appPolicyLimit = 5})
       : _appPolicyRepository = appPolicyRepository,
         super(AppPolicyListLoading()) {
-    on <LoadAppPolicyList> ((event, emit) {
+    on<LoadAppPolicyList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadAppPolicyListToState();
       } else {
         _mapLoadAppPolicyListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadAppPolicyListWithDetailsToState();
     });
-    
-    on <AppPolicyChangeQuery> ((event, emit) {
+
+    on<AppPolicyChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadAppPolicyListToState();
@@ -63,20 +71,20 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
         _mapLoadAppPolicyListWithDetailsToState();
       }
     });
-      
-    on <AddAppPolicyList> ((event, emit) async {
+
+    on<AddAppPolicyList>((event, emit) async {
       await _mapAddAppPolicyListToState(event);
     });
-    
-    on <UpdateAppPolicyList> ((event, emit) async {
+
+    on<UpdateAppPolicyList>((event, emit) async {
       await _mapUpdateAppPolicyListToState(event);
     });
-    
-    on <DeleteAppPolicyList> ((event, emit) async {
+
+    on<DeleteAppPolicyList>((event, emit) async {
       await _mapDeleteAppPolicyListToState(event);
     });
-    
-    on <AppPolicyListUpdated> ((event, emit) {
+
+    on<AppPolicyListUpdated>((event, emit) {
       emit(_mapAppPolicyListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   }
 
   Future<void> _mapLoadAppPolicyListToState() async {
-    int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values!.length : 0;
+    int amountNow = (state is AppPolicyListLoaded)
+        ? (state as AppPolicyListLoaded).values!.length
+        : 0;
     _appPolicysListSubscription?.cancel();
     _appPolicysListSubscription = _appPolicyRepository.listen(
-          (list) => add(AppPolicyListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * appPolicyLimit : null
-    );
-  }
-
-  Future<void> _mapLoadAppPolicyListWithDetailsToState() async {
-    int amountNow =  (state is AppPolicyListLoaded) ? (state as AppPolicyListLoaded).values!.length : 0;
-    _appPolicysListSubscription?.cancel();
-    _appPolicysListSubscription = _appPolicyRepository.listenWithDetails(
-            (list) => add(AppPolicyListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(AppPolicyListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * appPolicyLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * appPolicyLimit : null);
+  }
+
+  Future<void> _mapLoadAppPolicyListWithDetailsToState() async {
+    int amountNow = (state is AppPolicyListLoaded)
+        ? (state as AppPolicyListLoaded).values!.length
+        : 0;
+    _appPolicysListSubscription?.cancel();
+    _appPolicysListSubscription = _appPolicyRepository.listenWithDetails(
+        (list) => add(AppPolicyListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * appPolicyLimit : null);
   }
 
   Future<void> _mapAddAppPolicyListToState(AddAppPolicyList event) async {
@@ -135,7 +147,9 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
   }
 
   AppPolicyListLoaded _mapAppPolicyListUpdatedToState(
-      AppPolicyListUpdated event) => AppPolicyListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          AppPolicyListUpdated event) =>
+      AppPolicyListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +157,3 @@ class AppPolicyListBloc extends Bloc<AppPolicyListEvent, AppPolicyListState> {
     return super.close();
   }
 }
-
-

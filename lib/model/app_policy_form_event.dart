@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class AppPolicyFormEvent extends Equatable {
   const AppPolicyFormEvent();
@@ -26,15 +25,13 @@ abstract class AppPolicyFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewAppPolicyFormEvent extends AppPolicyFormEvent {
-}
-
+class InitialiseNewAppPolicyFormEvent extends AppPolicyFormEvent {}
 
 class InitialiseAppPolicyFormEvent extends AppPolicyFormEvent {
   final AppPolicyModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseAppPolicyFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseAppPolicyFormNoLoadEvent extends AppPolicyFormEvent {
   final AppPolicyModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseAppPolicyFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedAppPolicyDocumentID extends AppPolicyFormEvent {
   ChangedAppPolicyDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppPolicyDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedAppPolicyAppId extends AppPolicyFormEvent {
   ChangedAppPolicyAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppPolicyAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedAppPolicyName extends AppPolicyFormEvent {
   ChangedAppPolicyName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppPolicyName{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedAppPolicyPolicy extends AppPolicyFormEvent {
   ChangedAppPolicyPolicy({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppPolicyPolicy{ value: $value }';
@@ -102,9 +99,8 @@ class ChangedAppPolicyConditions extends AppPolicyFormEvent {
   ChangedAppPolicyConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedAppPolicyConditions{ value: $value }';
 }
-

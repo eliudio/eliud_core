@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'app_bar_model.dart';
 
-typedef List<AppBarModel?> FilterAppBarModels(List<AppBarModel?> values);
-
-
+typedef FilterAppBarModels = List<AppBarModel?> Function(
+    List<AppBarModel?> values);
 
 class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final FilterAppBarModels? filter;
@@ -39,23 +38,32 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   final bool? detailed;
   final int appBarLimit;
 
-  AppBarListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppBarRepository appBarRepository, this.appBarLimit = 5})
+  AppBarListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required AppBarRepository appBarRepository,
+      this.appBarLimit = 5})
       : _appBarRepository = appBarRepository,
         super(AppBarListLoading()) {
-    on <LoadAppBarList> ((event, emit) {
+    on<LoadAppBarList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadAppBarListToState();
       } else {
         _mapLoadAppBarListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadAppBarListWithDetailsToState();
     });
-    
-    on <AppBarChangeQuery> ((event, emit) {
+
+    on<AppBarChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadAppBarListToState();
@@ -63,20 +71,20 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
         _mapLoadAppBarListWithDetailsToState();
       }
     });
-      
-    on <AddAppBarList> ((event, emit) async {
+
+    on<AddAppBarList>((event, emit) async {
       await _mapAddAppBarListToState(event);
     });
-    
-    on <UpdateAppBarList> ((event, emit) async {
+
+    on<UpdateAppBarList>((event, emit) async {
       await _mapUpdateAppBarListToState(event);
     });
-    
-    on <DeleteAppBarList> ((event, emit) async {
+
+    on<DeleteAppBarList>((event, emit) async {
       await _mapDeleteAppBarListToState(event);
     });
-    
-    on <AppBarListUpdated> ((event, emit) {
+
+    on<AppBarListUpdated>((event, emit) {
       emit(_mapAppBarListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
   }
 
   Future<void> _mapLoadAppBarListToState() async {
-    int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values!.length : 0;
+    int amountNow = (state is AppBarListLoaded)
+        ? (state as AppBarListLoaded).values!.length
+        : 0;
     _appBarsListSubscription?.cancel();
     _appBarsListSubscription = _appBarRepository.listen(
-          (list) => add(AppBarListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * appBarLimit : null
-    );
-  }
-
-  Future<void> _mapLoadAppBarListWithDetailsToState() async {
-    int amountNow =  (state is AppBarListLoaded) ? (state as AppBarListLoaded).values!.length : 0;
-    _appBarsListSubscription?.cancel();
-    _appBarsListSubscription = _appBarRepository.listenWithDetails(
-            (list) => add(AppBarListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(AppBarListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * appBarLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * appBarLimit : null);
+  }
+
+  Future<void> _mapLoadAppBarListWithDetailsToState() async {
+    int amountNow = (state is AppBarListLoaded)
+        ? (state as AppBarListLoaded).values!.length
+        : 0;
+    _appBarsListSubscription?.cancel();
+    _appBarsListSubscription = _appBarRepository.listenWithDetails(
+        (list) => add(AppBarListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * appBarLimit : null);
   }
 
   Future<void> _mapAddAppBarListToState(AddAppBarList event) async {
@@ -134,8 +146,8 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
     }
   }
 
-  AppBarListLoaded _mapAppBarListUpdatedToState(
-      AppBarListUpdated event) => AppBarListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  AppBarListLoaded _mapAppBarListUpdatedToState(AppBarListUpdated event) =>
+      AppBarListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +155,3 @@ class AppBarListBloc extends Bloc<AppBarListEvent, AppBarListState> {
     return super.close();
   }
 }
-
-

@@ -20,31 +20,46 @@ import 'package:eliud_core/core/base/entity_base.dart';
 class StorageConditionsEntity implements EntityBase {
   final int? privilegeLevelRequired;
 
-  StorageConditionsEntity({this.privilegeLevelRequired, });
+  StorageConditionsEntity({
+    this.privilegeLevelRequired,
+  });
 
-  StorageConditionsEntity copyWith({int? privilegeLevelRequired, }) {
-    return StorageConditionsEntity(privilegeLevelRequired : privilegeLevelRequired ?? this.privilegeLevelRequired, );
+  StorageConditionsEntity copyWith({
+    int? privilegeLevelRequired,
+  }) {
+    return StorageConditionsEntity(
+      privilegeLevelRequired:
+          privilegeLevelRequired ?? this.privilegeLevelRequired,
+    );
   }
-  List<Object?> get props => [privilegeLevelRequired, ];
+
+  List<Object?> get props => [
+        privilegeLevelRequired,
+      ];
 
   @override
   String toString() {
     return 'StorageConditionsEntity{privilegeLevelRequired: $privilegeLevelRequired}';
   }
 
-  static StorageConditionsEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static StorageConditionsEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return StorageConditionsEntity(
-      privilegeLevelRequired: map['privilegeLevelRequired'], 
+      privilegeLevelRequired: map['privilegeLevelRequired'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (privilegeLevelRequired != null) theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
-      else theDocument["privilegeLevelRequired"] = null;
+    if (privilegeLevelRequired != null) {
+      theDocument["privilegeLevelRequired"] = privilegeLevelRequired;
+    } else {
+      theDocument["privilegeLevelRequired"] = null;
+    }
     return theDocument;
   }
 
@@ -54,7 +69,8 @@ class StorageConditionsEntity implements EntityBase {
     return newEntity;
   }
 
-  static StorageConditionsEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static StorageConditionsEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -63,9 +79,9 @@ class StorageConditionsEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

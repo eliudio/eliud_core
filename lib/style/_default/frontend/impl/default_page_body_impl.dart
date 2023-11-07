@@ -18,6 +18,10 @@ class DefaultPageBodyImpl implements HasPageBody {
       required List<Widget> components,
       Layout? layout,
       GridViewModel? gridView}) {
-    return PageBodyHelper(_frontEndStyle).pageBody(app, context, components: components, layout: layout, gridView: gridView, background: backgroundOverride);
+    return PageBodyHelper(_frontEndStyle).pageBody(app, context,
+        components: components,
+        layout: layout,
+        gridView: gridView,
+        background: backgroundOverride);
   }
 }

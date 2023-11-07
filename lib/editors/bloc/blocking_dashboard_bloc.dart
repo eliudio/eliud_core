@@ -8,8 +8,7 @@ import 'package:eliud_core/tools/random.dart';
 import '../../model/blocking_dashboard_entity.dart';
 
 class BlockingDashboardBloc
-    extends EditorBaseBloc<BlockingDashboardModel, BlockingDashboardEntity > {
-
+    extends EditorBaseBloc<BlockingDashboardModel, BlockingDashboardEntity> {
   BlockingDashboardBloc(String appId, EditorFeedback feedback)
       : super(appId, blockingDashboardRepository(appId: appId)!, feedback);
 
@@ -24,7 +23,8 @@ class BlockingDashboardBloc
   }
 
   @override
-  BlockingDashboardModel setDefaultValues(BlockingDashboardModel t, StorageConditionsModel conditions) {
+  BlockingDashboardModel setDefaultValues(
+      BlockingDashboardModel t, StorageConditionsModel conditions) {
     return t.copyWith(conditions: t.conditions ?? conditions);
   }
 }

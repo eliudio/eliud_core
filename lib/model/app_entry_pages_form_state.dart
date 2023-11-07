@@ -41,9 +41,9 @@ class AppEntryPagesFormInitialized extends AppEntryPagesFormState {
   final AppEntryPagesModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const AppEntryPagesFormInitialized({ this.value });
+  const AppEntryPagesFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class AppEntryPagesFormError extends AppEntryPagesFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const AppEntryPagesFormError({this.message, AppEntryPagesModel? value }) : super(value: value);
+  const AppEntryPagesFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class AppEntryPagesFormError extends AppEntryPagesFormInitialized {
     }''';
   }
 }
-class DocumentIDAppEntryPagesFormError extends AppEntryPagesFormError { 
-  const DocumentIDAppEntryPagesFormError({ String? message, AppEntryPagesModel? value }): super(message: message, value: value);
+
+class DocumentIDAppEntryPagesFormError extends AppEntryPagesFormError {
+  const DocumentIDAppEntryPagesFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDAppEntryPagesFormError extends AppEntryPagesFormError {
   }
 }
 
-
-class EntryPageAppEntryPagesFormError extends AppEntryPagesFormError { 
-  const EntryPageAppEntryPagesFormError({ String? message, AppEntryPagesModel? value }): super(message: message, value: value);
+class EntryPageAppEntryPagesFormError extends AppEntryPagesFormError {
+  const EntryPageAppEntryPagesFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class EntryPageAppEntryPagesFormError extends AppEntryPagesFormError {
   }
 }
 
-
-class MinPrivilegeAppEntryPagesFormError extends AppEntryPagesFormError { 
-  const MinPrivilegeAppEntryPagesFormError({ String? message, AppEntryPagesModel? value }): super(message: message, value: value);
+class MinPrivilegeAppEntryPagesFormError extends AppEntryPagesFormError {
+  const MinPrivilegeAppEntryPagesFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class MinPrivilegeAppEntryPagesFormError extends AppEntryPagesFormError {
   }
 }
 
-
-class AppEntryPagesFormLoaded extends AppEntryPagesFormInitialized { 
-  const AppEntryPagesFormLoaded({ AppEntryPagesModel? value }): super(value: value);
+class AppEntryPagesFormLoaded extends AppEntryPagesFormInitialized {
+  const AppEntryPagesFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -125,12 +123,11 @@ class AppEntryPagesFormLoaded extends AppEntryPagesFormInitialized {
   }
 }
 
-
-class SubmittableAppEntryPagesForm extends AppEntryPagesFormInitialized { 
-  const SubmittableAppEntryPagesForm({ AppEntryPagesModel? value }): super(value: value);
+class SubmittableAppEntryPagesForm extends AppEntryPagesFormInitialized {
+  const SubmittableAppEntryPagesForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -139,5 +136,3 @@ class SubmittableAppEntryPagesForm extends AppEntryPagesFormInitialized {
     }''';
   }
 }
-
-

@@ -20,7 +20,8 @@ import 'package:eliud_core/model/grid_view_component_event.dart';
 import 'package:eliud_core/model/grid_view_component_state.dart';
 import 'package:eliud_core/model/grid_view_repository.dart';
 
-class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewComponentState> {
+class GridViewComponentBloc
+    extends Bloc<GridViewComponentEvent, GridViewComponentState> {
   final GridViewRepository? gridViewRepository;
   StreamSubscription? _gridViewSubscription;
 
@@ -33,11 +34,12 @@ class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewCompone
     });
   }
 
-  GridViewComponentBloc({ this.gridViewRepository }): super(GridViewComponentUninitialized()) {
-    on <FetchGridViewComponent> ((event, emit) {
+  GridViewComponentBloc({this.gridViewRepository})
+      : super(GridViewComponentUninitialized()) {
+    on<FetchGridViewComponent>((event, emit) {
       _mapLoadGridViewComponentUpdateToState(event.id!);
     });
-    on <GridViewComponentUpdated> ((event, emit) {
+    on<GridViewComponentUpdated>((event, emit) {
       emit(GridViewComponentLoaded(value: event.value));
     });
   }
@@ -47,6 +49,4 @@ class GridViewComponentBloc extends Bloc<GridViewComponentEvent, GridViewCompone
     _gridViewSubscription?.cancel();
     return super.close();
   }
-
 }
-

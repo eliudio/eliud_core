@@ -8,7 +8,8 @@ import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_bloc.dart';
 
 import '../../../../model/grid_view_entity.dart';
 
-class GridViewDashboardBloc extends EditorBaseBloc<GridViewModel, GridViewEntity> {
+class GridViewDashboardBloc
+    extends EditorBaseBloc<GridViewModel, GridViewEntity> {
   GridViewDashboardBloc(String appId, EditorFeedback feedback)
       : super(appId, gridViewRepository(appId: appId)!, feedback);
 
@@ -18,13 +19,13 @@ class GridViewDashboardBloc extends EditorBaseBloc<GridViewModel, GridViewEntity
         documentID: newRandomKey(),
         appId: appId,
         name: 'Gridview 4 columns',
-        type: GridViewGridType.Count,
+        type: GridViewGridType.count,
         crossAxisCount: 4,
         childAspectRatio: 1,
         padding: 4,
         mainAxisSpacing: 4,
         crossAxisSpacing: 4,
-        scrollDirection: GridViewScrollDirection.Horizontal,
+        scrollDirection: GridViewScrollDirection.horizontal,
         conditions: conditions);
   }
 
@@ -33,13 +34,13 @@ class GridViewDashboardBloc extends EditorBaseBloc<GridViewModel, GridViewEntity
       GridViewModel t, StorageConditionsModel conditions) {
     return t.copyWith(
       name: t.name ?? 'Gridview',
-      type: t.type ?? GridViewGridType.Count,
+      type: t.type ?? GridViewGridType.count,
       crossAxisCount: t.crossAxisCount ?? 4,
       childAspectRatio: t.childAspectRatio ?? 1,
       padding: t.padding ?? 4,
       mainAxisSpacing: t.mainAxisSpacing ?? 4,
       crossAxisSpacing: t.crossAxisSpacing ?? 4,
-      scrollDirection: t.scrollDirection ?? GridViewScrollDirection.Horizontal,
+      scrollDirection: t.scrollDirection ?? GridViewScrollDirection.horizontal,
       appId: t.appId,
       conditions: t.conditions ?? conditions,
     );

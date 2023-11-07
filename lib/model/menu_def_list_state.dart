@@ -33,18 +33,20 @@ class MenuDefListLoaded extends MenuDefListState {
   const MenuDefListLoaded({this.mightHaveMore, this.values = const []});
 
   @override
-  List<Object?> get props => [ values, mightHaveMore ];
+  List<Object?> get props => [values, mightHaveMore];
 
   @override
   String toString() => 'MenuDefListLoaded { values: $values }';
 
   @override
-  bool operator ==(Object other) => 
-          other is MenuDefListLoaded &&
-              runtimeType == other.runtimeType &&
-              ListEquality().equals(values, other.values) &&
-              mightHaveMore == other.mightHaveMore;
+  bool operator ==(Object other) =>
+      other is MenuDefListLoaded &&
+      runtimeType == other.runtimeType &&
+      ListEquality().equals(values, other.values) &&
+      mightHaveMore == other.mightHaveMore;
+
+  @override
+  int get hashCode => values.hashCode ^ mightHaveMore.hashCode;
 }
 
 class MenuDefNotLoaded extends MenuDefListState {}
-

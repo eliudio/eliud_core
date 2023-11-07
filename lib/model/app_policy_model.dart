@@ -19,37 +19,58 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/app_policy_entity.dart';
-
-
-
 
 class AppPolicyModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
   static const String id = 'appPolicys';
 
+  @override
   String documentID;
+  @override
   String appId;
   String? name;
   PlatformMediumModel? policy;
   StorageConditionsModel? conditions;
 
-  AppPolicyModel({required this.documentID, required this.appId, this.name, this.policy, this.conditions, })  {
-  }
+  AppPolicyModel({
+    required this.documentID,
+    required this.appId,
+    this.name,
+    this.policy,
+    this.conditions,
+  });
 
-  AppPolicyModel copyWith({String? documentID, String? appId, String? name, PlatformMediumModel? policy, StorageConditionsModel? conditions, }) {
-    return AppPolicyModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, policy: policy ?? this.policy, conditions: conditions ?? this.conditions, );
+  @override
+  AppPolicyModel copyWith({
+    String? documentID,
+    String? appId,
+    String? name,
+    PlatformMediumModel? policy,
+    StorageConditionsModel? conditions,
+  }) {
+    return AppPolicyModel(
+      documentID: documentID ?? this.documentID,
+      appId: appId ?? this.appId,
+      name: name ?? this.name,
+      policy: policy ?? this.policy,
+      conditions: conditions ?? this.conditions,
+    );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ policy.hashCode ^ conditions.hashCode;
+  int get hashCode =>
+      documentID.hashCode ^
+      appId.hashCode ^
+      name.hashCode ^
+      policy.hashCode ^
+      conditions.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is AppPolicyModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is AppPolicyModel &&
+          runtimeType == other.runtimeType &&
           documentID == other.documentID &&
           appId == other.appId &&
           name == other.name &&
@@ -61,61 +82,70 @@ class AppPolicyModel implements ModelBase, WithAppId {
     return 'AppPolicyModel{documentID: $documentID, appId: $appId, name: $name, policy: $policy, conditions: $conditions}';
   }
 
+  @override
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
     if (policy != null) {
-      referencesCollector.add(ModelReference(PlatformMediumModel.packageName, PlatformMediumModel.id, policy!));
+      referencesCollector.add(ModelReference(
+          PlatformMediumModel.packageName, PlatformMediumModel.id, policy!));
     }
-    if (policy != null) referencesCollector.addAll(await policy!.collectReferences(appId: appId));
-    if (conditions != null) referencesCollector.addAll(await conditions!.collectReferences(appId: appId));
+    if (policy != null) {
+      referencesCollector.addAll(await policy!.collectReferences(appId: appId));
+    }
+    if (conditions != null) {
+      referencesCollector
+          .addAll(await conditions!.collectReferences(appId: appId));
+    }
     return referencesCollector;
   }
 
+  @override
   AppPolicyEntity toEntity({String? appId}) {
     return AppPolicyEntity(
-          appId: (appId != null) ? appId : null, 
-          name: (name != null) ? name : null, 
-          policyId: (policy != null) ? policy!.documentID : null, 
-          conditions: (conditions != null) ? conditions!.toEntity(appId: appId) : null, 
+      appId: appId,
+      name: (name != null) ? name : null,
+      policyId: (policy != null) ? policy!.documentID : null,
+      conditions:
+          (conditions != null) ? conditions!.toEntity(appId: appId) : null,
     );
   }
 
-  static Future<AppPolicyModel?> fromEntity(String documentID, AppPolicyEntity? entity) async {
+  static Future<AppPolicyModel?> fromEntity(
+      String documentID, AppPolicyEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return AppPolicyModel(
-          documentID: documentID, 
-          appId: entity.appId ?? '', 
-          name: entity.name, 
-          conditions: 
-            await StorageConditionsModel.fromEntity(entity.conditions), 
+      documentID: documentID,
+      appId: entity.appId ?? '',
+      name: entity.name,
+      conditions: await StorageConditionsModel.fromEntity(entity.conditions),
     );
   }
 
-  static Future<AppPolicyModel?> fromEntityPlus(String documentID, AppPolicyEntity? entity, { String? appId}) async {
+  static Future<AppPolicyModel?> fromEntityPlus(
+      String documentID, AppPolicyEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
     PlatformMediumModel? policyHolder;
     if (entity.policyId != null) {
       try {
-          policyHolder = await platformMediumRepository(appId: appId)!.get(entity.policyId);
-      } on Exception catch(e) {
+        policyHolder =
+            await platformMediumRepository(appId: appId)!.get(entity.policyId);
+      } on Exception catch (e) {
         print('Error whilst trying to initialise policy');
-        print('Error whilst retrieving platformMedium with id ${entity.policyId}');
+        print(
+            'Error whilst retrieving platformMedium with id ${entity.policyId}');
         print('Exception: $e');
       }
     }
 
-    var counter = 0;
     return AppPolicyModel(
-          documentID: documentID, 
-          appId: entity.appId ?? '', 
-          name: entity.name, 
-          policy: policyHolder, 
-          conditions: 
-            await StorageConditionsModel.fromEntityPlus(entity.conditions, appId: appId), 
+      documentID: documentID,
+      appId: entity.appId ?? '',
+      name: entity.name,
+      policy: policyHolder,
+      conditions: await StorageConditionsModel.fromEntityPlus(entity.conditions,
+          appId: appId),
     );
   }
-
 }
-

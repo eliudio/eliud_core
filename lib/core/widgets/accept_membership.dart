@@ -32,11 +32,11 @@ class AcceptMembershipWidget extends StatefulWidget {
     this.app,
     this.member,
     this.usr, {
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _AcceptMembershipWidgetState createState() => _AcceptMembershipWidgetState();
+  State<AcceptMembershipWidget> createState() => _AcceptMembershipWidgetState();
 }
 
 class CheckboxHandler {
@@ -50,7 +50,7 @@ class CheckboxHandler {
   }
 }
 
-typedef void CheckboxFeedBack(CheckboxHandler newValue);
+typedef CheckboxFeedBack = void Function(CheckboxHandler newValue);
 
 class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
     with SingleTickerProviderStateMixin {
@@ -68,8 +68,8 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
 
   Future<List<AppPolicyModel>> getPolicies() async {
     if (policies == null) {
-      var appPolicies =
-      await appPolicyRepository(appId: widget.app.documentID)!.valuesListWithDetails();
+      var appPolicies = await appPolicyRepository(appId: widget.app.documentID)!
+          .valuesListWithDetails();
       policies = <AppPolicyModel>[];
       checked = <CheckboxHandler>[];
       for (var appPolicy in appPolicies) {
@@ -137,9 +137,7 @@ class _AcceptMembershipWidgetState extends State<AcceptMembershipWidget>
                     policies: policies!,
                     checked: checked!,
                     feedback: (_) {
-                      setState(() {
-
-                      });
+                      setState(() {});
                     },
                   );
                 } else {
@@ -164,11 +162,11 @@ class AcceptPoliciesWidget extends StatefulWidget {
     required this.policies,
     required this.checked,
     required this.feedback,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
-  _AcceptPoliciesWidgetState createState() => _AcceptPoliciesWidgetState();
+  State<AcceptPoliciesWidget> createState() => _AcceptPoliciesWidgetState();
 }
 
 class _AcceptPoliciesWidgetState extends State<AcceptPoliciesWidget>
@@ -179,7 +177,7 @@ class _AcceptPoliciesWidgetState extends State<AcceptPoliciesWidget>
       openWidgetDialog(
         widget.app,
         context,
-        (widget.app.documentID + '/_policy'),
+        ('${widget.app.documentID}/_policy'),
         child: PlatformMediumDialog(
           app: widget.app,
           width: 100,
@@ -188,7 +186,7 @@ class _AcceptPoliciesWidgetState extends State<AcceptPoliciesWidget>
         ),
       );
     } else {
-      openErrorDialog(widget.app, context, widget.app.documentID + '/_error',
+      openErrorDialog(widget.app, context, '${widget.app.documentID}/_error',
           title: 'Problem', errorMessage: 'Policy has no pages');
     }
   }
@@ -198,34 +196,36 @@ class _AcceptPoliciesWidgetState extends State<AcceptPoliciesWidget>
     var contents = <Widget>[];
 
     var i = 0;
-    if (widget.policies != null) {
-      for (var policy in widget.policies) {
-        var handler = widget.checked[i];
-        contents.add(Row(children: [
-          Container(
-              height: 40,
-              child: Center(
-                  child: Checkbox(
-                value: handler.value,
-                onChanged: (newValue) {
-                  setState(() {
-                    handler.value = newValue;
-                    widget.feedback(handler);
-                  });
-                },
-              ))),
-          Spacer(),
-          text(widget.app, context, policy.name!),
-          Spacer(),
-          button(widget.app, context, label: 'Read', onPressed: () async {
-            _openPolicy(policy.name, handler.item);
-          }),
-        ]));
-        i++;
-      }
+//    if (widget.policies != null) {
+    for (var policy in widget.policies) {
+      var handler = widget.checked[i];
+      contents.add(Row(children: [
+        Container(
+            height: 40,
+            child: Center(
+                child: Checkbox(
+              value: handler.value,
+              onChanged: (newValue) {
+                setState(() {
+                  handler.value = newValue;
+                  widget.feedback(handler);
+                });
+              },
+            ))),
+        Spacer(),
+        text(widget.app, context, policy.name!),
+        Spacer(),
+        button(widget.app, context, label: 'Read', onPressed: () async {
+          _openPolicy(policy.name, handler.item);
+        }),
+      ]));
+      i++;
+    }
+/*
     } else {
       contents.add(text(widget.app, context, 'No policies to approve'));
     }
+*/
     return ListView(children: contents);
   }
 }

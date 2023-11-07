@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import '../style_registry.dart';
 import 'types.dart';
 
-enum DrawerType { Left, Right }
+enum DrawerType { left, right }
 
 class DrawerHeader1Attributes {
   final double? height;
@@ -66,4 +66,3 @@ Drawer drawer(AppModel app, BuildContext context,
             backgroundOverride: backgroundOverride,
             popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride,
             items: items);
-

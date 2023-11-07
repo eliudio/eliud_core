@@ -14,14 +14,14 @@ class PublicMediumDialog extends StatefulWidget {
 
   PublicMediumDialog({
     required this.app,
-    Key? key,
+    super.key,
     this.title,
     required this.publicMediumModel,
     this.width,
-  }) : super(key: key);
+  });
 
   @override
-  _PublicMediumState createState() => _PublicMediumState();
+  State<PublicMediumDialog> createState() => _PublicMediumState();
 }
 
 class _PublicMediumState extends State<PublicMediumDialog> {
@@ -37,18 +37,20 @@ class _PublicMediumState extends State<PublicMediumDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return complexDialog(widget.app, context, title: widget.title!, child: FutureBuilder<List<MediumInfo>>(
-        future: buildImagesList(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Container(
-                width: widget.width,
-                height: height(context) - 130,
-                child: getAllImages(context, snapshot.data!));
-          } else {
-            return progressIndicator(widget.app, context);
-          }
-        }));
+    return complexDialog(widget.app, context,
+        title: widget.title!,
+        child: FutureBuilder<List<MediumInfo>>(
+            future: buildImagesList(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return Container(
+                    width: widget.width,
+                    height: height(context) - 130,
+                    child: getAllImages(context, snapshot.data!));
+              } else {
+                return progressIndicator(widget.app, context);
+              }
+            }));
   }
 
   Widget getAllImages(BuildContext context, List<MediumInfo> infos) {

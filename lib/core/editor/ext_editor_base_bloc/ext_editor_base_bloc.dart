@@ -30,14 +30,14 @@ abstract class ExtEditorBaseBloc<T extends ModelBase, U, V>
           modelWithLinks = newInstance(
             StorageConditionsModel(
                 privilegeLevelRequired:
-                PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                    PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
           );
         } else {
           modelWithLinks = setDefaultValues(
               modelWithLinks,
               StorageConditionsModel(
                   privilegeLevelRequired:
-                  PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple));
+                      PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple));
         }
         emit(ExtEditorBaseInitialised(
           model: modelWithLinks,

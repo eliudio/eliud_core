@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/app_component_bloc.dart';
 import 'package:eliud_core/model/app_component_event.dart';
 import 'package:eliud_core/model/app_model.dart';
@@ -30,20 +29,21 @@ abstract class AbstractAppComponent extends StatelessWidget {
   final AppModel app;
   final String appId;
 
-  AbstractAppComponent({Key? key, required this.app, required this.appId}): super(key: key);
+  AbstractAppComponent({super.key, required this.app, required this.appId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<AppComponentBloc> (
-          create: (context) => AppComponentBloc(
-            appRepository: appRepository(appId: app.documentID)!)
-        ..add(FetchAppComponent(id: appId)),
+    return BlocProvider<AppComponentBloc>(
+      create: (context) =>
+          AppComponentBloc(appRepository: appRepository(appId: app.documentID)!)
+            ..add(FetchAppComponent(id: appId)),
       child: _appBlockBuilder(context),
     );
   }
 
   Widget _appBlockBuilder(BuildContext context) {
-    return BlocBuilder<AppComponentBloc, AppComponentState>(builder: (context, state) {
+    return BlocBuilder<AppComponentBloc, AppComponentState>(
+        builder: (context, state) {
       if (state is AppComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is AppComponentPermissionDenied) {
@@ -56,7 +56,11 @@ abstract class AbstractAppComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -64,4 +68,3 @@ abstract class AbstractAppComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, AppModel value);
 }
-

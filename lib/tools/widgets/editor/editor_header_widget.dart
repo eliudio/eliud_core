@@ -11,11 +11,11 @@ class EditorHeaderWidget extends StatefulWidget {
   final VoidCallbackFutureSuccess okAction;
 
   EditorHeaderWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.cancelAction,
     required this.okAction,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {

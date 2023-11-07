@@ -30,10 +30,10 @@ class NewPage extends MemberPublicInfoListEvent {}
 class AddMemberPublicInfoList extends MemberPublicInfoListEvent {
   final MemberPublicInfoModel? value;
 
-  const AddMemberPublicInfoList({ this.value });
+  const AddMemberPublicInfoList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddMemberPublicInfoList{ value: $value }';
@@ -42,10 +42,10 @@ class AddMemberPublicInfoList extends MemberPublicInfoListEvent {
 class UpdateMemberPublicInfoList extends MemberPublicInfoListEvent {
   final MemberPublicInfoModel? value;
 
-  const UpdateMemberPublicInfoList({ this.value });
+  const UpdateMemberPublicInfoList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateMemberPublicInfoList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateMemberPublicInfoList extends MemberPublicInfoListEvent {
 class DeleteMemberPublicInfoList extends MemberPublicInfoListEvent {
   final MemberPublicInfoModel? value;
 
-  const DeleteMemberPublicInfoList({ this.value });
+  const DeleteMemberPublicInfoList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteMemberPublicInfoList{ value: $value }';
@@ -67,24 +67,24 @@ class MemberPublicInfoListUpdated extends MemberPublicInfoListEvent {
   final List<MemberPublicInfoModel?>? value;
   final bool? mightHaveMore;
 
-  const MemberPublicInfoListUpdated({ this.value, this.mightHaveMore });
+  const MemberPublicInfoListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'MemberPublicInfoListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'MemberPublicInfoListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class MemberPublicInfoChangeQuery extends MemberPublicInfoListEvent {
   final EliudQuery? newQuery;
 
-  const MemberPublicInfoChangeQuery({ required this.newQuery });
+  const MemberPublicInfoChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'MemberPublicInfoChangeQuery{ value: $newQuery }';
 }
-

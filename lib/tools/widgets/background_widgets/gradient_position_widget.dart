@@ -1,10 +1,9 @@
-
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/style/frontend/has_container.dart';
 import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:flutter/material.dart';
 
-typedef GradientPositionChanged(int? value);
+typedef GradientPositionChanged = Function(int? value);
 
 class GradientPositionWidget extends StatefulWidget {
   final AppModel app;
@@ -14,22 +13,24 @@ class GradientPositionWidget extends StatefulWidget {
   final GradientPositionChanged gradientPositionChanged;
 
   GradientPositionWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.label,
     required this.groupValue,
     required this.value,
     required this.gradientPositionChanged,
-  }) : super(key: key);
+  });
 
   @override
-  _GradientPositionState createState() => _GradientPositionState();
+  State<GradientPositionWidget> createState() => _GradientPositionState();
 }
 
 class _GradientPositionState extends State<GradientPositionWidget> {
   @override
   Widget build(BuildContext context) {
-    return topicContainer(widget.app, context,
+    return topicContainer(
+      widget.app,
+      context,
       title: widget.label,
       collapsible: true,
       collapsed: true,

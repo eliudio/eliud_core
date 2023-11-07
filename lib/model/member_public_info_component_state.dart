@@ -23,24 +23,26 @@ abstract class MemberPublicInfoComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class MemberPublicInfoComponentUninitialized extends MemberPublicInfoComponentState {}
+class MemberPublicInfoComponentUninitialized
+    extends MemberPublicInfoComponentState {}
 
 class MemberPublicInfoComponentError extends MemberPublicInfoComponentState {
   final String? message;
-  MemberPublicInfoComponentError({ this.message });
+  MemberPublicInfoComponentError({this.message});
 }
 
-class MemberPublicInfoComponentPermissionDenied extends MemberPublicInfoComponentState {
+class MemberPublicInfoComponentPermissionDenied
+    extends MemberPublicInfoComponentState {
   MemberPublicInfoComponentPermissionDenied();
 }
 
 class MemberPublicInfoComponentLoaded extends MemberPublicInfoComponentState {
   final MemberPublicInfoModel value;
 
-  const MemberPublicInfoComponentLoaded({ required this.value });
+  const MemberPublicInfoComponentLoaded({required this.value});
 
-  MemberPublicInfoComponentLoaded copyWith({ MemberPublicInfoModel? copyThis }) {
-    return MemberPublicInfoComponentLoaded(value: copyThis ?? this.value);
+  MemberPublicInfoComponentLoaded copyWith({MemberPublicInfoModel? copyThis}) {
+    return MemberPublicInfoComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +51,3 @@ class MemberPublicInfoComponentLoaded extends MemberPublicInfoComponentState {
   @override
   String toString() => 'MemberPublicInfoComponentLoaded { value: $value }';
 }
-

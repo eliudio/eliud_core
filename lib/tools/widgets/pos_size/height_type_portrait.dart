@@ -8,15 +8,14 @@ typedef HeightTypePortraitCallback = Function(
     HeightTypePortrait heightTypePortrait);
 
 class HeightTypePortraitWidget extends StatefulWidget {
-  HeightTypePortraitCallback heightTypePortraitCallback;
+  final HeightTypePortraitCallback heightTypePortraitCallback;
   final HeightTypePortrait heightTypePortrait;
   final AppModel app;
   HeightTypePortraitWidget(
-      {Key? key,
-        required this.app,
-        required this.heightTypePortraitCallback,
-        required this.heightTypePortrait})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.heightTypePortraitCallback,
+      required this.heightTypePortrait});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,17 +26,23 @@ class HeightTypePortraitWidget extends StatefulWidget {
 class _HeightTypePortraitWidgetState extends State<HeightTypePortraitWidget> {
   int? _heightTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _heightTypeSelectedRadioTile = widget.heightTypePortrait.index;
   }
 
-  String heighttTypePortraitStringValue(HeightTypePortrait? heightTypePortrait) {
+  String heighttTypePortraitStringValue(
+      HeightTypePortrait? heightTypePortrait) {
     switch (heightTypePortrait) {
-      case HeightTypePortrait.AbsoluteHeight:
+      case HeightTypePortrait.absoluteHeight:
         return 'Absolute Height';
-      case HeightTypePortrait.PercentageHeight:
+      case HeightTypePortrait.percentageHeight:
         return 'Percentage Height';
+      case HeightTypePortrait.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -60,15 +65,14 @@ class _HeightTypePortraitWidgetState extends State<HeightTypePortraitWidget> {
             _heightTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(HeightTypePortrait.PercentageHeight),
-      getPrivilegeOption(HeightTypePortrait.AbsoluteHeight)
+      getPrivilegeOption(HeightTypePortrait.percentageHeight),
+      getPrivilegeOption(HeightTypePortrait.absoluteHeight)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }
-

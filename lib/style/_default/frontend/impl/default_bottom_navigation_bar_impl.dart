@@ -13,23 +13,23 @@ class DefaultBottomNavigationBarImpl implements HasBottomNavigationBar {
 
   DefaultBottomNavigationBarImpl(this._frontEndStyle);
 
-  Widget getIconExcl(AppModel app, BuildContext context, AbstractMenuItemAttributes item) {
+  Widget getIconExcl(
+      AppModel app, BuildContext context, AbstractMenuItemAttributes item) {
     if (item.icon != null) {
       return item.isActive
-          ? _frontEndStyle
-              .iconStyle()
-              .h3Icon(app, context, icon: item.icon!)
-          : _frontEndStyle
-              .iconStyle()
-              .h4Icon(app, context, icon: item.icon!);
+          ? _frontEndStyle.iconStyle().h3Icon(app, context, icon: item.icon!)
+          : _frontEndStyle.iconStyle().h4Icon(app, context, icon: item.icon!);
     } else {
-      return Icon(Icons.circle, );
+      return Icon(
+        Icons.circle,
+      );
     }
   }
 
   @override
-  Widget bottomNavigationBar(AppModel app,
-      BuildContext context, {
+  Widget bottomNavigationBar(
+    AppModel app,
+    BuildContext context, {
     required MemberModel? member,
     BackgroundModel? backgroundOverride,
     RgbModel? popupMenuBackgroundColorOverride,
@@ -39,37 +39,37 @@ class DefaultBottomNavigationBarImpl implements HasBottomNavigationBar {
     var background = backgroundOverride;
 
     return Container(
-        clipBehavior: BoxDecorationHelper.determineClipBehaviour(app, member, background),
+        clipBehavior:
+            BoxDecorationHelper.determineClipBehaviour(app, member, background),
         margin: BoxDecorationHelper.determineMargin(app, member, background),
         padding: BoxDecorationHelper.determinePadding(app, member, background),
         decoration: BoxDecorationHelper.boxDecoration(app, member, background),
         child: BottomNavigationBar(
-              key: key,
-              elevation: 0,
-              selectedFontSize: 18,
-                unselectedFontSize: 14,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Colors.transparent,
-                onTap: (item) {
-                  var theItem = items[item];
-                  if (theItem is MenuItemAttributes) {
-                    theItem.onTap();
-                  } else if (theItem is MenuItemWithMenuItems) {
-                    _frontEndStyle.menuStyle().openMenu(app, context,
-                        position:
-                            RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
-                        menuItems: theItem.items,
-                        popupMenuBackgroundColorOverride:
-                            popupMenuBackgroundColorOverride);
-                  }
-                },
-                currentIndex: 0,
-                fixedColor: Colors.teal,
-                items: items.map((item) {
-                  return BottomNavigationBarItem(
-                    label: item.label,
-                    icon: getIconExcl(app, context, item),
-                  );
-                }).toList()));
+            key: key,
+            elevation: 0,
+            selectedFontSize: 18,
+            unselectedFontSize: 14,
+            type: BottomNavigationBarType.fixed,
+            backgroundColor: Colors.transparent,
+            onTap: (item) {
+              var theItem = items[item];
+              if (theItem is MenuItemAttributes) {
+                theItem.onTap();
+              } else if (theItem is MenuItemWithMenuItems) {
+                _frontEndStyle.menuStyle().openMenu(app, context,
+                    position: RelativeRect.fromLTRB(1000.0, 1000.0, 0.0, 0.0),
+                    menuItems: theItem.items,
+                    popupMenuBackgroundColorOverride:
+                        popupMenuBackgroundColorOverride);
+              }
+            },
+            currentIndex: 0,
+            fixedColor: Colors.teal,
+            items: items.map((item) {
+              return BottomNavigationBarItem(
+                label: item.label,
+                icon: getIconExcl(app, context, item),
+              );
+            }).toList()));
   }
 }

@@ -4,13 +4,14 @@ import 'package:eliud_core/style/frontend/has_text_form_field.dart';
 import 'package:flutter/material.dart';
 
 class DefaultTextFormFieldImpl implements HasTexFormField {
-  final FrontEndStyle _frontEndStyle;
+  final FrontEndStyle theFontEndStyle;
 
-  DefaultTextFormFieldImpl(this._frontEndStyle);
+  DefaultTextFormFieldImpl(this.theFontEndStyle);
 
   @override
-  Widget textFormField(AppModel app,
-      BuildContext context, {
+  Widget textFormField(
+    AppModel app,
+    BuildContext context, {
     required bool readOnly,
     String? initialValue,
     FormFieldValidator<String>? validator,
@@ -32,22 +33,24 @@ class DefaultTextFormFieldImpl implements HasTexFormField {
   }
 
   @override
-  Widget textField(AppModel app, BuildContext context,
-      {required bool readOnly,
-      String? initialValue,
-      FormFieldValidator<String>? validator,
-      TextInputType? keyboardType,
-      IconData? icon,
-      String? labelText,
-      String? hintText,
-      int? maxLines,
-      ValueChanged<String>? onChanged,
-      TextEditingController? textEditingController,
-      TextAlign? textAlign,
-      TextInputAction? textInputAction,
-      ValueChanged<String>? onSubmitted,
-      TextEditingController? controller,
-      }) {
+  Widget textField(
+    AppModel app,
+    BuildContext context, {
+    required bool readOnly,
+    String? initialValue,
+    FormFieldValidator<String>? validator,
+    TextInputType? keyboardType,
+    IconData? icon,
+    String? labelText,
+    String? hintText,
+    int? maxLines,
+    ValueChanged<String>? onChanged,
+    TextEditingController? textEditingController,
+    TextAlign? textAlign,
+    TextInputAction? textInputAction,
+    ValueChanged<String>? onSubmitted,
+    TextEditingController? controller,
+  }) {
     return TextField(
       textAlign: TextAlign.left,
       textInputAction: TextInputAction.go,

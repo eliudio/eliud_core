@@ -24,13 +24,11 @@ abstract class DialogComponentEvent extends Equatable {
 class FetchDialogComponent extends DialogComponentEvent {
   final String? id;
 
-  FetchDialogComponent({ this.id });
+  FetchDialogComponent({this.id});
 }
 
 class DialogComponentUpdated extends DialogComponentEvent {
   final DialogModel value;
 
-  DialogComponentUpdated({ required this.value });
+  DialogComponentUpdated({required this.value});
 }
-
-

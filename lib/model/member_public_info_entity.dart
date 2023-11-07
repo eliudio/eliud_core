@@ -23,55 +23,85 @@ class MemberPublicInfoEntity implements EntityBase {
   final String? photoURL;
   final List<MemberSubscriptionEntity>? subscriptions;
 
-  MemberPublicInfoEntity({this.name, this.photoURL, this.subscriptions, });
+  MemberPublicInfoEntity({
+    this.name,
+    this.photoURL,
+    this.subscriptions,
+  });
 
-  MemberPublicInfoEntity copyWith({String? documentID, String? name, String? photoURL, List<MemberSubscriptionEntity>? subscriptions, }) {
-    return MemberPublicInfoEntity(name : name ?? this.name, photoURL : photoURL ?? this.photoURL, subscriptions : subscriptions ?? this.subscriptions, );
+  MemberPublicInfoEntity copyWith({
+    String? documentID,
+    String? name,
+    String? photoURL,
+    List<MemberSubscriptionEntity>? subscriptions,
+  }) {
+    return MemberPublicInfoEntity(
+      name: name ?? this.name,
+      photoURL: photoURL ?? this.photoURL,
+      subscriptions: subscriptions ?? this.subscriptions,
+    );
   }
-  List<Object?> get props => [name, photoURL, subscriptions, ];
+
+  List<Object?> get props => [
+        name,
+        photoURL,
+        subscriptions,
+      ];
 
   @override
   String toString() {
-    String subscriptionsCsv = (subscriptions == null) ? '' : subscriptions!.join(', ');
+    String subscriptionsCsv =
+        (subscriptions == null) ? '' : subscriptions!.join(', ');
 
     return 'MemberPublicInfoEntity{name: $name, photoURL: $photoURL, subscriptions: MemberSubscription[] { $subscriptionsCsv }}';
   }
 
-  static MemberPublicInfoEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static MemberPublicInfoEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
-    var subscriptionsFromMap;
-    subscriptionsFromMap = map['subscriptions'];
+    var subscriptionsFromMap = map['subscriptions'];
     List<MemberSubscriptionEntity> subscriptionsList;
     if (subscriptionsFromMap != null) {
       subscriptionsList = (map['subscriptions'] as List<dynamic>)
-        .map((dynamic item) =>
-        MemberSubscriptionEntity.fromMap(item as Map, newDocumentIds: newDocumentIds)!)
-        .toList();
+          .map((dynamic item) => MemberSubscriptionEntity.fromMap(item as Map,
+              newDocumentIds: newDocumentIds)!)
+          .toList();
     } else {
       subscriptionsList = [];
     }
 
     return MemberPublicInfoEntity(
-      name: map['name'], 
-      photoURL: map['photoURL'], 
-      subscriptions: subscriptionsList, 
+      name: map['name'],
+      photoURL: map['photoURL'],
+      subscriptions: subscriptionsList,
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
-    final List<Map<String?, dynamic>>? subscriptionsListMap = subscriptions != null 
-        ? subscriptions!.map((item) => item.toDocument()).toList()
-        : null;
+    final List<Map<String?, dynamic>>? subscriptionsListMap =
+        subscriptions != null
+            ? subscriptions!.map((item) => item.toDocument()).toList()
+            : null;
 
     Map<String, Object?> theDocument = HashMap();
-    if (name != null) theDocument["name"] = name;
-      else theDocument["name"] = null;
-    if (photoURL != null) theDocument["photoURL"] = photoURL;
-      else theDocument["photoURL"] = null;
-    if (subscriptions != null) theDocument["subscriptions"] = subscriptionsListMap;
-      else theDocument["subscriptions"] = null;
+    if (name != null) {
+      theDocument["name"] = name;
+    } else {
+      theDocument["name"] = null;
+    }
+    if (photoURL != null) {
+      theDocument["photoURL"] = photoURL;
+    } else {
+      theDocument["photoURL"] = null;
+    }
+    if (subscriptions != null) {
+      theDocument["subscriptions"] = subscriptionsListMap;
+    } else {
+      theDocument["subscriptions"] = null;
+    }
     return theDocument;
   }
 
@@ -81,7 +111,8 @@ class MemberPublicInfoEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberPublicInfoEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static MemberPublicInfoEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -90,9 +121,9 @@ class MemberPublicInfoEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

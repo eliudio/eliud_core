@@ -15,8 +15,8 @@ abstract class Param {
 
   String replaceParamInStringWithString(String toReplace, String value) {
     var part1 = toReplace.substring(0, position);
-    var part2 = toReplace.substring(
-        original.length + position + 3, toReplace.length);
+    var part2 =
+        toReplace.substring(original.length + position + 3, toReplace.length);
     return part1 + value + part2;
   }
 }
@@ -25,7 +25,7 @@ class KeyValue extends Param {
   final String key;
   final String value;
 
-  KeyValue(int position, String original, this.key, this.value) : super(position, original);
+  KeyValue(super.position, super.original, this.key, this.value);
 
   @override
   String toString() {
@@ -46,7 +46,7 @@ class KeyValue extends Param {
 }
 
 class SingleValue extends Param {
-  SingleValue(int position, String original) : super(position, original);
+  SingleValue(super.position, super.original);
 
   @override
   String toString() {
@@ -63,12 +63,12 @@ class Tuple {
   Tuple(this.key, this.value);
 }
 
-const String USER_NAME = 'userName';
-const String USER_GROUP = 'userGroup';
-const String SCREEN_WIDTH_BY_FACTOR = 'screenWidthByFactor';
-const String SCREEN_HEIGHT_BY_FACTOR = 'screenHeightByFactor';
-
 class DocumentParameterProcessor {
+  static String paramUserName = 'userName';
+  static String paramUserGroup = 'userGroup';
+  static String paramScreenWidthByFactor = 'screenWidthByFactor';
+  static String paramScreenHeightByFactor = 'screenHeightByFactor';
+
   final BuildContext context;
   final AppModel app;
 
@@ -93,7 +93,7 @@ class DocumentParameterProcessor {
     return null;
   }
 
-  String? userName()  {
+  String? userName() {
     var member = AccessBloc.member(context);
     if (member == null) {
       return 'Not logged on';
@@ -112,31 +112,40 @@ class DocumentParameterProcessor {
     }
   }
 
-  String otherKeyValue(String myString, KeyValue k) { return 'unknown ' + k.key;}
-  String otherSingleValue(String myString, SingleValue p) { return p.replaceParamInStringWithString(myString, '?');}
-  String otherParam(String myString, Param s) { return s.replaceParamInStringWithString(myString, '?');}
+  String otherKeyValue(String myString, KeyValue k) {
+    return 'unknown ${k.key}';
+  }
+
+  String otherSingleValue(String myString, SingleValue p) {
+    return p.replaceParamInStringWithString(myString, '?');
+  }
+
+  String otherParam(String myString, Param s) {
+    return s.replaceParamInStringWithString(myString, '?');
+  }
 
   String process(String documentContent) {
     var myString = documentContent;
     var p = param(myString);
-    while(p != null) {
+    while (p != null) {
       if (p is KeyValue) {
         var k = p;
-        if (k.key == SCREEN_WIDTH_BY_FACTOR) {
+        if (k.key == paramScreenWidthByFactor) {
           var size = fullScreenWidth(context) * k.doubleValue(1);
           myString = k.replaceParamInStringWithDouble(myString, size);
-        } else if (k.key == SCREEN_HEIGHT_BY_FACTOR) {
+        } else if (k.key == paramScreenHeightByFactor) {
           var size = fullScreenHeight(context) * k.doubleValue(1);
           myString = k.replaceParamInStringWithDouble(myString, size);
         } else {
           myString = otherKeyValue(myString, k);
         }
       } else if (p is SingleValue) {
-        if (p.value() == USER_NAME) {
-          var usr = userName() ?? '?'
-              '';
+        if (p.value() == paramUserName) {
+          var usr = userName() ??
+              '?'
+                  '';
           myString = p.replaceParamInStringWithString(myString, usr);
-        } else if (p.value() == USER_GROUP) {
+        } else if (p.value() == paramUserGroup) {
           var usr = userGroup();
           myString = p.replaceParamInStringWithString(myString, usr);
         } else {

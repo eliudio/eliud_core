@@ -40,13 +40,12 @@ class BlockingDashboardComponentConstructorDefault
 }
 
 class BlockingDashboard extends AbstractBlockingDashboardComponent {
-  Map<String, dynamic>? parameters;
+  final Map<String, dynamic>? parameters;
 
   BlockingDashboard(
-      {Key? key, required AppModel app, required String id, this.parameters})
-      : super(key: key, app: app, blockingDashboardId: id);
+      {super.key, required super.app, required String id, this.parameters})
+      : super(blockingDashboardId: id);
 
-  @override
   Widget alertWidget({title = String, content = String}) {
     return AlertWidget(app: app, title: title, content: content);
   }
@@ -55,25 +54,27 @@ class BlockingDashboard extends AbstractBlockingDashboardComponent {
   Widget yourWidget(BuildContext context, BlockingDashboardModel value) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
-          if (accessState is AccessDetermined) {
-            var memberId = accessState.getMember()!.documentID;
-            return BlocProvider<MaintainBlockingListBloc>(
-                create: (context) => MaintainBlockingListBloc(
+      if (accessState is AccessDetermined) {
+        var memberId = accessState.getMember()!.documentID;
+        return BlocProvider<MaintainBlockingListBloc>(
+            create: (context) => MaintainBlockingListBloc(
                   memberId: memberId,
                   loggedIn: accessState is LoggedIn ? accessState : null,
                   detailed: true,
                   appId: app.documentID,
                 )..add(LoadMaintainBlockingList()),
-                child: MaintainBlockingListWidget(
-                  app: app,
-                ));
-          } else {
-            return StyleRegistry.registry().styleWithApp(app).adminListStyle().progressIndicator(app, context);
-          }
-        });
+            child: MaintainBlockingListWidget(
+              app: app,
+            ));
+      } else {
+        return StyleRegistry.registry()
+            .styleWithApp(app)
+            .adminListStyle()
+            .progressIndicator(app, context);
+      }
+    });
   }
 
-  @override
   BlockingDashboardRepository getBlockingDashboardRepository(
       BuildContext context) {
     return blockingDashboardRepository(appId: app.documentID)!;

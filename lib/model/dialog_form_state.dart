@@ -41,9 +41,9 @@ class DialogFormInitialized extends DialogFormState {
   final DialogModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const DialogFormInitialized({ this.value });
+  const DialogFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class DialogFormError extends DialogFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const DialogFormError({this.message, DialogModel? value }) : super(value: value);
+  const DialogFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class DialogFormError extends DialogFormInitialized {
     }''';
   }
 }
-class DocumentIDDialogFormError extends DialogFormError { 
-  const DocumentIDDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+
+class DocumentIDDialogFormError extends DialogFormError {
+  const DocumentIDDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDDialogFormError extends DialogFormError {
   }
 }
 
-
-class AppIdDialogFormError extends DialogFormError { 
-  const AppIdDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class AppIdDialogFormError extends DialogFormError {
+  const AppIdDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdDialogFormError extends DialogFormError {
   }
 }
 
-
-class TitleDialogFormError extends DialogFormError { 
-  const TitleDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class TitleDialogFormError extends DialogFormError {
+  const TitleDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class TitleDialogFormError extends DialogFormError {
   }
 }
 
-
-class DescriptionDialogFormError extends DialogFormError { 
-  const DescriptionDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class DescriptionDialogFormError extends DialogFormError {
+  const DescriptionDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class DescriptionDialogFormError extends DialogFormError {
   }
 }
 
-
-class BodyComponentsDialogFormError extends DialogFormError { 
-  const BodyComponentsDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class BodyComponentsDialogFormError extends DialogFormError {
+  const BodyComponentsDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class BodyComponentsDialogFormError extends DialogFormError {
   }
 }
 
-
-class BackgroundOverrideDialogFormError extends DialogFormError { 
-  const BackgroundOverrideDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class BackgroundOverrideDialogFormError extends DialogFormError {
+  const BackgroundOverrideDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class BackgroundOverrideDialogFormError extends DialogFormError {
   }
 }
 
-
-class LayoutDialogFormError extends DialogFormError { 
-  const LayoutDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class LayoutDialogFormError extends DialogFormError {
+  const LayoutDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class LayoutDialogFormError extends DialogFormError {
   }
 }
 
-
-class IncludeHeadingDialogFormError extends DialogFormError { 
-  const IncludeHeadingDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class IncludeHeadingDialogFormError extends DialogFormError {
+  const IncludeHeadingDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class IncludeHeadingDialogFormError extends DialogFormError {
   }
 }
 
-
-class GridViewDialogFormError extends DialogFormError { 
-  const GridViewDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class GridViewDialogFormError extends DialogFormError {
+  const GridViewDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,11 @@ class GridViewDialogFormError extends DialogFormError {
   }
 }
 
-
-class ConditionsDialogFormError extends DialogFormError { 
-  const ConditionsDialogFormError({ String? message, DialogModel? value }): super(message: message, value: value);
+class ConditionsDialogFormError extends DialogFormError {
+  const ConditionsDialogFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +214,11 @@ class ConditionsDialogFormError extends DialogFormError {
   }
 }
 
-
-class DialogFormLoaded extends DialogFormInitialized { 
-  const DialogFormLoaded({ DialogModel? value }): super(value: value);
+class DialogFormLoaded extends DialogFormInitialized {
+  const DialogFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -237,12 +228,11 @@ class DialogFormLoaded extends DialogFormInitialized {
   }
 }
 
-
-class SubmittableDialogForm extends DialogFormInitialized { 
-  const SubmittableDialogForm({ DialogModel? value }): super(value: value);
+class SubmittableDialogForm extends DialogFormInitialized {
+  const SubmittableDialogForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -251,5 +241,3 @@ class SubmittableDialogForm extends DialogFormInitialized {
     }''';
   }
 }
-
-

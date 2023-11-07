@@ -17,6 +17,9 @@ class DefaultMenuImpl implements HasMenu {
       {required RelativeRect position,
       required List<AbstractMenuItemAttributes> menuItems,
       RgbModel? popupMenuBackgroundColorOverride}) async {
-    return MenuHelper(_frontEndStyle).openMenu(app, context, position: position, menuItems: menuItems, popupMenuBackgroundColor:  popupMenuBackgroundColorOverride);
+    return MenuHelper(_frontEndStyle).openMenu(app, context,
+        position: position,
+        menuItems: menuItems,
+        popupMenuBackgroundColor: popupMenuBackgroundColorOverride);
   }
 }

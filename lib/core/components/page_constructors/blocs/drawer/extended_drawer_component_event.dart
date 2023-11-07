@@ -9,13 +9,11 @@ abstract class ExtendedDrawerComponentEvent extends Equatable {
 class ExtendedDrawerInitEvent extends ExtendedDrawerComponentEvent {
   final DrawerModel value;
 
-  ExtendedDrawerInitEvent({ required this.value });
+  ExtendedDrawerInitEvent({required this.value});
 }
 
 class ExtendedDrawerComponentUpdated extends ExtendedDrawerComponentEvent {
   final DrawerModel value;
 
-  ExtendedDrawerComponentUpdated({ required this.value });
+  ExtendedDrawerComponentUpdated({required this.value});
 }
-
-

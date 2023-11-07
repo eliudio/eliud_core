@@ -7,7 +7,8 @@ abstract class HasTabs {
   Widget tabBar(AppModel app, BuildContext context,
       {required List<String> items, required TabController tabController});
 
-  Widget tabBar2(AppModel app, BuildContext context, {required List<Widget> items, required TabController tabController});
+  Widget tabBar2(AppModel app, BuildContext context,
+      {required List<Widget> items, required TabController tabController});
 }
 
 Widget tabBar(AppModel app, BuildContext context,
@@ -19,7 +20,7 @@ Widget tabBar(AppModel app, BuildContext context,
         .tabBar(app, context, items: items, tabController: tabController);
 
 Widget tabBar2(AppModel app, BuildContext context,
-    {required List<Widget> items, required TabController tabController}) =>
+        {required List<Widget> items, required TabController tabController}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()

@@ -24,13 +24,11 @@ abstract class MemberComponentEvent extends Equatable {
 class FetchMemberComponent extends MemberComponentEvent {
   final String? id;
 
-  FetchMemberComponent({ this.id });
+  FetchMemberComponent({this.id});
 }
 
 class MemberComponentUpdated extends MemberComponentEvent {
   final MemberModel value;
 
-  MemberComponentUpdated({ required this.value });
+  MemberComponentUpdated({required this.value});
 }
-
-

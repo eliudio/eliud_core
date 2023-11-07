@@ -20,31 +20,46 @@ import 'package:eliud_core/core/base/entity_base.dart';
 class MemberClaimEntity implements EntityBase {
   final int? refreshValue;
 
-  MemberClaimEntity({this.refreshValue, });
+  MemberClaimEntity({
+    this.refreshValue,
+  });
 
-  MemberClaimEntity copyWith({String? documentID, int? refreshValue, }) {
-    return MemberClaimEntity(refreshValue : refreshValue ?? this.refreshValue, );
+  MemberClaimEntity copyWith({
+    String? documentID,
+    int? refreshValue,
+  }) {
+    return MemberClaimEntity(
+      refreshValue: refreshValue ?? this.refreshValue,
+    );
   }
-  List<Object?> get props => [refreshValue, ];
+
+  List<Object?> get props => [
+        refreshValue,
+      ];
 
   @override
   String toString() {
     return 'MemberClaimEntity{refreshValue: $refreshValue}';
   }
 
-  static MemberClaimEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static MemberClaimEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return MemberClaimEntity(
-      refreshValue: int.tryParse(map['refreshValue'].toString()), 
+      refreshValue: int.tryParse(map['refreshValue'].toString()),
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (refreshValue != null) theDocument["refreshValue"] = refreshValue;
-      else theDocument["refreshValue"] = null;
+    if (refreshValue != null) {
+      theDocument["refreshValue"] = refreshValue;
+    } else {
+      theDocument["refreshValue"] = null;
+    }
     return theDocument;
   }
 
@@ -54,7 +69,8 @@ class MemberClaimEntity implements EntityBase {
     return newEntity;
   }
 
-  static MemberClaimEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static MemberClaimEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -63,9 +79,9 @@ class MemberClaimEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

@@ -20,24 +20,27 @@ import 'package:eliud_core/model/member_dashboard_component_event.dart';
 import 'package:eliud_core/model/member_dashboard_component_state.dart';
 import 'package:eliud_core/model/member_dashboard_repository.dart';
 
-class MemberDashboardComponentBloc extends Bloc<MemberDashboardComponentEvent, MemberDashboardComponentState> {
+class MemberDashboardComponentBloc
+    extends Bloc<MemberDashboardComponentEvent, MemberDashboardComponentState> {
   final MemberDashboardRepository? memberDashboardRepository;
   StreamSubscription? _memberDashboardSubscription;
 
   void _mapLoadMemberDashboardComponentUpdateToState(String documentId) {
     _memberDashboardSubscription?.cancel();
-    _memberDashboardSubscription = memberDashboardRepository!.listenTo(documentId, (value) {
+    _memberDashboardSubscription =
+        memberDashboardRepository!.listenTo(documentId, (value) {
       if (value != null) {
         add(MemberDashboardComponentUpdated(value: value));
       }
     });
   }
 
-  MemberDashboardComponentBloc({ this.memberDashboardRepository }): super(MemberDashboardComponentUninitialized()) {
-    on <FetchMemberDashboardComponent> ((event, emit) {
+  MemberDashboardComponentBloc({this.memberDashboardRepository})
+      : super(MemberDashboardComponentUninitialized()) {
+    on<FetchMemberDashboardComponent>((event, emit) {
       _mapLoadMemberDashboardComponentUpdateToState(event.id!);
     });
-    on <MemberDashboardComponentUpdated> ((event, emit) {
+    on<MemberDashboardComponentUpdated>((event, emit) {
       emit(MemberDashboardComponentLoaded(value: event.value));
     });
   }
@@ -47,6 +50,4 @@ class MemberDashboardComponentBloc extends Bloc<MemberDashboardComponentEvent, M
     _memberDashboardSubscription?.cancel();
     return super.close();
   }
-
 }
-

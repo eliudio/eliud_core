@@ -27,7 +27,7 @@ class GridViewComponentUninitialized extends GridViewComponentState {}
 
 class GridViewComponentError extends GridViewComponentState {
   final String? message;
-  GridViewComponentError({ this.message });
+  GridViewComponentError({this.message});
 }
 
 class GridViewComponentPermissionDenied extends GridViewComponentState {
@@ -37,10 +37,10 @@ class GridViewComponentPermissionDenied extends GridViewComponentState {
 class GridViewComponentLoaded extends GridViewComponentState {
   final GridViewModel value;
 
-  const GridViewComponentLoaded({ required this.value });
+  const GridViewComponentLoaded({required this.value});
 
-  GridViewComponentLoaded copyWith({ GridViewModel? copyThis }) {
-    return GridViewComponentLoaded(value: copyThis ?? this.value);
+  GridViewComponentLoaded copyWith({GridViewModel? copyThis}) {
+    return GridViewComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class GridViewComponentLoaded extends GridViewComponentState {
   @override
   String toString() => 'GridViewComponentLoaded { value: $value }';
 }
-

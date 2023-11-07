@@ -43,7 +43,7 @@ class BlockingDashboardComponentEditorConstructor
           description: 'Blocked members',
           conditions: StorageConditionsModel(
               privilegeLevelRequired:
-              PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple),
+                  PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple),
         ),
         feedback);
   }
@@ -52,11 +52,11 @@ class BlockingDashboardComponentEditorConstructor
   void updateComponentWithID(AppModel app, BuildContext context, String id,
       EditorFeedback feedback) async {
     var blockingDashboard =
-    await blockingDashboardRepository(appId: app.documentID)!.get(id);
+        await blockingDashboardRepository(appId: app.documentID)!.get(id);
     if (blockingDashboard != null) {
       _openIt(app, context, false, blockingDashboard, feedback);
     } else {
-      openErrorDialog(app, context, app.documentID + '/_error',
+      openErrorDialog(app, context, '${app.documentID}/_error',
           title: 'Error',
           errorMessage: 'Cannot find blocking dashboard with id $id');
     }
@@ -67,17 +67,17 @@ class BlockingDashboardComponentEditorConstructor
     openComplexDialog(
       app,
       context,
-      app.documentID + '/blockingdashboard',
+      '${app.documentID}/blockingdashboard',
       title: create ? 'Create Blocking Dashboard' : 'Update Blocking Dashboard',
       includeHeading: false,
       widthFraction: .9,
       child: BlocProvider<BlockingDashboardBloc>(
           create: (context) => BlockingDashboardBloc(
-            app.documentID,
-            /*create,
+                app.documentID,
+                /*create,
             */
-            feedback,
-          )..add(EditorBaseInitialise<BlockingDashboardModel>(model)),
+                feedback,
+              )..add(EditorBaseInitialise<BlockingDashboardModel>(model)),
           child: BlockingDashboardComponentEditor(
             app: app,
           )),
@@ -89,12 +89,13 @@ class BlockingDashboardComponentEditor extends StatefulWidget {
   final AppModel app;
 
   const BlockingDashboardComponentEditor({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
-  State<StatefulWidget> createState() => _BlockingDashboardComponentEditorState();
+  State<StatefulWidget> createState() =>
+      _BlockingDashboardComponentEditorState();
 }
 
 class _BlockingDashboardComponentEditorState
@@ -103,75 +104,76 @@ class _BlockingDashboardComponentEditorState
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (aContext, accessState) {
-          if (accessState is AccessDetermined) {
-            return BlocBuilder<BlockingDashboardBloc,
+      if (accessState is AccessDetermined) {
+        return BlocBuilder<BlockingDashboardBloc,
                 EditorBaseState<BlockingDashboardModel>>(
-                builder: (ppContext, blockingDashboardState) {
-                  if (blockingDashboardState
-                  is EditorBaseInitialised<BlockingDashboardModel>) {
-                    return ListView(
-                        shrinkWrap: true,
-                        physics: ScrollPhysics(),
-                        children: [
-                          HeaderWidget(
-                            app: widget.app,
-                            title: 'BlockingDashboard',
-                            okAction: () async {
-                              await BlocProvider.of<BlockingDashboardBloc>(context).save(
-                                  EditorBaseApplyChanges(
-                                      model: blockingDashboardState.model));
-                              return true;
-                            },
-                            cancelAction: () async {
-                              return true;
-                            },
-                          ),
-                          topicContainer(widget.app, context,
-                              title: 'General',
-                              collapsible: true,
-                              collapsed: true,
-                              children: [
-                                getListTile(context, widget.app,
-                                    leading: Icon(Icons.vpn_key),
-                                    title: text(widget.app, context,
-                                        blockingDashboardState.model.documentID)),
-                                getListTile(context, widget.app,
-                                    leading: Icon(Icons.description),
-                                    title: dialogField(
-                                      widget.app,
-                                      context,
-                                      initialValue:
-                                      blockingDashboardState.model.description,
-                                      valueChanged: (value) {
-                                        blockingDashboardState.model.description = value;
-                                      },
-                                      maxLines: 1,
-                                      decoration: const InputDecoration(
-                                        hintText: 'Description',
-                                        labelText: 'Description',
-                                      ),
-                                    )),
-                              ]),
-                          topicContainer(widget.app, context,
-                              title: 'Condition',
-                              collapsible: true,
-                              collapsed: true,
-                              children: [
-                                getListTile(context, widget.app,
-                                    leading: Icon(Icons.security),
-                                    title: ConditionsSimpleWidget(
-                                      app: widget.app,
-                                      value: blockingDashboardState.model.conditions!,
-                                    )),
-                              ]),
-                        ]);
-                  } else {
-                    return progressIndicator(widget.app, context);
-                  }
-                });
+            builder: (ppContext, blockingDashboardState) {
+          if (blockingDashboardState
+              is EditorBaseInitialised<BlockingDashboardModel>) {
+            return ListView(
+                shrinkWrap: true,
+                physics: ScrollPhysics(),
+                children: [
+                  HeaderWidget(
+                    app: widget.app,
+                    title: 'BlockingDashboard',
+                    okAction: () async {
+                      await BlocProvider.of<BlockingDashboardBloc>(context)
+                          .save(EditorBaseApplyChanges(
+                              model: blockingDashboardState.model));
+                      return true;
+                    },
+                    cancelAction: () async {
+                      return true;
+                    },
+                  ),
+                  topicContainer(widget.app, context,
+                      title: 'General',
+                      collapsible: true,
+                      collapsed: true,
+                      children: [
+                        getListTile(context, widget.app,
+                            leading: Icon(Icons.vpn_key),
+                            title: text(widget.app, context,
+                                blockingDashboardState.model.documentID)),
+                        getListTile(context, widget.app,
+                            leading: Icon(Icons.description),
+                            title: dialogField(
+                              widget.app,
+                              context,
+                              initialValue:
+                                  blockingDashboardState.model.description,
+                              valueChanged: (value) {
+                                blockingDashboardState.model.description =
+                                    value;
+                              },
+                              maxLines: 1,
+                              decoration: const InputDecoration(
+                                hintText: 'Description',
+                                labelText: 'Description',
+                              ),
+                            )),
+                      ]),
+                  topicContainer(widget.app, context,
+                      title: 'Condition',
+                      collapsible: true,
+                      collapsed: true,
+                      children: [
+                        getListTile(context, widget.app,
+                            leading: Icon(Icons.security),
+                            title: ConditionsSimpleWidget(
+                              app: widget.app,
+                              value: blockingDashboardState.model.conditions!,
+                            )),
+                      ]),
+                ]);
           } else {
             return progressIndicator(widget.app, context);
           }
         });
+      } else {
+        return progressIndicator(widget.app, context);
+      }
+    });
   }
 }

@@ -23,40 +23,75 @@ class EdgeInsetsGeometryEntity implements EntityBase {
   final double? top;
   final double? bottom;
 
-  EdgeInsetsGeometryEntity({this.left, this.right, this.top, this.bottom, });
+  EdgeInsetsGeometryEntity({
+    this.left,
+    this.right,
+    this.top,
+    this.bottom,
+  });
 
-  EdgeInsetsGeometryEntity copyWith({double? left, double? right, double? top, double? bottom, }) {
-    return EdgeInsetsGeometryEntity(left : left ?? this.left, right : right ?? this.right, top : top ?? this.top, bottom : bottom ?? this.bottom, );
+  EdgeInsetsGeometryEntity copyWith({
+    double? left,
+    double? right,
+    double? top,
+    double? bottom,
+  }) {
+    return EdgeInsetsGeometryEntity(
+      left: left ?? this.left,
+      right: right ?? this.right,
+      top: top ?? this.top,
+      bottom: bottom ?? this.bottom,
+    );
   }
-  List<Object?> get props => [left, right, top, bottom, ];
+
+  List<Object?> get props => [
+        left,
+        right,
+        top,
+        bottom,
+      ];
 
   @override
   String toString() {
     return 'EdgeInsetsGeometryEntity{left: $left, right: $right, top: $top, bottom: $bottom}';
   }
 
-  static EdgeInsetsGeometryEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static EdgeInsetsGeometryEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return EdgeInsetsGeometryEntity(
-      left: double.tryParse(map['left'].toString()), 
-      right: double.tryParse(map['right'].toString()), 
-      top: double.tryParse(map['top'].toString()), 
-      bottom: double.tryParse(map['bottom'].toString()), 
+      left: double.tryParse(map['left'].toString()),
+      right: double.tryParse(map['right'].toString()),
+      top: double.tryParse(map['top'].toString()),
+      bottom: double.tryParse(map['bottom'].toString()),
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (left != null) theDocument["left"] = left;
-      else theDocument["left"] = null;
-    if (right != null) theDocument["right"] = right;
-      else theDocument["right"] = null;
-    if (top != null) theDocument["top"] = top;
-      else theDocument["top"] = null;
-    if (bottom != null) theDocument["bottom"] = bottom;
-      else theDocument["bottom"] = null;
+    if (left != null) {
+      theDocument["left"] = left;
+    } else {
+      theDocument["left"] = null;
+    }
+    if (right != null) {
+      theDocument["right"] = right;
+    } else {
+      theDocument["right"] = null;
+    }
+    if (top != null) {
+      theDocument["top"] = top;
+    } else {
+      theDocument["top"] = null;
+    }
+    if (bottom != null) {
+      theDocument["bottom"] = bottom;
+    } else {
+      theDocument["bottom"] = null;
+    }
     return theDocument;
   }
 
@@ -66,7 +101,8 @@ class EdgeInsetsGeometryEntity implements EntityBase {
     return newEntity;
   }
 
-  static EdgeInsetsGeometryEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static EdgeInsetsGeometryEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -75,9 +111,9 @@ class EdgeInsetsGeometryEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

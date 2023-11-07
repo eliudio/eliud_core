@@ -33,24 +33,42 @@ import '../model/platform_medium_repository.dart';
 import '../model/public_medium_repository.dart';
 import 'package:eliud_core/package/package.dart';
 
-AccessRepository? accessRepository({ String? appId }) => AbstractRepositorySingleton.singleton.accessRepository(appId);
-AppBarRepository? appBarRepository({ String? appId }) => AbstractRepositorySingleton.singleton.appBarRepository(appId);
-AppPolicyRepository? appPolicyRepository({ String? appId }) => AbstractRepositorySingleton.singleton.appPolicyRepository(appId);
-BackendRequestRepository? backendRequestRepository({ String? appId }) => AbstractRepositorySingleton.singleton.backendRequestRepository(appId);
-BlockingRepository? blockingRepository({ String? appId }) => AbstractRepositorySingleton.singleton.blockingRepository();
-BlockingDashboardRepository? blockingDashboardRepository({ String? appId }) => AbstractRepositorySingleton.singleton.blockingDashboardRepository(appId);
-DialogRepository? dialogRepository({ String? appId }) => AbstractRepositorySingleton.singleton.dialogRepository(appId);
-DrawerRepository? drawerRepository({ String? appId }) => AbstractRepositorySingleton.singleton.drawerRepository(appId);
-GridViewRepository? gridViewRepository({ String? appId }) => AbstractRepositorySingleton.singleton.gridViewRepository(appId);
-HomeMenuRepository? homeMenuRepository({ String? appId }) => AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
-MemberClaimRepository? memberClaimRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberClaimRepository();
-MemberDashboardRepository? memberDashboardRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberDashboardRepository(appId);
-MemberMediumRepository? memberMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberMediumRepository(appId);
-MemberPublicInfoRepository? memberPublicInfoRepository({ String? appId }) => AbstractRepositorySingleton.singleton.memberPublicInfoRepository();
-MenuDefRepository? menuDefRepository({ String? appId }) => AbstractRepositorySingleton.singleton.menuDefRepository(appId);
-PageRepository? pageRepository({ String? appId }) => AbstractRepositorySingleton.singleton.pageRepository(appId);
-PlatformMediumRepository? platformMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.platformMediumRepository(appId);
-PublicMediumRepository? publicMediumRepository({ String? appId }) => AbstractRepositorySingleton.singleton.publicMediumRepository();
+AccessRepository? accessRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.accessRepository(appId);
+AppBarRepository? appBarRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.appBarRepository(appId);
+AppPolicyRepository? appPolicyRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.appPolicyRepository(appId);
+BackendRequestRepository? backendRequestRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.backendRequestRepository(appId);
+BlockingRepository? blockingRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.blockingRepository();
+BlockingDashboardRepository? blockingDashboardRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.blockingDashboardRepository(appId);
+DialogRepository? dialogRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.dialogRepository(appId);
+DrawerRepository? drawerRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.drawerRepository(appId);
+GridViewRepository? gridViewRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.gridViewRepository(appId);
+HomeMenuRepository? homeMenuRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.homeMenuRepository(appId);
+MemberClaimRepository? memberClaimRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.memberClaimRepository();
+MemberDashboardRepository? memberDashboardRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.memberDashboardRepository(appId);
+MemberMediumRepository? memberMediumRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.memberMediumRepository(appId);
+MemberPublicInfoRepository? memberPublicInfoRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.memberPublicInfoRepository();
+MenuDefRepository? menuDefRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.menuDefRepository(appId);
+PageRepository? pageRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.pageRepository(appId);
+PlatformMediumRepository? platformMediumRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.platformMediumRepository(appId);
+PublicMediumRepository? publicMediumRepository({String? appId}) =>
+    AbstractRepositorySingleton.singleton.publicMediumRepository();
 
 abstract class AbstractRepositorySingleton {
   static List<MemberCollectionInfo> collections = [

@@ -10,16 +10,18 @@ class Utils {
     );
   }
 
-  static Widget getShrinkedListView(AppModel app, BuildContext context, List<Widget> widgets) {
+  static Widget getShrinkedListView(
+      AppModel app, BuildContext context, List<Widget> widgets) {
     return topicContainer(app, context, children: [
-    ListView.builder(
-      shrinkWrap: true,
-      physics: ScrollPhysics(),
-      scrollDirection: Axis.vertical,
-      itemBuilder: (context, index) {
-        return widgets[index];
-      },
-      itemCount: widgets.length,
-    )]);
+      ListView.builder(
+        shrinkWrap: true,
+        physics: ScrollPhysics(),
+        scrollDirection: Axis.vertical,
+        itemBuilder: (context, index) {
+          return widgets[index];
+        },
+        itemCount: widgets.length,
+      )
+    ]);
   }
 }

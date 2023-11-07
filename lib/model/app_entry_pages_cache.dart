@@ -24,12 +24,13 @@ import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
 class AppEntryPagesCache implements AppEntryPagesRepository {
-
   final AppEntryPagesRepository reference;
-  final Map<String?, AppEntryPagesModel?> fullCache = Map();
+  final Map<String?, AppEntryPagesModel?> fullCache = {};
 
   AppEntryPagesCache(this.reference);
 
+  /// Add a AppEntryPagesModel to the repository, cached
+  @override
   Future<AppEntryPagesModel> add(AppEntryPagesModel value) {
     return reference.add(value).then((newValue) {
       fullCache[value.documentID] = newValue;
@@ -37,21 +38,32 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     });
   }
 
-  Future<AppEntryPagesEntity> addEntity(String documentID, AppEntryPagesEntity value) {
+  /// Add a AppEntryPagesEntity to the repository, cached
+  @override
+  Future<AppEntryPagesEntity> addEntity(
+      String documentID, AppEntryPagesEntity value) {
     return reference.addEntity(documentID, value);
   }
 
-  Future<AppEntryPagesEntity> updateEntity(String documentID, AppEntryPagesEntity value) {
+  /// Update a AppEntryPagesEntity in the repository, cached
+  @override
+  Future<AppEntryPagesEntity> updateEntity(
+      String documentID, AppEntryPagesEntity value) {
     return reference.updateEntity(documentID, value);
   }
 
-  Future<void> delete(AppEntryPagesModel value){
+  /// Delete a AppEntryPagesModel from the repository, cached
+  @override
+  Future<void> delete(AppEntryPagesModel value) {
     fullCache.remove(value.documentID);
     reference.delete(value);
     return Future.value();
   }
 
-  Future<AppEntryPagesModel?> get(String? id, {Function(Exception)? onError}) async {
+  /// Retrieve a AppEntryPagesModel with it's id, cached
+  @override
+  Future<AppEntryPagesModel?> get(String? id,
+      {Function(Exception)? onError}) async {
     var value = fullCache[id];
     if (value != null) return refreshRelations(value);
     value = await reference.get(id, onError: onError);
@@ -59,6 +71,8 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     return value;
   }
 
+  /// Update a AppEntryPagesModel
+  @override
   Future<AppEntryPagesModel> update(AppEntryPagesModel value) {
     return reference.update(value).then((newValue) {
       fullCache[value.documentID] = newValue;
@@ -66,71 +80,164 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     });
   }
 
+  /// Retrieve list of List<AppEntryPagesModel?>
   @override
-  Stream<List<AppEntryPagesModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
-    return reference.values(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  Stream<List<AppEntryPagesModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return reference.values(
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        setLastDoc: setLastDoc,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
   @override
-  Stream<List<AppEntryPagesModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
-    return reference.valuesWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  Stream<List<AppEntryPagesModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return reference.valuesWithDetails(
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        setLastDoc: setLastDoc,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
   @override
-  Future<List<AppEntryPagesModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
-    return await reference.valuesList(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
-  }
-  
-  @override
-  Future<List<AppEntryPagesModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
-    return await reference.valuesListWithDetails(orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, setLastDoc: setLastDoc, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  Future<List<AppEntryPagesModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
+    return await reference.valuesList(
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        setLastDoc: setLastDoc,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
+  @override
+  Future<List<AppEntryPagesModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
+    return await reference.valuesListWithDetails(
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        setLastDoc: setLastDoc,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
+  }
+
+  @override
   void flush() {
     fullCache.clear();
   }
-  
+
+  @override
   String? timeStampToString(dynamic timeStamp) {
     return reference.timeStampToString(timeStamp);
-  } 
+  }
 
+  @override
   dynamic getSubCollection(String documentId, String name) {
     return reference.getSubCollection(documentId, name);
   }
 
-  Future<AppEntryPagesModel> changeValue(String documentId, String fieldName, num changeByThisValue) {
-    return reference.changeValue(documentId, fieldName, changeByThisValue).then((newValue) {
+  @override
+  Future<AppEntryPagesModel> changeValue(
+      String documentId, String fieldName, num changeByThisValue) {
+    return reference
+        .changeValue(documentId, fieldName, changeByThisValue)
+        .then((newValue) {
       fullCache[documentId] = newValue;
       return newValue!;
     });
   }
 
   @override
-  Future<AppEntryPagesEntity?> getEntity(String? id, {Function(Exception p1)? onError}) {
+  Future<AppEntryPagesEntity?> getEntity(String? id,
+      {Function(Exception p1)? onError}) {
     return reference.getEntity(id, onError: onError);
   }
 
   @override
-  AppEntryPagesEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  AppEntryPagesEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     return reference.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  @override
   Future<void> deleteAll() {
     return reference.deleteAll();
   }
 
   @override
-  StreamSubscription<List<AppEntryPagesModel?>> listen(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    return reference.listen(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  StreamSubscription<List<AppEntryPagesModel?>> listen(trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return reference.listen(trigger,
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<List<AppEntryPagesModel?>> listenWithDetails(trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    return reference.listenWithDetails(trigger, orderBy: orderBy, descending: descending, startAfter: startAfter, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery);
+  StreamSubscription<List<AppEntryPagesModel?>> listenWithDetails(trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    return reference.listenWithDetails(trigger,
+        orderBy: orderBy,
+        descending: descending,
+        startAfter: startAfter,
+        limit: limit,
+        privilegeLevel: privilegeLevel,
+        eliudQuery: eliudQuery);
   }
 
   @override
-  StreamSubscription<AppEntryPagesModel?> listenTo(String documentId, AppEntryPagesChanged changed, {AppEntryPagesErrorHandler? errorHandler}) {
+  StreamSubscription<AppEntryPagesModel?> listenTo(
+      String documentId, AppEntryPagesChanged changed,
+      {AppEntryPagesErrorHandler? errorHandler}) {
     return reference.listenTo(documentId, ((value) {
       if (value != null) {
         fullCache[value.documentID] = value;
@@ -139,8 +246,8 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     }), errorHandler: errorHandler);
   }
 
-  static Future<AppEntryPagesModel> refreshRelations(AppEntryPagesModel model) async {
-
+  static Future<AppEntryPagesModel> refreshRelations(
+      AppEntryPagesModel model) async {
     PageModel? entryPageHolder;
     if (model.entryPage != null) {
       try {
@@ -151,11 +258,7 @@ class AppEntryPagesCache implements AppEntryPagesRepository {
     }
 
     return model.copyWith(
-        entryPage: entryPageHolder,
-
-
+      entryPage: entryPageHolder,
     );
   }
-
 }
-

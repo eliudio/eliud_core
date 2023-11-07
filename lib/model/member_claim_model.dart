@@ -17,24 +17,30 @@ import 'package:eliud_core/core/base/model_base.dart';
 
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/member_claim_entity.dart';
-
-
-
 
 class MemberClaimModel implements ModelBase {
   static const String packageName = 'eliud_core';
   static const String id = 'memberClaims';
 
+  @override
   String documentID;
   int? refreshValue;
 
-  MemberClaimModel({required this.documentID, this.refreshValue, })  {
-  }
+  MemberClaimModel({
+    required this.documentID,
+    this.refreshValue,
+  });
 
-  MemberClaimModel copyWith({String? documentID, int? refreshValue, }) {
-    return MemberClaimModel(documentID: documentID ?? this.documentID, refreshValue: refreshValue ?? this.refreshValue, );
+  @override
+  MemberClaimModel copyWith({
+    String? documentID,
+    int? refreshValue,
+  }) {
+    return MemberClaimModel(
+      documentID: documentID ?? this.documentID,
+      refreshValue: refreshValue ?? this.refreshValue,
+    );
   }
 
   @override
@@ -42,9 +48,9 @@ class MemberClaimModel implements ModelBase {
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is MemberClaimModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is MemberClaimModel &&
+          runtimeType == other.runtimeType &&
           documentID == other.documentID &&
           refreshValue == other.refreshValue;
 
@@ -53,35 +59,36 @@ class MemberClaimModel implements ModelBase {
     return 'MemberClaimModel{documentID: $documentID, refreshValue: $refreshValue}';
   }
 
+  @override
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
     return referencesCollector;
   }
 
+  @override
   MemberClaimEntity toEntity({String? appId}) {
     return MemberClaimEntity(
-          refreshValue: (refreshValue != null) ? refreshValue : null, 
+      refreshValue: (refreshValue != null) ? refreshValue : null,
     );
   }
 
-  static Future<MemberClaimModel?> fromEntity(String documentID, MemberClaimEntity? entity) async {
+  static Future<MemberClaimModel?> fromEntity(
+      String documentID, MemberClaimEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return MemberClaimModel(
-          documentID: documentID, 
-          refreshValue: entity.refreshValue, 
+      documentID: documentID,
+      refreshValue: entity.refreshValue,
     );
   }
 
-  static Future<MemberClaimModel?> fromEntityPlus(String documentID, MemberClaimEntity? entity, { String? appId}) async {
+  static Future<MemberClaimModel?> fromEntityPlus(
+      String documentID, MemberClaimEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
-    var counter = 0;
     return MemberClaimModel(
-          documentID: documentID, 
-          refreshValue: entity.refreshValue, 
+      documentID: documentID,
+      refreshValue: entity.refreshValue,
     );
   }
-
 }
-

@@ -13,8 +13,10 @@ class DefaultDialogImpl implements HasDialog {
   DefaultDialogImpl(this._frontEndStyle);
 
   @override
-  Future<void> openMessageDialog(AppModel app,
-      BuildContext context, String name, {
+  Future<void> openMessageDialog(
+    AppModel app,
+    BuildContext context,
+    String name, {
     required String title,
     required String message,
     String? closeLabel,
@@ -23,8 +25,10 @@ class DefaultDialogImpl implements HasDialog {
   }) async {
     // MessageDialog
     await DialogStatefulWidgetHelper.openIt(
-      context, name,
-      _frontEndStyle.dialogWidgetStyle().messageDialog(app,
+      context,
+      name,
+      _frontEndStyle.dialogWidgetStyle().messageDialog(
+            app,
             context,
             title: title,
             message: message,
@@ -35,8 +39,10 @@ class DefaultDialogImpl implements HasDialog {
   }
 
   @override
-  Future<void> openErrorDialog(AppModel app,
-      BuildContext context, String name, {
+  Future<void> openErrorDialog(
+    AppModel app,
+    BuildContext context,
+    String name, {
     required String title,
     required String errorMessage,
     String? closeLabel,
@@ -44,8 +50,10 @@ class DefaultDialogImpl implements HasDialog {
     bool? includeHeading,
   }) async =>
       await DialogStatefulWidgetHelper.openIt(
-        context, name,
-        _frontEndStyle.dialogWidgetStyle().errorDialog(app,
+        context,
+        name,
+        _frontEndStyle.dialogWidgetStyle().errorDialog(
+              app,
               context,
               title: title,
               errorMessage: errorMessage,
@@ -55,8 +63,10 @@ class DefaultDialogImpl implements HasDialog {
       );
 
   @override
-  Future<void> openAckNackDialog(AppModel app,
-      BuildContext context, String name, {
+  Future<void> openAckNackDialog(
+    AppModel app,
+    BuildContext context,
+    String name, {
     required String title,
     required String message,
     required OnSelection onSelection,
@@ -66,8 +76,10 @@ class DefaultDialogImpl implements HasDialog {
     bool? includeHeading,
   }) async =>
       await DialogStatefulWidgetHelper.openIt(
-          context, name,
-          _frontEndStyle.dialogWidgetStyle().ackNackDialog(app,
+          context,
+          name,
+          _frontEndStyle.dialogWidgetStyle().ackNackDialog(
+                app,
                 context,
                 title: title,
                 message: message,
@@ -79,8 +91,10 @@ class DefaultDialogImpl implements HasDialog {
               ));
 
   @override
-  Future<void> openEntryDialog(AppModel app,
-      BuildContext context, String name, {
+  Future<void> openEntryDialog(
+    AppModel app,
+    BuildContext context,
+    String name, {
     required String title,
     String? ackButtonLabel,
     String? nackButtonLabel,
@@ -93,7 +107,8 @@ class DefaultDialogImpl implements HasDialog {
       await DialogStatefulWidgetHelper.openIt(
         context,
         name,
-        _frontEndStyle.dialogWidgetStyle().entryDialog(app,
+        _frontEndStyle.dialogWidgetStyle().entryDialog(
+              app,
               context,
               title: title,
               ackButtonLabel: ackButtonLabel,
@@ -107,8 +122,10 @@ class DefaultDialogImpl implements HasDialog {
       );
 
   @override
-  Future<void> openSelectionDialog(AppModel app,
-      BuildContext context, String name, {
+  Future<void> openSelectionDialog(
+    AppModel app,
+    BuildContext context,
+    String name, {
     required String title,
     required List<String> options,
     required OnSelection onSelection,
@@ -119,7 +136,8 @@ class DefaultDialogImpl implements HasDialog {
     await DialogStatefulWidgetHelper.openIt(
         context,
         name,
-        _frontEndStyle.dialogWidgetStyle().selectionDialog(app,
+        _frontEndStyle.dialogWidgetStyle().selectionDialog(
+              app,
               context,
               title: title,
               options: options,
@@ -131,8 +149,10 @@ class DefaultDialogImpl implements HasDialog {
   }
 
   @override
-  Future<void> openComplexDialog(AppModel app,
-      BuildContext context, String name, {
+  Future<void> openComplexDialog(
+    AppModel app,
+    BuildContext context,
+    String name, {
     required String title,
     required Widget child,
     VoidCallback? onPressed,
@@ -143,7 +163,8 @@ class DefaultDialogImpl implements HasDialog {
       await DialogStatefulWidgetHelper.openIt(
           context,
           name,
-          _frontEndStyle.dialogWidgetStyle().complexDialog(app,
+          _frontEndStyle.dialogWidgetStyle().complexDialog(
+                app,
                 context,
                 title: title,
                 child: child,
@@ -154,8 +175,10 @@ class DefaultDialogImpl implements HasDialog {
               ));
 
   @override
-  Future<void> openFlexibleDialog(AppModel app,
-      BuildContext context, String name, {
+  Future<void> openFlexibleDialog(
+    AppModel app,
+    BuildContext context,
+    String name, {
     String? title,
     required Widget child,
     List<Widget>? buttons,
@@ -163,8 +186,10 @@ class DefaultDialogImpl implements HasDialog {
     bool? includeHeading,
   }) async {
     await DialogStatefulWidgetHelper.openIt(
-        context, name,
-        _frontEndStyle.dialogWidgetStyle().flexibleDialog(app,
+        context,
+        name,
+        _frontEndStyle.dialogWidgetStyle().flexibleDialog(
+              app,
               context,
               title: title,
               child: child,
@@ -175,12 +200,15 @@ class DefaultDialogImpl implements HasDialog {
   }
 
   @override
-  Future<void> openWidgetDialog(AppModel app,
-      BuildContext context, String name, {
+  Future<void> openWidgetDialog(
+    AppModel app,
+    BuildContext context,
+    String name, {
     required Widget child,
   }) async {
     await DialogStatefulWidgetHelper.openIt(
-      context, name,
+      context,
+      name,
       child,
     );
   }

@@ -24,13 +24,11 @@ abstract class AppComponentEvent extends Equatable {
 class FetchAppComponent extends AppComponentEvent {
   final String? id;
 
-  FetchAppComponent({ this.id });
+  FetchAppComponent({this.id});
 }
 
 class AppComponentUpdated extends AppComponentEvent {
   final AppModel value;
 
-  AppComponentUpdated({ required this.value });
+  AppComponentUpdated({required this.value});
 }
-
-

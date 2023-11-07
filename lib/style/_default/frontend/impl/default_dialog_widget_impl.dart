@@ -35,7 +35,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
             : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
+        dialogButtonPosition: DialogButtonPosition.topRight,
         contents: _frontEndStyle.textStyle().text(app, context, message),
         buttons: dialogHelper.getCloseButton(app, context,
             onPressed: () => Navigator.pop(context), buttonLabel: closeLabel));
@@ -60,7 +60,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
         key: key,
         title: title,
         contents: _frontEndStyle.textStyle().text(app, context, errorMessage),
-        dialogButtonPosition: DialogButtonPosition.TopRight,
+        dialogButtonPosition: DialogButtonPosition.topRight,
         buttons: dialogHelper.getCloseButton(app, context,
             buttonLabel: closeLabel, onPressed: () => Navigator.pop(context)));
   }
@@ -84,7 +84,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
             ? null
             : fullScreenWidth(context) * widthFraction,
         key: key,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
+        dialogButtonPosition: DialogButtonPosition.topRight,
         title: title,
         contents: _frontEndStyle.textStyle().text(app, context, message),
         buttons: dialogHelper.getAckNackButtons(app, context, ackFunction: () {
@@ -116,7 +116,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
     TextAlignVertical? textAlignVertical,
     TextDirection? textDirection,
     bool? readOnly,
-    ToolbarOptions? toolbarOptions,
+    //ToolbarOptions? toolbarOptions,
     bool? showCursor,
     bool? autocorrect,
     bool? enableSuggestions,
@@ -132,7 +132,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
             : fullScreenWidth(context) * widthFraction,
         key: key,
         includeHeading: includeHeading,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
+        dialogButtonPosition: DialogButtonPosition.topRight,
         title: title,
         contents: dialogHelper.getListTile(
             leading: Icon(Icons.message),
@@ -151,7 +151,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
               textAlignVertical: textAlignVertical,
               textDirection: textDirection,
               readOnly: readOnly,
-              toolbarOptions: toolbarOptions,
+              //toolbarOptions: toolbarOptions,
               showCursor: showCursor,
               autocorrect: autocorrect,
               enableSuggestions: enableSuggestions,
@@ -194,7 +194,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
             : fullScreenWidth(context) * widthFraction,
         includeHeading: includeHeading,
         key: key,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
+        dialogButtonPosition: DialogButtonPosition.topRight,
         title: title,
         buttons: dialogHelper.getCloseButton(app, context, onPressed: () {
           Navigator.of(context).pop();
@@ -236,7 +236,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
         includeHeading: includeHeading,
         key: key,
         title: title,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
+        dialogButtonPosition: DialogButtonPosition.topRight,
         contents: child,
         buttons: dialogHelper.getAckNackButtons(app, context, ackFunction: () {
           Navigator.of(context).pop();
@@ -266,7 +266,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
             : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
+        dialogButtonPosition: DialogButtonPosition.topRight,
         contents: child,
         buttons: dialogHelper.getCloseButton(app, context, onPressed: () {
           Navigator.of(context).pop();
@@ -293,7 +293,7 @@ class DefaultDialogWidgetImpl implements HasDialogWidget {
             : fullScreenWidth(context) * widthFraction,
         key: key,
         title: title,
-        dialogButtonPosition: DialogButtonPosition.TopRight,
+        dialogButtonPosition: DialogButtonPosition.topRight,
         contents: child,
         buttons: buttons,
         includeHeading: includeHeading);

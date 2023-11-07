@@ -28,7 +28,7 @@ abstract class HasIcon {
       {required IconData iconData, String? semanticLabel});
 }
 
-Widget h1Icon(AppModel app,BuildContext context,
+Widget h1Icon(AppModel app, BuildContext context,
         {required IconModel icon, String? semanticLabel}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
@@ -74,7 +74,8 @@ Widget h1Icon2(AppModel app, BuildContext context,
         .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h1Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
+        .h1Icon2(app, context,
+            iconData: iconData, semanticLabel: semanticLabel);
 
 Widget h2Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
@@ -82,7 +83,8 @@ Widget h2Icon2(AppModel app, BuildContext context,
         .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h2Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
+        .h2Icon2(app, context,
+            iconData: iconData, semanticLabel: semanticLabel);
 
 Widget h3Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
@@ -90,7 +92,8 @@ Widget h3Icon2(AppModel app, BuildContext context,
         .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h3Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
+        .h3Icon2(app, context,
+            iconData: iconData, semanticLabel: semanticLabel);
 
 Widget h4Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
@@ -98,7 +101,8 @@ Widget h4Icon2(AppModel app, BuildContext context,
         .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h4Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
+        .h4Icon2(app, context,
+            iconData: iconData, semanticLabel: semanticLabel);
 
 Widget h5Icon2(AppModel app, BuildContext context,
         {required IconData iconData, String? semanticLabel}) =>
@@ -106,4 +110,5 @@ Widget h5Icon2(AppModel app, BuildContext context,
         .styleWithApp(app)
         .frontEndStyle()
         .iconStyle()
-        .h5Icon2(app, context, iconData: iconData, semanticLabel: semanticLabel);
+        .h5Icon2(app, context,
+            iconData: iconData, semanticLabel: semanticLabel);

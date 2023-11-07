@@ -9,9 +9,10 @@ import 'package:firebase_storage/firebase_storage.dart';
 class StorageHelper {
   Reference storageReference = FirebaseStorage.instance.ref();
 
-  Future<void> put(String collectionID, String documentID, String jsonContents) {
-    String fileName = collectionID + "/" + documentID + ".json";
-    Uint8List data = new Uint8List.fromList(jsonContents.codeUnits);
+  Future<void> put(
+      String collectionID, String documentID, String jsonContents) {
+    String fileName = "$collectionID/$documentID.json";
+    Uint8List data = Uint8List.fromList(jsonContents.codeUnits);
     final Reference storageRef = storageReference.child(fileName);
     final UploadTask uploadTask = storageRef.putData(
       data,
@@ -20,9 +21,8 @@ class StorageHelper {
   }
 
   Future<void> delete(String collectionID, String documentID) {
-    String fileName = collectionID + "/" + documentID + ".json";
+    String fileName = "$collectionID/$documentID.json";
     final Reference storageRef = storageReference.child(fileName);
     return storageRef.delete();
   }
-
 }

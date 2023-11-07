@@ -12,7 +12,9 @@ abstract class ActionEntity {
   final String packageCondition;
 */
 
-  const ActionEntity(this.appID, { this.conditions, /*this.readCondition, this.privilegeLevelRequired, this.packageCondition, */this.actionType });
+  const ActionEntity(this.appID,
+      {this.conditions,
+      /*this.readCondition, this.privilegeLevelRequired, this.packageCondition, */ this.actionType});
 
   Map<String, Object?> toDocument();
 
@@ -23,7 +25,8 @@ abstract class ActionEntity {
     if (actionType != null) {
       var mapper = ActionModelRegistry.registry()!.getMapper(actionType);
       if (mapper != null) {
-        var fromSnap = ActionModelRegistry.registry()!.getMapper(actionType)!
+        var fromSnap = ActionModelRegistry.registry()!
+            .getMapper(actionType)!
             .fromMap(snap);
         if (fromSnap != null) {
           return fromSnap;
@@ -43,7 +46,8 @@ class GotoPageEntity extends ActionEntity {
   static const String label = 'GotoPage';
   final String? pageID;
 
-  const GotoPageEntity(String? appID, {DisplayConditionsEntity? conditions, this.pageID }) : super(appID, conditions: conditions, actionType : label);
+  const GotoPageEntity(super.appID, {super.conditions, this.pageID})
+      : super(actionType: label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -64,8 +68,11 @@ class GotoPageEntity extends ActionEntity {
   }
 
   @override
-  ActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? pageID }) {
-    return GotoPageEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, pageID: pageID ?? this.pageID);
+  ActionEntity copyWith(
+      {String? appId, DisplayConditionsEntity? conditions, String? pageID}) {
+    return GotoPageEntity(appId ?? appID,
+        conditions: conditions ?? this.conditions,
+        pageID: pageID ?? this.pageID);
   }
 }
 
@@ -73,7 +80,8 @@ class OpenDialogEntity extends ActionEntity {
   static const String label = 'Dialog';
   final String? dialogID;
 
-  const OpenDialogEntity(String? appID, { DisplayConditionsEntity? conditions, this.dialogID }) : super(appID, conditions: conditions, actionType : label);
+  const OpenDialogEntity(super.appID, {super.conditions, this.dialogID})
+      : super(actionType: label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -86,16 +94,17 @@ class OpenDialogEntity extends ActionEntity {
   }
 
   static ActionEntity fromMap(Map snap) {
-    return OpenDialogEntity(
-        snap['appID'],
+    return OpenDialogEntity(snap['appID'],
         conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
-        dialogID: snap['dialogID']
-    );
+        dialogID: snap['dialogID']);
   }
 
   @override
-  ActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? dialogID }) {
-    return OpenDialogEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, dialogID: dialogID ?? this.dialogID);
+  ActionEntity copyWith(
+      {String? appId, DisplayConditionsEntity? conditions, String? dialogID}) {
+    return OpenDialogEntity(appId ?? appID,
+        conditions: conditions ?? this.conditions,
+        dialogID: dialogID ?? this.dialogID);
   }
 }
 
@@ -103,7 +112,8 @@ class SwitchAppEntity extends ActionEntity {
   static const String label = 'SwitchApp';
   final String? toAppID;
 
-  const SwitchAppEntity(String? appID, { DisplayConditionsEntity? conditions, this.toAppID }) : super(appID, conditions: conditions, actionType : label);
+  const SwitchAppEntity(super.appID, {super.conditions, this.toAppID})
+      : super(actionType: label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -116,16 +126,17 @@ class SwitchAppEntity extends ActionEntity {
   }
 
   static ActionEntity fromMap(Map snap) {
-    return SwitchAppEntity(
-        snap['appID'],
+    return SwitchAppEntity(snap['appID'],
         conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
-        toAppID: snap['toAppID']
-    );
+        toAppID: snap['toAppID']);
   }
 
   @override
-  ActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? toAppID }) {
-    return SwitchAppEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, toAppID: toAppID ?? this.toAppID);
+  ActionEntity copyWith(
+      {String? appId, DisplayConditionsEntity? conditions, String? toAppID}) {
+    return SwitchAppEntity(appId ?? appID,
+        conditions: conditions ?? this.conditions,
+        toAppID: toAppID ?? this.toAppID);
   }
 }
 
@@ -133,7 +144,8 @@ class PopupMenuEntity extends ActionEntity {
   static const String label = 'PopupMenu';
   final String? menuDefID;
 
-  const PopupMenuEntity(String? appID, { DisplayConditionsEntity? conditions, this.menuDefID }) : super(appID, conditions: conditions, actionType : label);
+  const PopupMenuEntity(super.appID, {super.conditions, this.menuDefID})
+      : super(actionType: label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -146,16 +158,17 @@ class PopupMenuEntity extends ActionEntity {
   }
 
   static ActionEntity fromMap(Map snap) {
-    return PopupMenuEntity(
-        snap['appID'],
+    return PopupMenuEntity(snap['appID'],
         conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
-        menuDefID: snap['menuDefID']
-    );
+        menuDefID: snap['menuDefID']);
   }
 
   @override
-  ActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? menuDefID }) {
-    return PopupMenuEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, menuDefID: menuDefID ?? this.menuDefID);
+  ActionEntity copyWith(
+      {String? appId, DisplayConditionsEntity? conditions, String? menuDefID}) {
+    return PopupMenuEntity(appId ?? appID,
+        conditions: conditions ?? this.conditions,
+        menuDefID: menuDefID ?? this.menuDefID);
   }
 }
 
@@ -163,7 +176,8 @@ class InternalActionEntity extends ActionEntity {
   static const String label = 'InternalAction';
   final String? action;
 
-  const InternalActionEntity(String? appID, { DisplayConditionsEntity? conditions, this.action }) : super(appID, conditions: conditions, actionType: label);
+  const InternalActionEntity(super.appID, {super.conditions, this.action})
+      : super(actionType: label);
 
   @override
   Map<String, Object?> toDocument() {
@@ -176,16 +190,16 @@ class InternalActionEntity extends ActionEntity {
   }
 
   static ActionEntity fromMap(Map snap) {
-    return InternalActionEntity(
-        snap['appID'],
+    return InternalActionEntity(snap['appID'],
         conditions: DisplayConditionsEntity.fromMap(snap['conditions']),
-        action: snap['action']
-    );
+        action: snap['action']);
   }
 
   @override
-  InternalActionEntity copyWith({String? appId, DisplayConditionsEntity? conditions, String? action }) {
-    return InternalActionEntity(appId ?? this.appID, conditions : conditions ?? this.conditions, action: action ?? this.action);
+  InternalActionEntity copyWith(
+      {String? appId, DisplayConditionsEntity? conditions, String? action}) {
+    return InternalActionEntity(appId ?? appID,
+        conditions: conditions ?? this.conditions,
+        action: action ?? this.action);
   }
 }
-

@@ -30,10 +30,10 @@ class NewPage extends PageListEvent {}
 class AddPageList extends PageListEvent {
   final PageModel? value;
 
-  const AddPageList({ this.value });
+  const AddPageList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddPageList{ value: $value }';
@@ -42,10 +42,10 @@ class AddPageList extends PageListEvent {
 class UpdatePageList extends PageListEvent {
   final PageModel? value;
 
-  const UpdatePageList({ this.value });
+  const UpdatePageList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdatePageList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdatePageList extends PageListEvent {
 class DeletePageList extends PageListEvent {
   final PageModel? value;
 
-  const DeletePageList({ this.value });
+  const DeletePageList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeletePageList{ value: $value }';
@@ -67,24 +67,24 @@ class PageListUpdated extends PageListEvent {
   final List<PageModel?>? value;
   final bool? mightHaveMore;
 
-  const PageListUpdated({ this.value, this.mightHaveMore });
+  const PageListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'PageListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'PageListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class PageChangeQuery extends PageListEvent {
   final EliudQuery? newQuery;
 
-  const PageChangeQuery({ required this.newQuery });
+  const PageChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'PageChangeQuery{ value: $newQuery }';
 }
-

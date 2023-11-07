@@ -24,7 +24,7 @@
       "remark": "Border Radius Type",
       "fieldType": "enum",
       "enumName": "BorderRadiusType",
-      "enumValues" : [ "Circular", "Elliptical" ],
+      "enumValues" : [ "circular", "elliptical" ],
       "defaultValue": "0",
       "group": "conditional"
     },
@@ -59,7 +59,7 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()",
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID))",
     "subTitle": "value.comments != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.comments!)) : Container()"
   }
 }

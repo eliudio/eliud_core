@@ -12,13 +12,19 @@ abstract class HasListTile {
       Widget? title,
       Widget? subtitle,
       bool? isThreeLine});
-  Widget radioListTile<T>(AppModel app, BuildContext context, T t, T? groupValue,
-      String title, String? subTitle, ValueChanged<T?>? valueChanged);
-  Widget checkboxListTile(AppModel app, BuildContext context, String title, bool? value,
-      ValueChanged<bool?>? onChanged);
+  Widget radioListTile<T>(
+      AppModel app,
+      BuildContext context,
+      T t,
+      T? groupValue,
+      String title,
+      String? subTitle,
+      ValueChanged<T?>? valueChanged);
+  Widget checkboxListTile(AppModel app, BuildContext context, String title,
+      bool? value, ValueChanged<bool?>? onChanged);
 }
 
-Widget getListTile(BuildContext context,AppModel app,
+Widget getListTile(BuildContext context, AppModel app,
         {Key? key,
         GestureTapCallback? onTap,
         Widget? leading,
@@ -39,16 +45,17 @@ Widget getListTile(BuildContext context,AppModel app,
             subtitle: subtitle,
             isThreeLine: isThreeLine);
 
-Widget radioListTile<T>(AppModel app, BuildContext context, T t, T? groupValue, String title,
-        String? subTitle, ValueChanged<T?>? valueChanged) =>
+Widget radioListTile<T>(AppModel app, BuildContext context, T t, T? groupValue,
+        String title, String? subTitle, ValueChanged<T?>? valueChanged) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .listTileStyle()
-        .radioListTile(app, context, t, groupValue, title, subTitle, valueChanged);
+        .radioListTile(
+            app, context, t, groupValue, title, subTitle, valueChanged);
 
-Widget checkboxListTile(AppModel app,BuildContext context, String title, bool? value,
-        ValueChanged<bool?>? onChanged) =>
+Widget checkboxListTile(AppModel app, BuildContext context, String title,
+        bool? value, ValueChanged<bool?>? onChanged) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()

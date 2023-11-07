@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import '../style_registry.dart';
 
 abstract class HasTexFormField {
-  Widget textFormField(AppModel app,
-      BuildContext context, {
+  Widget textFormField(
+    AppModel app,
+    BuildContext context, {
     required bool readOnly,
     String? initialValue,
     FormFieldValidator<String>? validator,
@@ -18,8 +19,9 @@ abstract class HasTexFormField {
     TextEditingController? textEditingController,
   });
 
-  Widget textField(AppModel app,
-      BuildContext context, {
+  Widget textField(
+    AppModel app,
+    BuildContext context, {
     required bool readOnly,
     String? initialValue,
     FormFieldValidator<String>? validator,
@@ -37,8 +39,9 @@ abstract class HasTexFormField {
   });
 }
 
-Widget textFormField(AppModel app,
-    BuildContext context, {
+Widget textFormField(
+  AppModel app,
+  BuildContext context, {
   required bool readOnly,
   String? initialValue,
   FormFieldValidator<String>? validator,
@@ -54,7 +57,8 @@ Widget textFormField(AppModel app,
         .styleWithApp(app)
         .frontEndStyle()
         .texFormFieldStyle()
-        .textFormField(app,
+        .textFormField(
+          app,
           context,
           readOnly: readOnly,
           initialValue: initialValue,
@@ -68,8 +72,9 @@ Widget textFormField(AppModel app,
           textEditingController: textEditingController,
         );
 
-Widget textField(AppModel app,
-    BuildContext context, {
+Widget textField(
+  AppModel app,
+  BuildContext context, {
   required bool readOnly,
   String? initialValue,
   FormFieldValidator<String>? validator,

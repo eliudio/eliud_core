@@ -24,13 +24,12 @@ abstract class BlockingDashboardComponentEvent extends Equatable {
 class FetchBlockingDashboardComponent extends BlockingDashboardComponentEvent {
   final String? id;
 
-  FetchBlockingDashboardComponent({ this.id });
+  FetchBlockingDashboardComponent({this.id});
 }
 
-class BlockingDashboardComponentUpdated extends BlockingDashboardComponentEvent {
+class BlockingDashboardComponentUpdated
+    extends BlockingDashboardComponentEvent {
   final BlockingDashboardModel value;
 
-  BlockingDashboardComponentUpdated({ required this.value });
+  BlockingDashboardComponentUpdated({required this.value});
 }
-
-

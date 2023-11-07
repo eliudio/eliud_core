@@ -41,9 +41,9 @@ class MemberDashboardFormInitialized extends MemberDashboardFormState {
   final MemberDashboardModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const MemberDashboardFormInitialized({ this.value });
+  const MemberDashboardFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class MemberDashboardFormError extends MemberDashboardFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const MemberDashboardFormError({this.message, MemberDashboardModel? value }) : super(value: value);
+  const MemberDashboardFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class MemberDashboardFormError extends MemberDashboardFormInitialized {
     }''';
   }
 }
-class DocumentIDMemberDashboardFormError extends MemberDashboardFormError { 
-  const DocumentIDMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+
+class DocumentIDMemberDashboardFormError extends MemberDashboardFormError {
+  const DocumentIDMemberDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDMemberDashboardFormError extends MemberDashboardFormError {
   }
 }
 
-
-class AppIdMemberDashboardFormError extends MemberDashboardFormError { 
-  const AppIdMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class AppIdMemberDashboardFormError extends MemberDashboardFormError {
+  const AppIdMemberDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdMemberDashboardFormError extends MemberDashboardFormError {
   }
 }
 
-
-class DescriptionMemberDashboardFormError extends MemberDashboardFormError { 
-  const DescriptionMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class DescriptionMemberDashboardFormError extends MemberDashboardFormError {
+  const DescriptionMemberDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,12 @@ class DescriptionMemberDashboardFormError extends MemberDashboardFormError {
   }
 }
 
-
-class UpdateProfileTextMemberDashboardFormError extends MemberDashboardFormError { 
-  const UpdateProfileTextMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class UpdateProfileTextMemberDashboardFormError
+    extends MemberDashboardFormError {
+  const UpdateProfileTextMemberDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +125,12 @@ class UpdateProfileTextMemberDashboardFormError extends MemberDashboardFormError
   }
 }
 
-
-class RetrieveDataTextMemberDashboardFormError extends MemberDashboardFormError { 
-  const RetrieveDataTextMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class RetrieveDataTextMemberDashboardFormError
+    extends MemberDashboardFormError {
+  const RetrieveDataTextMemberDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +141,11 @@ class RetrieveDataTextMemberDashboardFormError extends MemberDashboardFormError 
   }
 }
 
-
-class DeleteDataTextMemberDashboardFormError extends MemberDashboardFormError { 
-  const DeleteDataTextMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class DeleteDataTextMemberDashboardFormError extends MemberDashboardFormError {
+  const DeleteDataTextMemberDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +156,13 @@ class DeleteDataTextMemberDashboardFormError extends MemberDashboardFormError {
   }
 }
 
-
-class RetrieveDataEmailSubjectMemberDashboardFormError extends MemberDashboardFormError { 
-  const RetrieveDataEmailSubjectMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class RetrieveDataEmailSubjectMemberDashboardFormError
+    extends MemberDashboardFormError {
+  const RetrieveDataEmailSubjectMemberDashboardFormError(
+      {super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +173,13 @@ class RetrieveDataEmailSubjectMemberDashboardFormError extends MemberDashboardFo
   }
 }
 
-
-class DeleteDataEmailSubjectMemberDashboardFormError extends MemberDashboardFormError { 
-  const DeleteDataEmailSubjectMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class DeleteDataEmailSubjectMemberDashboardFormError
+    extends MemberDashboardFormError {
+  const DeleteDataEmailSubjectMemberDashboardFormError(
+      {super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +190,13 @@ class DeleteDataEmailSubjectMemberDashboardFormError extends MemberDashboardForm
   }
 }
 
-
-class DeleteDataEmailMessageMemberDashboardFormError extends MemberDashboardFormError { 
-  const DeleteDataEmailMessageMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class DeleteDataEmailMessageMemberDashboardFormError
+    extends MemberDashboardFormError {
+  const DeleteDataEmailMessageMemberDashboardFormError(
+      {super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +207,11 @@ class DeleteDataEmailMessageMemberDashboardFormError extends MemberDashboardForm
   }
 }
 
-
-class ConditionsMemberDashboardFormError extends MemberDashboardFormError { 
-  const ConditionsMemberDashboardFormError({ String? message, MemberDashboardModel? value }): super(message: message, value: value);
+class ConditionsMemberDashboardFormError extends MemberDashboardFormError {
+  const ConditionsMemberDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +222,11 @@ class ConditionsMemberDashboardFormError extends MemberDashboardFormError {
   }
 }
 
-
-class MemberDashboardFormLoaded extends MemberDashboardFormInitialized { 
-  const MemberDashboardFormLoaded({ MemberDashboardModel? value }): super(value: value);
+class MemberDashboardFormLoaded extends MemberDashboardFormInitialized {
+  const MemberDashboardFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -237,12 +236,11 @@ class MemberDashboardFormLoaded extends MemberDashboardFormInitialized {
   }
 }
 
-
-class SubmittableMemberDashboardForm extends MemberDashboardFormInitialized { 
-  const SubmittableMemberDashboardForm({ MemberDashboardModel? value }): super(value: value);
+class SubmittableMemberDashboardForm extends MemberDashboardFormInitialized {
+  const SubmittableMemberDashboardForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -251,5 +249,3 @@ class SubmittableMemberDashboardForm extends MemberDashboardFormInitialized {
     }''';
   }
 }
-
-

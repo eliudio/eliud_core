@@ -23,24 +23,26 @@ abstract class MemberDashboardComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class MemberDashboardComponentUninitialized extends MemberDashboardComponentState {}
+class MemberDashboardComponentUninitialized
+    extends MemberDashboardComponentState {}
 
 class MemberDashboardComponentError extends MemberDashboardComponentState {
   final String? message;
-  MemberDashboardComponentError({ this.message });
+  MemberDashboardComponentError({this.message});
 }
 
-class MemberDashboardComponentPermissionDenied extends MemberDashboardComponentState {
+class MemberDashboardComponentPermissionDenied
+    extends MemberDashboardComponentState {
   MemberDashboardComponentPermissionDenied();
 }
 
 class MemberDashboardComponentLoaded extends MemberDashboardComponentState {
   final MemberDashboardModel value;
 
-  const MemberDashboardComponentLoaded({ required this.value });
+  const MemberDashboardComponentLoaded({required this.value});
 
-  MemberDashboardComponentLoaded copyWith({ MemberDashboardModel? copyThis }) {
-    return MemberDashboardComponentLoaded(value: copyThis ?? this.value);
+  MemberDashboardComponentLoaded copyWith({MemberDashboardModel? copyThis}) {
+    return MemberDashboardComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +51,3 @@ class MemberDashboardComponentLoaded extends MemberDashboardComponentState {
   @override
   String toString() => 'MemberDashboardComponentLoaded { value: $value }';
 }
-

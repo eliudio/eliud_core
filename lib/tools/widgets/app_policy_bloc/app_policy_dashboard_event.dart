@@ -38,4 +38,3 @@ class AppPolicyDashboardDeleteItem extends AppPolicyDashboardBaseEvent {
 
   AppPolicyDashboardDeleteItem({required this.item});
 }
-

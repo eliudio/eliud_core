@@ -18,14 +18,16 @@ class AppPolicyDashboardUninitialised extends AppPolicyDashboardBaseState {
   @override
   bool operator ==(Object other) =>
       identical(this, other) || other is AppPolicyDashboardUninitialised;
+
+  @override
+  int get hashCode => 0;
 }
 
 class AppPolicyDashboardInitialised extends AppPolicyDashboardBaseState {
   final AppPolicyModel appPolicy;
   final List<PlatformMediumModel>? values;
 
-  const AppPolicyDashboardInitialised(
-      {required this.appPolicy, this.values});
+  const AppPolicyDashboardInitialised({required this.appPolicy, this.values});
 
   @override
   bool operator ==(Object other) =>
@@ -33,20 +35,23 @@ class AppPolicyDashboardInitialised extends AppPolicyDashboardBaseState {
       other is AppPolicyDashboardInitialised &&
           appPolicy == other.appPolicy &&
           ListEquality().equals(values, other.values);
+
+  @override
+  int get hashCode => appPolicy.hashCode ^ values.hashCode;
 }
 
 class AppPolicyDashboardLoaded extends AppPolicyDashboardInitialised {
-  AppPolicyDashboardLoaded(
-      { required AppPolicyModel appPolicy,
-        List<PlatformMediumModel>? values})
-      : super(appPolicy: appPolicy, values: values);
+  AppPolicyDashboardLoaded({required super.appPolicy, super.values});
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AppPolicyDashboardLoaded &&
-              appPolicy == other.appPolicy &&
-              ListEquality().equals(values, other.values);
+      other is AppPolicyDashboardLoaded &&
+          appPolicy == other.appPolicy &&
+          ListEquality().equals(values, other.values);
+
+  @override
+  int get hashCode => appPolicy.hashCode ^ values.hashCode;
 }
 
 class AppPolicyDashboardError extends AppPolicyDashboardInitialised {
@@ -54,15 +59,17 @@ class AppPolicyDashboardError extends AppPolicyDashboardInitialised {
 
   AppPolicyDashboardError(
       {required this.error,
-      required AppPolicyModel appPolicy,
-      required List<PlatformMediumModel> values})
-      : super(appPolicy: appPolicy, values: values);
+      required super.appPolicy,
+      required List<PlatformMediumModel> super.values});
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AppPolicyDashboardError &&
-              appPolicy == other.appPolicy &&
-              error == other.error &&
-              ListEquality().equals(values, other.values);
+      other is AppPolicyDashboardError &&
+          appPolicy == other.appPolicy &&
+          error == other.error &&
+          ListEquality().equals(values, other.values);
+
+  @override
+  int get hashCode => appPolicy.hashCode ^ values.hashCode ^ error.hashCode;
 }

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AlertApp extends StatelessWidget {
   final String? title;
   final String? content;
-  
+
   AlertApp({this.title, this.content});
 
   @override

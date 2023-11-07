@@ -30,10 +30,10 @@ class NewPage extends MemberMediumListEvent {}
 class AddMemberMediumList extends MemberMediumListEvent {
   final MemberMediumModel? value;
 
-  const AddMemberMediumList({ this.value });
+  const AddMemberMediumList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddMemberMediumList{ value: $value }';
@@ -42,10 +42,10 @@ class AddMemberMediumList extends MemberMediumListEvent {
 class UpdateMemberMediumList extends MemberMediumListEvent {
   final MemberMediumModel? value;
 
-  const UpdateMemberMediumList({ this.value });
+  const UpdateMemberMediumList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateMemberMediumList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateMemberMediumList extends MemberMediumListEvent {
 class DeleteMemberMediumList extends MemberMediumListEvent {
   final MemberMediumModel? value;
 
-  const DeleteMemberMediumList({ this.value });
+  const DeleteMemberMediumList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteMemberMediumList{ value: $value }';
@@ -67,24 +67,24 @@ class MemberMediumListUpdated extends MemberMediumListEvent {
   final List<MemberMediumModel?>? value;
   final bool? mightHaveMore;
 
-  const MemberMediumListUpdated({ this.value, this.mightHaveMore });
+  const MemberMediumListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'MemberMediumListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'MemberMediumListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class MemberMediumChangeQuery extends MemberMediumListEvent {
   final EliudQuery? newQuery;
 
-  const MemberMediumChangeQuery({ required this.newQuery });
+  const MemberMediumChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'MemberMediumChangeQuery{ value: $newQuery }';
 }
-

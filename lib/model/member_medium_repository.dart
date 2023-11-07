@@ -13,45 +13,106 @@
 
 */
 
-
-
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
-
 
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/core/base/repository_base.dart';
 
-typedef MemberMediumModelTrigger(List<MemberMediumModel?> list);
-typedef MemberMediumChanged(MemberMediumModel? value);
-typedef MemberMediumErrorHandler(o, e);
+typedef MemberMediumModelTrigger = Function(List<MemberMediumModel?> list);
+typedef MemberMediumChanged = Function(MemberMediumModel? value);
+typedef MemberMediumErrorHandler = Function(dynamic o, dynamic e);
 
-abstract class MemberMediumRepository extends RepositoryBase<MemberMediumModel, MemberMediumEntity> {
-  Future<MemberMediumEntity> addEntity(String documentID, MemberMediumEntity value);
-  Future<MemberMediumEntity> updateEntity(String documentID, MemberMediumEntity value);
+abstract class MemberMediumRepository
+    extends RepositoryBase<MemberMediumModel, MemberMediumEntity> {
+  @override
+  Future<MemberMediumEntity> addEntity(
+      String documentID, MemberMediumEntity value);
+  @override
+  Future<MemberMediumEntity> updateEntity(
+      String documentID, MemberMediumEntity value);
+  @override
   Future<MemberMediumModel> add(MemberMediumModel value);
+  @override
   Future<void> delete(MemberMediumModel value);
-  Future<MemberMediumModel?> get(String? id, { Function(Exception)? onError });
+  @override
+  Future<MemberMediumModel?> get(String? id, {Function(Exception)? onError});
+  @override
   Future<MemberMediumModel> update(MemberMediumModel value);
 
-  Stream<List<MemberMediumModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<MemberMediumModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Future<List<MemberMediumModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Future<List<MemberMediumModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  @override
+  Stream<List<MemberMediumModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Stream<List<MemberMediumModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Future<List<MemberMediumModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Future<List<MemberMediumModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
 
-  StreamSubscription<List<MemberMediumModel?>> listen(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<MemberMediumModel?>> listenWithDetails(MemberMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<MemberMediumModel?> listenTo(String documentId, MemberMediumChanged changed, {MemberMediumErrorHandler? errorHandler});
+  @override
+  StreamSubscription<List<MemberMediumModel?>> listen(
+      MemberMediumModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  StreamSubscription<List<MemberMediumModel?>> listenWithDetails(
+      MemberMediumModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  StreamSubscription<MemberMediumModel?> listenTo(
+      String documentId, MemberMediumChanged changed,
+      {MemberMediumErrorHandler? errorHandler});
+  @override
   void flush();
-  
+
+  @override
   String? timeStampToString(dynamic timeStamp);
 
+  @override
   dynamic getSubCollection(String documentId, String name);
-  Future<MemberMediumModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
+  @override
+  Future<MemberMediumModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue);
 
+  @override
   Future<void> deleteAll();
 }
-
-

@@ -13,12 +13,12 @@ class HeaderWidget extends StatefulWidget {
   final VoidCallbackFutureSuccess? okAction;
 
   HeaderWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.title,
     this.cancelAction,
     this.okAction,
-  }) : super(key: key);
+  });
 
   @override
   State<StatefulWidget> createState() {
@@ -33,15 +33,16 @@ class _HeaderWidgetState extends State<HeaderWidget> {
       Row(children: [
         h5(widget.app, context, widget.title),
         Spacer(),
-        if (widget.cancelAction != null) iconButton(widget.app, context, onPressed: () {
-          widget.cancelAction!();
-          Navigator.of(context).pop();
-        }, icon: Icon(Icons.cancel), tooltip: 'Cancel'),
-        if (widget.okAction != null) iconButton(widget.app, context, onPressed: () async {
-          // apply and save
-          if (await widget.okAction!())
+        if (widget.cancelAction != null)
+          iconButton(widget.app, context, onPressed: () {
+            widget.cancelAction!();
             Navigator.of(context).pop();
-        }, icon: Icon(Icons.check), tooltip: 'Ok'),
+          }, icon: Icon(Icons.cancel), tooltip: 'Cancel'),
+        if (widget.okAction != null)
+          iconButton(widget.app, context, onPressed: () async {
+            // apply and save
+            if (await widget.okAction!()) Navigator.of(context).pop();
+          }, icon: Icon(Icons.check), tooltip: 'Ok'),
       ]),
       divider(widget.app, context)
     ]);

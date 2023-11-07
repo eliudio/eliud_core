@@ -8,24 +8,24 @@ import 'package:flutter/material.dart';
 import '../../helpers/parse_helper.dart';
 import 'style_color_widget.dart';
 
-typedef ColorListChanged(List<DecorationColorModel>? value);
+typedef ColorListChanged = Function(List<DecorationColorModel>? value);
 
 class DecorationColorListWidget extends StatefulWidget {
   final AppModel app;
   final String label;
-  List<DecorationColorModel> colors;
+  final List<DecorationColorModel> colors;
   final ColorListChanged colorListChanged;
 
   DecorationColorListWidget({
-    Key? key,
+    super.key,
     required this.app,
     required this.label,
     required this.colors,
     required this.colorListChanged,
-  }) : super(key: key);
+  });
 
   @override
-  _DecorationColorListState createState() => _DecorationColorListState();
+  State<DecorationColorListWidget> createState() => _DecorationColorListState();
 }
 
 class _DecorationColorListState extends State<DecorationColorListWidget> {
@@ -37,7 +37,7 @@ class _DecorationColorListState extends State<DecorationColorListWidget> {
       for (var color in widget.colors) {
         if (color.color != null) {
           colorEntries.add(topicContainer(widget.app, context,
-              title: 'Gradient color #' + i.toString(),
+              title: 'Gradient color #$i',
               collapsible: true,
               collapsed: true,
               children: [
@@ -45,7 +45,7 @@ class _DecorationColorListState extends State<DecorationColorListWidget> {
                     withContainer: false,
                     app: widget.app,
                     value: color.color!,
-                    label: 'Gradient color #' + i.toString()),
+                    label: 'Gradient color #$i'),
                 getListTile(context, widget.app,
                     leading: Icon(Icons.description),
                     title: dialogField(
@@ -53,9 +53,11 @@ class _DecorationColorListState extends State<DecorationColorListWidget> {
                       context,
                       initialValue: (color.stop ?? 0).toString(),
                       valueChanged: (value) {
-                        color.stop = double_parse(value);
+                        color.stop = doubleParse(value);
                       },
-                      keyboardType: TextInputType.numberWithOptions(signed: false, ),
+                      keyboardType: TextInputType.numberWithOptions(
+                        signed: false,
+                      ),
                       decoration: const InputDecoration(
                         hintText: 'Stop',
                         labelText: 'Stop',
@@ -80,7 +82,7 @@ class _DecorationColorListState extends State<DecorationColorListWidget> {
   Widget _addButton() {
     return Row(children: [
       Spacer(),
-      if (widget.colors.length >= 1)
+      if (widget.colors.isNotEmpty)
         GestureDetector(
             child: Icon(Icons.delete),
             onTap: () {
@@ -88,7 +90,7 @@ class _DecorationColorListState extends State<DecorationColorListWidget> {
                 widget.colors.removeLast();
               });
             }),
-      if (widget.colors.length >= 1) Spacer(),
+      if (widget.colors.isNotEmpty) Spacer(),
       GestureDetector(
           child: Icon(Icons.add),
           onTap: () {

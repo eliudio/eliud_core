@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class MemberFormEvent extends Equatable {
   const MemberFormEvent();
@@ -26,15 +25,13 @@ abstract class MemberFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewMemberFormEvent extends MemberFormEvent {
-}
-
+class InitialiseNewMemberFormEvent extends MemberFormEvent {}
 
 class InitialiseMemberFormEvent extends MemberFormEvent {
   final MemberModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseMemberFormNoLoadEvent extends MemberFormEvent {
   final MemberModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedMemberDocumentID extends MemberFormEvent {
   ChangedMemberDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedMemberName extends MemberFormEvent {
   ChangedMemberName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberName{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedMemberSubscriptions extends MemberFormEvent {
   ChangedMemberSubscriptions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberSubscriptions{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedMemberSubscriptionsAsStrArr extends MemberFormEvent {
   ChangedMemberSubscriptionsAsStrArr({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberSubscriptionsAsStrArr{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedMemberPhoto extends MemberFormEvent {
   ChangedMemberPhoto({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberPhoto{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedMemberPhotoURL extends MemberFormEvent {
   ChangedMemberPhotoURL({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberPhotoURL{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedMemberShipStreet1 extends MemberFormEvent {
   ChangedMemberShipStreet1({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberShipStreet1{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedMemberShipStreet2 extends MemberFormEvent {
   ChangedMemberShipStreet2({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberShipStreet2{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedMemberShipCity extends MemberFormEvent {
   ChangedMemberShipCity({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberShipCity{ value: $value }';
@@ -162,7 +159,7 @@ class ChangedMemberShipState extends MemberFormEvent {
   ChangedMemberShipState({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberShipState{ value: $value }';
@@ -174,7 +171,7 @@ class ChangedMemberPostcode extends MemberFormEvent {
   ChangedMemberPostcode({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberPostcode{ value: $value }';
@@ -186,7 +183,7 @@ class ChangedMemberCountry extends MemberFormEvent {
   ChangedMemberCountry({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberCountry{ value: $value }';
@@ -198,7 +195,7 @@ class ChangedMemberInvoiceSame extends MemberFormEvent {
   ChangedMemberInvoiceSame({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberInvoiceSame{ value: $value }';
@@ -210,7 +207,7 @@ class ChangedMemberInvoiceStreet1 extends MemberFormEvent {
   ChangedMemberInvoiceStreet1({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberInvoiceStreet1{ value: $value }';
@@ -222,7 +219,7 @@ class ChangedMemberInvoiceStreet2 extends MemberFormEvent {
   ChangedMemberInvoiceStreet2({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberInvoiceStreet2{ value: $value }';
@@ -234,7 +231,7 @@ class ChangedMemberInvoiceCity extends MemberFormEvent {
   ChangedMemberInvoiceCity({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberInvoiceCity{ value: $value }';
@@ -246,7 +243,7 @@ class ChangedMemberInvoiceState extends MemberFormEvent {
   ChangedMemberInvoiceState({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberInvoiceState{ value: $value }';
@@ -258,7 +255,7 @@ class ChangedMemberInvoicePostcode extends MemberFormEvent {
   ChangedMemberInvoicePostcode({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberInvoicePostcode{ value: $value }';
@@ -270,7 +267,7 @@ class ChangedMemberInvoiceCountry extends MemberFormEvent {
   ChangedMemberInvoiceCountry({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberInvoiceCountry{ value: $value }';
@@ -282,7 +279,7 @@ class ChangedMemberEmail extends MemberFormEvent {
   ChangedMemberEmail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberEmail{ value: $value }';
@@ -294,9 +291,8 @@ class ChangedMemberIsAnonymous extends MemberFormEvent {
   ChangedMemberIsAnonymous({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberIsAnonymous{ value: $value }';
 }
-

@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class MemberMediumFormEvent extends Equatable {
   const MemberMediumFormEvent();
@@ -26,15 +25,13 @@ abstract class MemberMediumFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewMemberMediumFormEvent extends MemberMediumFormEvent {
-}
-
+class InitialiseNewMemberMediumFormEvent extends MemberMediumFormEvent {}
 
 class InitialiseMemberMediumFormEvent extends MemberMediumFormEvent {
   final MemberMediumModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberMediumFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseMemberMediumFormNoLoadEvent extends MemberMediumFormEvent {
   final MemberMediumModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberMediumFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedMemberMediumDocumentID extends MemberMediumFormEvent {
   ChangedMemberMediumDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedMemberMediumAppId extends MemberMediumFormEvent {
   ChangedMemberMediumAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedMemberMediumAuthorId extends MemberMediumFormEvent {
   ChangedMemberMediumAuthorId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumAuthorId{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedMemberMediumBase extends MemberMediumFormEvent {
   ChangedMemberMediumBase({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumBase{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedMemberMediumExt extends MemberMediumFormEvent {
   ChangedMemberMediumExt({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumExt{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedMemberMediumUrl extends MemberMediumFormEvent {
   ChangedMemberMediumUrl({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumUrl{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedMemberMediumRef extends MemberMediumFormEvent {
   ChangedMemberMediumRef({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumRef{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedMemberMediumUrlThumbnail extends MemberMediumFormEvent {
   ChangedMemberMediumUrlThumbnail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumUrlThumbnail{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedMemberMediumRefThumbnail extends MemberMediumFormEvent {
   ChangedMemberMediumRefThumbnail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumRefThumbnail{ value: $value }';
@@ -162,7 +159,7 @@ class ChangedMemberMediumAccessibleByGroup extends MemberMediumFormEvent {
   ChangedMemberMediumAccessibleByGroup({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumAccessibleByGroup{ value: $value }';
@@ -174,10 +171,11 @@ class ChangedMemberMediumAccessibleByMembers extends MemberMediumFormEvent {
   ChangedMemberMediumAccessibleByMembers({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberMediumAccessibleByMembers{ value: $value }';
+  String toString() =>
+      'ChangedMemberMediumAccessibleByMembers{ value: $value }';
 }
 
 class ChangedMemberMediumReadAccess extends MemberMediumFormEvent {
@@ -186,7 +184,7 @@ class ChangedMemberMediumReadAccess extends MemberMediumFormEvent {
   ChangedMemberMediumReadAccess({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumReadAccess{ value: $value }';
@@ -198,7 +196,7 @@ class ChangedMemberMediumMediumType extends MemberMediumFormEvent {
   ChangedMemberMediumMediumType({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumMediumType{ value: $value }';
@@ -210,7 +208,7 @@ class ChangedMemberMediumMediumWidth extends MemberMediumFormEvent {
   ChangedMemberMediumMediumWidth({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumMediumWidth{ value: $value }';
@@ -222,7 +220,7 @@ class ChangedMemberMediumMediumHeight extends MemberMediumFormEvent {
   ChangedMemberMediumMediumHeight({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumMediumHeight{ value: $value }';
@@ -234,7 +232,7 @@ class ChangedMemberMediumThumbnailWidth extends MemberMediumFormEvent {
   ChangedMemberMediumThumbnailWidth({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumThumbnailWidth{ value: $value }';
@@ -246,7 +244,7 @@ class ChangedMemberMediumThumbnailHeight extends MemberMediumFormEvent {
   ChangedMemberMediumThumbnailHeight({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumThumbnailHeight{ value: $value }';
@@ -258,9 +256,8 @@ class ChangedMemberMediumRelatedMediumId extends MemberMediumFormEvent {
   ChangedMemberMediumRelatedMediumId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberMediumRelatedMediumId{ value: $value }';
 }
-

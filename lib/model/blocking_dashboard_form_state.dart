@@ -41,19 +41,20 @@ class BlockingDashboardFormInitialized extends BlockingDashboardFormState {
   final BlockingDashboardModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const BlockingDashboardFormInitialized({ this.value });
+  const BlockingDashboardFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
-abstract class BlockingDashboardFormError extends BlockingDashboardFormInitialized {
+abstract class BlockingDashboardFormError
+    extends BlockingDashboardFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const BlockingDashboardFormError({this.message, BlockingDashboardModel? value }) : super(value: value);
+  const BlockingDashboardFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +64,12 @@ abstract class BlockingDashboardFormError extends BlockingDashboardFormInitializ
     }''';
   }
 }
-class DocumentIDBlockingDashboardFormError extends BlockingDashboardFormError { 
-  const DocumentIDBlockingDashboardFormError({ String? message, BlockingDashboardModel? value }): super(message: message, value: value);
+
+class DocumentIDBlockingDashboardFormError extends BlockingDashboardFormError {
+  const DocumentIDBlockingDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +80,11 @@ class DocumentIDBlockingDashboardFormError extends BlockingDashboardFormError {
   }
 }
 
-
-class AppIdBlockingDashboardFormError extends BlockingDashboardFormError { 
-  const AppIdBlockingDashboardFormError({ String? message, BlockingDashboardModel? value }): super(message: message, value: value);
+class AppIdBlockingDashboardFormError extends BlockingDashboardFormError {
+  const AppIdBlockingDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +95,11 @@ class AppIdBlockingDashboardFormError extends BlockingDashboardFormError {
   }
 }
 
-
-class DescriptionBlockingDashboardFormError extends BlockingDashboardFormError { 
-  const DescriptionBlockingDashboardFormError({ String? message, BlockingDashboardModel? value }): super(message: message, value: value);
+class DescriptionBlockingDashboardFormError extends BlockingDashboardFormError {
+  const DescriptionBlockingDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +110,11 @@ class DescriptionBlockingDashboardFormError extends BlockingDashboardFormError {
   }
 }
 
-
-class ConditionsBlockingDashboardFormError extends BlockingDashboardFormError { 
-  const ConditionsBlockingDashboardFormError({ String? message, BlockingDashboardModel? value }): super(message: message, value: value);
+class ConditionsBlockingDashboardFormError extends BlockingDashboardFormError {
+  const ConditionsBlockingDashboardFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +125,11 @@ class ConditionsBlockingDashboardFormError extends BlockingDashboardFormError {
   }
 }
 
-
-class BlockingDashboardFormLoaded extends BlockingDashboardFormInitialized { 
-  const BlockingDashboardFormLoaded({ BlockingDashboardModel? value }): super(value: value);
+class BlockingDashboardFormLoaded extends BlockingDashboardFormInitialized {
+  const BlockingDashboardFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -141,12 +139,12 @@ class BlockingDashboardFormLoaded extends BlockingDashboardFormInitialized {
   }
 }
 
-
-class SubmittableBlockingDashboardForm extends BlockingDashboardFormInitialized { 
-  const SubmittableBlockingDashboardForm({ BlockingDashboardModel? value }): super(value: value);
+class SubmittableBlockingDashboardForm
+    extends BlockingDashboardFormInitialized {
+  const SubmittableBlockingDashboardForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -155,5 +153,3 @@ class SubmittableBlockingDashboardForm extends BlockingDashboardFormInitialized 
     }''';
   }
 }
-
-

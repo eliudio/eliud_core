@@ -8,7 +8,7 @@ import 'package:pointer_interceptor/pointer_interceptor.dart';
 
 import '../../../../../tools/etc.dart';
 
-enum DialogButtonPosition { BottomRight, TopRight }
+enum DialogButtonPosition { bottomRight, topRight }
 
 class DialogStatefulWidgetHelper {
   static double width(BuildContext context) =>
@@ -19,9 +19,9 @@ class DialogStatefulWidgetHelper {
 
   static Future<void> openIt(BuildContext context, String name, Widget dialog,
       {double? heightValue, double? widthValue}) async {
-    var _width =
+    var widthV =
         widthValue == null ? width(context) : min(width(context), widthValue);
-    var _height = heightValue == null
+    var heightV = heightValue == null
         ? height(context)
         : min(height(context), heightValue);
 
@@ -41,12 +41,15 @@ class DialogStatefulWidgetHelper {
         },
         pageBuilder: (context, animation, secondaryAnimation) {
           // using a PointerInterceptor in case we open a dialog over a web iframe, to make sure the focus is on the dialog
-          return PointerInterceptor(child: SafeArea(
-              child: Container(
-                  child: Align(
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                          width: _width, height: _height, child: dialog)))));
+          return PointerInterceptor(
+              child: SafeArea(
+                  child: Container(
+                      child: Align(
+                          alignment: Alignment.center,
+                          child: SizedBox(
+                              width: widthV,
+                              height: heightV,
+                              child: dialog)))));
         });
   }
 }
@@ -55,8 +58,9 @@ class DialogStatefulWidgetHelper {
 class DialogStateHelper {
   DialogStateHelper();
 
-  Widget build(AppModel app,
-      BuildContext context, {
+  Widget build(
+    AppModel app,
+    BuildContext context, {
     String? title,
     Key? key,
     required Widget contents,
@@ -75,7 +79,9 @@ class DialogStateHelper {
           borderRadius: BorderRadius.circular(20),
         ),
         elevation: 0,
-        backgroundColor: dialogBackgroundColor != null ? RgbHelper.color(rgbo: dialogBackgroundColor) : Colors.grey[200],
+        backgroundColor: dialogBackgroundColor != null
+            ? RgbHelper.color(rgbo: dialogBackgroundColor)
+            : Colors.grey[200],
         child: Form(
             //key: _formKey,
             child: _titleAndFieldsAndContent(app, context,
@@ -86,8 +92,7 @@ class DialogStateHelper {
                 dialogButtonPosition: dialogButtonPosition,
                 separator: separator,
                 includeHeading: includeHeading,
-                seperatorColor: dialogSeperatorColor
-            )));
+                seperatorColor: dialogSeperatorColor)));
   }
 
   Widget _getRowWithButtons(List<Widget>? buttons, {Widget? title}) {
@@ -104,13 +109,14 @@ class DialogStateHelper {
   }
 
   Widget seperatorWidget(Widget? separator, RgbModel? seperatorColor) {
-    var seperatorWidget;
+    Widget seperatorWidget;
     if (separator == null) {
       seperatorWidget = Divider(
         height: 15,
         thickness: 5,
-        color: seperatorColor != null ? RgbHelper.color(
-              rgbo: seperatorColor) : Colors.red,
+        color: seperatorColor != null
+            ? RgbHelper.color(rgbo: seperatorColor)
+            : Colors.red,
       );
     } else {
       seperatorWidget = separator;
@@ -118,33 +124,35 @@ class DialogStateHelper {
     return seperatorWidget;
   }
 
-  Widget _titleAndFieldsAndContent(AppModel app, BuildContext context,
-      {String? title,
-      required Widget contents,
-      List<Widget>? buttons,
-      double? width,
-      DialogButtonPosition? dialogButtonPosition,
-      Widget? separator,
-      bool? includeHeading,
-      RgbModel? seperatorColor,
-      }) {
+  Widget _titleAndFieldsAndContent(
+    AppModel app,
+    BuildContext context, {
+    String? title,
+    required Widget contents,
+    List<Widget>? buttons,
+    double? width,
+    DialogButtonPosition? dialogButtonPosition,
+    Widget? separator,
+    bool? includeHeading,
+    RgbModel? seperatorColor,
+  }) {
     var items = <Widget>[];
 
-    var titleContainer;
+    Container? titleContainer;
     if ((includeHeading != null) && (includeHeading) && (buttons != null)) {
       // Title
-      var _title = StyleRegistry.registry()
+      var title0 = StyleRegistry.registry()
           .styleWithApp(app)
           .frontEndStyle()
           .textStyle()
           .h4(app, context, title ?? '');
 
-      var titleWidget;
+      Widget titleWidget;
       if ((dialogButtonPosition != null) &&
-          (dialogButtonPosition == DialogButtonPosition.TopRight)) {
-        titleWidget = _getRowWithButtons(buttons, title: _title);
+          (dialogButtonPosition == DialogButtonPosition.topRight)) {
+        titleWidget = _getRowWithButtons(buttons, title: title0);
       } else {
-        titleWidget = Center(child: _title);
+        titleWidget = Center(child: title0);
       }
       titleContainer = Container(
           child: ListView(
@@ -163,14 +171,17 @@ class DialogStateHelper {
 
     if (titleContainer != null) {
       // Footer
-      var footerContainer;
+      Container footerContainer;
       if (!((dialogButtonPosition != null) &&
-          (dialogButtonPosition == DialogButtonPosition.TopRight))) {
+          (dialogButtonPosition == DialogButtonPosition.topRight))) {
         footerContainer = Container(
             child: ListView(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          children: [seperatorWidget(separator, seperatorColor), _getRowWithButtons(buttons)],
+          children: [
+            seperatorWidget(separator, seperatorColor),
+            _getRowWithButtons(buttons)
+          ],
         ));
         items = [titleContainer, middle, footerContainer];
       } else {
@@ -178,9 +189,9 @@ class DialogStateHelper {
       }
     } else {
       // Footer
-      var footerContainer;
+      Container footerContainer;
       if (!((dialogButtonPosition != null) &&
-          (dialogButtonPosition == DialogButtonPosition.TopRight))) {
+          (dialogButtonPosition == DialogButtonPosition.topRight))) {
         footerContainer = Container(
             child: ListView(
                 shrinkWrap: true,
@@ -235,8 +246,9 @@ class DialogStateHelper {
   }
 
   /* Helper method to retrieve the button */
-  List<Widget> getCloseButton(AppModel app,
-      BuildContext context, {
+  List<Widget> getCloseButton(
+    AppModel app,
+    BuildContext context, {
     required VoidCallback onPressed,
     String? buttonLabel,
   }) {
@@ -265,7 +277,8 @@ class DialogStateHelper {
           .styleWithApp(app)
           .frontEndStyle()
           .buttonStyle()
-          .dialogButton(app,
+          .dialogButton(
+            app,
             context,
             label: nackButtonLabel ?? 'Cancel',
             onPressed: nackFunction,
@@ -279,8 +292,8 @@ class DialogStateHelper {
     ];
   }
 
-  List<Widget> getButtons(AppModel app, BuildContext context, List<String> buttonLabels,
-      List<VoidCallback> functions) {
+  List<Widget> getButtons(AppModel app, BuildContext context,
+      List<String> buttonLabels, List<VoidCallback> functions) {
     if (buttonLabels.length != functions.length) {
       throw Exception(
           'Amount of labels of buttons does not correspond functions');

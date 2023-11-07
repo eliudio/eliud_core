@@ -21,34 +21,56 @@ class BlockingEntity implements EntityBase {
   final String? memberBlocking;
   final String? memberBeingBlocked;
 
-  BlockingEntity({required this.memberBlocking, this.memberBeingBlocked, });
+  BlockingEntity({
+    required this.memberBlocking,
+    this.memberBeingBlocked,
+  });
 
-  BlockingEntity copyWith({String? documentID, String? memberBlocking, String? memberBeingBlocked, }) {
-    return BlockingEntity(memberBlocking : memberBlocking ?? this.memberBlocking, memberBeingBlocked : memberBeingBlocked ?? this.memberBeingBlocked, );
+  BlockingEntity copyWith({
+    String? documentID,
+    String? memberBlocking,
+    String? memberBeingBlocked,
+  }) {
+    return BlockingEntity(
+      memberBlocking: memberBlocking ?? this.memberBlocking,
+      memberBeingBlocked: memberBeingBlocked ?? this.memberBeingBlocked,
+    );
   }
-  List<Object?> get props => [memberBlocking, memberBeingBlocked, ];
+
+  List<Object?> get props => [
+        memberBlocking,
+        memberBeingBlocked,
+      ];
 
   @override
   String toString() {
     return 'BlockingEntity{memberBlocking: $memberBlocking, memberBeingBlocked: $memberBeingBlocked}';
   }
 
-  static BlockingEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static BlockingEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return BlockingEntity(
-      memberBlocking: map['memberBlocking'], 
-      memberBeingBlocked: map['memberBeingBlocked'], 
+      memberBlocking: map['memberBlocking'],
+      memberBeingBlocked: map['memberBeingBlocked'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (memberBlocking != null) theDocument["memberBlocking"] = memberBlocking;
-      else theDocument["memberBlocking"] = null;
-    if (memberBeingBlocked != null) theDocument["memberBeingBlocked"] = memberBeingBlocked;
-      else theDocument["memberBeingBlocked"] = null;
+    if (memberBlocking != null) {
+      theDocument["memberBlocking"] = memberBlocking;
+    } else {
+      theDocument["memberBlocking"] = null;
+    }
+    if (memberBeingBlocked != null) {
+      theDocument["memberBeingBlocked"] = memberBeingBlocked;
+    } else {
+      theDocument["memberBeingBlocked"] = null;
+    }
     return theDocument;
   }
 
@@ -58,7 +80,8 @@ class BlockingEntity implements EntityBase {
     return newEntity;
   }
 
-  static BlockingEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static BlockingEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -67,9 +90,9 @@ class BlockingEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

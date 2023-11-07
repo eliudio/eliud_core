@@ -30,10 +30,10 @@ class NewPage extends AppBarListEvent {}
 class AddAppBarList extends AppBarListEvent {
   final AppBarModel? value;
 
-  const AddAppBarList({ this.value });
+  const AddAppBarList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddAppBarList{ value: $value }';
@@ -42,10 +42,10 @@ class AddAppBarList extends AppBarListEvent {
 class UpdateAppBarList extends AppBarListEvent {
   final AppBarModel? value;
 
-  const UpdateAppBarList({ this.value });
+  const UpdateAppBarList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateAppBarList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateAppBarList extends AppBarListEvent {
 class DeleteAppBarList extends AppBarListEvent {
   final AppBarModel? value;
 
-  const DeleteAppBarList({ this.value });
+  const DeleteAppBarList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteAppBarList{ value: $value }';
@@ -67,24 +67,24 @@ class AppBarListUpdated extends AppBarListEvent {
   final List<AppBarModel?>? value;
   final bool? mightHaveMore;
 
-  const AppBarListUpdated({ this.value, this.mightHaveMore });
+  const AppBarListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'AppBarListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'AppBarListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class AppBarChangeQuery extends AppBarListEvent {
   final EliudQuery? newQuery;
 
-  const AppBarChangeQuery({ required this.newQuery });
+  const AppBarChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'AppBarChangeQuery{ value: $newQuery }';
 }
-

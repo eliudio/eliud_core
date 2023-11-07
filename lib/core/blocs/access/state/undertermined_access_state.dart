@@ -28,8 +28,10 @@ class UndeterminedAccessState extends AccessState {
   List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
-          other is UndeterminedAccessState &&
-              runtimeType == other.runtimeType;
+      other is UndeterminedAccessState && runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => 0;
 }

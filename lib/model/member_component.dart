@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/member_component_bloc.dart';
 import 'package:eliud_core/model/member_component_event.dart';
 import 'package:eliud_core/model/member_model.dart';
@@ -31,20 +30,22 @@ abstract class AbstractMemberComponent extends StatelessWidget {
   final AppModel app;
   final String memberId;
 
-  AbstractMemberComponent({Key? key, required this.app, required this.memberId}): super(key: key);
+  AbstractMemberComponent(
+      {super.key, required this.app, required this.memberId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MemberComponentBloc> (
-          create: (context) => MemberComponentBloc(
-            memberRepository: memberRepository(appId: app.documentID)!)
+    return BlocProvider<MemberComponentBloc>(
+      create: (context) => MemberComponentBloc(
+          memberRepository: memberRepository(appId: app.documentID)!)
         ..add(FetchMemberComponent(id: memberId)),
       child: _memberBlockBuilder(context),
     );
   }
 
   Widget _memberBlockBuilder(BuildContext context) {
-    return BlocBuilder<MemberComponentBloc, MemberComponentState>(builder: (context, state) {
+    return BlocBuilder<MemberComponentBloc, MemberComponentState>(
+        builder: (context, state) {
       if (state is MemberComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is MemberComponentPermissionDenied) {
@@ -57,7 +58,11 @@ abstract class AbstractMemberComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +70,3 @@ abstract class AbstractMemberComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, MemberModel value);
 }
-

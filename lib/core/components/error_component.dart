@@ -52,7 +52,7 @@ class _ErrorComponentState extends State<ErrorComponent> {
                       key: widget.pageKey);
                 } else {
                   return text(widget.app, context,
-                      "App " + widget.app.documentID + " not found");
+                      "App ${widget.app.documentID} not found");
                 }
               } else {
                 return Center(child: CircularProgressIndicator());
@@ -67,16 +67,15 @@ class ErrorContentsWidget extends StatefulWidget {
   final String error;
   final bool loggedIn;
 
-  ErrorContentsWidget({
-    Key? key,
-    required this.app,
-    required this.playstoreApp,
-    required this.error,
-    required this.loggedIn
-  }) : super(key: key) {}
+  ErrorContentsWidget(
+      {super.key,
+      required this.app,
+      required this.playstoreApp,
+      required this.error,
+      required this.loggedIn});
 
   @override
-  _ErrorContentsWidgetState createState() {
+  State<ErrorContentsWidget> createState() {
     return _ErrorContentsWidgetState();
   }
 }
@@ -96,11 +95,16 @@ class _ErrorContentsWidgetState extends State<ErrorContentsWidget> {
                 BlocProvider.of<AccessBloc>(context)
                     .add(GoHome(app: widget.app));
               }),
-              if (!widget.loggedIn) button(widget.app, context, label: 'Login', onPressed: () {
-                openLoginWidget(context, widget.app, );
-              }),
+              if (!widget.loggedIn)
+                button(widget.app, context, label: 'Login', onPressed: () {
+                  openLoginWidget(
+                    context,
+                    widget.app,
+                  );
+                }),
               if (widget.playstoreApp != null)
-                button(widget.app, context, label: 'Go To Playstore', onPressed: () {
+                button(widget.app, context, label: 'Go To Playstore',
+                    onPressed: () {
                   eliudrouter.Router.navigateTo(
                       context,
                       SwitchApp(widget.app,

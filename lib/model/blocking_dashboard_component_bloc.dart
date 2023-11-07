@@ -20,24 +20,27 @@ import 'package:eliud_core/model/blocking_dashboard_component_event.dart';
 import 'package:eliud_core/model/blocking_dashboard_component_state.dart';
 import 'package:eliud_core/model/blocking_dashboard_repository.dart';
 
-class BlockingDashboardComponentBloc extends Bloc<BlockingDashboardComponentEvent, BlockingDashboardComponentState> {
+class BlockingDashboardComponentBloc extends Bloc<
+    BlockingDashboardComponentEvent, BlockingDashboardComponentState> {
   final BlockingDashboardRepository? blockingDashboardRepository;
   StreamSubscription? _blockingDashboardSubscription;
 
   void _mapLoadBlockingDashboardComponentUpdateToState(String documentId) {
     _blockingDashboardSubscription?.cancel();
-    _blockingDashboardSubscription = blockingDashboardRepository!.listenTo(documentId, (value) {
+    _blockingDashboardSubscription =
+        blockingDashboardRepository!.listenTo(documentId, (value) {
       if (value != null) {
         add(BlockingDashboardComponentUpdated(value: value));
       }
     });
   }
 
-  BlockingDashboardComponentBloc({ this.blockingDashboardRepository }): super(BlockingDashboardComponentUninitialized()) {
-    on <FetchBlockingDashboardComponent> ((event, emit) {
+  BlockingDashboardComponentBloc({this.blockingDashboardRepository})
+      : super(BlockingDashboardComponentUninitialized()) {
+    on<FetchBlockingDashboardComponent>((event, emit) {
       _mapLoadBlockingDashboardComponentUpdateToState(event.id!);
     });
-    on <BlockingDashboardComponentUpdated> ((event, emit) {
+    on<BlockingDashboardComponentUpdated>((event, emit) {
       emit(BlockingDashboardComponentLoaded(value: event.value));
     });
   }
@@ -47,6 +50,4 @@ class BlockingDashboardComponentBloc extends Bloc<BlockingDashboardComponentEven
     _blockingDashboardSubscription?.cancel();
     return super.close();
   }
-
 }
-

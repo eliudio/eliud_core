@@ -27,7 +27,7 @@ class AppBarComponentUninitialized extends AppBarComponentState {}
 
 class AppBarComponentError extends AppBarComponentState {
   final String? message;
-  AppBarComponentError({ this.message });
+  AppBarComponentError({this.message});
 }
 
 class AppBarComponentPermissionDenied extends AppBarComponentState {
@@ -37,10 +37,10 @@ class AppBarComponentPermissionDenied extends AppBarComponentState {
 class AppBarComponentLoaded extends AppBarComponentState {
   final AppBarModel value;
 
-  const AppBarComponentLoaded({ required this.value });
+  const AppBarComponentLoaded({required this.value});
 
-  AppBarComponentLoaded copyWith({ AppBarModel? copyThis }) {
-    return AppBarComponentLoaded(value: copyThis ?? this.value);
+  AppBarComponentLoaded copyWith({AppBarModel? copyThis}) {
+    return AppBarComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class AppBarComponentLoaded extends AppBarComponentState {
   @override
   String toString() => 'AppBarComponentLoaded { value: $value }';
 }
-

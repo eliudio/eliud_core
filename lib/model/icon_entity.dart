@@ -21,12 +21,25 @@ class IconEntity implements EntityBase {
   final int? codePoint;
   final String? fontFamily;
 
-  IconEntity({this.codePoint, this.fontFamily, });
+  IconEntity({
+    this.codePoint,
+    this.fontFamily,
+  });
 
-  IconEntity copyWith({int? codePoint, String? fontFamily, }) {
-    return IconEntity(codePoint : codePoint ?? this.codePoint, fontFamily : fontFamily ?? this.fontFamily, );
+  IconEntity copyWith({
+    int? codePoint,
+    String? fontFamily,
+  }) {
+    return IconEntity(
+      codePoint: codePoint ?? this.codePoint,
+      fontFamily: fontFamily ?? this.fontFamily,
+    );
   }
-  List<Object?> get props => [codePoint, fontFamily, ];
+
+  List<Object?> get props => [
+        codePoint,
+        fontFamily,
+      ];
 
   @override
   String toString() {
@@ -38,17 +51,24 @@ class IconEntity implements EntityBase {
     var map = o as Map<String, dynamic>;
 
     return IconEntity(
-      codePoint: int.tryParse(map['codePoint'].toString()), 
-      fontFamily: map['fontFamily'], 
+      codePoint: int.tryParse(map['codePoint'].toString()),
+      fontFamily: map['fontFamily'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (codePoint != null) theDocument["codePoint"] = codePoint;
-      else theDocument["codePoint"] = null;
-    if (fontFamily != null) theDocument["fontFamily"] = fontFamily;
-      else theDocument["fontFamily"] = null;
+    if (codePoint != null) {
+      theDocument["codePoint"] = codePoint;
+    } else {
+      theDocument["codePoint"] = null;
+    }
+    if (fontFamily != null) {
+      theDocument["fontFamily"] = fontFamily;
+    } else {
+      theDocument["fontFamily"] = null;
+    }
     return theDocument;
   }
 
@@ -58,7 +78,8 @@ class IconEntity implements EntityBase {
     return newEntity;
   }
 
-  static IconEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static IconEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -67,9 +88,9 @@ class IconEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

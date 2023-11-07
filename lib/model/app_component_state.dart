@@ -27,7 +27,7 @@ class AppComponentUninitialized extends AppComponentState {}
 
 class AppComponentError extends AppComponentState {
   final String? message;
-  AppComponentError({ this.message });
+  AppComponentError({this.message});
 }
 
 class AppComponentPermissionDenied extends AppComponentState {
@@ -37,10 +37,10 @@ class AppComponentPermissionDenied extends AppComponentState {
 class AppComponentLoaded extends AppComponentState {
   final AppModel value;
 
-  const AppComponentLoaded({ required this.value });
+  const AppComponentLoaded({required this.value});
 
-  AppComponentLoaded copyWith({ AppModel? copyThis }) {
-    return AppComponentLoaded(value: copyThis ?? this.value);
+  AppComponentLoaded copyWith({AppModel? copyThis}) {
+    return AppComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class AppComponentLoaded extends AppComponentState {
   @override
   String toString() => 'AppComponentLoaded { value: $value }';
 }
-

@@ -39,7 +39,7 @@
       "remark": "Start position of the gradient",
       "fieldType": "enum",
       "enumName": "StartGradientPosition",
-      "enumValues" : [ "TopLeft", "TopCenter" , "TopRight", "CenterLeft", "Center", "CenterRight", "BottomLeft", "BottomCenter", "BottomRight" ],
+      "enumValues" : [ "topLeft", "topCenter" , "topRight", "centerLeft", "center", "centerRight", "bottomLeft", "bottomCenter", "bottomRight" ],
       "group": "beginGradientPosition"
     },
     {
@@ -48,7 +48,7 @@
       "remark": "End position of the gradient",
       "fieldType": "enum",
       "enumName": "EndGradientPosition",
-      "enumValues" : [ "TopLeft", "TopCenter" , "TopRight", "CenterLeft", "Center", "CenterRight", "BottomLeft", "BottomCenter", "BottomRight" ],
+      "enumValues" : [ "topLeft", "topCenter" , "topRight", "centerLeft", "center", "centerRight", "bottomLeft", "bottomCenter", "bottomRight" ],
       "group": "endGradientPosition"
     },
     {
@@ -114,6 +114,6 @@
     }
   ],
   "listFields": {
-    "title": "value.documentID != null ? Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID)) : Container()"
+    "title": "Center(child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().textStyle().text(app, context, value.documentID))"
   }
 }

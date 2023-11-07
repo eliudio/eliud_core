@@ -24,37 +24,33 @@ import '../condition_simple_widget.dart';
 import 'bloc/grid_view_bloc.dart';
 
 class GridViewDashboard {
-  static void updateGridView(
-      AppModel app, BuildContext context, model) {
+  static void updateGridView(AppModel app, BuildContext context, model) {
     _openIt(app, context, false, model.copyWith());
   }
 
-  static void deleteGridView(
-      AppModel app, BuildContext context, model) {
+  static void deleteGridView(AppModel app, BuildContext context, model) {
     // ask for confirmation. Very dangerous
   }
 
-  static void addGridView(
-      AppModel app, BuildContext context) {
+  static void addGridView(AppModel app, BuildContext context) {
     _openIt(
-        app,
-        context,
-        true,
-        GridViewModel(
-          appId: app.documentID,
-          documentID: newRandomKey(),
-        ),);
+      app,
+      context,
+      true,
+      GridViewModel(
+        appId: app.documentID,
+        documentID: newRandomKey(),
+      ),
+    );
   }
 
-  static void _openIt(AppModel app, BuildContext context, bool create,
-      GridViewModel model) {
+  static void _openIt(
+      AppModel app, BuildContext context, bool create, GridViewModel model) {
     openComplexDialog(
       app,
       context,
-      app.documentID + '/gridView',
-      title: create
-          ? 'Create GridView'
-          : 'Update GridView',
+      '${app.documentID}/gridView',
+      title: create ? 'Create GridView' : 'Update GridView',
       includeHeading: false,
       widthFraction: .9,
       child: BlocProvider<GridViewDashboardBloc>(
@@ -73,27 +69,24 @@ class GridViewDashboardWidget extends StatefulWidget {
   final AppModel app;
 
   const GridViewDashboardWidget({
-    Key? key,
+    super.key,
     required this.app,
-  }) : super(key: key);
+  });
 
   @override
-  State<StatefulWidget> createState() =>
-      _GridViewDashboardWidgetState();
+  State<StatefulWidget> createState() => _GridViewDashboardWidgetState();
 }
 
-class _GridViewDashboardWidgetState
-    extends State<GridViewDashboardWidget> {
+class _GridViewDashboardWidgetState extends State<GridViewDashboardWidget> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (aContext, accessState) {
       if (accessState is AccessDetermined) {
         return BlocBuilder<GridViewDashboardBloc,
-            EditorBaseState<GridViewModel>>(
+                EditorBaseState<GridViewModel>>(
             builder: (ppContext, gridViewState) {
-          if (gridViewState
-              is EditorBaseInitialised<GridViewModel>) {
+          if (gridViewState is EditorBaseInitialised<GridViewModel>) {
             return ListView(
                 shrinkWrap: true,
                 physics: ScrollPhysics(),
@@ -125,11 +118,9 @@ class _GridViewDashboardWidgetState
                             title: dialogField(
                               widget.app,
                               context,
-                              initialValue:
-                              gridViewState.model.name,
+                              initialValue: gridViewState.model.name,
                               valueChanged: (value) {
-                                gridViewState.model.name =
-                                    value;
+                                gridViewState.model.name = value;
                               },
                               maxLines: 1,
                               decoration: const InputDecoration(
@@ -148,33 +139,57 @@ class _GridViewDashboardWidgetState
                             collapsible: true,
                             collapsed: true,
                             children: [
-                              GridViewScrollDirectionWidget(app: widget.app, gridViewScrollDirection: gridViewState.model.scrollDirection ?? GridViewScrollDirection.Vertical, gridViewScrollDirectionCallback: (GridViewScrollDirection gridViewScrollDirection) {
-                                setState(() {
-                                  gridViewState.model.scrollDirection = gridViewScrollDirection;
-                                });
-                              }, ),
+                              GridViewScrollDirectionWidget(
+                                app: widget.app,
+                                gridViewScrollDirection:
+                                    gridViewState.model.scrollDirection ??
+                                        GridViewScrollDirection.vertical,
+                                gridViewScrollDirectionCallback:
+                                    (GridViewScrollDirection
+                                        gridViewScrollDirection) {
+                                  setState(() {
+                                    gridViewState.model.scrollDirection =
+                                        gridViewScrollDirection;
+                                  });
+                                },
+                              ),
                             ]),
                         topicContainer(widget.app, context,
                             title: 'Grid type',
                             collapsible: true,
                             collapsed: true,
                             children: [
-                              GridViewGridTypeWidget(app: widget.app, gridViewGridType: gridViewState.model.type ?? GridViewGridType.Extent, gridViewGridTypeCallback: (GridViewGridType gridViewGridType) {
-                                setState(() {
-                                  gridViewState.model.type = gridViewGridType;
-                                });
-                              }, ),
+                              GridViewGridTypeWidget(
+                                app: widget.app,
+                                gridViewGridType: gridViewState.model.type ??
+                                    GridViewGridType.extent,
+                                gridViewGridTypeCallback:
+                                    (GridViewGridType gridViewGridType) {
+                                  setState(() {
+                                    gridViewState.model.type = gridViewGridType;
+                                  });
+                                },
+                              ),
                             ]),
                         topicContainer(widget.app, context,
                             title: 'Max Cross Axis Extent Type',
                             collapsible: true,
                             collapsed: true,
                             children: [
-                              MaxCrossAxisExtentTypeWidget(app: widget.app, maxCrossAxisExtentType: gridViewState.model.maxCrossAxisExtentType ?? MaxCrossAxisExtentType.Absolute, maxCrossAxisExtentTypeCallback: (MaxCrossAxisExtentType maxCrossAxisExtentType) {
-                                setState(() {
-                                  gridViewState.model.maxCrossAxisExtentType = maxCrossAxisExtentType;
-                                });
-                              }, ),
+                              MaxCrossAxisExtentTypeWidget(
+                                app: widget.app,
+                                maxCrossAxisExtentType: gridViewState
+                                        .model.maxCrossAxisExtentType ??
+                                    MaxCrossAxisExtentType.absolute,
+                                maxCrossAxisExtentTypeCallback:
+                                    (MaxCrossAxisExtentType
+                                        maxCrossAxisExtentType) {
+                                  setState(() {
+                                    gridViewState.model.maxCrossAxisExtentType =
+                                        maxCrossAxisExtentType;
+                                  });
+                                },
+                              ),
                             ]),
                         topicContainer(widget.app, context,
                             title: 'Other grid specifications',
@@ -186,54 +201,73 @@ class _GridViewDashboardWidgetState
                                   title: dialogField(
                                     widget.app,
                                     context,
-                                    initialValue: gridViewState.model.crossAxisCount.toString(),
+                                    initialValue: gridViewState
+                                        .model.crossAxisCount
+                                        .toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.crossAxisCount = int_parse(value);
+                                      gridViewState.model.crossAxisCount =
+                                          intParse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
                                       labelText: 'Cross Axis Count',
-                                      hintText: 'Amount of components cross axis',
+                                      hintText:
+                                          'Amount of components cross axis',
                                     ),
                                   )),
-                              if (gridViewState.model.maxCrossAxisExtentType == MaxCrossAxisExtentType.Absolute) getListTile(context, widget.app,
-                                  leading: Icon(Icons.description),
-                                  title: dialogField(
-                                    widget.app,
-                                    context,
-                                    initialValue:  gridViewState.model.absoluteMaxCrossAxisExtent.toString(),
-                                    valueChanged: (value) {
-                                      gridViewState.model.absoluteMaxCrossAxisExtent = double_parse(value);
-                                    },
-                                    maxLines: 1,
-                                    decoration: const InputDecoration(
-                                      hintText: 'MaxCrossAxisExtent',
-                                      labelText: 'Max Cross Axis Extent',
-                                    ),
-                                  )),
-                              if (gridViewState.model.maxCrossAxisExtentType == MaxCrossAxisExtentType.Relative) getListTile(context, widget.app,
-                                  leading: Icon(Icons.description),
-                                  title: dialogField(
-                                    widget.app,
-                                    context,
-                                    initialValue:  gridViewState.model.relativeMaxCrossAxisExtent.toString(),
-                                    valueChanged: (value) {
-                                      gridViewState.model.relativeMaxCrossAxisExtent = double_parse(value);
-                                    },
-                                    maxLines: 1,
-                                    decoration: const InputDecoration(
-                                      hintText: 'MaxCrossAxisExtent',
-                                      labelText: 'Max Cross Axis Extent',
-                                    ),
-                                  )),
+                              if (gridViewState.model.maxCrossAxisExtentType ==
+                                  MaxCrossAxisExtentType.absolute)
+                                getListTile(context, widget.app,
+                                    leading: Icon(Icons.description),
+                                    title: dialogField(
+                                      widget.app,
+                                      context,
+                                      initialValue: gridViewState
+                                          .model.absoluteMaxCrossAxisExtent
+                                          .toString(),
+                                      valueChanged: (value) {
+                                        gridViewState.model
+                                                .absoluteMaxCrossAxisExtent =
+                                            doubleParse(value);
+                                      },
+                                      maxLines: 1,
+                                      decoration: const InputDecoration(
+                                        hintText: 'MaxCrossAxisExtent',
+                                        labelText: 'Max Cross Axis Extent',
+                                      ),
+                                    )),
+                              if (gridViewState.model.maxCrossAxisExtentType ==
+                                  MaxCrossAxisExtentType.relative)
+                                getListTile(context, widget.app,
+                                    leading: Icon(Icons.description),
+                                    title: dialogField(
+                                      widget.app,
+                                      context,
+                                      initialValue: gridViewState
+                                          .model.relativeMaxCrossAxisExtent
+                                          .toString(),
+                                      valueChanged: (value) {
+                                        gridViewState.model
+                                                .relativeMaxCrossAxisExtent =
+                                            doubleParse(value);
+                                      },
+                                      maxLines: 1,
+                                      decoration: const InputDecoration(
+                                        hintText: 'MaxCrossAxisExtent',
+                                        labelText: 'Max Cross Axis Extent',
+                                      ),
+                                    )),
                               getListTile(context, widget.app,
                                   leading: Icon(Icons.description),
                                   title: dialogField(
                                     widget.app,
                                     context,
-                                    initialValue: gridViewState.model.childAspectRatio.toString(),
+                                    initialValue: gridViewState
+                                        .model.childAspectRatio
+                                        .toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.childAspectRatio = double_parse(value);
+                                      gridViewState.model.childAspectRatio =
+                                          doubleParse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -246,9 +280,12 @@ class _GridViewDashboardWidgetState
                                   title: dialogField(
                                     widget.app,
                                     context,
-                                    initialValue: gridViewState.model.crossAxisSpacing.toString(),
+                                    initialValue: gridViewState
+                                        .model.crossAxisSpacing
+                                        .toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.padding = double_parse(value);
+                                      gridViewState.model.padding =
+                                          doubleParse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -261,9 +298,12 @@ class _GridViewDashboardWidgetState
                                   title: dialogField(
                                     widget.app,
                                     context,
-                                    initialValue: gridViewState.model.mainAxisSpacing.toString(),
+                                    initialValue: gridViewState
+                                        .model.mainAxisSpacing
+                                        .toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.mainAxisSpacing = double_parse(value);
+                                      gridViewState.model.mainAxisSpacing =
+                                          doubleParse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -276,9 +316,12 @@ class _GridViewDashboardWidgetState
                                   title: dialogField(
                                     widget.app,
                                     context,
-                                    initialValue: gridViewState.model.crossAxisSpacing.toString(),
+                                    initialValue: gridViewState
+                                        .model.crossAxisSpacing
+                                        .toString(),
                                     valueChanged: (value) {
-                                      gridViewState.model.crossAxisSpacing = double_parse(value);
+                                      gridViewState.model.crossAxisSpacing =
+                                          doubleParse(value);
                                     },
                                     maxLines: 1,
                                     decoration: const InputDecoration(
@@ -288,7 +331,6 @@ class _GridViewDashboardWidgetState
                                   )),
                             ]),
                       ]),
-
                   topicContainer(widget.app, context,
                       title: 'Condition',
                       collapsible: true,
@@ -301,7 +343,6 @@ class _GridViewDashboardWidgetState
                               value: gridViewState.model.conditions!,
                             )),
                       ]),
-
                 ]);
           } else {
             return progressIndicator(widget.app, context);
@@ -312,5 +353,4 @@ class _GridViewDashboardWidgetState
       }
     });
   }
-
 }

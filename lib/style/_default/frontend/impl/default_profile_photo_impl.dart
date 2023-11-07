@@ -22,7 +22,8 @@ class DefaultProfilePhotoImpl implements HasProfilePhoto {
   }
 
   @override
-  Widget getProfilePhotoButtonFromPublicMember(AppModel app, BuildContext context,
+  Widget getProfilePhotoButtonFromPublicMember(
+      AppModel app, BuildContext context,
       {MemberPublicInfoModel? member,
       required double radius,
       RgbModel? iconColor,
@@ -35,14 +36,15 @@ class DefaultProfilePhotoImpl implements HasProfilePhoto {
   }
 
   @override
-  Widget getProfilePhotoButtonFromExternalProvider(AppModel app, BuildContext context,
+  Widget getProfilePhotoButtonFromExternalProvider(
+      AppModel app, BuildContext context,
       {required ExternalProfileURLProvider externalProfileURLProvider,
       BackupProfileURLProvider? fallBackURLProvider,
       required double radius,
       RgbModel? iconColor,
       VoidCallback? onPressed}) {
-    return ProfilePhotoHelper().getProfilePhotoButtonFromExternalProvider(app,
-        context,
+    return ProfilePhotoHelper().getProfilePhotoButtonFromExternalProvider(
+        app, context,
         externalProfileURLProvider: externalProfileURLProvider,
         fallBackURLProvider: fallBackURLProvider,
         radius: radius,
@@ -51,7 +53,8 @@ class DefaultProfilePhotoImpl implements HasProfilePhoto {
   }
 
   @override
-  Widget getProfilePhotoButtonFromCurrentMember(AppModel app, BuildContext context,
+  Widget getProfilePhotoButtonFromCurrentMember(
+      AppModel app, BuildContext context,
       {RgbModel? iconColor, required double radius, VoidCallback? onPressed}) {
     return ProfilePhotoHelper().getProfilePhotoButtonFromCurrentMember(context,
         iconColor: iconColor, radius: radius, onPressed: onPressed);

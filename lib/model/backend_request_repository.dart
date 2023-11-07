@@ -13,45 +13,106 @@
 
 */
 
-
-
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
-
 
 import 'dart:async';
 import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 import 'package:eliud_core/core/base/repository_base.dart';
 
-typedef BackendRequestModelTrigger(List<BackendRequestModel?> list);
-typedef BackendRequestChanged(BackendRequestModel? value);
-typedef BackendRequestErrorHandler(o, e);
+typedef BackendRequestModelTrigger = Function(List<BackendRequestModel?> list);
+typedef BackendRequestChanged = Function(BackendRequestModel? value);
+typedef BackendRequestErrorHandler = Function(dynamic o, dynamic e);
 
-abstract class BackendRequestRepository extends RepositoryBase<BackendRequestModel, BackendRequestEntity> {
-  Future<BackendRequestEntity> addEntity(String documentID, BackendRequestEntity value);
-  Future<BackendRequestEntity> updateEntity(String documentID, BackendRequestEntity value);
+abstract class BackendRequestRepository
+    extends RepositoryBase<BackendRequestModel, BackendRequestEntity> {
+  @override
+  Future<BackendRequestEntity> addEntity(
+      String documentID, BackendRequestEntity value);
+  @override
+  Future<BackendRequestEntity> updateEntity(
+      String documentID, BackendRequestEntity value);
+  @override
   Future<BackendRequestModel> add(BackendRequestModel value);
+  @override
   Future<void> delete(BackendRequestModel value);
-  Future<BackendRequestModel?> get(String? id, { Function(Exception)? onError });
+  @override
+  Future<BackendRequestModel?> get(String? id, {Function(Exception)? onError});
+  @override
   Future<BackendRequestModel> update(BackendRequestModel value);
 
-  Stream<List<BackendRequestModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Stream<List<BackendRequestModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Future<List<BackendRequestModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
-  Future<List<BackendRequestModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery });
+  @override
+  Stream<List<BackendRequestModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Stream<List<BackendRequestModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Future<List<BackendRequestModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  Future<List<BackendRequestModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
 
-  StreamSubscription<List<BackendRequestModel?>> listen(BackendRequestModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<List<BackendRequestModel?>> listenWithDetails(BackendRequestModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery });
-  StreamSubscription<BackendRequestModel?> listenTo(String documentId, BackendRequestChanged changed, {BackendRequestErrorHandler? errorHandler});
+  @override
+  StreamSubscription<List<BackendRequestModel?>> listen(
+      BackendRequestModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  StreamSubscription<List<BackendRequestModel?>> listenWithDetails(
+      BackendRequestModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery});
+  @override
+  StreamSubscription<BackendRequestModel?> listenTo(
+      String documentId, BackendRequestChanged changed,
+      {BackendRequestErrorHandler? errorHandler});
+  @override
   void flush();
-  
+
+  @override
   String? timeStampToString(dynamic timeStamp);
 
+  @override
   dynamic getSubCollection(String documentId, String name);
-  Future<BackendRequestModel?> changeValue(String documentId, String fieldName, num changeByThisValue);
+  @override
+  Future<BackendRequestModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue);
 
+  @override
   Future<void> deleteAll();
 }
-
-

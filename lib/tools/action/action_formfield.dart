@@ -56,13 +56,13 @@ class ActionFieldState extends State<ActionField> {
       _menuDefID = action.menuDef!.documentID;
     } else if (action is InternalAction) {
       _actionSelection = 1;
-      if (action.internalActionEnum == InternalActionEnum.Login) {
+      if (action.internalActionEnum == InternalActionEnum.login) {
         _internalAction = _internalActions[0];
-      } else if (action.internalActionEnum == InternalActionEnum.Logout) {
+      } else if (action.internalActionEnum == InternalActionEnum.logout) {
         _internalAction = _internalActions[1];
-      } else if (action.internalActionEnum == InternalActionEnum.GoHome) {
+      } else if (action.internalActionEnum == InternalActionEnum.goHome) {
         _internalAction = _internalActions[2];
-      } else if (action.internalActionEnum == InternalActionEnum.OtherApps) {
+      } else if (action.internalActionEnum == InternalActionEnum.otherApps) {
         _internalAction = _internalActions[3];
       }
     }
@@ -82,8 +82,8 @@ class ActionFieldState extends State<ActionField> {
             onChanged: !state.memberIsOwner(appId)
                 ? null
                 : (dynamic val) {
-              setSelectionDisplayMode(val);
-            },
+                    setSelectionDisplayMode(val);
+                  },
           ),
           RadioListTile(
             value: 1,
@@ -94,20 +94,19 @@ class ActionFieldState extends State<ActionField> {
             onChanged: !state.memberIsOwner(appId)
                 ? null
                 : (dynamic val) {
-              setSelectionDisplayMode(val);
-            },
+                    setSelectionDisplayMode(val);
+                  },
           ),
           RadioListTile(
             value: 2,
             groupValue: _actionSelection,
             title: Text('Internal'),
-            subtitle: Text(
-                'This action is the go home action'),
+            subtitle: Text('This action is the go home action'),
             onChanged: !state.memberIsOwner(appId)
                 ? null
                 : (dynamic val) {
-              setSelectionDisplayMode(val);
-            },
+                    setSelectionDisplayMode(val);
+                  },
           ),
           RadioListTile(
             value: 3,
@@ -117,8 +116,8 @@ class ActionFieldState extends State<ActionField> {
             onChanged: !state.memberIsOwner(appId)
                 ? null
                 : (dynamic val) {
-              setSelectionDisplayMode(val);
-            },
+                    setSelectionDisplayMode(val);
+                  },
           ),
         ];
 
@@ -153,12 +152,13 @@ class ActionFieldState extends State<ActionField> {
           }
           widgets.add(Center(
               child: dropdownButton<String>(
-                widget.app, context,
-                value: _internalAction,
-                items: items,
-                hint: Text('Select internal action'),
-                onChanged: _changedDropDownItem,
-              )));
+            widget.app,
+            context,
+            value: _internalAction,
+            items: items,
+            hint: Text('Select internal action'),
+            onChanged: _changedDropDownItem,
+          )));
         }
 
         return Container(
@@ -169,17 +169,20 @@ class ActionFieldState extends State<ActionField> {
                 children: widgets));
       } else {
         return progressIndicator(widget.app, context);
-      }});
+      }
+    });
   }
 
   void setSelectionDisplayMode(int? val) {
     setState(() {
       _actionSelection = val;
     });
-    if (_actionSelection == 0)
+    if (_actionSelection == 0) {
       widget.setActionValue(GotoPage(widget.app, pageID: ''));
-    if (_actionSelection == 1)
+    }
+    if (_actionSelection == 1) {
       widget.setActionValue(InternalAction(widget.app));
+    }
     if (_actionSelection == 2) widget.setActionValue(PopupMenu(widget.app));
   }
 
@@ -199,7 +202,7 @@ class ActionFieldState extends State<ActionField> {
     if (_actionSelection == 2) {
       MenuDefModel? menuDef =
           await menuDefRepository(appId: widget.app.documentID)!.get(value);
-      widget.setActionValue(new PopupMenu(widget.app, menuDef: menuDef));
+      widget.setActionValue(PopupMenu(widget.app, menuDef: menuDef));
     }
   }
 
@@ -216,15 +219,15 @@ class ActionFieldState extends State<ActionField> {
     setState(() {
       _internalAction = val;
     });
-    var actionEnum = InternalActionEnum.Unknown;
+    var actionEnum = InternalActionEnum.unknown;
     if (_internalAction == _internalActions[0]) {
-      actionEnum = InternalActionEnum.Login;
+      actionEnum = InternalActionEnum.login;
     } else if (_internalAction == _internalActions[1]) {
-      actionEnum = InternalActionEnum.Logout;
+      actionEnum = InternalActionEnum.logout;
     } else if (_internalAction == _internalActions[2]) {
-      actionEnum = InternalActionEnum.GoHome;
+      actionEnum = InternalActionEnum.goHome;
     } else if (_internalAction == _internalActions[3]) {
-      actionEnum = InternalActionEnum.OtherApps;
+      actionEnum = InternalActionEnum.otherApps;
     }
     if (_actionSelection == 1) {
       widget.setActionValue(

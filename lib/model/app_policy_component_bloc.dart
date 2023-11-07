@@ -20,8 +20,8 @@ import 'package:eliud_core/model/app_policy_component_event.dart';
 import 'package:eliud_core/model/app_policy_component_state.dart';
 import 'package:eliud_core/model/app_policy_repository.dart';
 
-
-class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComponentState> {
+class AppPolicyComponentBloc
+    extends Bloc<AppPolicyComponentEvent, AppPolicyComponentState> {
   final AppPolicyRepository? appPolicyRepository;
   StreamSubscription? _appPolicySubscription;
 
@@ -34,11 +34,12 @@ class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComp
     });
   }
 
-  AppPolicyComponentBloc({ this.appPolicyRepository }): super(AppPolicyComponentUninitialized()) {
-    on <FetchAppPolicyComponent> ((event, emit) {
+  AppPolicyComponentBloc({this.appPolicyRepository})
+      : super(AppPolicyComponentUninitialized()) {
+    on<FetchAppPolicyComponent>((event, emit) {
       _mapLoadAppPolicyComponentUpdateToState(event.id!);
     });
-    on <AppPolicyComponentUpdated> ((event, emit) {
+    on<AppPolicyComponentUpdated>((event, emit) {
       emit(AppPolicyComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +49,4 @@ class AppPolicyComponentBloc extends Bloc<AppPolicyComponentEvent, AppPolicyComp
     _appPolicySubscription?.cancel();
     return super.close();
   }
-
 }
-

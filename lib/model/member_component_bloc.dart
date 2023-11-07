@@ -20,8 +20,8 @@ import 'package:eliud_core/model/member_component_event.dart';
 import 'package:eliud_core/model/member_component_state.dart';
 import 'package:eliud_core/model/member_repository.dart';
 
-
-class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentState> {
+class MemberComponentBloc
+    extends Bloc<MemberComponentEvent, MemberComponentState> {
   final MemberRepository? memberRepository;
   StreamSubscription? _memberSubscription;
 
@@ -34,11 +34,12 @@ class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentStat
     });
   }
 
-  MemberComponentBloc({ this.memberRepository }): super(MemberComponentUninitialized()) {
-    on <FetchMemberComponent> ((event, emit) {
+  MemberComponentBloc({this.memberRepository})
+      : super(MemberComponentUninitialized()) {
+    on<FetchMemberComponent>((event, emit) {
       _mapLoadMemberComponentUpdateToState(event.id!);
     });
-    on <MemberComponentUpdated> ((event, emit) {
+    on<MemberComponentUpdated>((event, emit) {
       emit(MemberComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +49,4 @@ class MemberComponentBloc extends Bloc<MemberComponentEvent, MemberComponentStat
     _memberSubscription?.cancel();
     return super.close();
   }
-
 }
-

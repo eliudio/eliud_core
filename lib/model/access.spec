@@ -46,7 +46,7 @@
       "remark": "This is the privilege level and will determine the data accessible",
       "fieldType": "enum",
       "enumName": "PrivilegeLevel",
-      "enumValues" : [ "NoPrivilege", "Level1Privilege", "Level2Privilege", "OwnerPrivilege" ]
+      "enumValues" : [ "noPrivilege", "level1Privilege", "level2Privilege", "ownerPrivilege" ]
     },
     {
       "fieldName": "points",
@@ -66,7 +66,7 @@
       "remark": "This is the privilege level before the member was blocked and allows to restore to this point",
       "fieldType": "enum",
       "enumName": "PrivilegeLevelBeforeBlocked",
-      "enumValues" : [ "NoPrivilege", "Level1Privilege", "Level2Privilege", "OwnerPrivilege" ]
+      "enumValues" : [ "noPrivilege", "level1Privilege", "level2Privilege", "ownerPrivilege" ]
     }
   ]
 }

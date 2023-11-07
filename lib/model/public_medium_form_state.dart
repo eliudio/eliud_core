@@ -41,9 +41,9 @@ class PublicMediumFormInitialized extends PublicMediumFormState {
   final PublicMediumModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const PublicMediumFormInitialized({ this.value });
+  const PublicMediumFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class PublicMediumFormError extends PublicMediumFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const PublicMediumFormError({this.message, PublicMediumModel? value }) : super(value: value);
+  const PublicMediumFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class PublicMediumFormError extends PublicMediumFormInitialized {
     }''';
   }
 }
-class DocumentIDPublicMediumFormError extends PublicMediumFormError { 
-  const DocumentIDPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+
+class DocumentIDPublicMediumFormError extends PublicMediumFormError {
+  const DocumentIDPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class AuthorIdPublicMediumFormError extends PublicMediumFormError { 
-  const AuthorIdPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class AuthorIdPublicMediumFormError extends PublicMediumFormError {
+  const AuthorIdPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AuthorIdPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class BasePublicMediumFormError extends PublicMediumFormError { 
-  const BasePublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class BasePublicMediumFormError extends PublicMediumFormError {
+  const BasePublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class BasePublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class ExtPublicMediumFormError extends PublicMediumFormError { 
-  const ExtPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class ExtPublicMediumFormError extends PublicMediumFormError {
+  const ExtPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class ExtPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class UrlPublicMediumFormError extends PublicMediumFormError { 
-  const UrlPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class UrlPublicMediumFormError extends PublicMediumFormError {
+  const UrlPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class UrlPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class RefPublicMediumFormError extends PublicMediumFormError { 
-  const RefPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class RefPublicMediumFormError extends PublicMediumFormError {
+  const RefPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class RefPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class UrlThumbnailPublicMediumFormError extends PublicMediumFormError { 
-  const UrlThumbnailPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class UrlThumbnailPublicMediumFormError extends PublicMediumFormError {
+  const UrlThumbnailPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class UrlThumbnailPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class RefThumbnailPublicMediumFormError extends PublicMediumFormError { 
-  const RefThumbnailPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class RefThumbnailPublicMediumFormError extends PublicMediumFormError {
+  const RefThumbnailPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class RefThumbnailPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class MediumTypePublicMediumFormError extends PublicMediumFormError { 
-  const MediumTypePublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class MediumTypePublicMediumFormError extends PublicMediumFormError {
+  const MediumTypePublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,11 @@ class MediumTypePublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class MediumWidthPublicMediumFormError extends PublicMediumFormError { 
-  const MediumWidthPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class MediumWidthPublicMediumFormError extends PublicMediumFormError {
+  const MediumWidthPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -222,12 +214,11 @@ class MediumWidthPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class MediumHeightPublicMediumFormError extends PublicMediumFormError { 
-  const MediumHeightPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class MediumHeightPublicMediumFormError extends PublicMediumFormError {
+  const MediumHeightPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -238,12 +229,11 @@ class MediumHeightPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class ThumbnailWidthPublicMediumFormError extends PublicMediumFormError { 
-  const ThumbnailWidthPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class ThumbnailWidthPublicMediumFormError extends PublicMediumFormError {
+  const ThumbnailWidthPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -254,12 +244,11 @@ class ThumbnailWidthPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class ThumbnailHeightPublicMediumFormError extends PublicMediumFormError { 
-  const ThumbnailHeightPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class ThumbnailHeightPublicMediumFormError extends PublicMediumFormError {
+  const ThumbnailHeightPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -270,12 +259,11 @@ class ThumbnailHeightPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class RelatedMediumIdPublicMediumFormError extends PublicMediumFormError { 
-  const RelatedMediumIdPublicMediumFormError({ String? message, PublicMediumModel? value }): super(message: message, value: value);
+class RelatedMediumIdPublicMediumFormError extends PublicMediumFormError {
+  const RelatedMediumIdPublicMediumFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -286,12 +274,11 @@ class RelatedMediumIdPublicMediumFormError extends PublicMediumFormError {
   }
 }
 
-
-class PublicMediumFormLoaded extends PublicMediumFormInitialized { 
-  const PublicMediumFormLoaded({ PublicMediumModel? value }): super(value: value);
+class PublicMediumFormLoaded extends PublicMediumFormInitialized {
+  const PublicMediumFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -301,12 +288,11 @@ class PublicMediumFormLoaded extends PublicMediumFormInitialized {
   }
 }
 
-
-class SubmittablePublicMediumForm extends PublicMediumFormInitialized { 
-  const SubmittablePublicMediumForm({ PublicMediumModel? value }): super(value: value);
+class SubmittablePublicMediumForm extends PublicMediumFormInitialized {
+  const SubmittablePublicMediumForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -315,5 +301,3 @@ class SubmittablePublicMediumForm extends PublicMediumFormInitialized {
     }''';
   }
 }
-
-

@@ -17,12 +17,12 @@ PlatformMediumType platformMediumType(AbstractMediumType abstractMediumType) {
  * This helper allows to upload PlatformMediumModel, i.e. files in the category "priv_req"
  */
 class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
-  static String PACKAGENAME = 'priv_req';
+  static String thePackageName = 'priv_req';
   final PrivilegeLevelRequiredSimple privilegeLevelRequired;
 
   PlatformMediumHelper(
       AppModel app, String ownerId, this.privilegeLevelRequired)
-      : super(app, ownerId, PACKAGENAME);
+      : super(app, ownerId, thePackageName);
 
   /*
    * Create custom meta data.
@@ -46,17 +46,17 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
    */
   @override
   Future<PlatformMediumModel> photoWithThumbnailToMediumModel(
-      String memberMediumDocumentId,
+      String mediumDocumentId,
       String baseName,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
       PhotoWithThumbnail photoWithThumbnail,
       {String? relatedMediumId}) async {
     // Create the MemberImageModel
-    var memberImageModel;
+    PlatformMediumModel memberImageModel;
 
     memberImageModel = PlatformMediumModel(
-      documentID: memberMediumDocumentId,
+      documentID: mediumDocumentId,
       base: MediumHelper.getBaseName(baseName),
       ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
@@ -66,7 +66,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       url: fileInfo.url,
       conditions: StorageConditionsModel(
           privilegeLevelRequired: privilegeLevelRequired),
-      mediumType: PlatformMediumType.Photo,
+      mediumType: PlatformMediumType.photo,
       urlThumbnail: fileInfoThumbnail.url,
       mediumWidth: photoWithThumbnail.photoData.width,
       mediumHeight: photoWithThumbnail.photoData.height,
@@ -83,18 +83,18 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
    */
   @override
   Future<PlatformMediumModel> videoWithThumbnailToMediumModel(
-      String memberMediumDocumentId,
+      String mediumDocumentId,
       String baseName,
       UploadInfo fileInfo,
       UploadInfo fileInfoThumbnail,
       VideoWithThumbnail videoWithThumbnail,
       {String? relatedMediumId}) {
     // Create the MemberImageModel
-    var memberImageModel;
+    PlatformMediumModel memberImageModel;
 
     // Create the MemberImageModel
     memberImageModel = PlatformMediumModel(
-      documentID: memberMediumDocumentId,
+      documentID: mediumDocumentId,
       base: MediumHelper.getBaseName(baseName),
       ext: MediumHelper.getExtension(baseName),
       appId: app.documentID,
@@ -104,7 +104,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       url: fileInfo.url,
       conditions: StorageConditionsModel(
           privilegeLevelRequired: privilegeLevelRequired),
-      mediumType: PlatformMediumType.Video,
+      mediumType: PlatformMediumType.video,
       urlThumbnail: fileInfoThumbnail.url,
       /*
       mediumWidth: videoWithThumbnail.videoData.width,
@@ -133,10 +133,10 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
         ext: MediumHelper.getExtension(baseName),
         appId: app.documentID,
         authorId: ownerId,
-        url: pageImage == null ? null : pageImage.url,
-        ref: pageImage == null ? null : pageImage.ref,
-        refThumbnail: pageThumbnail == null ? null : pageThumbnail.ref,
-        urlThumbnail: pageThumbnail == null ? null : pageThumbnail.url,
+        url: pageImage?.url,
+        ref: pageImage?.ref,
+        refThumbnail: pageThumbnail?.ref,
+        urlThumbnail: pageThumbnail?.url,
         conditions: StorageConditionsModel(
             privilegeLevelRequired: privilegeLevelRequired),
         mediumType: platformMediumType(type),
@@ -154,7 +154,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       String mediumDocumentId, String baseName, UploadInfo fileInfo,
       {String? relatedMediumId}) {
     // Create the MemberImageModel
-    var memberImageModel;
+    PlatformMediumModel memberImageModel;
 
     memberImageModel = PlatformMediumModel(
       documentID: mediumDocumentId,
@@ -167,7 +167,7 @@ class PlatformMediumHelper extends MediumHelper<PlatformMediumModel> {
       url: fileInfo.url,
       conditions: StorageConditionsModel(
           privilegeLevelRequired: privilegeLevelRequired),
-      mediumType: PlatformMediumType.Text,
+      mediumType: PlatformMediumType.text,
       urlThumbnail: null,
       mediumWidth: null,
       mediumHeight: null,

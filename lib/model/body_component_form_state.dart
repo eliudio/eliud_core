@@ -41,9 +41,9 @@ class BodyComponentFormInitialized extends BodyComponentFormState {
   final BodyComponentModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const BodyComponentFormInitialized({ this.value });
+  const BodyComponentFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class BodyComponentFormError extends BodyComponentFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const BodyComponentFormError({this.message, BodyComponentModel? value }) : super(value: value);
+  const BodyComponentFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class BodyComponentFormError extends BodyComponentFormInitialized {
     }''';
   }
 }
-class DocumentIDBodyComponentFormError extends BodyComponentFormError { 
-  const DocumentIDBodyComponentFormError({ String? message, BodyComponentModel? value }): super(message: message, value: value);
+
+class DocumentIDBodyComponentFormError extends BodyComponentFormError {
+  const DocumentIDBodyComponentFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDBodyComponentFormError extends BodyComponentFormError {
   }
 }
 
-
-class ComponentNameBodyComponentFormError extends BodyComponentFormError { 
-  const ComponentNameBodyComponentFormError({ String? message, BodyComponentModel? value }): super(message: message, value: value);
+class ComponentNameBodyComponentFormError extends BodyComponentFormError {
+  const ComponentNameBodyComponentFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class ComponentNameBodyComponentFormError extends BodyComponentFormError {
   }
 }
 
-
-class ComponentIdBodyComponentFormError extends BodyComponentFormError { 
-  const ComponentIdBodyComponentFormError({ String? message, BodyComponentModel? value }): super(message: message, value: value);
+class ComponentIdBodyComponentFormError extends BodyComponentFormError {
+  const ComponentIdBodyComponentFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class ComponentIdBodyComponentFormError extends BodyComponentFormError {
   }
 }
 
-
-class BodyComponentFormLoaded extends BodyComponentFormInitialized { 
-  const BodyComponentFormLoaded({ BodyComponentModel? value }): super(value: value);
+class BodyComponentFormLoaded extends BodyComponentFormInitialized {
+  const BodyComponentFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -125,12 +123,11 @@ class BodyComponentFormLoaded extends BodyComponentFormInitialized {
   }
 }
 
-
-class SubmittableBodyComponentForm extends BodyComponentFormInitialized { 
-  const SubmittableBodyComponentForm({ BodyComponentModel? value }): super(value: value);
+class SubmittableBodyComponentForm extends BodyComponentFormInitialized {
+  const SubmittableBodyComponentForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -139,5 +136,3 @@ class SubmittableBodyComponentForm extends BodyComponentFormInitialized {
     }''';
   }
 }
-
-

@@ -34,8 +34,16 @@ class MemberDashboardComponentConstructorDefault
     implements ComponentConstructor {
   @override
   Widget createNew(
-      {Key? key, required AppModel app, required String id, Map<String, dynamic>? parameters}) {
-    return MemberDashboard(key: key, app: app, id: id, parameters: parameters,);
+      {Key? key,
+      required AppModel app,
+      required String id,
+      Map<String, dynamic>? parameters}) {
+    return MemberDashboard(
+      key: key,
+      app: app,
+      id: id,
+      parameters: parameters,
+    );
   }
 
   @override
@@ -44,12 +52,12 @@ class MemberDashboardComponentConstructorDefault
 }
 
 class MemberDashboard extends AbstractMemberDashboardComponent {
-  Map<String, dynamic>? parameters;
+  final Map<String, dynamic>? parameters;
 
-  MemberDashboard({Key? key, required AppModel app, required String id, this.parameters})
-      : super(key: key, app:app, memberDashboardId: id);
+  MemberDashboard(
+      {super.key, required super.app, required String id, this.parameters})
+      : super(memberDashboardId: id);
 
-  @override
   Widget alertWidget({title = String, content = String}) {
     return AlertWidget(app: app, title: title, content: content);
   }
@@ -63,7 +71,8 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   TableRow getRow(BuildContext context, AppModel app, String label,
       String description, VoidCallback action) {
     return TableRow(children: [
-      button(app,
+      button(
+        app,
         context,
         label: label,
         onPressed: action,
@@ -75,16 +84,14 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
   }
 
   @override
-  Widget yourWidget(
-      BuildContext context, MemberDashboardModel? dashboardModel) {
+  Widget yourWidget(BuildContext context, MemberDashboardModel? value) {
     return BlocBuilder<AccessBloc, AccessState>(
         builder: (context, accessState) {
       if (accessState is AccessDetermined) {
         var member = accessState.getMember();
         if (member != null) {
-          var welcomeText = 'Welcome ' +
-              (member.name ?? '?') +
-              '. Use the below links to maintain your account with us.';
+          var welcomeText =
+              'Welcome ${member.name ?? '?'}. Use the below links to maintain your account with us.';
           var userPhotoUrl = member.photoURL;
           Widget profilePhoto;
           if (userPhotoUrl != null) {
@@ -102,19 +109,17 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
             physics: ScrollPhysics(),
             shrinkWrap: true,
             children: [
-/*
               Row(children: [
                 Spacer(),
-                Container(child: text(app, context, welcomeText, textAlign: TextAlign.center, softWrap: true)),
+                text(app, context, welcomeText, textAlign: TextAlign.center),
                 Spacer(),
                 profilePhoto,
               ]),
-*/
-              Container(child: text(app, context, welcomeText, textAlign: TextAlign.center, softWrap: true)),
               Container(height: 20),
               divider(app, context),
               Container(height: 20),
-              table(app,
+              table(
+                app,
                 context,
                 children: [
                   //            TableRow(children: [Text('Hi ' + member.name), profilePhoto]),
@@ -122,41 +127,40 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
                       context,
                       currentApp,
                       'Update profile',
-                      dashboardModel!.updateProfileText!,
-                      () => _updateProfile(
-                          context, currentApp, member)),
+                      value!.updateProfileText!,
+                      () => _updateProfile(context, currentApp, member)),
                   getRow(
                       context,
                       currentApp,
                       'Retrieve data',
-                      dashboardModel.retrieveDataText!,
-                      () => _retrieveData(context, dashboardModel,
-                          currentApp, member)),
+                      value.retrieveDataText!,
+                      () => _retrieveData(context, value, currentApp, member)),
                   getRow(
                       context,
                       currentApp,
                       'Delete account',
-                      dashboardModel.deleteDataText!,
-                      () => _deleteAccount(context, dashboardModel,
-                          currentApp, member)),
+                      value.deleteDataText!,
+                      () => _deleteAccount(context, value, currentApp, member)),
                 ],
               )
             ],
           );
         } else {
-          var action;
+          OpenDialogPostLogin? theAction;
           if (parameters != null) {
             var openDialogParam = parameters!['open-dialog'];
             if (openDialogParam != null) {
-              action = OpenDialogPostLogin(dialogID: openDialogParam, app: app);
+              theAction =
+                  OpenDialogPostLogin(dialogID: openDialogParam, app: app);
             }
           }
           return ListView(
               physics: ScrollPhysics(),
               shrinkWrap: true,
               children: [
-              Text('This member dashboard allows to manage your account, update your detail, retrieve your data or even destroy it with a few clicks. To access it, please login to your account'),
-              LoginWidget(app: app, excludeHeader: true, actions: action)
+                Text(
+                    'This member dashboard allows to manage your account, update your detail, retrieve your data or even destroy it with a few clicks. To access it, please login to your account'),
+                LoginWidget(app: app, excludeHeader: true, actions: theAction)
               ]);
         }
       } else {
@@ -167,28 +171,24 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _updateProfile(
       BuildContext context, AppModel app, MemberModel member) async {
-    openFlexibleDialog(
-        app,
-        context,
-        app.documentID + '/_member',
+    openFlexibleDialog(app, context, '${app.documentID}/_member',
         includeHeading: false,
         widthFraction: .8,
         child: BlocProvider<MemberBloc>(
             create: (context) => MemberBloc(
-              app.documentID,
-            )..add(ExtEditorBaseInitialise<MemberModel>(member)),
+                  app.documentID,
+                )..add(ExtEditorBaseInitialise<MemberModel>(member)),
             child: MemberModelWidget.getIt(
-                context,
-                app,
-                false,
-                fullScreenWidth(context) * .8,
-                fullScreenHeight(context) - 100,
-                member,
-                (newMember) => {
-                  // Don't do anything, we should be listening to member
-                },
-                )
-        ));
+              context,
+              app,
+              false,
+              fullScreenWidth(context) * .8,
+              fullScreenHeight(context) - 100,
+              member,
+              (newMember) => {
+                // Don't do anything, we should be listening to member
+              },
+            )));
 
 /*
     await Navigator.of(context).push(pageRouteBuilderWithAppId(AccessBloc.getBloc(context).state, app.documentID,
@@ -207,30 +207,28 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
 
   void _retrieveData(BuildContext context, MemberDashboardModel? dashboardModel,
       AppModel app, MemberModel member) {
-    openAckNackDialog(app, context, app.documentID + '/_retrievedata',
+    openAckNackDialog(app, context, '${app.documentID}/_retrievedata',
         title: 'Confirm',
         message:
-            'You are about to send a request to gather all your data and send this as an email to your registered email address: ' +
-                member.email! +
-                '. Please confirm', onSelection: (value) async {
+            'You are about to send a request to gather all your data and send this as an email to your registered email address: ${member.email!}. Please confirm',
+        onSelection: (value) async {
       if (value == 0) {
-        await GDPR.dumpMemberData(member,
+        await GDPR.dumpMemberData(
+            member,
             app.documentID,
             dashboardModel!.retrieveDataEmailSubject,
             AccessBloc.getState(context).getMemberCollectionInfo()!);
-        openComplexDialog(app, context, app.documentID + '/_retrievedata',
+        openComplexDialog(app, context, '${app.documentID}/_retrievedata',
             title: 'Retrieve data',
             child: text(app, context,
-                'You will receive an email at your registered email address ' +
-                    member.email! +
-                    ' with the data you have with us.'));
+                'You will receive an email at your registered email address ${member.email!} with the data you have with us.'));
       }
     });
   }
 
   void _deleteAccount(BuildContext context,
       MemberDashboardModel? dashboardModel, AppModel app, MemberModel member) {
-    openAckNackDialog(app, context, app.documentID + '/_deleteaccount',
+    openAckNackDialog(app, context, '${app.documentID}/_deleteaccount',
         title: 'Confirm. Last but 2 warnings',
         message:
             'You are about to send a request to destroy your account with all data. You will get 2 more requests to confirm. Please confirm',
@@ -248,7 +246,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    openAckNackDialog(app, context, app.documentID + '/_confirmdeleteaccount',
+    openAckNackDialog(app, context, '${app.documentID}/_confirmdeleteaccount',
         title: 'Confirm. Last but 1 warning',
         message:
             'You are about to send a request to destroy your account with all data. You will get 1 more requests to confirm. Please confirm',
@@ -266,8 +264,7 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
       AppModel app,
       MemberModel member,
       List<MemberCollectionInfo>? memberCollectionInfo) {
-    openAckNackDialog(app, context,
-        app.documentID + '/_deleteaccount',
+    openAckNackDialog(app, context, '${app.documentID}/_deleteaccount',
         title: 'Confirm. Last warning',
         message:
             'You are about to send a request to destroy your account with all data. THIS WILL BE FINAL. You will loose all your data. Be careful. Please confirm',
@@ -285,7 +282,6 @@ class MemberDashboard extends AbstractMemberDashboardComponent {
     });
   }
 
-  @override
   MemberDashboardRepository getMemberDashboardRepository(BuildContext context) {
     return memberDashboardRepository(appId: app.documentID)!;
   }

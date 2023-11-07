@@ -24,13 +24,11 @@ abstract class AppPolicyComponentEvent extends Equatable {
 class FetchAppPolicyComponent extends AppPolicyComponentEvent {
   final String? id;
 
-  FetchAppPolicyComponent({ this.id });
+  FetchAppPolicyComponent({this.id});
 }
 
 class AppPolicyComponentUpdated extends AppPolicyComponentEvent {
   final AppPolicyModel value;
 
-  AppPolicyComponentUpdated({ required this.value });
+  AppPolicyComponentUpdated({required this.value});
 }
-
-

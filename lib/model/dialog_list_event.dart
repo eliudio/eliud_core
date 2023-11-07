@@ -30,10 +30,10 @@ class NewPage extends DialogListEvent {}
 class AddDialogList extends DialogListEvent {
   final DialogModel? value;
 
-  const AddDialogList({ this.value });
+  const AddDialogList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddDialogList{ value: $value }';
@@ -42,10 +42,10 @@ class AddDialogList extends DialogListEvent {
 class UpdateDialogList extends DialogListEvent {
   final DialogModel? value;
 
-  const UpdateDialogList({ this.value });
+  const UpdateDialogList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateDialogList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateDialogList extends DialogListEvent {
 class DeleteDialogList extends DialogListEvent {
   final DialogModel? value;
 
-  const DeleteDialogList({ this.value });
+  const DeleteDialogList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteDialogList{ value: $value }';
@@ -67,24 +67,24 @@ class DialogListUpdated extends DialogListEvent {
   final List<DialogModel?>? value;
   final bool? mightHaveMore;
 
-  const DialogListUpdated({ this.value, this.mightHaveMore });
+  const DialogListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'DialogListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'DialogListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class DialogChangeQuery extends DialogListEvent {
   final EliudQuery? newQuery;
 
-  const DialogChangeQuery({ required this.newQuery });
+  const DialogChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'DialogChangeQuery{ value: $newQuery }';
 }
-

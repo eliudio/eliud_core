@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/app_policy_model.dart';
+import 'package:eliud_core/model/platform_medium_model.dart';
 import 'package:eliud_core/model/public_medium_model.dart';
 import 'package:eliud_core/tools/component/component_spec.dart';
 import 'package:eliud_core/tools/random.dart';
@@ -43,7 +44,7 @@ class AppPolicyDashboardBloc
           name: 'new appPolicy',
           conditions: StorageConditionsModel(
             privilegeLevelRequired:
-                PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple,
+                PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple,
           ),
         );
       }
@@ -53,28 +54,35 @@ class AppPolicyDashboardBloc
               appId, modelWithLinks.policy!)
           : null;
       emit(AppPolicyDashboardLoaded(
-          appPolicy: modelWithLinks, values: values, ));
+        appPolicy: modelWithLinks,
+        values: values,
+      ));
     });
 
-    on<AppPolicyDashboardAddItem> ((event, emit) async {
+    on<AppPolicyDashboardAddItem>((event, emit) async {
       if (state is AppPolicyDashboardInitialised) {
         var theState = state as AppPolicyDashboardInitialised;
         var values = theState.values ?? [];
         var newValues = values.map((v) => v).toList();
         newValues.add(event.item);
         emit(AppPolicyDashboardLoaded(
-          appPolicy: theState.appPolicy, values: newValues,));
+          appPolicy: theState.appPolicy,
+          values: newValues,
+        ));
       }
     });
 
-    on<AppPolicyDashboardDeleteItem> ((event, emit) async {
+    on<AppPolicyDashboardDeleteItem>((event, emit) async {
       if (state is AppPolicyDashboardInitialised) {
         var theState = state as AppPolicyDashboardInitialised;
         var values = theState.values ?? [];
         var newValues = values.map((v) => v).toList();
-        newValues.removeWhere((value) => value.documentID == event.item.documentID);
+        newValues
+            .removeWhere((value) => value.documentID == event.item.documentID);
         emit(AppPolicyDashboardLoaded(
-          appPolicy: theState.appPolicy, values: newValues,));
+          appPolicy: theState.appPolicy,
+          values: newValues,
+        ));
       }
     });
 
@@ -89,7 +97,6 @@ class AppPolicyDashboardBloc
       }
     });
 */
-
   }
 
   Future<void> save(AppPolicyDashboardApplyChanges event) async {
@@ -98,8 +105,8 @@ class AppPolicyDashboardBloc
       var theList = theState.values;
       var newModel = theState.appPolicy;
       if (theList != null) {
-        var previousId;
-        var firstOne;
+        String? previousId;
+        PlatformMediumModel? firstOne;
         for (var value in theList.reversed.toList()) {
           if (value.relatedMediumId != previousId) {
             value.relatedMediumId = previousId;

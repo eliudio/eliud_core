@@ -19,17 +19,15 @@ import 'package:eliud_core/model/abstract_repository_singleton.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/drawer_entity.dart';
-
-
-
 
 class DrawerModel implements ModelBase, WithAppId {
   static const String packageName = 'eliud_core';
   static const String id = 'drawers';
 
+  @override
   String documentID;
+  @override
   String appId;
   String? name;
   BackgroundModel? backgroundOverride;
@@ -43,21 +41,71 @@ class DrawerModel implements ModelBase, WithAppId {
   RgbModel? popupMenuBackgroundColorOverride;
   MenuDefModel? menu;
 
-  DrawerModel({required this.documentID, required this.appId, this.name, this.backgroundOverride, this.headerText, this.secondHeaderText, this.headerHeight, this.popupMenuBackgroundColor, this.headerBackgroundOverride, this.popupMenuBackgroundColorOverride, this.menu, })  {
-  }
+  DrawerModel({
+    required this.documentID,
+    required this.appId,
+    this.name,
+    this.backgroundOverride,
+    this.headerText,
+    this.secondHeaderText,
+    this.headerHeight,
+    this.popupMenuBackgroundColor,
+    this.headerBackgroundOverride,
+    this.popupMenuBackgroundColorOverride,
+    this.menu,
+  });
 
-  DrawerModel copyWith({String? documentID, String? appId, String? name, BackgroundModel? backgroundOverride, String? headerText, String? secondHeaderText, double? headerHeight, RgbModel? popupMenuBackgroundColor, BackgroundModel? headerBackgroundOverride, RgbModel? popupMenuBackgroundColorOverride, MenuDefModel? menu, }) {
-    return DrawerModel(documentID: documentID ?? this.documentID, appId: appId ?? this.appId, name: name ?? this.name, backgroundOverride: backgroundOverride ?? this.backgroundOverride, headerText: headerText ?? this.headerText, secondHeaderText: secondHeaderText ?? this.secondHeaderText, headerHeight: headerHeight ?? this.headerHeight, popupMenuBackgroundColor: popupMenuBackgroundColor ?? this.popupMenuBackgroundColor, headerBackgroundOverride: headerBackgroundOverride ?? this.headerBackgroundOverride, popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride ?? this.popupMenuBackgroundColorOverride, menu: menu ?? this.menu, );
+  @override
+  DrawerModel copyWith({
+    String? documentID,
+    String? appId,
+    String? name,
+    BackgroundModel? backgroundOverride,
+    String? headerText,
+    String? secondHeaderText,
+    double? headerHeight,
+    RgbModel? popupMenuBackgroundColor,
+    BackgroundModel? headerBackgroundOverride,
+    RgbModel? popupMenuBackgroundColorOverride,
+    MenuDefModel? menu,
+  }) {
+    return DrawerModel(
+      documentID: documentID ?? this.documentID,
+      appId: appId ?? this.appId,
+      name: name ?? this.name,
+      backgroundOverride: backgroundOverride ?? this.backgroundOverride,
+      headerText: headerText ?? this.headerText,
+      secondHeaderText: secondHeaderText ?? this.secondHeaderText,
+      headerHeight: headerHeight ?? this.headerHeight,
+      popupMenuBackgroundColor:
+          popupMenuBackgroundColor ?? this.popupMenuBackgroundColor,
+      headerBackgroundOverride:
+          headerBackgroundOverride ?? this.headerBackgroundOverride,
+      popupMenuBackgroundColorOverride: popupMenuBackgroundColorOverride ??
+          this.popupMenuBackgroundColorOverride,
+      menu: menu ?? this.menu,
+    );
   }
 
   @override
-  int get hashCode => documentID.hashCode ^ appId.hashCode ^ name.hashCode ^ backgroundOverride.hashCode ^ headerText.hashCode ^ secondHeaderText.hashCode ^ headerHeight.hashCode ^ popupMenuBackgroundColor.hashCode ^ headerBackgroundOverride.hashCode ^ popupMenuBackgroundColorOverride.hashCode ^ menu.hashCode;
+  int get hashCode =>
+      documentID.hashCode ^
+      appId.hashCode ^
+      name.hashCode ^
+      backgroundOverride.hashCode ^
+      headerText.hashCode ^
+      secondHeaderText.hashCode ^
+      headerHeight.hashCode ^
+      popupMenuBackgroundColor.hashCode ^
+      headerBackgroundOverride.hashCode ^
+      popupMenuBackgroundColorOverride.hashCode ^
+      menu.hashCode;
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is DrawerModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is DrawerModel &&
+          runtimeType == other.runtimeType &&
           documentID == other.documentID &&
           appId == other.appId &&
           name == other.name &&
@@ -67,7 +115,8 @@ class DrawerModel implements ModelBase, WithAppId {
           headerHeight == other.headerHeight &&
           popupMenuBackgroundColor == other.popupMenuBackgroundColor &&
           headerBackgroundOverride == other.headerBackgroundOverride &&
-          popupMenuBackgroundColorOverride == other.popupMenuBackgroundColorOverride &&
+          popupMenuBackgroundColorOverride ==
+              other.popupMenuBackgroundColorOverride &&
           menu == other.menu;
 
   @override
@@ -75,88 +124,117 @@ class DrawerModel implements ModelBase, WithAppId {
     return 'DrawerModel{documentID: $documentID, appId: $appId, name: $name, backgroundOverride: $backgroundOverride, headerText: $headerText, secondHeaderText: $secondHeaderText, headerHeight: $headerHeight, popupMenuBackgroundColor: $popupMenuBackgroundColor, headerBackgroundOverride: $headerBackgroundOverride, popupMenuBackgroundColorOverride: $popupMenuBackgroundColorOverride, menu: $menu}';
   }
 
+  @override
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
     if (menu != null) {
-      referencesCollector.add(ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
+      referencesCollector.add(
+          ModelReference(MenuDefModel.packageName, MenuDefModel.id, menu!));
     }
-    if (backgroundOverride != null) referencesCollector.addAll(await backgroundOverride!.collectReferences(appId: appId));
-    if (popupMenuBackgroundColor != null) referencesCollector.addAll(await popupMenuBackgroundColor!.collectReferences(appId: appId));
-    if (headerBackgroundOverride != null) referencesCollector.addAll(await headerBackgroundOverride!.collectReferences(appId: appId));
-    if (popupMenuBackgroundColorOverride != null) referencesCollector.addAll(await popupMenuBackgroundColorOverride!.collectReferences(appId: appId));
-    if (menu != null) referencesCollector.addAll(await menu!.collectReferences(appId: appId));
+    if (backgroundOverride != null) {
+      referencesCollector
+          .addAll(await backgroundOverride!.collectReferences(appId: appId));
+    }
+    if (popupMenuBackgroundColor != null) {
+      referencesCollector.addAll(
+          await popupMenuBackgroundColor!.collectReferences(appId: appId));
+    }
+    if (headerBackgroundOverride != null) {
+      referencesCollector.addAll(
+          await headerBackgroundOverride!.collectReferences(appId: appId));
+    }
+    if (popupMenuBackgroundColorOverride != null) {
+      referencesCollector.addAll(await popupMenuBackgroundColorOverride!
+          .collectReferences(appId: appId));
+    }
+    if (menu != null) {
+      referencesCollector.addAll(await menu!.collectReferences(appId: appId));
+    }
     return referencesCollector;
   }
 
+  @override
   DrawerEntity toEntity({String? appId}) {
     return DrawerEntity(
-          appId: (appId != null) ? appId : null, 
-          name: (name != null) ? name : null, 
-          backgroundOverride: (backgroundOverride != null) ? backgroundOverride!.toEntity(appId: appId) : null, 
-          headerText: (headerText != null) ? headerText : null, 
-          secondHeaderText: (secondHeaderText != null) ? secondHeaderText : null, 
-          headerHeight: (headerHeight != null) ? headerHeight : null, 
-          popupMenuBackgroundColor: (popupMenuBackgroundColor != null) ? popupMenuBackgroundColor!.toEntity(appId: appId) : null, 
-          headerBackgroundOverride: (headerBackgroundOverride != null) ? headerBackgroundOverride!.toEntity(appId: appId) : null, 
-          popupMenuBackgroundColorOverride: (popupMenuBackgroundColorOverride != null) ? popupMenuBackgroundColorOverride!.toEntity(appId: appId) : null, 
-          menuId: (menu != null) ? menu!.documentID : null, 
+      appId: appId,
+      name: (name != null) ? name : null,
+      backgroundOverride: (backgroundOverride != null)
+          ? backgroundOverride!.toEntity(appId: appId)
+          : null,
+      headerText: (headerText != null) ? headerText : null,
+      secondHeaderText: (secondHeaderText != null) ? secondHeaderText : null,
+      headerHeight: (headerHeight != null) ? headerHeight : null,
+      popupMenuBackgroundColor: (popupMenuBackgroundColor != null)
+          ? popupMenuBackgroundColor!.toEntity(appId: appId)
+          : null,
+      headerBackgroundOverride: (headerBackgroundOverride != null)
+          ? headerBackgroundOverride!.toEntity(appId: appId)
+          : null,
+      popupMenuBackgroundColorOverride:
+          (popupMenuBackgroundColorOverride != null)
+              ? popupMenuBackgroundColorOverride!.toEntity(appId: appId)
+              : null,
+      menuId: (menu != null) ? menu!.documentID : null,
     );
   }
 
-  static Future<DrawerModel?> fromEntity(String documentID, DrawerEntity? entity) async {
+  static Future<DrawerModel?> fromEntity(
+      String documentID, DrawerEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return DrawerModel(
-          documentID: documentID, 
-          appId: entity.appId ?? '', 
-          name: entity.name, 
-          backgroundOverride: 
-            await BackgroundModel.fromEntity(entity.backgroundOverride), 
-          headerText: entity.headerText, 
-          secondHeaderText: entity.secondHeaderText, 
-          headerHeight: entity.headerHeight, 
-          popupMenuBackgroundColor: 
-            await RgbModel.fromEntity(entity.popupMenuBackgroundColor), 
-          headerBackgroundOverride: 
-            await BackgroundModel.fromEntity(entity.headerBackgroundOverride), 
-          popupMenuBackgroundColorOverride: 
-            await RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride), 
+      documentID: documentID,
+      appId: entity.appId ?? '',
+      name: entity.name,
+      backgroundOverride:
+          await BackgroundModel.fromEntity(entity.backgroundOverride),
+      headerText: entity.headerText,
+      secondHeaderText: entity.secondHeaderText,
+      headerHeight: entity.headerHeight,
+      popupMenuBackgroundColor:
+          await RgbModel.fromEntity(entity.popupMenuBackgroundColor),
+      headerBackgroundOverride:
+          await BackgroundModel.fromEntity(entity.headerBackgroundOverride),
+      popupMenuBackgroundColorOverride:
+          await RgbModel.fromEntity(entity.popupMenuBackgroundColorOverride),
     );
   }
 
-  static Future<DrawerModel?> fromEntityPlus(String documentID, DrawerEntity? entity, { String? appId}) async {
+  static Future<DrawerModel?> fromEntityPlus(
+      String documentID, DrawerEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
     MenuDefModel? menuHolder;
     if (entity.menuId != null) {
       try {
-          menuHolder = await menuDefRepository(appId: appId)!.get(entity.menuId);
-      } on Exception catch(e) {
+        menuHolder = await menuDefRepository(appId: appId)!.get(entity.menuId);
+      } on Exception catch (e) {
         print('Error whilst trying to initialise menu');
         print('Error whilst retrieving menuDef with id ${entity.menuId}');
         print('Exception: $e');
       }
     }
 
-    var counter = 0;
     return DrawerModel(
-          documentID: documentID, 
-          appId: entity.appId ?? '', 
-          name: entity.name, 
-          backgroundOverride: 
-            await BackgroundModel.fromEntityPlus(entity.backgroundOverride, appId: appId), 
-          headerText: entity.headerText, 
-          secondHeaderText: entity.secondHeaderText, 
-          headerHeight: entity.headerHeight, 
-          popupMenuBackgroundColor: 
-            await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColor, appId: appId), 
-          headerBackgroundOverride: 
-            await BackgroundModel.fromEntityPlus(entity.headerBackgroundOverride, appId: appId), 
-          popupMenuBackgroundColorOverride: 
-            await RgbModel.fromEntityPlus(entity.popupMenuBackgroundColorOverride, appId: appId), 
-          menu: menuHolder, 
+      documentID: documentID,
+      appId: entity.appId ?? '',
+      name: entity.name,
+      backgroundOverride: await BackgroundModel.fromEntityPlus(
+          entity.backgroundOverride,
+          appId: appId),
+      headerText: entity.headerText,
+      secondHeaderText: entity.secondHeaderText,
+      headerHeight: entity.headerHeight,
+      popupMenuBackgroundColor: await RgbModel.fromEntityPlus(
+          entity.popupMenuBackgroundColor,
+          appId: appId),
+      headerBackgroundOverride: await BackgroundModel.fromEntityPlus(
+          entity.headerBackgroundOverride,
+          appId: appId),
+      popupMenuBackgroundColorOverride: await RgbModel.fromEntityPlus(
+          entity.popupMenuBackgroundColorOverride,
+          appId: appId),
+      menu: menuHolder,
     );
   }
-
 }
-

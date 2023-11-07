@@ -30,10 +30,10 @@ class NewPage extends MenuDefListEvent {}
 class AddMenuDefList extends MenuDefListEvent {
   final MenuDefModel? value;
 
-  const AddMenuDefList({ this.value });
+  const AddMenuDefList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddMenuDefList{ value: $value }';
@@ -42,10 +42,10 @@ class AddMenuDefList extends MenuDefListEvent {
 class UpdateMenuDefList extends MenuDefListEvent {
   final MenuDefModel? value;
 
-  const UpdateMenuDefList({ this.value });
+  const UpdateMenuDefList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateMenuDefList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateMenuDefList extends MenuDefListEvent {
 class DeleteMenuDefList extends MenuDefListEvent {
   final MenuDefModel? value;
 
-  const DeleteMenuDefList({ this.value });
+  const DeleteMenuDefList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteMenuDefList{ value: $value }';
@@ -67,24 +67,24 @@ class MenuDefListUpdated extends MenuDefListEvent {
   final List<MenuDefModel?>? value;
   final bool? mightHaveMore;
 
-  const MenuDefListUpdated({ this.value, this.mightHaveMore });
+  const MenuDefListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'MenuDefListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'MenuDefListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class MenuDefChangeQuery extends MenuDefListEvent {
   final EliudQuery? newQuery;
 
-  const MenuDefChangeQuery({ required this.newQuery });
+  const MenuDefChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'MenuDefChangeQuery{ value: $newQuery }';
 }
-

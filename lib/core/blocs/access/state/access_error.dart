@@ -4,6 +4,7 @@ import 'access_state.dart';
 
 class AccessError extends AccessState {
   final String message;
+
   AccessError(this.message);
 
   @override
@@ -28,10 +29,12 @@ class AccessError extends AccessState {
   List<MemberCollectionInfo>? getMemberCollectionInfo() => null;
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AccessError &&
-              runtimeType == other.runtimeType &&
-              message == other.message;
-}
+      other is AccessError &&
+          runtimeType == other.runtimeType &&
+          message == other.message;
 
+  @override
+  int get hashCode => message.hashCode;
+}

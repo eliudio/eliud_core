@@ -8,15 +8,14 @@ typedef WidthTypeLandscapeCallback = Function(
     WidthTypeLandscape widthTypeLandscape);
 
 class WidthTypeLandscapeWidget extends StatefulWidget {
-  WidthTypeLandscapeCallback widthTypeLandscapeCallback;
+  final WidthTypeLandscapeCallback widthTypeLandscapeCallback;
   final WidthTypeLandscape widthTypeLandscape;
   final AppModel app;
   WidthTypeLandscapeWidget(
-      {Key? key,
-        required this.app,
-        required this.widthTypeLandscapeCallback,
-        required this.widthTypeLandscape})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.widthTypeLandscapeCallback,
+      required this.widthTypeLandscape});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,17 +26,23 @@ class WidthTypeLandscapeWidget extends StatefulWidget {
 class _WidthTypeLandscapeWidgetState extends State<WidthTypeLandscapeWidget> {
   int? _widthTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _widthTypeSelectedRadioTile = widget.widthTypeLandscape.index;
   }
 
-  String widthtTypeLandscapeStringValue(WidthTypeLandscape? widthTypeLandscape) {
+  String widthtTypeLandscapeStringValue(
+      WidthTypeLandscape? widthTypeLandscape) {
     switch (widthTypeLandscape) {
-      case WidthTypeLandscape.AbsoluteWidth:
+      case WidthTypeLandscape.absoluteWidth:
         return 'Absolute Width';
-      case WidthTypeLandscape.PercentageWidth:
+      case WidthTypeLandscape.percentageWidth:
         return 'Percentage Width';
+      case WidthTypeLandscape.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -60,15 +65,14 @@ class _WidthTypeLandscapeWidgetState extends State<WidthTypeLandscapeWidget> {
             _widthTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(WidthTypeLandscape.PercentageWidth),
-      getPrivilegeOption(WidthTypeLandscape.AbsoluteWidth)
+      getPrivilegeOption(WidthTypeLandscape.percentageWidth),
+      getPrivilegeOption(WidthTypeLandscape.absoluteWidth)
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }
-

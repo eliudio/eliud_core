@@ -23,9 +23,7 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'app_model.dart';
 
-typedef List<AppModel?> FilterAppModels(List<AppModel?> values);
-
-
+typedef FilterAppModels = List<AppModel?> Function(List<AppModel?> values);
 
 class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final FilterAppModels? filter;
@@ -39,23 +37,32 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
   final bool? detailed;
   final int appLimit;
 
-  AppListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required AppRepository appRepository, this.appLimit = 5})
+  AppListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required AppRepository appRepository,
+      this.appLimit = 5})
       : _appRepository = appRepository,
         super(AppListLoading()) {
-    on <LoadAppList> ((event, emit) {
+    on<LoadAppList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadAppListToState();
       } else {
         _mapLoadAppListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadAppListWithDetailsToState();
     });
-    
-    on <AppChangeQuery> ((event, emit) {
+
+    on<AppChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadAppListToState();
@@ -63,20 +70,20 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
         _mapLoadAppListWithDetailsToState();
       }
     });
-      
-    on <AddAppList> ((event, emit) async {
+
+    on<AddAppList>((event, emit) async {
       await _mapAddAppListToState(event);
     });
-    
-    on <UpdateAppList> ((event, emit) async {
+
+    on<UpdateAppList>((event, emit) async {
       await _mapUpdateAppListToState(event);
     });
-    
-    on <DeleteAppList> ((event, emit) async {
+
+    on<DeleteAppList>((event, emit) async {
       await _mapDeleteAppListToState(event);
     });
-    
-    on <AppListUpdated> ((event, emit) {
+
+    on<AppListUpdated>((event, emit) {
       emit(_mapAppListUpdatedToState(event));
     });
   }
@@ -90,27 +97,29 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
   }
 
   Future<void> _mapLoadAppListToState() async {
-    int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
+    int amountNow =
+        (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
     _appsListSubscription?.cancel();
     _appsListSubscription = _appRepository.listen(
-          (list) => add(AppListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * appLimit : null
-    );
-  }
-
-  Future<void> _mapLoadAppListWithDetailsToState() async {
-    int amountNow =  (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
-    _appsListSubscription?.cancel();
-    _appsListSubscription = _appRepository.listenWithDetails(
-            (list) => add(AppListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(AppListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * appLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * appLimit : null);
+  }
+
+  Future<void> _mapLoadAppListWithDetailsToState() async {
+    int amountNow =
+        (state is AppListLoaded) ? (state as AppListLoaded).values!.length : 0;
+    _appsListSubscription?.cancel();
+    _appsListSubscription = _appRepository.listenWithDetails(
+        (list) => add(AppListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * appLimit : null);
   }
 
   Future<void> _mapAddAppListToState(AddAppList event) async {
@@ -134,8 +143,8 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     }
   }
 
-  AppListLoaded _mapAppListUpdatedToState(
-      AppListUpdated event) => AppListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+  AppListLoaded _mapAppListUpdatedToState(AppListUpdated event) =>
+      AppListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +152,3 @@ class AppListBloc extends Bloc<AppListEvent, AppListState> {
     return super.close();
   }
 }
-
-

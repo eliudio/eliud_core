@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class DecorationColorFormEvent extends Equatable {
   const DecorationColorFormEvent();
@@ -26,24 +25,23 @@ abstract class DecorationColorFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewDecorationColorFormEvent extends DecorationColorFormEvent {
-}
-
+class InitialiseNewDecorationColorFormEvent extends DecorationColorFormEvent {}
 
 class InitialiseDecorationColorFormEvent extends DecorationColorFormEvent {
   final DecorationColorModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseDecorationColorFormEvent({this.value});
 }
 
-class InitialiseDecorationColorFormNoLoadEvent extends DecorationColorFormEvent {
+class InitialiseDecorationColorFormNoLoadEvent
+    extends DecorationColorFormEvent {
   final DecorationColorModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseDecorationColorFormNoLoadEvent({this.value});
 }
@@ -54,7 +52,7 @@ class ChangedDecorationColorDocumentID extends DecorationColorFormEvent {
   ChangedDecorationColorDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDecorationColorDocumentID{ value: $value }';
@@ -66,7 +64,7 @@ class ChangedDecorationColorColor extends DecorationColorFormEvent {
   ChangedDecorationColorColor({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDecorationColorColor{ value: $value }';
@@ -78,9 +76,8 @@ class ChangedDecorationColorStop extends DecorationColorFormEvent {
   ChangedDecorationColorStop({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedDecorationColorStop{ value: $value }';
 }
-

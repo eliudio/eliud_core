@@ -7,5 +7,6 @@ class HomePageReferences {
   final PageModel homePageLevel2Member;
   final PageModel homePageOwner;
 
-  HomePageReferences(this.homePageBlockedMember, this.homePageSubscribedMember, this.homePageLevel1Member, this.homePageLevel2Member, this.homePageOwner);
+  HomePageReferences(this.homePageBlockedMember, this.homePageSubscribedMember,
+      this.homePageLevel1Member, this.homePageLevel2Member, this.homePageOwner);
 }

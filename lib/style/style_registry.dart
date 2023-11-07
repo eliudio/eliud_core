@@ -51,16 +51,16 @@ class StyleRegistry {
   }
 
   Style style(AppModel app, String familyName, String styleName) {
-    var _styleFamily = styleFamily(familyName);
-    if (_styleFamily != null) {
-      var style = _styleFamily.getStyle(app, styleName);
+    var theStyleFamily = styleFamily(familyName);
+    if (theStyleFamily != null) {
+      var style = theStyleFamily.getStyle(app, styleName);
       if (style != null) return style;
     }
     return defaultStyle();
   }
 
   Style defaultStyle() {
-    _defaultStyle ??= DefaultStyleFamily.instance().defaultStyle;
+    _defaultStyle ??= DefaultStyleFamily.instance().defaultStyle();
     return _defaultStyle!;
   }
 

@@ -18,7 +18,6 @@ import 'package:meta/meta.dart';
 import '../tools/bespoke_models.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class MenuItemFormEvent extends Equatable {
   const MenuItemFormEvent();
@@ -27,15 +26,13 @@ abstract class MenuItemFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewMenuItemFormEvent extends MenuItemFormEvent {
-}
-
+class InitialiseNewMenuItemFormEvent extends MenuItemFormEvent {}
 
 class InitialiseMenuItemFormEvent extends MenuItemFormEvent {
   final MenuItemModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMenuItemFormEvent({this.value});
 }
@@ -44,7 +41,7 @@ class InitialiseMenuItemFormNoLoadEvent extends MenuItemFormEvent {
   final MenuItemModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMenuItemFormNoLoadEvent({this.value});
 }
@@ -55,7 +52,7 @@ class ChangedMenuItemDocumentID extends MenuItemFormEvent {
   ChangedMenuItemDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMenuItemDocumentID{ value: $value }';
@@ -67,7 +64,7 @@ class ChangedMenuItemText extends MenuItemFormEvent {
   ChangedMenuItemText({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMenuItemText{ value: $value }';
@@ -79,7 +76,7 @@ class ChangedMenuItemDescription extends MenuItemFormEvent {
   ChangedMenuItemDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMenuItemDescription{ value: $value }';
@@ -91,7 +88,7 @@ class ChangedMenuItemIcon extends MenuItemFormEvent {
   ChangedMenuItemIcon({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMenuItemIcon{ value: $value }';
@@ -103,9 +100,8 @@ class ChangedMenuItemAction extends MenuItemFormEvent {
   ChangedMenuItemAction({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMenuItemAction{ value: $value }';
 }
-

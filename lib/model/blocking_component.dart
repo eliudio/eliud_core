@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/blocking_component_bloc.dart';
 import 'package:eliud_core/model/blocking_component_event.dart';
 import 'package:eliud_core/model/blocking_model.dart';
@@ -31,20 +30,22 @@ abstract class AbstractBlockingComponent extends StatelessWidget {
   final AppModel app;
   final String blockingId;
 
-  AbstractBlockingComponent({Key? key, required this.app, required this.blockingId}): super(key: key);
+  AbstractBlockingComponent(
+      {super.key, required this.app, required this.blockingId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<BlockingComponentBloc> (
-          create: (context) => BlockingComponentBloc(
-            blockingRepository: blockingRepository(appId: app.documentID)!)
+    return BlocProvider<BlockingComponentBloc>(
+      create: (context) => BlockingComponentBloc(
+          blockingRepository: blockingRepository(appId: app.documentID)!)
         ..add(FetchBlockingComponent(id: blockingId)),
       child: _blockingBlockBuilder(context),
     );
   }
 
   Widget _blockingBlockBuilder(BuildContext context) {
-    return BlocBuilder<BlockingComponentBloc, BlockingComponentState>(builder: (context, state) {
+    return BlocBuilder<BlockingComponentBloc, BlockingComponentState>(
+        builder: (context, state) {
       if (state is BlockingComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is BlockingComponentPermissionDenied) {
@@ -57,7 +58,11 @@ abstract class AbstractBlockingComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +70,3 @@ abstract class AbstractBlockingComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, BlockingModel value);
 }
-

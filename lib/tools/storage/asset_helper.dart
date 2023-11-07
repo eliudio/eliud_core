@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
-import 'package:flutter/services.dart' show AssetBundle, rootBundle;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path/path.dart';
 
@@ -26,7 +25,8 @@ class AssetHelper {
    * 3) specify 'packages/eliud_pkg_apps/assets/minkey_app/feed/abc.jpg' as value for your assetPath
    *
    */
-  static Future<String> getFileFromAssets(String documentID, String path) async {
+  static Future<String> getFileFromAssets(
+      String documentID, String path) async {
     if (kIsWeb) {
       return Future.value(path);
     } else {
@@ -34,10 +34,9 @@ class AssetHelper {
       // therefore on web the implementation of getFileFromAssets should return path
       final byteData = await rootBundle.load(path);
 
-      final newFileName = documentID + '-' + context.basenameWithoutExtension(path) +
-          '-' +
-          context.extension(path); // make sure it's a unique filename
-      final newFile = File(Directory.systemTemp.path + '/' + newFileName);
+      final newFileName =
+          '$documentID-${context.basenameWithoutExtension(path)}-${context.extension(path)}'; // make sure it's a unique filename
+      final newFile = File('${Directory.systemTemp.path}/$newFileName');
       await newFile.writeAsBytes(byteData.buffer
           .asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
 

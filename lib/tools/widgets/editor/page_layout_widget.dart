@@ -4,19 +4,17 @@ import 'package:eliud_core/style/frontend/has_list_tile.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
-typedef PageLayoutCallback = Function(
-    PageLayout pageLayout);
+typedef PageLayoutCallback = Function(PageLayout pageLayout);
 
 class PageLayoutWidget extends StatefulWidget {
-  PageLayoutCallback pageLayoutCallback;
+  final PageLayoutCallback pageLayoutCallback;
   final PageLayout pageLayout;
   final AppModel app;
   PageLayoutWidget(
-      {Key? key,
-        required this.app,
-        required this.pageLayoutCallback,
-        required this.pageLayout})
-      : super(key: key);
+      {super.key,
+      required this.app,
+      required this.pageLayoutCallback,
+      required this.pageLayout});
 
   @override
   State<StatefulWidget> createState() {
@@ -27,6 +25,7 @@ class PageLayoutWidget extends StatefulWidget {
 class _PageLayoutWidgetState extends State<PageLayoutWidget> {
   int? _heightTypeSelectedRadioTile;
 
+  @override
   void initState() {
     super.initState();
     _heightTypeSelectedRadioTile = widget.pageLayout.index;
@@ -34,12 +33,16 @@ class _PageLayoutWidgetState extends State<PageLayoutWidget> {
 
   String heighttTypeLandscapeStringValue(PageLayout? pageLayout) {
     switch (pageLayout) {
-      case PageLayout.ListView:
+      case PageLayout.listView:
         return 'List';
-      case PageLayout.GridView:
+      case PageLayout.gridView:
         return 'Grid';
-      case PageLayout.OnlyTheFirstComponent:
+      case PageLayout.onlyTheFirstComponent:
         return 'Only first';
+      case PageLayout.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }
@@ -62,15 +65,15 @@ class _PageLayoutWidgetState extends State<PageLayoutWidget> {
             _heightTypeSelectedRadioTile,
             stringValue,
             null,
-                (dynamic val) => setSelection(val)));
+            (dynamic val) => setSelection(val)));
   }
 
   @override
   Widget build(BuildContext context) {
     return ListView(children: [
-      getPrivilegeOption(PageLayout.ListView),
-      getPrivilegeOption(PageLayout.GridView),
-      getPrivilegeOption(PageLayout.OnlyTheFirstComponent),
+      getPrivilegeOption(PageLayout.listView),
+      getPrivilegeOption(PageLayout.gridView),
+      getPrivilegeOption(PageLayout.onlyTheFirstComponent),
     ], shrinkWrap: true, physics: ScrollPhysics());
   }
 }

@@ -19,8 +19,10 @@ class EditorBaseInitialise<T extends ModelBase> extends EditorBaseEvent<T> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is EditorBaseInitialise && model == other.model;
-}
 
+  @override
+  int get hashCode => model.hashCode;
+}
 
 class EditorBaseApplyChanges<T> extends EditorBaseEvent<T> {
   final T model;
@@ -36,5 +38,7 @@ class EditorBaseApplyChanges<T> extends EditorBaseEvent<T> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is EditorBaseApplyChanges && model == other.model;
-}
 
+  @override
+  int get hashCode => model.hashCode;
+}

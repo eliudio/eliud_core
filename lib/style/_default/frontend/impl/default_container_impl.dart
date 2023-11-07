@@ -8,8 +8,14 @@ import '../../../../model/background_model.dart';
 
 class DefaultContainerImpl implements HasContainer {
   @override
-  Widget actionContainer(AppModel app, BuildContext context,
-      {required Widget child, double? height, double? width, BackgroundModel? backgroundOverride,}) {
+  Widget actionContainer(
+    AppModel app,
+    BuildContext context, {
+    required Widget child,
+    double? height,
+    double? width,
+    BackgroundModel? backgroundOverride,
+  }) {
     return child;
   }
 

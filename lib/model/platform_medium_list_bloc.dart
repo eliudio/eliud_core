@@ -23,11 +23,11 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'platform_medium_model.dart';
 
-typedef List<PlatformMediumModel?> FilterPlatformMediumModels(List<PlatformMediumModel?> values);
+typedef FilterPlatformMediumModels = List<PlatformMediumModel?> Function(
+    List<PlatformMediumModel?> values);
 
-
-
-class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediumListState> {
+class PlatformMediumListBloc
+    extends Bloc<PlatformMediumListEvent, PlatformMediumListState> {
   final FilterPlatformMediumModels? filter;
   final PlatformMediumRepository _platformMediumRepository;
   StreamSubscription? _platformMediumsListSubscription;
@@ -39,23 +39,32 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
   final bool? detailed;
   final int platformMediumLimit;
 
-  PlatformMediumListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required PlatformMediumRepository platformMediumRepository, this.platformMediumLimit = 5})
+  PlatformMediumListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required PlatformMediumRepository platformMediumRepository,
+      this.platformMediumLimit = 5})
       : _platformMediumRepository = platformMediumRepository,
         super(PlatformMediumListLoading()) {
-    on <LoadPlatformMediumList> ((event, emit) {
+    on<LoadPlatformMediumList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadPlatformMediumListToState();
       } else {
         _mapLoadPlatformMediumListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadPlatformMediumListWithDetailsToState();
     });
-    
-    on <PlatformMediumChangeQuery> ((event, emit) {
+
+    on<PlatformMediumChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadPlatformMediumListToState();
@@ -63,20 +72,20 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
         _mapLoadPlatformMediumListWithDetailsToState();
       }
     });
-      
-    on <AddPlatformMediumList> ((event, emit) async {
+
+    on<AddPlatformMediumList>((event, emit) async {
       await _mapAddPlatformMediumListToState(event);
     });
-    
-    on <UpdatePlatformMediumList> ((event, emit) async {
+
+    on<UpdatePlatformMediumList>((event, emit) async {
       await _mapUpdatePlatformMediumListToState(event);
     });
-    
-    on <DeletePlatformMediumList> ((event, emit) async {
+
+    on<DeletePlatformMediumList>((event, emit) async {
       await _mapDeletePlatformMediumListToState(event);
     });
-    
-    on <PlatformMediumListUpdated> ((event, emit) {
+
+    on<PlatformMediumListUpdated>((event, emit) {
       emit(_mapPlatformMediumListUpdatedToState(event));
     });
   }
@@ -90,44 +99,55 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
   }
 
   Future<void> _mapLoadPlatformMediumListToState() async {
-    int amountNow =  (state is PlatformMediumListLoaded) ? (state as PlatformMediumListLoaded).values!.length : 0;
+    int amountNow = (state is PlatformMediumListLoaded)
+        ? (state as PlatformMediumListLoaded).values!.length
+        : 0;
     _platformMediumsListSubscription?.cancel();
     _platformMediumsListSubscription = _platformMediumRepository.listen(
-          (list) => add(PlatformMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * platformMediumLimit : null
-    );
-  }
-
-  Future<void> _mapLoadPlatformMediumListWithDetailsToState() async {
-    int amountNow =  (state is PlatformMediumListLoaded) ? (state as PlatformMediumListLoaded).values!.length : 0;
-    _platformMediumsListSubscription?.cancel();
-    _platformMediumsListSubscription = _platformMediumRepository.listenWithDetails(
-            (list) => add(PlatformMediumListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(PlatformMediumListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * platformMediumLimit : null
-    );
+        limit:
+            ((paged != null) && paged!) ? pages * platformMediumLimit : null);
   }
 
-  Future<void> _mapAddPlatformMediumListToState(AddPlatformMediumList event) async {
+  Future<void> _mapLoadPlatformMediumListWithDetailsToState() async {
+    int amountNow = (state is PlatformMediumListLoaded)
+        ? (state as PlatformMediumListLoaded).values!.length
+        : 0;
+    _platformMediumsListSubscription?.cancel();
+    _platformMediumsListSubscription =
+        _platformMediumRepository.listenWithDetails(
+            (list) => add(PlatformMediumListUpdated(
+                value: _filter(list), mightHaveMore: amountNow != list.length)),
+            orderBy: orderBy,
+            descending: descending,
+            eliudQuery: eliudQuery,
+            limit: ((paged != null) && paged!)
+                ? pages * platformMediumLimit
+                : null);
+  }
+
+  Future<void> _mapAddPlatformMediumListToState(
+      AddPlatformMediumList event) async {
     var value = event.value;
     if (value != null) {
       await _platformMediumRepository.add(value);
     }
   }
 
-  Future<void> _mapUpdatePlatformMediumListToState(UpdatePlatformMediumList event) async {
+  Future<void> _mapUpdatePlatformMediumListToState(
+      UpdatePlatformMediumList event) async {
     var value = event.value;
     if (value != null) {
       await _platformMediumRepository.update(value);
     }
   }
 
-  Future<void> _mapDeletePlatformMediumListToState(DeletePlatformMediumList event) async {
+  Future<void> _mapDeletePlatformMediumListToState(
+      DeletePlatformMediumList event) async {
     var value = event.value;
     if (value != null) {
       await _platformMediumRepository.delete(value);
@@ -135,7 +155,9 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
   }
 
   PlatformMediumListLoaded _mapPlatformMediumListUpdatedToState(
-      PlatformMediumListUpdated event) => PlatformMediumListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          PlatformMediumListUpdated event) =>
+      PlatformMediumListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +165,3 @@ class PlatformMediumListBloc extends Bloc<PlatformMediumListEvent, PlatformMediu
     return super.close();
   }
 }
-
-

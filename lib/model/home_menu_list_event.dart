@@ -30,10 +30,10 @@ class NewPage extends HomeMenuListEvent {}
 class AddHomeMenuList extends HomeMenuListEvent {
   final HomeMenuModel? value;
 
-  const AddHomeMenuList({ this.value });
+  const AddHomeMenuList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddHomeMenuList{ value: $value }';
@@ -42,10 +42,10 @@ class AddHomeMenuList extends HomeMenuListEvent {
 class UpdateHomeMenuList extends HomeMenuListEvent {
   final HomeMenuModel? value;
 
-  const UpdateHomeMenuList({ this.value });
+  const UpdateHomeMenuList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateHomeMenuList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateHomeMenuList extends HomeMenuListEvent {
 class DeleteHomeMenuList extends HomeMenuListEvent {
   final HomeMenuModel? value;
 
-  const DeleteHomeMenuList({ this.value });
+  const DeleteHomeMenuList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteHomeMenuList{ value: $value }';
@@ -67,24 +67,24 @@ class HomeMenuListUpdated extends HomeMenuListEvent {
   final List<HomeMenuModel?>? value;
   final bool? mightHaveMore;
 
-  const HomeMenuListUpdated({ this.value, this.mightHaveMore });
+  const HomeMenuListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'HomeMenuListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'HomeMenuListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class HomeMenuChangeQuery extends HomeMenuListEvent {
   final EliudQuery? newQuery;
 
-  const HomeMenuChangeQuery({ required this.newQuery });
+  const HomeMenuChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'HomeMenuChangeQuery{ value: $newQuery }';
 }
-

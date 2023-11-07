@@ -26,7 +26,8 @@ abstract class MemberMediumContainerFormState extends Equatable {
 }
 
 // Startup: menu has not been initialised yet and so we should show a "loading indicator" or something
-class MemberMediumContainerFormUninitialized extends MemberMediumContainerFormState {
+class MemberMediumContainerFormUninitialized
+    extends MemberMediumContainerFormState {
   @override
   List<Object?> get props => [];
 
@@ -37,23 +38,25 @@ class MemberMediumContainerFormUninitialized extends MemberMediumContainerFormSt
 }
 
 // MemberMediumContainerModel has been initialised and hence MemberMediumContainerModel is available
-class MemberMediumContainerFormInitialized extends MemberMediumContainerFormState {
+class MemberMediumContainerFormInitialized
+    extends MemberMediumContainerFormState {
   final MemberMediumContainerModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const MemberMediumContainerFormInitialized({ this.value });
+  const MemberMediumContainerFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
-abstract class MemberMediumContainerFormError extends MemberMediumContainerFormInitialized {
+abstract class MemberMediumContainerFormError
+    extends MemberMediumContainerFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const MemberMediumContainerFormError({this.message, MemberMediumContainerModel? value }) : super(value: value);
+  const MemberMediumContainerFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +66,13 @@ abstract class MemberMediumContainerFormError extends MemberMediumContainerFormI
     }''';
   }
 }
-class DocumentIDMemberMediumContainerFormError extends MemberMediumContainerFormError { 
-  const DocumentIDMemberMediumContainerFormError({ String? message, MemberMediumContainerModel? value }): super(message: message, value: value);
+
+class DocumentIDMemberMediumContainerFormError
+    extends MemberMediumContainerFormError {
+  const DocumentIDMemberMediumContainerFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +83,13 @@ class DocumentIDMemberMediumContainerFormError extends MemberMediumContainerForm
   }
 }
 
-
-class HtmlReferenceMemberMediumContainerFormError extends MemberMediumContainerFormError { 
-  const HtmlReferenceMemberMediumContainerFormError({ String? message, MemberMediumContainerModel? value }): super(message: message, value: value);
+class HtmlReferenceMemberMediumContainerFormError
+    extends MemberMediumContainerFormError {
+  const HtmlReferenceMemberMediumContainerFormError(
+      {super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +100,13 @@ class HtmlReferenceMemberMediumContainerFormError extends MemberMediumContainerF
   }
 }
 
-
-class MemberMediumMemberMediumContainerFormError extends MemberMediumContainerFormError { 
-  const MemberMediumMemberMediumContainerFormError({ String? message, MemberMediumContainerModel? value }): super(message: message, value: value);
+class MemberMediumMemberMediumContainerFormError
+    extends MemberMediumContainerFormError {
+  const MemberMediumMemberMediumContainerFormError(
+      {super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +117,12 @@ class MemberMediumMemberMediumContainerFormError extends MemberMediumContainerFo
   }
 }
 
-
-class MemberMediumContainerFormLoaded extends MemberMediumContainerFormInitialized { 
-  const MemberMediumContainerFormLoaded({ MemberMediumContainerModel? value }): super(value: value);
+class MemberMediumContainerFormLoaded
+    extends MemberMediumContainerFormInitialized {
+  const MemberMediumContainerFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -125,12 +132,12 @@ class MemberMediumContainerFormLoaded extends MemberMediumContainerFormInitializ
   }
 }
 
-
-class SubmittableMemberMediumContainerForm extends MemberMediumContainerFormInitialized { 
-  const SubmittableMemberMediumContainerForm({ MemberMediumContainerModel? value }): super(value: value);
+class SubmittableMemberMediumContainerForm
+    extends MemberMediumContainerFormInitialized {
+  const SubmittableMemberMediumContainerForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -139,5 +146,3 @@ class SubmittableMemberMediumContainerForm extends MemberMediumContainerFormInit
     }''';
   }
 }
-
-

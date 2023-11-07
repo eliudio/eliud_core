@@ -7,12 +7,13 @@ abstract class ExtEditorBaseEvent<T> extends Equatable {
   List<Object?> get props => [];
 }
 
-class ExtEditorBaseInitialise<T extends ModelBase> extends ExtEditorBaseEvent<T> {
+class ExtEditorBaseInitialise<T extends ModelBase>
+    extends ExtEditorBaseEvent<T> {
   final T model;
   // re-retrieve the model from store, to retrieve the referring links?
   final bool reretrieveModel;
 
-  ExtEditorBaseInitialise(this.model, { this.reretrieveModel = true });
+  ExtEditorBaseInitialise(this.model, {this.reretrieveModel = true});
 
   @override
   List<Object?> get props => [model];
@@ -21,6 +22,9 @@ class ExtEditorBaseInitialise<T extends ModelBase> extends ExtEditorBaseEvent<T>
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ExtEditorBaseInitialise && model == other.model;
+
+  @override
+  int get hashCode => model.hashCode ^ reretrieveModel.hashCode;
 }
 
 class SelectForEditEvent<T, U> extends ExtEditorBaseEvent<T> {
@@ -34,7 +38,10 @@ class SelectForEditEvent<T, U> extends ExtEditorBaseEvent<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is SelectForEditEvent && item == other.item;
+      other is SelectForEditEvent && item == other.item;
+
+  @override
+  int get hashCode => item.hashCode;
 }
 
 class ExtEditorBaseApplyChanges<T> extends ExtEditorBaseEvent<T> {
@@ -51,6 +58,9 @@ class ExtEditorBaseApplyChanges<T> extends ExtEditorBaseEvent<T> {
   bool operator ==(Object other) =>
       identical(this, other) ||
       other is ExtEditorBaseApplyChanges && model == other.model;
+
+  @override
+  int get hashCode => model.hashCode;
 }
 
 class UpdateItemEvent<T, U> extends ExtEditorBaseEvent<T> {
@@ -65,9 +75,12 @@ class UpdateItemEvent<T, U> extends ExtEditorBaseEvent<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is UpdateItemEvent &&
-              oldItem == other.oldItem &&
-              newItem == other.newItem;
+      other is UpdateItemEvent &&
+          oldItem == other.oldItem &&
+          newItem == other.newItem;
+
+  @override
+  int get hashCode => oldItem.hashCode ^ newItem.hashCode;
 }
 
 class AddItemEvent<T, U> extends ExtEditorBaseEvent<T> {
@@ -81,8 +94,10 @@ class AddItemEvent<T, U> extends ExtEditorBaseEvent<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AddItemEvent &&
-              itemModel == other.itemModel;
+      other is AddItemEvent && itemModel == other.itemModel;
+
+  @override
+  int get hashCode => itemModel.hashCode;
 }
 
 class DeleteItemEvent<T, U> extends ExtEditorBaseEvent<T> {
@@ -96,8 +111,10 @@ class DeleteItemEvent<T, U> extends ExtEditorBaseEvent<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is DeleteItemEvent &&
-              itemModel == other.itemModel;
+      other is DeleteItemEvent && itemModel == other.itemModel;
+
+  @override
+  int get hashCode => itemModel.hashCode;
 }
 
 class MoveEvent<T, U> extends ExtEditorBaseEvent<T> {
@@ -112,8 +129,8 @@ class MoveEvent<T, U> extends ExtEditorBaseEvent<T> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is MoveEvent &&
-              isUp == other.isUp &&
-              item == other.item;
-}
+      other is MoveEvent && isUp == other.isUp && item == other.item;
 
+  @override
+  int get hashCode => isUp.hashCode ^ item.hashCode;
+}

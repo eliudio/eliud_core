@@ -23,9 +23,8 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 
 import 'home_menu_model.dart';
 
-typedef List<HomeMenuModel?> FilterHomeMenuModels(List<HomeMenuModel?> values);
-
-
+typedef FilterHomeMenuModels = List<HomeMenuModel?> Function(
+    List<HomeMenuModel?> values);
 
 class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   final FilterHomeMenuModels? filter;
@@ -39,23 +38,32 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   final bool? detailed;
   final int homeMenuLimit;
 
-  HomeMenuListBloc({this.filter, this.paged, this.orderBy, this.descending, this.detailed, this.eliudQuery, required HomeMenuRepository homeMenuRepository, this.homeMenuLimit = 5})
+  HomeMenuListBloc(
+      {this.filter,
+      this.paged,
+      this.orderBy,
+      this.descending,
+      this.detailed,
+      this.eliudQuery,
+      required HomeMenuRepository homeMenuRepository,
+      this.homeMenuLimit = 5})
       : _homeMenuRepository = homeMenuRepository,
         super(HomeMenuListLoading()) {
-    on <LoadHomeMenuList> ((event, emit) {
+    on<LoadHomeMenuList>((event, emit) {
       if ((detailed == null) || (!detailed!)) {
         _mapLoadHomeMenuListToState();
       } else {
         _mapLoadHomeMenuListWithDetailsToState();
       }
     });
-    
-    on <NewPage> ((event, emit) {
-      pages = pages + 1; // it doesn't matter so much if we increase pages beyond the end
+
+    on<NewPage>((event, emit) {
+      pages = pages +
+          1; // it doesn't matter so much if we increase pages beyond the end
       _mapLoadHomeMenuListWithDetailsToState();
     });
-    
-    on <HomeMenuChangeQuery> ((event, emit) {
+
+    on<HomeMenuChangeQuery>((event, emit) {
       eliudQuery = event.newQuery;
       if ((detailed == null) || (!detailed!)) {
         _mapLoadHomeMenuListToState();
@@ -63,20 +71,20 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
         _mapLoadHomeMenuListWithDetailsToState();
       }
     });
-      
-    on <AddHomeMenuList> ((event, emit) async {
+
+    on<AddHomeMenuList>((event, emit) async {
       await _mapAddHomeMenuListToState(event);
     });
-    
-    on <UpdateHomeMenuList> ((event, emit) async {
+
+    on<UpdateHomeMenuList>((event, emit) async {
       await _mapUpdateHomeMenuListToState(event);
     });
-    
-    on <DeleteHomeMenuList> ((event, emit) async {
+
+    on<DeleteHomeMenuList>((event, emit) async {
       await _mapDeleteHomeMenuListToState(event);
     });
-    
-    on <HomeMenuListUpdated> ((event, emit) {
+
+    on<HomeMenuListUpdated>((event, emit) {
       emit(_mapHomeMenuListUpdatedToState(event));
     });
   }
@@ -90,27 +98,31 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   }
 
   Future<void> _mapLoadHomeMenuListToState() async {
-    int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values!.length : 0;
+    int amountNow = (state is HomeMenuListLoaded)
+        ? (state as HomeMenuListLoaded).values!.length
+        : 0;
     _homeMenusListSubscription?.cancel();
     _homeMenusListSubscription = _homeMenuRepository.listen(
-          (list) => add(HomeMenuListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
-      orderBy: orderBy,
-      descending: descending,
-      eliudQuery: eliudQuery,
-      limit: ((paged != null) && paged!) ? pages * homeMenuLimit : null
-    );
-  }
-
-  Future<void> _mapLoadHomeMenuListWithDetailsToState() async {
-    int amountNow =  (state is HomeMenuListLoaded) ? (state as HomeMenuListLoaded).values!.length : 0;
-    _homeMenusListSubscription?.cancel();
-    _homeMenusListSubscription = _homeMenuRepository.listenWithDetails(
-            (list) => add(HomeMenuListUpdated(value: _filter(list), mightHaveMore: amountNow != list.length)),
+        (list) => add(HomeMenuListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
         orderBy: orderBy,
         descending: descending,
         eliudQuery: eliudQuery,
-        limit: ((paged != null) && paged!) ? pages * homeMenuLimit : null
-    );
+        limit: ((paged != null) && paged!) ? pages * homeMenuLimit : null);
+  }
+
+  Future<void> _mapLoadHomeMenuListWithDetailsToState() async {
+    int amountNow = (state is HomeMenuListLoaded)
+        ? (state as HomeMenuListLoaded).values!.length
+        : 0;
+    _homeMenusListSubscription?.cancel();
+    _homeMenusListSubscription = _homeMenuRepository.listenWithDetails(
+        (list) => add(HomeMenuListUpdated(
+            value: _filter(list), mightHaveMore: amountNow != list.length)),
+        orderBy: orderBy,
+        descending: descending,
+        eliudQuery: eliudQuery,
+        limit: ((paged != null) && paged!) ? pages * homeMenuLimit : null);
   }
 
   Future<void> _mapAddHomeMenuListToState(AddHomeMenuList event) async {
@@ -135,7 +147,9 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
   }
 
   HomeMenuListLoaded _mapHomeMenuListUpdatedToState(
-      HomeMenuListUpdated event) => HomeMenuListLoaded(values: event.value, mightHaveMore: event.mightHaveMore);
+          HomeMenuListUpdated event) =>
+      HomeMenuListLoaded(
+          values: event.value, mightHaveMore: event.mightHaveMore);
 
   @override
   Future<void> close() {
@@ -143,5 +157,3 @@ class HomeMenuListBloc extends Bloc<HomeMenuListEvent, HomeMenuListState> {
     return super.close();
   }
 }
-
-

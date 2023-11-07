@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../style_registry.dart';
 
-enum Layout { GridView, ListView, OnlyTheFirstComponent, Unknown }
+enum Layout { gridView, listView, onlyTheFirstComponent, unknown }
 
 abstract class HasPageBody {
   Widget pageBody(AppModel app, BuildContext context,
@@ -15,7 +15,7 @@ abstract class HasPageBody {
       GridViewModel? gridView});
 }
 
-Widget pageBody(AppModel app,BuildContext context,
+Widget pageBody(AppModel app, BuildContext context,
         {BackgroundModel? backgroundOverride,
         required List<Widget> components,
         Layout? layout,
@@ -31,16 +31,16 @@ Widget pageBody(AppModel app,BuildContext context,
             gridView: gridView);
 
 Widget pageBody2(AppModel app, BuildContext context,
-    {BackgroundModel? backgroundOverride,
-      required List<Widget> components,
-      Layout? layout,
-      GridViewModel? gridView}) =>
+        {BackgroundModel? backgroundOverride,
+        required List<Widget> components,
+        Layout? layout,
+        GridViewModel? gridView}) =>
     StyleRegistry.registry()
         .styleWithApp(app)
         .frontEndStyle()
         .pageBodyStyle()
         .pageBody(app, context,
-        backgroundOverride: backgroundOverride,
-        components: components,
-        layout: layout,
-        gridView: gridView);
+            backgroundOverride: backgroundOverride,
+            components: components,
+            layout: layout,
+            gridView: gridView);

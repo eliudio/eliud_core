@@ -27,7 +27,7 @@ class BlockingComponentUninitialized extends BlockingComponentState {}
 
 class BlockingComponentError extends BlockingComponentState {
   final String? message;
-  BlockingComponentError({ this.message });
+  BlockingComponentError({this.message});
 }
 
 class BlockingComponentPermissionDenied extends BlockingComponentState {
@@ -37,10 +37,10 @@ class BlockingComponentPermissionDenied extends BlockingComponentState {
 class BlockingComponentLoaded extends BlockingComponentState {
   final BlockingModel value;
 
-  const BlockingComponentLoaded({ required this.value });
+  const BlockingComponentLoaded({required this.value});
 
-  BlockingComponentLoaded copyWith({ BlockingModel? copyThis }) {
-    return BlockingComponentLoaded(value: copyThis ?? this.value);
+  BlockingComponentLoaded copyWith({BlockingModel? copyThis}) {
+    return BlockingComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class BlockingComponentLoaded extends BlockingComponentState {
   @override
   String toString() => 'BlockingComponentLoaded { value: $value }';
 }
-

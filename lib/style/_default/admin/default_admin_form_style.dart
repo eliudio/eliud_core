@@ -13,21 +13,31 @@ class DefaultAdminFormStyle implements AdminFormStyle {
   }
 
   @override
-  Widget radioListTile<T>(AppModel app, BuildContext context, T t, T? groupValue,
-      String title, String subTitle, ValueChanged<T?>? valueChanged) {
+  Widget radioListTile<T>(
+      AppModel app,
+      BuildContext context,
+      T t,
+      T? groupValue,
+      String title,
+      String subTitle,
+      ValueChanged<T?>? valueChanged) {
     return RadioListTile(
         value: t,
         groupValue: groupValue,
-        title: Text(title,),
+        title: Text(
+          title,
+        ),
         subtitle: Text(subTitle),
         onChanged: valueChanged);
   }
 
   @override
-  Widget checkboxListTile(AppModel app, BuildContext context, String title, bool? value,
-      ValueChanged<bool?>? onChanged) {
+  Widget checkboxListTile(AppModel app, BuildContext context, String title,
+      bool? value, ValueChanged<bool?>? onChanged) {
     return CheckboxListTile(
-        title: Text(title,),
+        title: Text(
+          title,
+        ),
         value: value,
         onChanged: onChanged);
   }
@@ -36,7 +46,8 @@ class DefaultAdminFormStyle implements AdminFormStyle {
    * This is the container for the entire form
    */
   @override
-  Widget container(AppModel app, BuildContext context, Widget child, FormAction formAction) {
+  Widget container(
+      AppModel app, BuildContext context, Widget child, FormAction formAction) {
     return Container(
         padding: const EdgeInsets.symmetric(vertical: 0.0, horizontal: 20.0),
         child: child);
@@ -49,7 +60,9 @@ class DefaultAdminFormStyle implements AdminFormStyle {
       IconThemeData? iconTheme,
       BackgroundModel? backgroundOverride}) {
     return appBarWithWidget(app, context,
-        title: Text(title,),
+        title: Text(
+          title,
+        ),
         actions: actions,
         iconTheme: iconTheme,
         backgroundOverride: backgroundOverride);
@@ -61,7 +74,7 @@ class DefaultAdminFormStyle implements AdminFormStyle {
       IconThemeData? iconTheme,
       BackgroundModel? backgroundOverride}) {
     var accessState = AccessBloc.getState(context);
-    var background;
+    BackgroundModel? background;
     if (backgroundOverride != null) {
       background = backgroundOverride;
     }
@@ -70,11 +83,14 @@ class DefaultAdminFormStyle implements AdminFormStyle {
       actions: actions,
       iconTheme: iconTheme,
       flexibleSpace: Container(
-          clipBehavior:BoxDecorationHelper.determineClipBehaviour(app, accessState.getMember(), background),
-          margin: BoxDecorationHelper.determineMargin(app, accessState.getMember(), background),
-          padding: BoxDecorationHelper.determinePadding(app, accessState.getMember(), background),
-          decoration:
-              BoxDecorationHelper.boxDecoration(app, accessState.getMember(), background)),
+          clipBehavior: BoxDecorationHelper.determineClipBehaviour(
+              app, accessState.getMember(), background),
+          margin: BoxDecorationHelper.determineMargin(
+              app, accessState.getMember(), background),
+          padding: BoxDecorationHelper.determinePadding(
+              app, accessState.getMember(), background),
+          decoration: BoxDecorationHelper.boxDecoration(
+              app, accessState.getMember(), background)),
     );
   }
 
@@ -96,8 +112,9 @@ class DefaultAdminFormStyle implements AdminFormStyle {
   }
 
   @override
-  Widget textFormField(AppModel app,
-      BuildContext context, {
+  Widget textFormField(
+    AppModel app,
+    BuildContext context, {
     required bool readOnly,
     String? initialValue,
     FormFieldValidator<String>? validator,
@@ -116,7 +133,9 @@ class DefaultAdminFormStyle implements AdminFormStyle {
         decoration: InputDecoration(
           icon: icon == null
               ? null
-              : Icon(icon,),
+              : Icon(
+                  icon,
+                ),
           labelText: labelText,
         ),
         keyboardType: TextInputType.text,
@@ -128,7 +147,8 @@ class DefaultAdminFormStyle implements AdminFormStyle {
   @override
   Widget divider(AppModel app, BuildContext context) {
     return Divider(
-        height: 1.0,
-        thickness: 1.0,);
+      height: 1.0,
+      thickness: 1.0,
+    );
   }
 }

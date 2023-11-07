@@ -1,6 +1,6 @@
 import 'package:eliud_core/core/wizards/registry/new_app_wizard_info_with_action_specification.dart';
 import 'package:eliud_core/core/wizards/registry/registry.dart';
-import 'package:eliud_core/core/wizards/tools/documentIdentifier.dart';
+import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
 import 'package:eliud_core/model/app_model.dart';
 import 'package:eliud_core/model/display_conditions_model.dart';
 import 'package:eliud_core/model/icon_model.dart';
@@ -15,7 +15,7 @@ import 'builders/dialog/blocking_dashboard_dialog_builder.dart';
 
 class BlockingDashboardDialogWizard
     extends NewAppWizardInfoWithActionSpecification {
-  static String MEMBER_DASHBOARD_DIALOG_ID = 'blocking_dashboard';
+  static String blockingDashboardDialogId = 'blocking_dashboard';
 
   BlockingDashboardDialogWizard()
       : super('blockingdashboard', 'Blocked members',
@@ -37,7 +37,7 @@ class BlockingDashboardDialogWizard
 
   @override
   List<MenuItemModel>? getThoseMenuItems(String uniqueId, AppModel app) => [
-        menuItemManageAccount(uniqueId, app, MEMBER_DASHBOARD_DIALOG_ID),
+        menuItemManageAccount(uniqueId, app, blockingDashboardDialogId),
       ];
 
   MenuItemModel menuItemManageAccount(
@@ -54,8 +54,8 @@ class BlockingDashboardDialogWizard
                   constructDocumentId(uniqueId: uniqueId, documentId: dialogID),
               conditions: DisplayConditionsModel(
                   privilegeLevelRequired:
-                      PrivilegeLevelRequired.NoPrivilegeRequired,
-                  packageCondition: CorePackage.MUST_BE_LOGGED_ON)));
+                      PrivilegeLevelRequired.noPrivilegeRequired,
+                  packageCondition: CorePackage.mustBeLoggedIn)));
 
   @override
   AppModel updateApp(
@@ -76,7 +76,7 @@ class BlockingDashboardDialogWizard
 
   @override
   PublicMediumModel? getPublicMediumModel(String uniqueId,
-          NewAppWizardParameters parameters, String pageType) =>
+          NewAppWizardParameters parameters, String mediumType) =>
       null;
 
   @override
@@ -90,19 +90,21 @@ class BlockingDashboardDialogWizard
       DrawerProvider leftDrawerProvider,
       DrawerProvider rightDrawerProvider) {
     if (parameters is ActionSpecificationParametersBase) {
-      var blockingDashboardDialogSpecifications = parameters.actionSpecifications;
+      var blockingDashboardDialogSpecifications =
+          parameters.actionSpecifications;
 
       if (blockingDashboardDialogSpecifications
           .shouldCreatePageDialogOrWorkflow()) {
         var tasks = <NewAppTask>[];
         tasks.add(() async {
-          await BlockingDashboardDialogBuilder(uniqueId, app, MEMBER_DASHBOARD_DIALOG_ID)
+          await BlockingDashboardDialogBuilder(
+                  uniqueId, app, blockingDashboardDialogId)
               .create();
         });
         return tasks;
       }
     } else {
-      throw Exception('Unexpected class for parameters: ' + parameters.toString());
+      throw Exception('Unexpected class for parameters: $parameters');
     }
     return null;
   }

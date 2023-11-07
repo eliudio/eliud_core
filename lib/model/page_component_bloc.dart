@@ -20,7 +20,6 @@ import 'package:eliud_core/model/page_component_event.dart';
 import 'package:eliud_core/model/page_component_state.dart';
 import 'package:eliud_core/model/page_repository.dart';
 
-
 class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
   final PageRepository? pageRepository;
   StreamSubscription? _pageSubscription;
@@ -34,11 +33,12 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
     });
   }
 
-  PageComponentBloc({ this.pageRepository }): super(PageComponentUninitialized()) {
-    on <FetchPageComponent> ((event, emit) {
+  PageComponentBloc({this.pageRepository})
+      : super(PageComponentUninitialized()) {
+    on<FetchPageComponent>((event, emit) {
       _mapLoadPageComponentUpdateToState(event.id!);
     });
-    on <PageComponentUpdated> ((event, emit) {
+    on<PageComponentUpdated>((event, emit) {
       emit(PageComponentLoaded(value: event.value));
     });
   }
@@ -48,6 +48,4 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
     _pageSubscription?.cancel();
     return super.close();
   }
-
 }
-

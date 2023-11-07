@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 class MemberMediumWidget extends StatefulWidget {
   final MemberMediumModel memberMediumModel;
   final AppModel app;
-  MemberMediumWidget({Key? key, required this.app, required this.memberMediumModel})
-      : super(key: key);
+  MemberMediumWidget(
+      {super.key, required this.app, required this.memberMediumModel});
 
   @override
   State<StatefulWidget> createState() {
@@ -111,11 +111,14 @@ class _MemberMediumWidgetState extends State<MemberMediumWidget> {
               children: [
                 getListTile(context, widget.app,
                     leading: text(widget.app, context, 'Accessible by'),
-                    title: text(widget.app, context, accessibleByGroupToString(image.accessibleByGroup))),
-                if (image.accessibleByGroup == MemberMediumAccessibleByGroup.SpecificMembers)
+                    title: text(widget.app, context,
+                        accessibleByGroupToString(image.accessibleByGroup))),
+                if (image.accessibleByGroup ==
+                    MemberMediumAccessibleByGroup.specificMembers)
                   getListTile(context, widget.app,
                       leading: text(widget.app, context, 'Specific members:'),
-                      title: text(widget.app, context, specificMembersToString(image.accessibleByMembers))),
+                      title: text(widget.app, context,
+                          specificMembersToString(image.accessibleByMembers))),
               ]),
         ]);
   }
@@ -125,12 +128,21 @@ class _MemberMediumWidgetState extends State<MemberMediumWidget> {
     return accessibleByMembers.join(', ');
   }
 
-  String accessibleByGroupToString(MemberMediumAccessibleByGroup? mediumAccessibleByGroup) {
+  String accessibleByGroupToString(
+      MemberMediumAccessibleByGroup? mediumAccessibleByGroup) {
     switch (mediumAccessibleByGroup) {
-      case MemberMediumAccessibleByGroup.Public: return 'Public';
-      case MemberMediumAccessibleByGroup.Followers: return 'Followers';
-      case MemberMediumAccessibleByGroup.Me: return 'Me';
-      case MemberMediumAccessibleByGroup.SpecificMembers: return 'Specific members';
+      case MemberMediumAccessibleByGroup.public:
+        return 'Public';
+      case MemberMediumAccessibleByGroup.followers:
+        return 'Followers';
+      case MemberMediumAccessibleByGroup.me:
+        return 'Me';
+      case MemberMediumAccessibleByGroup.specificMembers:
+        return 'Specific members';
+      case MemberMediumAccessibleByGroup.unknown:
+        break;
+      case null:
+        break;
     }
     return '?';
   }

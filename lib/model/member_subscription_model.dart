@@ -20,24 +20,30 @@ import 'package:eliud_core/tools/main_abstract_repository_singleton.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
 
-
 import 'package:eliud_core/model/member_subscription_entity.dart';
-
-
-
 
 class MemberSubscriptionModel implements ModelBase {
   static const String packageName = 'eliud_core';
   static const String id = 'memberSubscriptions';
 
+  @override
   String documentID;
   AppModel? app;
 
-  MemberSubscriptionModel({required this.documentID, this.app, })  {
-  }
+  MemberSubscriptionModel({
+    required this.documentID,
+    this.app,
+  });
 
-  MemberSubscriptionModel copyWith({String? documentID, AppModel? app, }) {
-    return MemberSubscriptionModel(documentID: documentID ?? this.documentID, app: app ?? this.app, );
+  @override
+  MemberSubscriptionModel copyWith({
+    String? documentID,
+    AppModel? app,
+  }) {
+    return MemberSubscriptionModel(
+      documentID: documentID ?? this.documentID,
+      app: app ?? this.app,
+    );
   }
 
   @override
@@ -45,9 +51,9 @@ class MemberSubscriptionModel implements ModelBase {
 
   @override
   bool operator ==(Object other) =>
-          identical(this, other) ||
-          other is MemberSubscriptionModel &&
-          runtimeType == other.runtimeType && 
+      identical(this, other) ||
+      other is MemberSubscriptionModel &&
+          runtimeType == other.runtimeType &&
           documentID == other.documentID &&
           app == other.app;
 
@@ -56,49 +62,53 @@ class MemberSubscriptionModel implements ModelBase {
     return 'MemberSubscriptionModel{documentID: $documentID, app: $app}';
   }
 
+  @override
   Future<List<ModelReference>> collectReferences({String? appId}) async {
     List<ModelReference> referencesCollector = [];
     if (app != null) {
-      referencesCollector.add(ModelReference(AppModel.packageName, AppModel.id, app!));
+      referencesCollector
+          .add(ModelReference(AppModel.packageName, AppModel.id, app!));
     }
-    if (app != null) referencesCollector.addAll(await app!.collectReferences(appId: appId));
+    if (app != null) {
+      referencesCollector.addAll(await app!.collectReferences(appId: appId));
+    }
     return referencesCollector;
   }
 
+  @override
   MemberSubscriptionEntity toEntity({String? appId}) {
     return MemberSubscriptionEntity(
-          appId: (app != null) ? app!.documentID : null, 
+      appId: (app != null) ? app!.documentID : null,
     );
   }
 
-  static Future<MemberSubscriptionModel?> fromEntity(String documentID, MemberSubscriptionEntity? entity) async {
+  static Future<MemberSubscriptionModel?> fromEntity(
+      String documentID, MemberSubscriptionEntity? entity) async {
     if (entity == null) return null;
-    var counter = 0;
     return MemberSubscriptionModel(
-          documentID: documentID, 
+      documentID: documentID,
     );
   }
 
-  static Future<MemberSubscriptionModel?> fromEntityPlus(String documentID, MemberSubscriptionEntity? entity, { String? appId}) async {
+  static Future<MemberSubscriptionModel?> fromEntityPlus(
+      String documentID, MemberSubscriptionEntity? entity,
+      {String? appId}) async {
     if (entity == null) return null;
 
     AppModel? appHolder;
     if (entity.appId != null) {
       try {
-          appHolder = await appRepository(appId: appId)!.get(entity.appId);
-      } on Exception catch(e) {
+        appHolder = await appRepository(appId: appId)!.get(entity.appId);
+      } on Exception catch (e) {
         print('Error whilst trying to initialise app');
         print('Error whilst retrieving app with id ${entity.appId}');
         print('Exception: $e');
       }
     }
 
-    var counter = 0;
     return MemberSubscriptionModel(
-          documentID: documentID, 
-          app: appHolder, 
+      documentID: documentID,
+      app: appHolder,
     );
   }
-
 }
-

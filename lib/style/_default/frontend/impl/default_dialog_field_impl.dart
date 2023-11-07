@@ -7,8 +7,9 @@ import '../helper/dialog/dialog_field.dart';
 
 class DefaultDialogFieldImpl implements HasDialogField {
   @override
-  Widget dialogField(AppModel app,
-      BuildContext context, {
+  Widget dialogField(
+    AppModel app,
+    BuildContext context, {
     InputDecoration? decoration,
     required ValueChanged<String> valueChanged,
     String? initialValue,
@@ -19,7 +20,7 @@ class DefaultDialogFieldImpl implements HasDialogField {
     TextAlignVertical? textAlignVertical,
     TextDirection? textDirection,
     bool? readOnly,
-    ToolbarOptions? toolbarOptions,
+//    ToolbarOptions? toolbarOptions,
     bool? showCursor,
     bool? autocorrect,
     bool? enableSuggestions,
@@ -28,7 +29,8 @@ class DefaultDialogFieldImpl implements HasDialogField {
     bool? expands,
     int? maxLength,
   }) {
-    return DialogField(app: app,
+    return DialogField(
+      app: app,
       decoration: decoration,
       valueChanged: valueChanged,
       initialValue: initialValue,
@@ -39,7 +41,7 @@ class DefaultDialogFieldImpl implements HasDialogField {
       textAlignVertical: textAlignVertical,
       textDirection: textDirection,
       readOnly: readOnly,
-      toolbarOptions: toolbarOptions,
+      //toolbarOptions: toolbarOptions,
       showCursor: showCursor,
       autocorrect: autocorrect,
       enableSuggestions: enableSuggestions,

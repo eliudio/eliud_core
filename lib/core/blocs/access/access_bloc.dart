@@ -29,7 +29,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
 
   AccessBloc(this.navigatorKey) : super(UndeterminedAccessState()) {
     on<AccessInitEvent>((event, emit) async {
-      var usr = await AbstractMainRepositorySingleton.singleton
+      var usr = AbstractMainRepositorySingleton.singleton
           .userRepository()!
           .currentSignedinUser();
 
@@ -65,10 +65,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         var homePage = (event.redetermine && (app != null))
             ? await theState.reterminedHomePageForAppId(app)
             : theState.homePageForAppId(appId);
-        gotoPage(true, event.app.documentID,
-            homePage == null ? null : homePage.documentID,
+        gotoPage(true, event.app.documentID, homePage?.documentID,
             errorString:
-                'Homepage not set correct for app ' + event.app.documentID);
+                'Homepage not set correct for app ${event.app.documentID}');
         emit(theState.asNotProcessing());
       } else {
         add(event.asProcessing());
@@ -87,10 +86,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             theState.apps.map((determinedApp) => determinedApp.app).toList(),
             playstoreApp: theState.playstoreApp);
         var homePage = toEmit.homePageForAppId(event.app.documentID);
-        gotoPage(true, event.app.documentID,
-            homePage == null ? null : homePage.documentID,
+        gotoPage(true, event.app.documentID, homePage?.documentID,
             errorString:
-                'Homepage not set correct for app ' + event.app.documentID);
+                'Homepage not set correct for app ${event.app.documentID}');
         emit(toEmit);
       } else {
         add(event.asProcessing());
@@ -111,15 +109,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     on<LoginEvent>((event, emit) async {
       var theState = state as AccessDetermined;
       if (event.isProcessing()) {
-        var usr;
+        User? usr;
         try {
           switch (event.loginType) {
-            case LoginType.GoogleLogin:
+            case LoginType.googleLogin:
               usr = await AbstractMainRepositorySingleton.singleton
                   .userRepository()!
                   .signInWithGoogle();
               break;
-            case LoginType.AppleLogin:
+            case LoginType.appleLogin:
               usr = await AbstractMainRepositorySingleton.singleton
                   .userRepository()!
                   .signInWithApple();
@@ -127,7 +125,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
           }
         } catch (exception) {
           print('Exception during signIn: $exception');
-          emit(theState.asNotProcessing().withTempMessage('Error during signin'));
+          emit(theState
+              .asNotProcessing()
+              .withTempMessage('Error during signin'));
         }
         if (usr != null) {
           var member = await firebaseToMemberModel(usr);
@@ -141,11 +141,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
               LoggedIn.getSubscriptions(member),
               playstoreApp: theState.playstoreApp);
 
-
           // auto subscribe when no policies in place
           toEmit = await acceptPoliciesIfNone(toEmit, event.app, member);
 
-        _resetAccessListeners(
+          _resetAccessListeners(
               theState.apps.map((e) => e.app.documentID).toList(),
               member.documentID);
 
@@ -156,10 +155,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             event.actions!.runTheAction();
           } else {
             var homePage = toEmit.homePageForAppId(event.app.documentID);
-            gotoPage(true, event.app.documentID,
-                homePage == null ? null : homePage.documentID,
-                errorString: 'Homepage not set correct for app ' +
-                    event.app.documentID);
+            gotoPage(true, event.app.documentID, homePage?.documentID,
+                errorString:
+                    'Homepage not set correct for app ${event.app.documentID}');
           }
         }
       } else {
@@ -176,9 +174,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
             .addApp(state.getMember(), app, () => _currentStyleChanged(app));
         var newState = await theState.asNotProcessing().addApp(this, app);
         var homePage = newState.homePageForAppId(event.appId);
-        gotoPage(
-            false, event.appId, homePage == null ? null : homePage.documentID,
-            errorString: 'Homepage not set correct for app ' + event.appId);
+        gotoPage(false, event.appId, homePage?.documentID,
+            errorString: 'Homepage not set correct for app ${event.appId}');
 
         _listenToApp(event.appId, theState.getMember());
         emit(newState);
@@ -191,7 +188,7 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     on<MemberUpdatedEvent>((event, emit) async {
       if (state is AccessDetermined) {
         var theState = state as AccessDetermined;
-        var newState = await theState.updateMember(event.member);
+        var newState = theState.updateMember(event.member);
         emit(newState);
       }
     });
@@ -200,9 +197,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       if (state is AccessDetermined) {
         var theState = state as AccessDetermined;
         var newState = await theState.updateApp2(this, event.app);
-        await StyleRegistry.registry().addApp(
-            state.getMember(), event.app, () =>
-            _currentStyleChanged(event.app));
+        await StyleRegistry.registry().addApp(state.getMember(), event.app,
+            () => _currentStyleChanged(event.app));
         emit(newState);
       }
     });
@@ -252,10 +248,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
       if (state is AccessDetermined) {
         var theState = state as AccessDetermined;
         if (theState is LoggedIn) {
-          var _member = theState.getMember();
-          if (_member != null) {
-            await LoggedIn.acceptMembership(_member, event.app);
-            var newState = await theState.withSubscriptions(LoggedIn.getSubscriptions(_member));
+          var theMember = theState.getMember();
+          if (theMember != null) {
+            await LoggedIn.acceptMembership(theMember, event.app);
+            var newState = theState
+                .withSubscriptions(LoggedIn.getSubscriptions(theMember));
             if (newState.postLoginAction != null) {
               newState.postLoginAction!.runTheAction();
             }
@@ -277,11 +274,13 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     add(RefreshAppEvent(app));
   }
 
-  Future<LoggedIn> acceptPoliciesIfNone(LoggedIn toEmit, AppModel app, MemberModel member) async {
-    var appPolicies = await appPolicyRepository(appId: app.documentID)!.valuesListWithDetails();
-    if ((appPolicies == null) || (appPolicies.length == 0)) {
+  Future<LoggedIn> acceptPoliciesIfNone(
+      LoggedIn toEmit, AppModel app, MemberModel member) async {
+    var theAppPolicies = await appPolicyRepository(appId: app.documentID)!
+        .valuesListWithDetails();
+    if (theAppPolicies.isEmpty) {
       await LoggedIn.acceptMembership(member, app);
-      toEmit = await toEmit.withSubscriptions(LoggedIn.getSubscriptions(member));
+      toEmit = toEmit.withSubscriptions(LoggedIn.getSubscriptions(member));
     }
     return toEmit;
   }
@@ -296,12 +295,10 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         if (clearHistory) {
           navigatorKey.currentState!.pushNamedAndRemoveUntil(
               eliudrouter.Router.pageRoute, (_) => false,
-              arguments:
-                  eliudrouter.Arguments(appId + '/' + pageId, parameters));
+              arguments: eliudrouter.Arguments('$appId/$pageId', parameters));
         } else {
           navigatorKey.currentState!.pushNamed(eliudrouter.Router.pageRoute,
-              arguments:
-                  eliudrouter.Arguments(appId + '/' + pageId, parameters));
+              arguments: eliudrouter.Arguments('$appId/$pageId', parameters));
         }
       } else {
         throw Exception(
@@ -339,7 +336,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   // we need to refresh
   void _listenToMemberClaims(String memberId, LoggedIn loggedIn) {
     _stopListenToMemberClaims();
-    _memberClaimsSubscription = memberClaimRepository()!.listenTo(memberId, (value) async {
+    _memberClaimsSubscription =
+        memberClaimRepository()!.listenTo(memberId, (value) async {
       loggedIn.refreshClaims();
     });
   }
@@ -361,8 +359,8 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   void _resetAccessListeners(List<String> apps, String memberId) async {
-    for (var _as in _accessSubscription.values) {
-      await _as.cancel();
+    for (var theAs in _accessSubscription.values) {
+      await theAs.cancel();
     }
     for (var appId in apps) {
       _accessSubscription[appId] =
@@ -372,8 +370,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
     }
   }
 
-  static Future<MemberClaimModel> getMemberClaimModel(MemberModel member) async {
-    var futureMemberClaimModel = await memberClaimRepository()!.get(member.documentID).then((memberClaim) async {
+  static Future<MemberClaimModel> getMemberClaimModel(
+      MemberModel member) async {
+    var futureMemberClaimModel = await memberClaimRepository()!
+        .get(member.documentID)
+        .then((memberClaim) async {
       if (memberClaim == null) {
         memberClaim = MemberClaimModel(
           documentID: member.documentID,
@@ -384,7 +385,9 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         return memberClaim;
       }
     }).catchError((onError) {
-      print('Exception in getMemberClaimModel ' + onError.toString());
+      var errorMsg = 'Exception in getMemberClaimModel $onError';
+      print(errorMsg);
+      throw Exception(errorMsg);
     });
     return futureMemberClaimModel;
   }
@@ -409,14 +412,11 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
         return member;
       }
     }).catchError((onError) {
-      print('Exception in firebaseToMemberModel ' + onError.toString());
+      var errorMsg = 'Exception in firebaseToMemberModel $onError';
+      print(errorMsg);
+      throw Exception(errorMsg);
     });
     return futureMemberModel;
-  }
-
-  @override
-  Future<void> close() {
-    return super.close();
   }
 
   /* Helper functions to get details from the AppState */
@@ -434,15 +434,15 @@ class AccessBloc extends Bloc<AccessEvent, AccessState> {
   }
 
   static String? memberId(BuildContext context) {
-    var _member = member(context);
-    return (_member != null) ? _member.documentID : null;
+    var theMember = member(context);
+    return (theMember != null) ? theMember.documentID : null;
   }
 
   static bool isOwner(BuildContext context, AppModel app) {
     var theState = AccessBloc.getState(context);
     if (theState is AccessDetermined) {
       return theState.memberIsOwner(app.documentID);
-        }
+    }
     return false;
   }
 

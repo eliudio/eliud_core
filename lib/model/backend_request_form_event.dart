@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class BackendRequestFormEvent extends Equatable {
   const BackendRequestFormEvent();
@@ -26,15 +25,13 @@ abstract class BackendRequestFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewBackendRequestFormEvent extends BackendRequestFormEvent {
-}
-
+class InitialiseNewBackendRequestFormEvent extends BackendRequestFormEvent {}
 
 class InitialiseBackendRequestFormEvent extends BackendRequestFormEvent {
   final BackendRequestModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseBackendRequestFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseBackendRequestFormNoLoadEvent extends BackendRequestFormEvent {
   final BackendRequestModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseBackendRequestFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedBackendRequestDocumentID extends BackendRequestFormEvent {
   ChangedBackendRequestDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedBackendRequestDescription extends BackendRequestFormEvent {
   ChangedBackendRequestDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestDescription{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedBackendRequestAppId extends BackendRequestFormEvent {
   ChangedBackendRequestAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestAppId{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedBackendRequestAuthorId extends BackendRequestFormEvent {
   ChangedBackendRequestAuthorId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestAuthorId{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedBackendRequestName extends BackendRequestFormEvent {
   ChangedBackendRequestName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestName{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedBackendRequestSendTo extends BackendRequestFormEvent {
   ChangedBackendRequestSendTo({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestSendTo{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedBackendRequestCollections extends BackendRequestFormEvent {
   ChangedBackendRequestCollections({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestCollections{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedBackendRequestProcessed extends BackendRequestFormEvent {
   ChangedBackendRequestProcessed({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestProcessed{ value: $value }';
@@ -150,9 +147,8 @@ class ChangedBackendRequestRequestType extends BackendRequestFormEvent {
   ChangedBackendRequestRequestType({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBackendRequestRequestType{ value: $value }';
 }
-

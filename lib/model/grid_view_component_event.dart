@@ -24,13 +24,11 @@ abstract class GridViewComponentEvent extends Equatable {
 class FetchGridViewComponent extends GridViewComponentEvent {
   final String? id;
 
-  FetchGridViewComponent({ this.id });
+  FetchGridViewComponent({this.id});
 }
 
 class GridViewComponentUpdated extends GridViewComponentEvent {
   final GridViewModel value;
 
-  GridViewComponentUpdated({ required this.value });
+  GridViewComponentUpdated({required this.value});
 }
-
-

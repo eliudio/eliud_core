@@ -1,4 +1,3 @@
-
 abstract class SpecialField {}
 
 class DocumentIdField extends SpecialField {}
@@ -15,11 +14,18 @@ class EliudQueryCondition {
   final List<dynamic>? whereIn;
   final bool? isNull;
 
-  EliudQueryCondition(this.field, {this.isEqualTo, this.isLessThan, this.isLessThanOrEqualTo, this.isGreaterThan, this.isGreaterThanOrEqualTo,
-      this.arrayContains,
-      this.arrayContainsAny,
-      this.whereIn,
-      this.isNull,});
+  EliudQueryCondition(
+    this.field, {
+    this.isEqualTo,
+    this.isLessThan,
+    this.isLessThanOrEqualTo,
+    this.isGreaterThan,
+    this.isGreaterThanOrEqualTo,
+    this.arrayContains,
+    this.arrayContainsAny,
+    this.whereIn,
+    this.isNull,
+  });
 }
 
 class EliudQuery {
@@ -31,7 +37,7 @@ class EliudQuery {
 
   EliudQuery withCondition(EliudQueryCondition condition) {
     conditions.add(condition);
-      return this;
+    return this;
   }
 
   EliudQuery withConditions(List<EliudQueryCondition>? theConditions) {
@@ -41,19 +47,19 @@ class EliudQuery {
     return this;
   }
 
-  static EliudQuery ensureQueryAvailable(EliudQuery query) {
+  static EliudQuery ensureQueryAvailable(EliudQuery? query) {
     if (query == null) return EliudQuery();
     return query;
   }
 }
 
 EliudQuery getComponentSelectorQuery(int privilegeLevel, String appId) {
-  return EliudQuery().withCondition(
-    EliudQueryCondition('conditions.privilegeLevelRequired',
-        isEqualTo: privilegeLevel),
-  ).withCondition(
-    EliudQueryCondition('appId',
-        isEqualTo: appId),
-  );
+  return EliudQuery()
+      .withCondition(
+        EliudQueryCondition('conditions.privilegeLevelRequired',
+            isEqualTo: privilegeLevel),
+      )
+      .withCondition(
+        EliudQueryCondition('appId', isEqualTo: appId),
+      );
 }
-

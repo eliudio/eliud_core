@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class GridViewFormEvent extends Equatable {
   const GridViewFormEvent();
@@ -26,15 +25,13 @@ abstract class GridViewFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewGridViewFormEvent extends GridViewFormEvent {
-}
-
+class InitialiseNewGridViewFormEvent extends GridViewFormEvent {}
 
 class InitialiseGridViewFormEvent extends GridViewFormEvent {
   final GridViewModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseGridViewFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseGridViewFormNoLoadEvent extends GridViewFormEvent {
   final GridViewModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseGridViewFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedGridViewDocumentID extends GridViewFormEvent {
   ChangedGridViewDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedGridViewAppId extends GridViewFormEvent {
   ChangedGridViewAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedGridViewName extends GridViewFormEvent {
   ChangedGridViewName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewName{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedGridViewScrollDirection extends GridViewFormEvent {
   ChangedGridViewScrollDirection({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewScrollDirection{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedGridViewType extends GridViewFormEvent {
   ChangedGridViewType({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewType{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedGridViewCrossAxisCount extends GridViewFormEvent {
   ChangedGridViewCrossAxisCount({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewCrossAxisCount{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedGridViewMaxCrossAxisExtentType extends GridViewFormEvent {
   ChangedGridViewMaxCrossAxisExtentType({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewMaxCrossAxisExtentType{ value: $value }';
@@ -138,10 +135,11 @@ class ChangedGridViewAbsoluteMaxCrossAxisExtent extends GridViewFormEvent {
   ChangedGridViewAbsoluteMaxCrossAxisExtent({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedGridViewAbsoluteMaxCrossAxisExtent{ value: $value }';
+  String toString() =>
+      'ChangedGridViewAbsoluteMaxCrossAxisExtent{ value: $value }';
 }
 
 class ChangedGridViewRelativeMaxCrossAxisExtent extends GridViewFormEvent {
@@ -150,10 +148,11 @@ class ChangedGridViewRelativeMaxCrossAxisExtent extends GridViewFormEvent {
   ChangedGridViewRelativeMaxCrossAxisExtent({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedGridViewRelativeMaxCrossAxisExtent{ value: $value }';
+  String toString() =>
+      'ChangedGridViewRelativeMaxCrossAxisExtent{ value: $value }';
 }
 
 class ChangedGridViewChildAspectRatio extends GridViewFormEvent {
@@ -162,7 +161,7 @@ class ChangedGridViewChildAspectRatio extends GridViewFormEvent {
   ChangedGridViewChildAspectRatio({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewChildAspectRatio{ value: $value }';
@@ -174,7 +173,7 @@ class ChangedGridViewPadding extends GridViewFormEvent {
   ChangedGridViewPadding({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewPadding{ value: $value }';
@@ -186,7 +185,7 @@ class ChangedGridViewMainAxisSpacing extends GridViewFormEvent {
   ChangedGridViewMainAxisSpacing({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewMainAxisSpacing{ value: $value }';
@@ -198,7 +197,7 @@ class ChangedGridViewCrossAxisSpacing extends GridViewFormEvent {
   ChangedGridViewCrossAxisSpacing({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewCrossAxisSpacing{ value: $value }';
@@ -210,9 +209,8 @@ class ChangedGridViewConditions extends GridViewFormEvent {
   ChangedGridViewConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedGridViewConditions{ value: $value }';
 }
-

@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class MemberDashboardFormEvent extends Equatable {
   const MemberDashboardFormEvent();
@@ -26,24 +25,23 @@ abstract class MemberDashboardFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewMemberDashboardFormEvent extends MemberDashboardFormEvent {
-}
-
+class InitialiseNewMemberDashboardFormEvent extends MemberDashboardFormEvent {}
 
 class InitialiseMemberDashboardFormEvent extends MemberDashboardFormEvent {
   final MemberDashboardModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberDashboardFormEvent({this.value});
 }
 
-class InitialiseMemberDashboardFormNoLoadEvent extends MemberDashboardFormEvent {
+class InitialiseMemberDashboardFormNoLoadEvent
+    extends MemberDashboardFormEvent {
   final MemberDashboardModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseMemberDashboardFormNoLoadEvent({this.value});
 }
@@ -54,7 +52,7 @@ class ChangedMemberDashboardDocumentID extends MemberDashboardFormEvent {
   ChangedMemberDashboardDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberDashboardDocumentID{ value: $value }';
@@ -66,7 +64,7 @@ class ChangedMemberDashboardAppId extends MemberDashboardFormEvent {
   ChangedMemberDashboardAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberDashboardAppId{ value: $value }';
@@ -78,7 +76,7 @@ class ChangedMemberDashboardDescription extends MemberDashboardFormEvent {
   ChangedMemberDashboardDescription({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberDashboardDescription{ value: $value }';
@@ -90,10 +88,11 @@ class ChangedMemberDashboardUpdateProfileText extends MemberDashboardFormEvent {
   ChangedMemberDashboardUpdateProfileText({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberDashboardUpdateProfileText{ value: $value }';
+  String toString() =>
+      'ChangedMemberDashboardUpdateProfileText{ value: $value }';
 }
 
 class ChangedMemberDashboardRetrieveDataText extends MemberDashboardFormEvent {
@@ -102,10 +101,11 @@ class ChangedMemberDashboardRetrieveDataText extends MemberDashboardFormEvent {
   ChangedMemberDashboardRetrieveDataText({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberDashboardRetrieveDataText{ value: $value }';
+  String toString() =>
+      'ChangedMemberDashboardRetrieveDataText{ value: $value }';
 }
 
 class ChangedMemberDashboardDeleteDataText extends MemberDashboardFormEvent {
@@ -114,46 +114,52 @@ class ChangedMemberDashboardDeleteDataText extends MemberDashboardFormEvent {
   ChangedMemberDashboardDeleteDataText({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberDashboardDeleteDataText{ value: $value }';
 }
 
-class ChangedMemberDashboardRetrieveDataEmailSubject extends MemberDashboardFormEvent {
+class ChangedMemberDashboardRetrieveDataEmailSubject
+    extends MemberDashboardFormEvent {
   final String? value;
 
   ChangedMemberDashboardRetrieveDataEmailSubject({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberDashboardRetrieveDataEmailSubject{ value: $value }';
+  String toString() =>
+      'ChangedMemberDashboardRetrieveDataEmailSubject{ value: $value }';
 }
 
-class ChangedMemberDashboardDeleteDataEmailSubject extends MemberDashboardFormEvent {
+class ChangedMemberDashboardDeleteDataEmailSubject
+    extends MemberDashboardFormEvent {
   final String? value;
 
   ChangedMemberDashboardDeleteDataEmailSubject({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberDashboardDeleteDataEmailSubject{ value: $value }';
+  String toString() =>
+      'ChangedMemberDashboardDeleteDataEmailSubject{ value: $value }';
 }
 
-class ChangedMemberDashboardDeleteDataEmailMessage extends MemberDashboardFormEvent {
+class ChangedMemberDashboardDeleteDataEmailMessage
+    extends MemberDashboardFormEvent {
   final String? value;
 
   ChangedMemberDashboardDeleteDataEmailMessage({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
-  String toString() => 'ChangedMemberDashboardDeleteDataEmailMessage{ value: $value }';
+  String toString() =>
+      'ChangedMemberDashboardDeleteDataEmailMessage{ value: $value }';
 }
 
 class ChangedMemberDashboardConditions extends MemberDashboardFormEvent {
@@ -162,9 +168,8 @@ class ChangedMemberDashboardConditions extends MemberDashboardFormEvent {
   ChangedMemberDashboardConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedMemberDashboardConditions{ value: $value }';
 }
-

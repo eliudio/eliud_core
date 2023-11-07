@@ -9,13 +9,11 @@ abstract class ExtendedHomeMenuComponentEvent extends Equatable {
 class ExtendedHomeMenuInitEvent extends ExtendedHomeMenuComponentEvent {
   final HomeMenuModel value;
 
-  ExtendedHomeMenuInitEvent({ required this.value });
+  ExtendedHomeMenuInitEvent({required this.value});
 }
 
 class ExtendedHomeMenuComponentUpdated extends ExtendedHomeMenuComponentEvent {
   final HomeMenuModel value;
 
-  ExtendedHomeMenuComponentUpdated({ required this.value });
+  ExtendedHomeMenuComponentUpdated({required this.value});
 }
-
-

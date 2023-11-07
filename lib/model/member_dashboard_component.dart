@@ -13,7 +13,6 @@
 
 */
 
-
 import 'package:eliud_core/model/member_dashboard_component_bloc.dart';
 import 'package:eliud_core/model/member_dashboard_component_event.dart';
 import 'package:eliud_core/model/member_dashboard_model.dart';
@@ -31,20 +30,23 @@ abstract class AbstractMemberDashboardComponent extends StatelessWidget {
   final AppModel app;
   final String memberDashboardId;
 
-  AbstractMemberDashboardComponent({Key? key, required this.app, required this.memberDashboardId}): super(key: key);
+  AbstractMemberDashboardComponent(
+      {super.key, required this.app, required this.memberDashboardId});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<MemberDashboardComponentBloc> (
-          create: (context) => MemberDashboardComponentBloc(
-            memberDashboardRepository: memberDashboardRepository(appId: app.documentID)!)
+    return BlocProvider<MemberDashboardComponentBloc>(
+      create: (context) => MemberDashboardComponentBloc(
+          memberDashboardRepository:
+              memberDashboardRepository(appId: app.documentID)!)
         ..add(FetchMemberDashboardComponent(id: memberDashboardId)),
       child: _memberDashboardBlockBuilder(context),
     );
   }
 
   Widget _memberDashboardBlockBuilder(BuildContext context) {
-    return BlocBuilder<MemberDashboardComponentBloc, MemberDashboardComponentState>(builder: (context, state) {
+    return BlocBuilder<MemberDashboardComponentBloc,
+        MemberDashboardComponentState>(builder: (context, state) {
       if (state is MemberDashboardComponentLoaded) {
         return yourWidget(context, state.value);
       } else if (state is MemberDashboardComponentPermissionDenied) {
@@ -57,7 +59,11 @@ abstract class AbstractMemberDashboardComponent extends StatelessWidget {
         return AlertWidget(app: app, title: 'Error', content: state.message);
       } else {
         return Center(
-          child: StyleRegistry.registry().styleWithApp(app).frontEndStyle().progressIndicatorStyle().progressIndicator(app, context),
+          child: StyleRegistry.registry()
+              .styleWithApp(app)
+              .frontEndStyle()
+              .progressIndicatorStyle()
+              .progressIndicator(app, context),
         );
       }
     });
@@ -65,4 +71,3 @@ abstract class AbstractMemberDashboardComponent extends StatelessWidget {
 
   Widget yourWidget(BuildContext context, MemberDashboardModel value);
 }
-

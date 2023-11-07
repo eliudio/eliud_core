@@ -41,9 +41,9 @@ class BackendRequestFormInitialized extends BackendRequestFormState {
   final BackendRequestModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const BackendRequestFormInitialized({ this.value });
+  const BackendRequestFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class BackendRequestFormError extends BackendRequestFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const BackendRequestFormError({this.message, BackendRequestModel? value }) : super(value: value);
+  const BackendRequestFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class BackendRequestFormError extends BackendRequestFormInitialized {
     }''';
   }
 }
-class DocumentIDBackendRequestFormError extends BackendRequestFormError { 
-  const DocumentIDBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+
+class DocumentIDBackendRequestFormError extends BackendRequestFormError {
+  const DocumentIDBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class DescriptionBackendRequestFormError extends BackendRequestFormError { 
-  const DescriptionBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+class DescriptionBackendRequestFormError extends BackendRequestFormError {
+  const DescriptionBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class DescriptionBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class AppIdBackendRequestFormError extends BackendRequestFormError { 
-  const AppIdBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+class AppIdBackendRequestFormError extends BackendRequestFormError {
+  const AppIdBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class AppIdBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class AuthorIdBackendRequestFormError extends BackendRequestFormError { 
-  const AuthorIdBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+class AuthorIdBackendRequestFormError extends BackendRequestFormError {
+  const AuthorIdBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class AuthorIdBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class NameBackendRequestFormError extends BackendRequestFormError { 
-  const NameBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+class NameBackendRequestFormError extends BackendRequestFormError {
+  const NameBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class NameBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class SendToBackendRequestFormError extends BackendRequestFormError { 
-  const SendToBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+class SendToBackendRequestFormError extends BackendRequestFormError {
+  const SendToBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,11 @@ class SendToBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class CollectionsBackendRequestFormError extends BackendRequestFormError { 
-  const CollectionsBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+class CollectionsBackendRequestFormError extends BackendRequestFormError {
+  const CollectionsBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +169,11 @@ class CollectionsBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class ProcessedBackendRequestFormError extends BackendRequestFormError { 
-  const ProcessedBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+class ProcessedBackendRequestFormError extends BackendRequestFormError {
+  const ProcessedBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -190,12 +184,11 @@ class ProcessedBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class RequestTypeBackendRequestFormError extends BackendRequestFormError { 
-  const RequestTypeBackendRequestFormError({ String? message, BackendRequestModel? value }): super(message: message, value: value);
+class RequestTypeBackendRequestFormError extends BackendRequestFormError {
+  const RequestTypeBackendRequestFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -206,12 +199,11 @@ class RequestTypeBackendRequestFormError extends BackendRequestFormError {
   }
 }
 
-
-class BackendRequestFormLoaded extends BackendRequestFormInitialized { 
-  const BackendRequestFormLoaded({ BackendRequestModel? value }): super(value: value);
+class BackendRequestFormLoaded extends BackendRequestFormInitialized {
+  const BackendRequestFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -221,12 +213,11 @@ class BackendRequestFormLoaded extends BackendRequestFormInitialized {
   }
 }
 
-
-class SubmittableBackendRequestForm extends BackendRequestFormInitialized { 
-  const SubmittableBackendRequestForm({ BackendRequestModel? value }): super(value: value);
+class SubmittableBackendRequestForm extends BackendRequestFormInitialized {
+  const SubmittableBackendRequestForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -235,5 +226,3 @@ class SubmittableBackendRequestForm extends BackendRequestFormInitialized {
     }''';
   }
 }
-
-

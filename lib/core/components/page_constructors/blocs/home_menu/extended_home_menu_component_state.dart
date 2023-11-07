@@ -8,24 +8,26 @@ abstract class ExtendedHomeMenuComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
-class ExtendedHomeMenuComponentUninitialized extends ExtendedHomeMenuComponentState {}
+class ExtendedHomeMenuComponentUninitialized
+    extends ExtendedHomeMenuComponentState {}
 
 class ExtendedHomeMenuComponentError extends ExtendedHomeMenuComponentState {
   final String? message;
-  ExtendedHomeMenuComponentError({ this.message });
+  ExtendedHomeMenuComponentError({this.message});
 }
 
-class ExtendedHomeMenuComponentPermissionDenied extends ExtendedHomeMenuComponentState {
+class ExtendedHomeMenuComponentPermissionDenied
+    extends ExtendedHomeMenuComponentState {
   ExtendedHomeMenuComponentPermissionDenied();
 }
 
 class ExtendedHomeMenuComponentLoaded extends ExtendedHomeMenuComponentState {
   final HomeMenuModel? value;
 
-  const ExtendedHomeMenuComponentLoaded({ this.value });
+  const ExtendedHomeMenuComponentLoaded({this.value});
 
-  ExtendedHomeMenuComponentLoaded copyWith({ HomeMenuModel? copyThis }) {
-    return ExtendedHomeMenuComponentLoaded(value: copyThis ?? this.value);
+  ExtendedHomeMenuComponentLoaded copyWith({HomeMenuModel? copyThis}) {
+    return ExtendedHomeMenuComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -34,4 +36,3 @@ class ExtendedHomeMenuComponentLoaded extends ExtendedHomeMenuComponentState {
   @override
   String toString() => 'HomeMenuComponentLoaded { value: $value }';
 }
-

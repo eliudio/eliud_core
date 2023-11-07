@@ -21,34 +21,56 @@ class BodyComponentEntity implements EntityBase {
   final String? componentName;
   final String? componentId;
 
-  BodyComponentEntity({this.componentName, this.componentId, });
+  BodyComponentEntity({
+    this.componentName,
+    this.componentId,
+  });
 
-  BodyComponentEntity copyWith({String? documentID, String? componentName, String? componentId, }) {
-    return BodyComponentEntity(componentName : componentName ?? this.componentName, componentId : componentId ?? this.componentId, );
+  BodyComponentEntity copyWith({
+    String? documentID,
+    String? componentName,
+    String? componentId,
+  }) {
+    return BodyComponentEntity(
+      componentName: componentName ?? this.componentName,
+      componentId: componentId ?? this.componentId,
+    );
   }
-  List<Object?> get props => [componentName, componentId, ];
+
+  List<Object?> get props => [
+        componentName,
+        componentId,
+      ];
 
   @override
   String toString() {
     return 'BodyComponentEntity{componentName: $componentName, componentId: $componentId}';
   }
 
-  static BodyComponentEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static BodyComponentEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return BodyComponentEntity(
-      componentName: map['componentName'], 
-      componentId: map['componentId'], 
+      componentName: map['componentName'],
+      componentId: map['componentId'],
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (componentName != null) theDocument["componentName"] = componentName;
-      else theDocument["componentName"] = null;
-    if (componentId != null) theDocument["componentId"] = componentId;
-      else theDocument["componentId"] = null;
+    if (componentName != null) {
+      theDocument["componentName"] = componentName;
+    } else {
+      theDocument["componentName"] = null;
+    }
+    if (componentId != null) {
+      theDocument["componentId"] = componentId;
+    } else {
+      theDocument["componentId"] = null;
+    }
     return theDocument;
   }
 
@@ -58,7 +80,8 @@ class BodyComponentEntity implements EntityBase {
     return newEntity;
   }
 
-  static BodyComponentEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static BodyComponentEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -67,9 +90,9 @@ class BodyComponentEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

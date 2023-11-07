@@ -23,9 +23,9 @@ import 'package:eliud_core/package/packages.dart';
 import 'package:eliud_core/style/frontend/has_drawer.dart';
 import 'package:eliud_core/style/frontend/has_page_body.dart';
 import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/tools/has_fab.dart';
 import 'package:flutter/material.dart';
 
+import '../../tools/has_fab.dart';
 import '../blocs/access/access_event.dart';
 import '../blocs/access/state/access_state.dart';
 import 'dialog_component.dart';
@@ -60,13 +60,13 @@ class _PageComponentState extends State<PageComponent> {
     hasFab = null;
 
     var packageBlocProviders = <BlocProvider>[];
-    Packages.registeredPackages.forEach((element) {
+    for (var element in Packages.registeredPackages) {
       var provider = element.createPackageAppBloc(
           widget.appId, AccessBloc.getBloc(context));
       if (provider != null) {
         packageBlocProviders.add(provider);
       }
-    });
+    }
 
     if (packageBlocProviders.isNotEmpty) {
       return MultiBlocProvider(
@@ -108,8 +108,7 @@ class _PageComponentState extends State<PageComponent> {
                               .add(DismissTempMessage());
                         }
                       },
-                    )
-                      ..show(context);
+                    ).show(context);
                   }
                 },
                 child: BlocBuilder(
@@ -120,8 +119,7 @@ class _PageComponentState extends State<PageComponent> {
                             state.app,
                             context,
                             widget.pageKey,
-                                () =>
-                                PageContentsWidget(
+                            () => PageContentsWidget(
                                   key: widget.pageKey,
                                   state: accessState,
                                   app: state.app,
@@ -141,11 +139,11 @@ class _PageComponentState extends State<PageComponent> {
                 builder: (BuildContext context, accessState) {
                   if (accessState is AccessDetermined) {
                     return Decorations.instance().createDecoratedErrorPage(
-                        state.app,
-                        context,
-                        widget.pageKey,
-                            () => Text("ERROR PAGE"),
-                        )();
+                      state.app,
+                      context,
+                      widget.pageKey,
+                      () => Text("ERROR PAGE"),
+                    )();
                   } else {
                     return progressIndicator();
                   }
@@ -172,17 +170,17 @@ class PageContentsWidget extends StatefulWidget {
   final ComponentInfo componentInfo;
 
   PageContentsWidget({
-    Key? key,
+    super.key,
     required this.state,
     required this.app,
     required this.pageModel,
     required this.parameters,
     required this.scaffoldKey,
     required this.componentInfo,
-  }) : super(key: key) {}
+  });
 
   @override
-  _PageContentsWidgetState createState() {
+  State<PageContentsWidget> createState() {
     return _PageContentsWidgetState();
   }
 }
@@ -198,7 +196,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
           : EliudDrawer(
               accessState: widget.state,
               app: widget.app,
-              drawerType: DrawerType.Right,
+              drawerType: DrawerType.right,
               drawer: widget.pageModel.endDrawer!,
               currentPage: widget.pageModel.documentID),
       appBar: widget.pageModel.appBar == null
@@ -220,7 +218,7 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
           : EliudDrawer(
               accessState: widget.state,
               app: widget.app,
-              drawerType: DrawerType.Left,
+              drawerType: DrawerType.left,
               drawer: widget.pageModel.drawer!,
               currentPage: widget.pageModel.documentID),
       floatingActionButton: hasFab != null ? hasFab!.fab(context) : null,
@@ -238,13 +236,13 @@ class _PageContentsWidgetState extends State<PageContentsWidget> {
     if (parameters != null) {
       var openDialogParam = parameters['open-dialog'];
       if (openDialogParam != null) {
-        var dialogComponent = DialogComponent(app: widget.app,
-            dialogId: openDialogParam,
-            parameters: widget.parameters, includeHeading: false,);
-        return Stack(children: [
-          original,
-          dialogComponent
-        ]);
+        var dialogComponent = DialogComponent(
+          app: widget.app,
+          dialogId: openDialogParam,
+          parameters: widget.parameters,
+          includeHeading: false,
+        );
+        return Stack(children: [original, dialogComponent]);
       }
     }
     return original;

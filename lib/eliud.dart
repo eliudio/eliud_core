@@ -41,10 +41,9 @@ class Eliud {
         var plugin = plugins[i];
         plugin.init();
       }
-
     } catch (error) {
-      print (error);
-      throw(error);
+      print(error);
+      rethrow;
     }
   }
 

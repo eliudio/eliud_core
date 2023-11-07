@@ -21,34 +21,56 @@ class AppEntryPagesEntity implements EntityBase {
   final String? entryPageId;
   final int? minPrivilege;
 
-  AppEntryPagesEntity({this.entryPageId, this.minPrivilege, });
+  AppEntryPagesEntity({
+    this.entryPageId,
+    this.minPrivilege,
+  });
 
-  AppEntryPagesEntity copyWith({String? documentID, String? entryPageId, int? minPrivilege, }) {
-    return AppEntryPagesEntity(entryPageId : entryPageId ?? this.entryPageId, minPrivilege : minPrivilege ?? this.minPrivilege, );
+  AppEntryPagesEntity copyWith({
+    String? documentID,
+    String? entryPageId,
+    int? minPrivilege,
+  }) {
+    return AppEntryPagesEntity(
+      entryPageId: entryPageId ?? this.entryPageId,
+      minPrivilege: minPrivilege ?? this.minPrivilege,
+    );
   }
-  List<Object?> get props => [entryPageId, minPrivilege, ];
+
+  List<Object?> get props => [
+        entryPageId,
+        minPrivilege,
+      ];
 
   @override
   String toString() {
     return 'AppEntryPagesEntity{entryPageId: $entryPageId, minPrivilege: $minPrivilege}';
   }
 
-  static AppEntryPagesEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  static AppEntryPagesEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     if (o == null) return null;
     var map = o as Map<String, dynamic>;
 
     return AppEntryPagesEntity(
-      entryPageId: map['entryPageId'], 
-      minPrivilege: int.tryParse(map['minPrivilege'].toString()), 
+      entryPageId: map['entryPageId'],
+      minPrivilege: int.tryParse(map['minPrivilege'].toString()),
     );
   }
 
+  @override
   Map<String, Object?> toDocument() {
     Map<String, Object?> theDocument = HashMap();
-    if (entryPageId != null) theDocument["entryPageId"] = entryPageId;
-      else theDocument["entryPageId"] = null;
-    if (minPrivilege != null) theDocument["minPrivilege"] = minPrivilege;
-      else theDocument["minPrivilege"] = null;
+    if (entryPageId != null) {
+      theDocument["entryPageId"] = entryPageId;
+    } else {
+      theDocument["entryPageId"] = null;
+    }
+    if (minPrivilege != null) {
+      theDocument["minPrivilege"] = minPrivilege;
+    } else {
+      theDocument["minPrivilege"] = null;
+    }
     return theDocument;
   }
 
@@ -58,7 +80,8 @@ class AppEntryPagesEntity implements EntityBase {
     return newEntity;
   }
 
-  static AppEntryPagesEntity? fromJsonString(String json, {Map<String, String>? newDocumentIds}) {
+  static AppEntryPagesEntity? fromJsonString(String json,
+      {Map<String, String>? newDocumentIds}) {
     Map<String, dynamic>? generationSpecificationMap = jsonDecode(json);
     return fromMap(generationSpecificationMap, newDocumentIds: newDocumentIds);
   }
@@ -67,9 +90,9 @@ class AppEntryPagesEntity implements EntityBase {
     return jsonEncode(toDocument());
   }
 
-  Future<Map<String, Object?>> enrichedDocument(Map<String, Object?> theDocument) async {
+  @override
+  Future<Map<String, Object?>> enrichedDocument(
+      Map<String, Object?> theDocument) async {
     return theDocument;
   }
-
 }
-

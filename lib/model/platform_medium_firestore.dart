@@ -15,11 +15,9 @@
 
 import 'package:eliud_core/model/platform_medium_repository.dart';
 
-
 import 'package:eliud_core/model/repository_export.dart';
 import 'package:eliud_core/model/model_export.dart';
 import 'package:eliud_core/model/entity_export.dart';
-
 
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -29,90 +27,121 @@ import 'package:eliud_core/tools/common_tools.dart';
 
 class PlatformMediumFirestore implements PlatformMediumRepository {
   @override
-  PlatformMediumEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
+  PlatformMediumEntity? fromMap(Object? o,
+      {Map<String, String>? newDocumentIds}) {
     return PlatformMediumEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
-  Future<PlatformMediumEntity> addEntity(String documentID, PlatformMediumEntity value) {
-    return PlatformMediumCollection.doc(documentID).set(value.toDocument()).then((_) => value);
+  @override
+  Future<PlatformMediumEntity> addEntity(
+      String documentID, PlatformMediumEntity value) {
+    return platformMediumCollection
+        .doc(documentID)
+        .set(value.toDocument())
+        .then((_) => value);
   }
 
-  Future<PlatformMediumEntity> updateEntity(String documentID, PlatformMediumEntity value) {
-    return PlatformMediumCollection.doc(documentID).update(value.toDocument()).then((_) => value);
+  @override
+  Future<PlatformMediumEntity> updateEntity(
+      String documentID, PlatformMediumEntity value) {
+    return platformMediumCollection
+        .doc(documentID)
+        .update(value.toDocument())
+        .then((_) => value);
   }
 
+  @override
   Future<PlatformMediumModel> add(PlatformMediumModel value) {
-    return PlatformMediumCollection.doc(value.documentID).set(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return platformMediumCollection
+        .doc(value.documentID)
+        .set(value.toEntity(appId: appId).toDocument())
+        .then((_) => value);
   }
 
+  @override
   Future<void> delete(PlatformMediumModel value) {
-    return PlatformMediumCollection.doc(value.documentID).delete();
+    return platformMediumCollection.doc(value.documentID).delete();
   }
 
+  @override
   Future<PlatformMediumModel> update(PlatformMediumModel value) {
-    return PlatformMediumCollection.doc(value.documentID).update(value.toEntity(appId: appId).toDocument()).then((_) => value);
+    return platformMediumCollection
+        .doc(value.documentID)
+        .update(value.toEntity(appId: appId).toDocument())
+        .then((_) => value);
   }
 
   Future<PlatformMediumModel?> _populateDoc(DocumentSnapshot value) async {
-    return PlatformMediumModel.fromEntity(value.id, PlatformMediumEntity.fromMap(value.data()));
+    return PlatformMediumModel.fromEntity(
+        value.id, PlatformMediumEntity.fromMap(value.data()));
   }
 
   Future<PlatformMediumModel?> _populateDocPlus(DocumentSnapshot value) async {
-    return PlatformMediumModel.fromEntityPlus(value.id, PlatformMediumEntity.fromMap(value.data()), appId: appId);  }
+    return PlatformMediumModel.fromEntityPlus(
+        value.id, PlatformMediumEntity.fromMap(value.data()),
+        appId: appId);
+  }
 
-  Future<PlatformMediumEntity?> getEntity(String? id, {Function(Exception)? onError}) async {
+  @override
+  Future<PlatformMediumEntity?> getEntity(String? id,
+      {Function(Exception)? onError}) async {
     try {
-      var collection = PlatformMediumCollection.doc(id);
+      var collection = platformMediumCollection.doc(id);
       var doc = await collection.get();
       return PlatformMediumEntity.fromMap(doc.data());
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving PlatformMedium with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
-  Future<PlatformMediumModel?> get(String? id, {Function(Exception)? onError}) async {
+  @override
+  Future<PlatformMediumModel?> get(String? id,
+      {Function(Exception)? onError}) async {
     try {
-      var collection = PlatformMediumCollection.doc(id);
+      var collection = platformMediumCollection.doc(id);
       var doc = await collection.get();
       return await _populateDocPlus(doc);
-    } on Exception catch(e) {
+    } on Exception catch (e) {
       if (onError != null) {
         onError(e);
       } else {
         print("Error whilst retrieving PlatformMedium with id $id");
         print("Exceptoin: $e");
       }
-    };
-return null;
+    }
+    return null;
   }
 
-  StreamSubscription<List<PlatformMediumModel?>> listen(PlatformMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
+  @override
+  StreamSubscription<List<PlatformMediumModel?>> listen(
+      PlatformMediumModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     Stream<List<PlatformMediumModel?>> stream;
-    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+    stream = getQuery(getCollection(),
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
 //  see comment listen(...) above
-//  stream = getQuery(PlatformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+//  stream = getQuery(platformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
         .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDoc(doc)).toList());
-    });
-
-    return stream.listen((listOfPlatformMediumModels) {
-      trigger(listOfPlatformMediumModels);
-    });
-  }
-
-  StreamSubscription<List<PlatformMediumModel?>> listenWithDetails(PlatformMediumModelTrigger trigger, {String? orderBy, bool? descending, Object? startAfter, int? limit, int? privilegeLevel, EliudQuery? eliudQuery}) {
-    Stream<List<PlatformMediumModel?>> stream;
-    stream = getQuery(getCollection(), orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
-//  see comment listen(...) above
-//  stream = getQuery(PlatformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
-        .asyncMap((data) async {
-      return await Future.wait(data.docs.map((doc) =>  _populateDocPlus(doc)).toList());
+      return await Future.wait(
+          data.docs.map((doc) => _populateDoc(doc)).toList());
     });
 
     return stream.listen((listOfPlatformMediumModels) {
@@ -121,10 +150,42 @@ return null;
   }
 
   @override
-  StreamSubscription<PlatformMediumModel?> listenTo(String documentId, PlatformMediumChanged changed, {PlatformMediumErrorHandler? errorHandler}) {
-    var stream = PlatformMediumCollection.doc(documentId)
+  StreamSubscription<List<PlatformMediumModel?>> listenWithDetails(
+      PlatformMediumModelTrigger trigger,
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
+    Stream<List<PlatformMediumModel?>> stream;
+    stream = getQuery(getCollection(),
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
         .snapshots()
-        .asyncMap((data) {
+//  see comment listen(...) above
+//  stream = getQuery(platformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots()
+        .asyncMap((data) async {
+      return await Future.wait(
+          data.docs.map((doc) => _populateDocPlus(doc)).toList());
+    });
+
+    return stream.listen((listOfPlatformMediumModels) {
+      trigger(listOfPlatformMediumModels);
+    });
+  }
+
+  @override
+  StreamSubscription<PlatformMediumModel?> listenTo(
+      String documentId, PlatformMediumChanged changed,
+      {PlatformMediumErrorHandler? errorHandler}) {
+    var stream =
+        platformMediumCollection.doc(documentId).snapshots().asyncMap((data) {
       return _populateDocPlus(data);
     });
     var theStream = stream.listen((value) {
@@ -138,33 +199,86 @@ return null;
     return theStream;
   }
 
-  Stream<List<PlatformMediumModel?>> values({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  @override
+  Stream<List<PlatformMediumModel?>> values(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     DocumentSnapshot? lastDoc;
-    Stream<List<PlatformMediumModel?>> _values = getQuery(PlatformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
+    Stream<List<PlatformMediumModel?>> values = getQuery(
+            platformMediumCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
+        .asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDoc(doc);
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Stream<List<PlatformMediumModel?>> valuesWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) {
+  @override
+  Stream<List<PlatformMediumModel?>> valuesWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) {
     DocumentSnapshot? lastDoc;
-    Stream<List<PlatformMediumModel?>> _values = getQuery(PlatformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?, limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.snapshots().asyncMap((snapshot) {
+    Stream<List<PlatformMediumModel?>> values = getQuery(
+            platformMediumCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .snapshots()
+        .asyncMap((snapshot) {
       return Future.wait(snapshot.docs.map((doc) {
         lastDoc = doc;
         return _populateDocPlus(doc);
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Future<List<PlatformMediumModel?>> valuesList({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+  @override
+  Future<List<PlatformMediumModel?>> valuesList(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
     DocumentSnapshot? lastDoc;
-    List<PlatformMediumModel?> _values = await getQuery(PlatformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
+    List<PlatformMediumModel?> values = await getQuery(platformMediumCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .get()
+        .then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -172,12 +286,29 @@ return null;
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
-  Future<List<PlatformMediumModel?>> valuesListWithDetails({String? orderBy, bool? descending, Object? startAfter, int? limit, SetLastDoc? setLastDoc, int? privilegeLevel, EliudQuery? eliudQuery }) async {
+  @override
+  Future<List<PlatformMediumModel?>> valuesListWithDetails(
+      {String? orderBy,
+      bool? descending,
+      Object? startAfter,
+      int? limit,
+      SetLastDoc? setLastDoc,
+      int? privilegeLevel,
+      EliudQuery? eliudQuery}) async {
     DocumentSnapshot? lastDoc;
-    List<PlatformMediumModel?> _values = await getQuery(PlatformMediumCollection, orderBy: orderBy,  descending: descending,  startAfter: startAfter as DocumentSnapshot?,  limit: limit, privilegeLevel: privilegeLevel, eliudQuery: eliudQuery, appId: appId)!.get().then((value) {
+    List<PlatformMediumModel?> values = await getQuery(platformMediumCollection,
+            orderBy: orderBy,
+            descending: descending,
+            startAfter: startAfter as DocumentSnapshot?,
+            limit: limit,
+            privilegeLevel: privilegeLevel,
+            eliudQuery: eliudQuery,
+            appId: appId)!
+        .get()
+        .then((value) {
       var list = value.docs;
       return Future.wait(list.map((doc) {
         lastDoc = doc;
@@ -185,37 +316,44 @@ return null;
       }).toList());
     });
     if ((setLastDoc != null) && (lastDoc != null)) setLastDoc(lastDoc);
-    return _values;
+    return values;
   }
 
+  @override
   void flush() {}
 
+  @override
   Future<void> deleteAll() {
-    return PlatformMediumCollection.get().then((snapshot) {
-      for (DocumentSnapshot ds in snapshot.docs){
+    return platformMediumCollection.get().then((snapshot) {
+      for (DocumentSnapshot ds in snapshot.docs) {
         ds.reference.delete();
       }
     });
   }
 
+  @override
   dynamic getSubCollection(String documentId, String name) {
-    return PlatformMediumCollection.doc(documentId).collection(name);
+    return platformMediumCollection.doc(documentId).collection(name);
   }
 
+  @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
-  } 
-
-  Future<PlatformMediumModel?> changeValue(String documentId, String fieldName, num changeByThisValue) {
-    var change = FieldValue.increment(changeByThisValue);
-    return PlatformMediumCollection.doc(documentId).update({fieldName: change}).then((v) => get(documentId));
   }
 
+  @override
+  Future<PlatformMediumModel?> changeValue(
+      String documentId, String fieldName, num changeByThisValue) {
+    var change = FieldValue.increment(changeByThisValue);
+    return platformMediumCollection
+        .doc(documentId)
+        .update({fieldName: change}).then((v) => get(documentId));
+  }
 
   final String appId;
-  PlatformMediumFirestore(this.getCollection, this.appId): PlatformMediumCollection = getCollection();
+  PlatformMediumFirestore(this.getCollection, this.appId)
+      : platformMediumCollection = getCollection();
 
-  final CollectionReference PlatformMediumCollection;
+  final CollectionReference platformMediumCollection;
   final GetCollection getCollection;
 }
-

@@ -9,8 +9,10 @@ abstract class HasSplit {
 }
 
 Widget splitView(AppModel app, BuildContext context, Widget container1,
-    Widget container2, double ratio, double minRatio, double maxRatio) => StyleRegistry.registry()
-    .styleWithApp(app)
-    .frontEndStyle()
-    .splitStyle()
-    .splitView(app, context, container1, container2, ratio, minRatio, maxRatio);
+        Widget container2, double ratio, double minRatio, double maxRatio) =>
+    StyleRegistry.registry()
+        .styleWithApp(app)
+        .frontEndStyle()
+        .splitStyle()
+        .splitView(
+            app, context, container1, container2, ratio, minRatio, maxRatio);

@@ -7,27 +7,31 @@ import 'package:eliud_core/model/drawer_model.dart';
 import 'extended_drawer_component_event.dart';
 import 'extended_drawer_component_state.dart';
 
-
-class ExtendedDrawerComponentBloc extends Bloc<ExtendedDrawerComponentEvent, ExtendedDrawerComponentState> {
+class ExtendedDrawerComponentBloc
+    extends Bloc<ExtendedDrawerComponentEvent, ExtendedDrawerComponentState> {
   StreamSubscription? _drawerSubscription;
   StreamSubscription? _menuDefSubscription;
 
-  void _listenToDrawer(DrawerModel drawer)  {
+  void _listenToDrawer(DrawerModel drawer) {
     _drawerSubscription?.cancel();
-    _drawerSubscription = drawerRepository(appId: drawer.appId)!.listenTo(drawer.documentID, (value) {
+    _drawerSubscription = drawerRepository(appId: drawer.appId)!
+        .listenTo(drawer.documentID, (value) {
       if (value != null) add(ExtendedDrawerComponentUpdated(value: value));
     });
 
     _menuDefSubscription?.cancel();
-    _menuDefSubscription = menuDefRepository(appId: drawer.appId)!.listenTo(drawer.menu!.documentID, (value) {
+    _menuDefSubscription = menuDefRepository(appId: drawer.appId)!
+        .listenTo(drawer.menu!.documentID, (value) {
       var newDrawer = drawer.copyWith(menu: value);
       if (value != null) add(ExtendedDrawerComponentUpdated(value: newDrawer));
     });
   }
 
-  ExtendedDrawerComponentBloc(): super(ExtendedDrawerComponentUninitialized()) {
+  ExtendedDrawerComponentBloc()
+      : super(ExtendedDrawerComponentUninitialized()) {
     on<ExtendedDrawerInitEvent>((event, emit) => _listenToDrawer(event.value));
-    on<ExtendedDrawerComponentUpdated> ((event, emit) => emit(ExtendedDrawerComponentLoaded(value: event.value)));
+    on<ExtendedDrawerComponentUpdated>((event, emit) =>
+        emit(ExtendedDrawerComponentLoaded(value: event.value)));
   }
 
   @override
@@ -36,6 +40,4 @@ class ExtendedDrawerComponentBloc extends Bloc<ExtendedDrawerComponentEvent, Ext
     _menuDefSubscription?.cancel();
     return super.close();
   }
-
 }
-

@@ -30,10 +30,10 @@ class NewPage extends BlockingDashboardListEvent {}
 class AddBlockingDashboardList extends BlockingDashboardListEvent {
   final BlockingDashboardModel? value;
 
-  const AddBlockingDashboardList({ this.value });
+  const AddBlockingDashboardList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddBlockingDashboardList{ value: $value }';
@@ -42,10 +42,10 @@ class AddBlockingDashboardList extends BlockingDashboardListEvent {
 class UpdateBlockingDashboardList extends BlockingDashboardListEvent {
   final BlockingDashboardModel? value;
 
-  const UpdateBlockingDashboardList({ this.value });
+  const UpdateBlockingDashboardList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateBlockingDashboardList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateBlockingDashboardList extends BlockingDashboardListEvent {
 class DeleteBlockingDashboardList extends BlockingDashboardListEvent {
   final BlockingDashboardModel? value;
 
-  const DeleteBlockingDashboardList({ this.value });
+  const DeleteBlockingDashboardList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteBlockingDashboardList{ value: $value }';
@@ -67,24 +67,24 @@ class BlockingDashboardListUpdated extends BlockingDashboardListEvent {
   final List<BlockingDashboardModel?>? value;
   final bool? mightHaveMore;
 
-  const BlockingDashboardListUpdated({ this.value, this.mightHaveMore });
+  const BlockingDashboardListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'BlockingDashboardListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'BlockingDashboardListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class BlockingDashboardChangeQuery extends BlockingDashboardListEvent {
   final EliudQuery? newQuery;
 
-  const BlockingDashboardChangeQuery({ required this.newQuery });
+  const BlockingDashboardChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'BlockingDashboardChangeQuery{ value: $newQuery }';
 }
-

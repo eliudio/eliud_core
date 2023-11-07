@@ -71,14 +71,16 @@ class Router {
     return error2('No route defined for ${settings.name}!');
   }
 
-  Route<dynamic> getRoute(
-      String path, Map<String, dynamic>? parameters) {
+  Route<dynamic> getRoute(String path, Map<String, dynamic>? parameters) {
     final pagePath = path.split('/');
-    if ((pagePath != null) && (pagePath.length == 2)) {
+    if (pagePath.length == 2) {
       final appId = pagePath[0];
       final pageId = pagePath[1];
-      return pageRouteBuilderWithAppId(accessBloc.state, appId, pageId: pageId, parameters: parameters, page: Registry.registry()!
-          .page(appId: appId, pageId: pageId, parameters: parameters));
+      return pageRouteBuilderWithAppId(accessBloc.state, appId,
+          pageId: pageId,
+          parameters: parameters,
+          page: Registry.registry()!
+              .page(appId: appId, pageId: pageId, parameters: parameters));
     } else {
       return error2('No route defined for $path');
     }
@@ -86,8 +88,8 @@ class Router {
 
   PageRouteBuilder error(String path, String error) {
     final appId = path;
-    return pageRouteBuilderWithAppId(accessBloc.state, appId, page: Registry.registry()!
-        .error(appId: appId, error: error));
+    return pageRouteBuilderWithAppId(accessBloc.state, appId,
+        page: Registry.registry()!.error(appId: appId, error: error));
   }
 
   static PageRouteBuilder error2(String error) {
@@ -106,8 +108,8 @@ class Router {
         BlocProvider.of<AccessBloc>(context).add(
             GotoPageEvent(action.app, action.pageID, parameters: parameters));
       } else if (action is OpenDialog) {
-        await Registry.registry()!
-            .openDialog(context, app: action.app, id: action.dialogID, parameters: parameters);
+        await Registry.registry()!.openDialog(context,
+            app: action.app, id: action.dialogID, parameters: parameters);
         // NAVIGATION-USING-BLOC
         // We should be using this instead: BlocProvider.of<AccessBloc>(context).add(OpenDialogEvent(action.dialogID, parameters: parameters));
       } else if (action is SwitchApp) {
@@ -115,17 +117,18 @@ class Router {
             .add(SwitchAppWithIDEvent(appId: action.toAppID, goHome: true));
       } else if (action is InternalAction) {
         switch (action.internalActionEnum) {
-          case InternalActionEnum.Login:
+          case InternalActionEnum.login:
             openLoginWidget(context, action.app);
             break;
-          case InternalActionEnum.Logout:
-            BlocProvider.of<AccessBloc>(context).add(LogoutEvent(app: action.app));
+          case InternalActionEnum.logout:
+            BlocProvider.of<AccessBloc>(context)
+                .add(LogoutEvent(app: action.app));
             break;
-          case InternalActionEnum.GoHome:
+          case InternalActionEnum.goHome:
             BlocProvider.of<AccessBloc>(context).add(GoHome(app: action.app));
             break;
           default:
-            return null;
+            return;
         }
       } else {
         for (var i = 0; i < _registeredActionHandlers.length; i++) {
@@ -135,29 +138,33 @@ class Router {
       }
     } else {
       // return Text("no access");
-      return null;
+      return;
     }
   }
 
-  static AccessEvent? translate(ActionModel action, {Map<String, dynamic>? parameters}) {
-      if (action is GotoPage) {
-        return GotoPageEvent(action.app, action.pageID, parameters: parameters);
-      } else if (action is OpenDialog) {
-      } else if (action is SwitchApp) {
-        return SwitchAppWithIDEvent(appId: action.toAppID, goHome: true);
-      } else if (action is InternalAction) {
-        switch (action.internalActionEnum) {
-          case InternalActionEnum.Login:
-            return LoginEvent(app: action.app, loginType: LoginType.GoogleLogin, );
-          case InternalActionEnum.Logout:
-            return LogoutEvent(app: action.app);
-          case InternalActionEnum.GoHome:
-            return GoHome(app: action.app);
-          default:
-            return null;
-        }
+  static AccessEvent? translate(ActionModel action,
+      {Map<String, dynamic>? parameters}) {
+    if (action is GotoPage) {
+      return GotoPageEvent(action.app, action.pageID, parameters: parameters);
+    } else if (action is OpenDialog) {
+    } else if (action is SwitchApp) {
+      return SwitchAppWithIDEvent(appId: action.toAppID, goHome: true);
+    } else if (action is InternalAction) {
+      switch (action.internalActionEnum) {
+        case InternalActionEnum.login:
+          return LoginEvent(
+            app: action.app,
+            loginType: LoginType.googleLogin,
+          );
+        case InternalActionEnum.logout:
+          return LogoutEvent(app: action.app);
+        case InternalActionEnum.goHome:
+          return GoHome(app: action.app);
+        default:
+          return null;
       }
-      return null;
+    }
+    return null;
   }
 
   static String getCurrentAppId(BuildContext context) {
@@ -196,4 +203,3 @@ class PageContextInfo {
 
   PageContextInfo(this.appId, this.pageId, {this.parameters});
 }
-

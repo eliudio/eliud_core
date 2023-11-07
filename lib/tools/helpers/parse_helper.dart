@@ -1,4 +1,4 @@
-double double_parse(String value) {
+double doubleParse(String value) {
   try {
     return double.parse(value);
   } catch (_) {
@@ -6,11 +6,10 @@ double double_parse(String value) {
   }
 }
 
-int int_parse(String value) {
+int intParse(String value) {
   try {
     return int.parse(value);
   } catch (_) {
     return 0;
   }
 }
-

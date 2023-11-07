@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class PlatformMediumFormEvent extends Equatable {
   const PlatformMediumFormEvent();
@@ -26,15 +25,13 @@ abstract class PlatformMediumFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewPlatformMediumFormEvent extends PlatformMediumFormEvent {
-}
-
+class InitialiseNewPlatformMediumFormEvent extends PlatformMediumFormEvent {}
 
 class InitialisePlatformMediumFormEvent extends PlatformMediumFormEvent {
   final PlatformMediumModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialisePlatformMediumFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialisePlatformMediumFormNoLoadEvent extends PlatformMediumFormEvent {
   final PlatformMediumModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialisePlatformMediumFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedPlatformMediumDocumentID extends PlatformMediumFormEvent {
   ChangedPlatformMediumDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedPlatformMediumAppId extends PlatformMediumFormEvent {
   ChangedPlatformMediumAppId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumAppId{ value: $value }';
@@ -78,7 +75,7 @@ class ChangedPlatformMediumAuthorId extends PlatformMediumFormEvent {
   ChangedPlatformMediumAuthorId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumAuthorId{ value: $value }';
@@ -90,7 +87,7 @@ class ChangedPlatformMediumBase extends PlatformMediumFormEvent {
   ChangedPlatformMediumBase({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumBase{ value: $value }';
@@ -102,7 +99,7 @@ class ChangedPlatformMediumExt extends PlatformMediumFormEvent {
   ChangedPlatformMediumExt({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumExt{ value: $value }';
@@ -114,7 +111,7 @@ class ChangedPlatformMediumUrl extends PlatformMediumFormEvent {
   ChangedPlatformMediumUrl({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumUrl{ value: $value }';
@@ -126,7 +123,7 @@ class ChangedPlatformMediumRef extends PlatformMediumFormEvent {
   ChangedPlatformMediumRef({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumRef{ value: $value }';
@@ -138,7 +135,7 @@ class ChangedPlatformMediumUrlThumbnail extends PlatformMediumFormEvent {
   ChangedPlatformMediumUrlThumbnail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumUrlThumbnail{ value: $value }';
@@ -150,7 +147,7 @@ class ChangedPlatformMediumRefThumbnail extends PlatformMediumFormEvent {
   ChangedPlatformMediumRefThumbnail({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumRefThumbnail{ value: $value }';
@@ -162,7 +159,7 @@ class ChangedPlatformMediumConditions extends PlatformMediumFormEvent {
   ChangedPlatformMediumConditions({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumConditions{ value: $value }';
@@ -174,7 +171,7 @@ class ChangedPlatformMediumMediumType extends PlatformMediumFormEvent {
   ChangedPlatformMediumMediumType({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumMediumType{ value: $value }';
@@ -186,7 +183,7 @@ class ChangedPlatformMediumMediumWidth extends PlatformMediumFormEvent {
   ChangedPlatformMediumMediumWidth({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumMediumWidth{ value: $value }';
@@ -198,7 +195,7 @@ class ChangedPlatformMediumMediumHeight extends PlatformMediumFormEvent {
   ChangedPlatformMediumMediumHeight({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumMediumHeight{ value: $value }';
@@ -210,7 +207,7 @@ class ChangedPlatformMediumThumbnailWidth extends PlatformMediumFormEvent {
   ChangedPlatformMediumThumbnailWidth({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumThumbnailWidth{ value: $value }';
@@ -222,7 +219,7 @@ class ChangedPlatformMediumThumbnailHeight extends PlatformMediumFormEvent {
   ChangedPlatformMediumThumbnailHeight({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumThumbnailHeight{ value: $value }';
@@ -234,9 +231,8 @@ class ChangedPlatformMediumRelatedMediumId extends PlatformMediumFormEvent {
   ChangedPlatformMediumRelatedMediumId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedPlatformMediumRelatedMediumId{ value: $value }';
 }
-

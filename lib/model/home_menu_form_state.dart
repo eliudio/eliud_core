@@ -41,9 +41,9 @@ class HomeMenuFormInitialized extends HomeMenuFormState {
   final HomeMenuModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
-  const HomeMenuFormInitialized({ this.value });
+  const HomeMenuFormInitialized({this.value});
 }
 
 // Menu has been initialised and hence a menu is available
@@ -51,9 +51,9 @@ abstract class HomeMenuFormError extends HomeMenuFormInitialized {
   final String? message;
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
-  const HomeMenuFormError({this.message, HomeMenuModel? value }) : super(value: value);
+  const HomeMenuFormError({this.message, super.value});
 
   @override
   String toString() {
@@ -63,11 +63,12 @@ abstract class HomeMenuFormError extends HomeMenuFormInitialized {
     }''';
   }
 }
-class DocumentIDHomeMenuFormError extends HomeMenuFormError { 
-  const DocumentIDHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+
+class DocumentIDHomeMenuFormError extends HomeMenuFormError {
+  const DocumentIDHomeMenuFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -78,12 +79,11 @@ class DocumentIDHomeMenuFormError extends HomeMenuFormError {
   }
 }
 
-
-class AppIdHomeMenuFormError extends HomeMenuFormError { 
-  const AppIdHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class AppIdHomeMenuFormError extends HomeMenuFormError {
+  const AppIdHomeMenuFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -94,12 +94,11 @@ class AppIdHomeMenuFormError extends HomeMenuFormError {
   }
 }
 
-
-class NameHomeMenuFormError extends HomeMenuFormError { 
-  const NameHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class NameHomeMenuFormError extends HomeMenuFormError {
+  const NameHomeMenuFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -110,12 +109,11 @@ class NameHomeMenuFormError extends HomeMenuFormError {
   }
 }
 
-
-class MenuHomeMenuFormError extends HomeMenuFormError { 
-  const MenuHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class MenuHomeMenuFormError extends HomeMenuFormError {
+  const MenuHomeMenuFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -126,12 +124,11 @@ class MenuHomeMenuFormError extends HomeMenuFormError {
   }
 }
 
-
-class IconColorOverrideHomeMenuFormError extends HomeMenuFormError { 
-  const IconColorOverrideHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class IconColorOverrideHomeMenuFormError extends HomeMenuFormError {
+  const IconColorOverrideHomeMenuFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -142,12 +139,11 @@ class IconColorOverrideHomeMenuFormError extends HomeMenuFormError {
   }
 }
 
-
-class BackgroundOverrideHomeMenuFormError extends HomeMenuFormError { 
-  const BackgroundOverrideHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class BackgroundOverrideHomeMenuFormError extends HomeMenuFormError {
+  const BackgroundOverrideHomeMenuFormError({super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -158,12 +154,13 @@ class BackgroundOverrideHomeMenuFormError extends HomeMenuFormError {
   }
 }
 
-
-class PopupMenuBackgroundColorOverrideHomeMenuFormError extends HomeMenuFormError { 
-  const PopupMenuBackgroundColorOverrideHomeMenuFormError({ String? message, HomeMenuModel? value }): super(message: message, value: value);
+class PopupMenuBackgroundColorOverrideHomeMenuFormError
+    extends HomeMenuFormError {
+  const PopupMenuBackgroundColorOverrideHomeMenuFormError(
+      {super.message, super.value});
 
   @override
-  List<Object?> get props => [ message, value ];
+  List<Object?> get props => [message, value];
 
   @override
   String toString() {
@@ -174,12 +171,11 @@ class PopupMenuBackgroundColorOverrideHomeMenuFormError extends HomeMenuFormErro
   }
 }
 
-
-class HomeMenuFormLoaded extends HomeMenuFormInitialized { 
-  const HomeMenuFormLoaded({ HomeMenuModel? value }): super(value: value);
+class HomeMenuFormLoaded extends HomeMenuFormInitialized {
+  const HomeMenuFormLoaded({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -189,12 +185,11 @@ class HomeMenuFormLoaded extends HomeMenuFormInitialized {
   }
 }
 
-
-class SubmittableHomeMenuForm extends HomeMenuFormInitialized { 
-  const SubmittableHomeMenuForm({ HomeMenuModel? value }): super(value: value);
+class SubmittableHomeMenuForm extends HomeMenuFormInitialized {
+  const SubmittableHomeMenuForm({super.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() {
@@ -203,5 +198,3 @@ class SubmittableHomeMenuForm extends HomeMenuFormInitialized {
     }''';
   }
 }
-
-

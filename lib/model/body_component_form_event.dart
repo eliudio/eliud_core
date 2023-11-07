@@ -17,7 +17,6 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 import 'package:eliud_core/model/model_export.dart';
 
-
 @immutable
 abstract class BodyComponentFormEvent extends Equatable {
   const BodyComponentFormEvent();
@@ -26,15 +25,13 @@ abstract class BodyComponentFormEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-class InitialiseNewBodyComponentFormEvent extends BodyComponentFormEvent {
-}
-
+class InitialiseNewBodyComponentFormEvent extends BodyComponentFormEvent {}
 
 class InitialiseBodyComponentFormEvent extends BodyComponentFormEvent {
   final BodyComponentModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseBodyComponentFormEvent({this.value});
 }
@@ -43,7 +40,7 @@ class InitialiseBodyComponentFormNoLoadEvent extends BodyComponentFormEvent {
   final BodyComponentModel? value;
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   InitialiseBodyComponentFormNoLoadEvent({this.value});
 }
@@ -54,7 +51,7 @@ class ChangedBodyComponentDocumentID extends BodyComponentFormEvent {
   ChangedBodyComponentDocumentID({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBodyComponentDocumentID{ value: $value }';
@@ -66,7 +63,7 @@ class ChangedBodyComponentComponentName extends BodyComponentFormEvent {
   ChangedBodyComponentComponentName({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBodyComponentComponentName{ value: $value }';
@@ -78,9 +75,8 @@ class ChangedBodyComponentComponentId extends BodyComponentFormEvent {
   ChangedBodyComponentComponentId({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'ChangedBodyComponentComponentId{ value: $value }';
 }
-

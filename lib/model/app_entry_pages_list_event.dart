@@ -30,10 +30,10 @@ class NewPage extends AppEntryPagesListEvent {}
 class AddAppEntryPagesList extends AppEntryPagesListEvent {
   final AppEntryPagesModel? value;
 
-  const AddAppEntryPagesList({ this.value });
+  const AddAppEntryPagesList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddAppEntryPagesList{ value: $value }';
@@ -42,10 +42,10 @@ class AddAppEntryPagesList extends AppEntryPagesListEvent {
 class UpdateAppEntryPagesList extends AppEntryPagesListEvent {
   final AppEntryPagesModel? value;
 
-  const UpdateAppEntryPagesList({ this.value });
+  const UpdateAppEntryPagesList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateAppEntryPagesList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateAppEntryPagesList extends AppEntryPagesListEvent {
 class DeleteAppEntryPagesList extends AppEntryPagesListEvent {
   final AppEntryPagesModel? value;
 
-  const DeleteAppEntryPagesList({ this.value });
+  const DeleteAppEntryPagesList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteAppEntryPagesList{ value: $value }';
@@ -67,24 +67,24 @@ class AppEntryPagesListUpdated extends AppEntryPagesListEvent {
   final List<AppEntryPagesModel?>? value;
   final bool? mightHaveMore;
 
-  const AppEntryPagesListUpdated({ this.value, this.mightHaveMore });
+  const AppEntryPagesListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'AppEntryPagesListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'AppEntryPagesListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class AppEntryPagesChangeQuery extends AppEntryPagesListEvent {
   final EliudQuery? newQuery;
 
-  const AppEntryPagesChangeQuery({ required this.newQuery });
+  const AppEntryPagesChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'AppEntryPagesChangeQuery{ value: $newQuery }';
 }
-

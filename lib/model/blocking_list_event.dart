@@ -30,10 +30,10 @@ class NewPage extends BlockingListEvent {}
 class AddBlockingList extends BlockingListEvent {
   final BlockingModel? value;
 
-  const AddBlockingList({ this.value });
+  const AddBlockingList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddBlockingList{ value: $value }';
@@ -42,10 +42,10 @@ class AddBlockingList extends BlockingListEvent {
 class UpdateBlockingList extends BlockingListEvent {
   final BlockingModel? value;
 
-  const UpdateBlockingList({ this.value });
+  const UpdateBlockingList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdateBlockingList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdateBlockingList extends BlockingListEvent {
 class DeleteBlockingList extends BlockingListEvent {
   final BlockingModel? value;
 
-  const DeleteBlockingList({ this.value });
+  const DeleteBlockingList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeleteBlockingList{ value: $value }';
@@ -67,24 +67,24 @@ class BlockingListUpdated extends BlockingListEvent {
   final List<BlockingModel?>? value;
   final bool? mightHaveMore;
 
-  const BlockingListUpdated({ this.value, this.mightHaveMore });
+  const BlockingListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'BlockingListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'BlockingListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class BlockingChangeQuery extends BlockingListEvent {
   final EliudQuery? newQuery;
 
-  const BlockingChangeQuery({ required this.newQuery });
+  const BlockingChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'BlockingChangeQuery{ value: $newQuery }';
 }
-

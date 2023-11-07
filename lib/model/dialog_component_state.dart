@@ -27,7 +27,7 @@ class DialogComponentUninitialized extends DialogComponentState {}
 
 class DialogComponentError extends DialogComponentState {
   final String? message;
-  DialogComponentError({ this.message });
+  DialogComponentError({this.message});
 }
 
 class DialogComponentPermissionDenied extends DialogComponentState {
@@ -37,10 +37,10 @@ class DialogComponentPermissionDenied extends DialogComponentState {
 class DialogComponentLoaded extends DialogComponentState {
   final DialogModel value;
 
-  const DialogComponentLoaded({ required this.value });
+  const DialogComponentLoaded({required this.value});
 
-  DialogComponentLoaded copyWith({ DialogModel? copyThis }) {
-    return DialogComponentLoaded(value: copyThis ?? this.value);
+  DialogComponentLoaded copyWith({DialogModel? copyThis}) {
+    return DialogComponentLoaded(value: copyThis ?? value);
   }
 
   @override
@@ -49,4 +49,3 @@ class DialogComponentLoaded extends DialogComponentState {
   @override
   String toString() => 'DialogComponentLoaded { value: $value }';
 }
-

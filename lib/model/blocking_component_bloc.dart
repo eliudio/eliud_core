@@ -20,7 +20,8 @@ import 'package:eliud_core/model/blocking_component_event.dart';
 import 'package:eliud_core/model/blocking_component_state.dart';
 import 'package:eliud_core/model/blocking_repository.dart';
 
-class BlockingComponentBloc extends Bloc<BlockingComponentEvent, BlockingComponentState> {
+class BlockingComponentBloc
+    extends Bloc<BlockingComponentEvent, BlockingComponentState> {
   final BlockingRepository? blockingRepository;
   StreamSubscription? _blockingSubscription;
 
@@ -33,11 +34,12 @@ class BlockingComponentBloc extends Bloc<BlockingComponentEvent, BlockingCompone
     });
   }
 
-  BlockingComponentBloc({ this.blockingRepository }): super(BlockingComponentUninitialized()) {
-    on <FetchBlockingComponent> ((event, emit) {
+  BlockingComponentBloc({this.blockingRepository})
+      : super(BlockingComponentUninitialized()) {
+    on<FetchBlockingComponent>((event, emit) {
       _mapLoadBlockingComponentUpdateToState(event.id!);
     });
-    on <BlockingComponentUpdated> ((event, emit) {
+    on<BlockingComponentUpdated>((event, emit) {
       emit(BlockingComponentLoaded(value: event.value));
     });
   }
@@ -47,6 +49,4 @@ class BlockingComponentBloc extends Bloc<BlockingComponentEvent, BlockingCompone
     _blockingSubscription?.cancel();
     return super.close();
   }
-
 }
-

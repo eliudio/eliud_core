@@ -6,8 +6,9 @@ import 'package:flutter/material.dart';
 import '../style_registry.dart';
 
 abstract class HasDialogWidget {
-  Widget messageDialog(AppModel app,
-      BuildContext context, {
+  Widget messageDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     required String message,
     String? closeLabel,
@@ -15,8 +16,9 @@ abstract class HasDialogWidget {
     Key? key,
     double? widthFraction, // percentage of screen width
   });
-  Widget errorDialog(AppModel app,
-      BuildContext context, {
+  Widget errorDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     required String errorMessage,
     String? closeLabel,
@@ -24,8 +26,9 @@ abstract class HasDialogWidget {
     Key? key,
     double? widthFraction, // percentage of screen width
   });
-  Widget ackNackDialog(AppModel app,
-      BuildContext context, {
+  Widget ackNackDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     required String message,
     required OnSelection onSelection,
@@ -35,8 +38,9 @@ abstract class HasDialogWidget {
     Key? key,
     double? widthFraction, // percentage of screen width
   });
-  Widget entryDialog(AppModel app,
-      BuildContext context, {
+  Widget entryDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     String? ackButtonLabel,
     String? nackButtonLabel,
@@ -47,8 +51,9 @@ abstract class HasDialogWidget {
     Key? key,
     double? widthFraction, // percentage of screen width
   });
-  Widget selectionDialog(AppModel app,
-      BuildContext context, {
+  Widget selectionDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     required List<String> options,
     required OnSelection onSelection,
@@ -57,8 +62,9 @@ abstract class HasDialogWidget {
     Key? key,
     double? widthFraction, // percentage of screen width
   });
-  Widget complexAckNackDialog(AppModel app,
-      BuildContext context, {
+  Widget complexAckNackDialog(
+    AppModel app,
+    BuildContext context, {
     required String title,
     required Widget child,
     required OnSelection onSelection,
@@ -77,8 +83,9 @@ abstract class HasDialogWidget {
       Key? key,
       double? widthFraction // percentage of screen width
       });
-  Widget flexibleDialog(AppModel app,
-      BuildContext context, {
+  Widget flexibleDialog(
+    AppModel app,
+    BuildContext context, {
     String? title,
     required Widget child,
     List<Widget>? buttons,
@@ -88,7 +95,8 @@ abstract class HasDialogWidget {
   });
 }
 
-Widget messageDialog(AppModel app,
+Widget messageDialog(
+  AppModel app,
   BuildContext context, {
   required String title,
   required String message,
@@ -109,7 +117,8 @@ Widget messageDialog(AppModel app,
             key: key,
             widthFraction: widthFraction);
 
-Widget errorDialog(AppModel app,
+Widget errorDialog(
+  AppModel app,
   BuildContext context, {
   required String title,
   required String errorMessage,
@@ -122,7 +131,8 @@ Widget errorDialog(AppModel app,
         .styleWithApp(app)
         .frontEndStyle()
         .dialogWidgetStyle()
-        .errorDialog(app,
+        .errorDialog(
+          app,
           context,
           title: title,
           errorMessage: errorMessage,
@@ -132,7 +142,8 @@ Widget errorDialog(AppModel app,
           widthFraction: widthFraction,
         );
 
-Widget ackNackDialog(AppModel app,
+Widget ackNackDialog(
+  AppModel app,
   BuildContext context, {
   required String title,
   required String message,
@@ -147,7 +158,8 @@ Widget ackNackDialog(AppModel app,
         .styleWithApp(app)
         .frontEndStyle()
         .dialogWidgetStyle()
-        .ackNackDialog(app,
+        .ackNackDialog(
+          app,
           context,
           title: title,
           message: message,
@@ -159,7 +171,8 @@ Widget ackNackDialog(AppModel app,
           widthFraction: widthFraction,
         );
 
-Widget entryDialog(AppModel app,
+Widget entryDialog(
+  AppModel app,
   BuildContext context, {
   required String title,
   String? ackButtonLabel,
@@ -186,7 +199,8 @@ Widget entryDialog(AppModel app,
             key: key,
             widthFraction: widthFraction);
 
-Widget selectionDialog(AppModel app,
+Widget selectionDialog(
+  AppModel app,
   BuildContext context, {
   required String title,
   required List<String> options,
@@ -209,7 +223,8 @@ Widget selectionDialog(AppModel app,
             key: key,
             widthFraction: widthFraction);
 
-Widget complexAckNackDialog(AppModel app,
+Widget complexAckNackDialog(
+  AppModel app,
   BuildContext context, {
   required String title,
   required Widget child,
@@ -224,7 +239,8 @@ Widget complexAckNackDialog(AppModel app,
         .styleWithApp(app)
         .frontEndStyle()
         .dialogWidgetStyle()
-        .complexAckNackDialog(app,
+        .complexAckNackDialog(
+          app,
           context, title: title,
           child: child,
           onSelection: onSelection,
@@ -235,7 +251,7 @@ Widget complexAckNackDialog(AppModel app,
           widthFraction: widthFraction, // percentage of screen width
         );
 
-Widget complexDialog(AppModel app,BuildContext context,
+Widget complexDialog(AppModel app, BuildContext context,
         {required String title,
         required Widget child,
         VoidCallback? onPressed,
@@ -258,7 +274,8 @@ Widget complexDialog(AppModel app,BuildContext context,
             widthFraction: widthFraction // percentage of screen width
             );
 
-Widget flexibleDialog(AppModel app,
+Widget flexibleDialog(
+  AppModel app,
   BuildContext context, {
   required String title,
   required Widget child,
@@ -271,7 +288,8 @@ Widget flexibleDialog(AppModel app,
         .styleWithApp(app)
         .frontEndStyle()
         .dialogWidgetStyle()
-        .flexibleDialog(app,
+        .flexibleDialog(
+          app,
           context,
           title: title,
           child: child,

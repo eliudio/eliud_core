@@ -30,10 +30,10 @@ class NewPage extends PublicMediumListEvent {}
 class AddPublicMediumList extends PublicMediumListEvent {
   final PublicMediumModel? value;
 
-  const AddPublicMediumList({ this.value });
+  const AddPublicMediumList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'AddPublicMediumList{ value: $value }';
@@ -42,10 +42,10 @@ class AddPublicMediumList extends PublicMediumListEvent {
 class UpdatePublicMediumList extends PublicMediumListEvent {
   final PublicMediumModel? value;
 
-  const UpdatePublicMediumList({ this.value });
+  const UpdatePublicMediumList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'UpdatePublicMediumList{ value: $value }';
@@ -54,10 +54,10 @@ class UpdatePublicMediumList extends PublicMediumListEvent {
 class DeletePublicMediumList extends PublicMediumListEvent {
   final PublicMediumModel? value;
 
-  const DeletePublicMediumList({ this.value });
+  const DeletePublicMediumList({this.value});
 
   @override
-  List<Object?> get props => [ value ];
+  List<Object?> get props => [value];
 
   @override
   String toString() => 'DeletePublicMediumList{ value: $value }';
@@ -67,24 +67,24 @@ class PublicMediumListUpdated extends PublicMediumListEvent {
   final List<PublicMediumModel?>? value;
   final bool? mightHaveMore;
 
-  const PublicMediumListUpdated({ this.value, this.mightHaveMore });
+  const PublicMediumListUpdated({this.value, this.mightHaveMore});
 
   @override
-  List<Object?> get props => [ value, mightHaveMore ];
+  List<Object?> get props => [value, mightHaveMore];
 
   @override
-  String toString() => 'PublicMediumListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
+  String toString() =>
+      'PublicMediumListUpdated{ value: $value, mightHaveMore: $mightHaveMore }';
 }
 
 class PublicMediumChangeQuery extends PublicMediumListEvent {
   final EliudQuery? newQuery;
 
-  const PublicMediumChangeQuery({ required this.newQuery });
+  const PublicMediumChangeQuery({required this.newQuery});
 
   @override
-  List<Object?> get props => [ newQuery ];
+  List<Object?> get props => [newQuery];
 
   @override
   String toString() => 'PublicMediumChangeQuery{ value: $newQuery }';
 }
-

@@ -27,6 +27,9 @@ class AccessInitEvent extends AccessEvent {
           app == other.app &&
           playstoreApp == other.playstoreApp &&
           runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => app.hashCode ^ playstoreApp.hashCode;
 }
 
 class GoHome extends AccessEvent {
@@ -34,7 +37,8 @@ class GoHome extends AccessEvent {
   final bool _isProcessing;
   final bool redetermine; // for redetermining the homepage before goint
 
-  GoHome({required this.app, bool? isProcessing, this.redetermine = false}) : _isProcessing = isProcessing ?? false;
+  GoHome({required this.app, bool? isProcessing, this.redetermine = false})
+      : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
@@ -43,21 +47,26 @@ class GoHome extends AccessEvent {
   }
 
   @override
-  List<Object?> get props => [ app, _isProcessing, redetermine];
+  List<Object?> get props => [app, _isProcessing, redetermine];
 
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is GoHome &&
-              _isProcessing == other._isProcessing &&
-              runtimeType == other.runtimeType;
+      other is GoHome &&
+          _isProcessing == other._isProcessing &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode =>
+      app.hashCode ^ _isProcessing.hashCode ^ redetermine.hashCode;
 }
 
 class LogoutEvent extends AccessEvent {
   final AppModel app;
   final bool _isProcessing;
 
-  LogoutEvent({required this.app, bool? isProcessing}) : _isProcessing = isProcessing ?? false;
+  LogoutEvent({required this.app, bool? isProcessing})
+      : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
@@ -74,6 +83,9 @@ class LogoutEvent extends AccessEvent {
       other is LogoutEvent &&
           _isProcessing == other._isProcessing &&
           runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => app.hashCode ^ _isProcessing.hashCode;
 }
 
 abstract class PostLoginAction {
@@ -85,7 +97,7 @@ abstract class PostLoginAction {
   void runTheAction();
 }
 
-enum  LoginType{ GoogleLogin, AppleLogin }
+enum LoginType { googleLogin, appleLogin }
 
 class ShowTempMessage extends AccessEvent {
   final String tempMessage;
@@ -93,9 +105,7 @@ class ShowTempMessage extends AccessEvent {
   ShowTempMessage(this.tempMessage);
 }
 
-class DismissTempMessage extends AccessEvent {
-
-}
+class DismissTempMessage extends AccessEvent {}
 
 class LoginEvent extends AccessEvent {
   final AppModel app;
@@ -103,13 +113,18 @@ class LoginEvent extends AccessEvent {
   final PostLoginAction? actions;
   final bool _isProcessing;
 
-  LoginEvent({required this.app, required this.loginType, this.actions, bool? isProcessing})
+  LoginEvent(
+      {required this.app,
+      required this.loginType,
+      this.actions,
+      bool? isProcessing})
       : _isProcessing = isProcessing ?? false;
 
   bool isProcessing() => _isProcessing;
 
   LoginEvent asProcessing() {
-    return LoginEvent(app: app, loginType: loginType, actions: actions, isProcessing: true);
+    return LoginEvent(
+        app: app, loginType: loginType, actions: actions, isProcessing: true);
   }
 
   @override
@@ -122,6 +137,9 @@ class LoginEvent extends AccessEvent {
           actions == other.actions &&
           _isProcessing == other._isProcessing &&
           runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => app.hashCode ^ actions.hashCode ^ _isProcessing.hashCode;
 }
 
 class AcceptedMembershipEvent extends AccessEvent {
@@ -142,6 +160,9 @@ class AcceptedMembershipEvent extends AccessEvent {
           member == other.member &&
           usr == other.usr &&
           runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => app.hashCode ^ member.hashCode ^ usr.hashCode;
 }
 
 class PrivilegeChangedEvent extends AccessEvent {
@@ -155,12 +176,15 @@ class PrivilegeChangedEvent extends AccessEvent {
   List<Object?> get props => [privilege, blocked];
 
   @override
-  bool operator == (Object other) =>
+  bool operator ==(Object other) =>
       identical(this, other) ||
-          other is PrivilegeChangedEvent &&
-              privilege == other.privilege &&
-              blocked == other.blocked &&
-              runtimeType == other.runtimeType;
+      other is PrivilegeChangedEvent &&
+          privilege == other.privilege &&
+          blocked == other.blocked &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => app.hashCode ^ privilege.hashCode ^ blocked.hashCode;
 }
 
 class UpdatePackageConditionEvent extends AccessEvent {
@@ -169,7 +193,8 @@ class UpdatePackageConditionEvent extends AccessEvent {
   final String packageCondition;
   final bool condition;
 
-  UpdatePackageConditionEvent(this.app, this.package, this.packageCondition, this.condition);
+  UpdatePackageConditionEvent(
+      this.app, this.package, this.packageCondition, this.condition);
 }
 
 class SwitchAppWithIDEvent extends AccessEvent {
@@ -177,11 +202,13 @@ class SwitchAppWithIDEvent extends AccessEvent {
   final bool _isProcessing;
   final bool goHome;
 
-  SwitchAppWithIDEvent({required this.appId, required this.goHome, bool? isProcessing})
+  SwitchAppWithIDEvent(
+      {required this.appId, required this.goHome, bool? isProcessing})
       : _isProcessing = isProcessing ?? false;
 
   SwitchAppWithIDEvent asProcessing() {
-    return SwitchAppWithIDEvent(appId: appId, goHome: goHome, isProcessing: true);
+    return SwitchAppWithIDEvent(
+        appId: appId, goHome: goHome, isProcessing: true);
   }
 
   bool isProcessing() => _isProcessing;
@@ -197,6 +224,9 @@ class SwitchAppWithIDEvent extends AccessEvent {
           appId == other.appId &&
           goHome == other.goHome &&
           runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => _isProcessing.hashCode ^ appId.hashCode ^ goHome.hashCode;
 }
 
 class AppUpdatedEvent extends AccessEvent {
@@ -210,9 +240,12 @@ class AppUpdatedEvent extends AccessEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AppUpdatedEvent &&
-              app == other.app &&
-              runtimeType == other.runtimeType;
+      other is AppUpdatedEvent &&
+          app == other.app &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => app.hashCode;
 }
 
 class RefreshAppEvent extends AccessEvent {
@@ -226,9 +259,12 @@ class RefreshAppEvent extends AccessEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is RefreshAppEvent &&
-              app == other.app &&
-              runtimeType == other.runtimeType;
+      other is RefreshAppEvent &&
+          app == other.app &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => app.hashCode;
 }
 
 class AccessUpdatedEvent extends AccessEvent {
@@ -242,9 +278,12 @@ class AccessUpdatedEvent extends AccessEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is AccessUpdatedEvent &&
-              access == other.access &&
-              runtimeType == other.runtimeType;
+      other is AccessUpdatedEvent &&
+          access == other.access &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => access.hashCode;
 }
 
 class MemberUpdatedEvent extends AccessEvent {
@@ -255,9 +294,12 @@ class MemberUpdatedEvent extends AccessEvent {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-          other is MemberUpdatedEvent &&
-              member == other.member &&
-              runtimeType == other.runtimeType;
+      other is MemberUpdatedEvent &&
+          member == other.member &&
+          runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => member.hashCode;
 }
 
 class GotoPageEvent extends AccessEvent {
@@ -278,6 +320,9 @@ class GotoPageEvent extends AccessEvent {
           app == other.app &&
           pageId == other.pageId &&
           runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => app.hashCode ^ pageId.hashCode ^ parameters.hashCode;
 }
 
 class OpenDialogEvent extends AccessEvent {
@@ -296,4 +341,7 @@ class OpenDialogEvent extends AccessEvent {
           mapEquals(parameters, other.parameters) &&
           dialogId == other.dialogId &&
           runtimeType == other.runtimeType;
+
+  @override
+  int get hashCode => dialogId.hashCode ^ parameters.hashCode;
 }

@@ -32,7 +32,7 @@ import 'components/error_component.dart';
  * Global registry with components
  */
 
-typedef void ActionSelected(ActionModel? action);
+typedef ActionSelected = void Function(ActionModel? action);
 
 class Registry {
   final GlobalKey _appKey = GlobalKey();
@@ -61,7 +61,8 @@ class Registry {
     _allInternalComponents[pluginName] = list;
   }
 
-  void addComponentSpec(String pluginName, String pluginFriendlyName, List<ComponentSpec> specs) {
+  void addComponentSpec(
+      String pluginName, String pluginFriendlyName, List<ComponentSpec> specs) {
     _allComponentSpecs[pluginName] = specs;
     _packageFriendlyNames[pluginName] = pluginFriendlyName;
   }
@@ -96,11 +97,13 @@ class Registry {
 
   final Map<String, RetrieveRepository> _allRepositories = HashMap();
 
-  void registerRetrieveRepository(String pluginName, String componentId, RetrieveRepository repository) {
+  void registerRetrieveRepository(
+      String pluginName, String componentId, RetrieveRepository repository) {
     _allRepositories['$pluginName-$componentId'] = repository;
   }
 
-  RetrieveRepository? getRetrieveRepository(String pluginName, String componentId) {
+  RetrieveRepository? getRetrieveRepository(
+      String pluginName, String componentId) {
     return _allRepositories['$pluginName-$componentId'];
   }
 
@@ -135,7 +138,7 @@ class Registry {
       {required AppModel app,
       required String id,
       Map<String, dynamic>? parameters}) async {
-    openWidgetDialog(app, context, app.documentID + '/' + id,
+    openWidgetDialog(app, context, '${app.documentID}/$id',
         child: DialogComponent(app: app, dialogId: id, parameters: parameters));
   }
 
@@ -178,7 +181,7 @@ class Registry {
     var appId = app.documentID;
 
     var initialRoute =
-        initialFragment ?? '$appId/' + app.homePages!.homePagePublic!;
+        initialFragment ?? '$appId/${app.homePages!.homePagePublic!}';
 
 //    initialRoute = "MINKEY_APP/d33da4b8-7179-4fac-b8db-ddc997c2d61a?open-dialog=member_dashboard";
 
@@ -271,15 +274,16 @@ class Registry {
 
       // if access is set to no priv required then access for this member, i.e. blocked members can see public pages
       if (model.conditions!.privilegeLevelRequired ==
-          PrivilegeLevelRequiredSimple.NoPrivilegeRequiredSimple) return true;
+          PrivilegeLevelRequiredSimple.noPrivilegeRequiredSimple) return true;
 
       // if access is not set and blocked member then no access for this member
       if ((accessDetermined is LoggedIn) &&
-          (accessDetermined.isCurrentAppBlocked(currentApp.documentID)))
+          (accessDetermined.isCurrentAppBlocked(currentApp.documentID))) {
         return false;
+      }
 
       // Given some privilege is required and access is not set then no access for this member
-      if (!(accessDetermined is LoggedIn)) return false;
+      if (accessDetermined is! LoggedIn) return false;
 
       if (model.conditions!.privilegeLevelRequired == null) return true;
 
@@ -318,36 +322,38 @@ class Registry {
     return componentDropDownSupporters[componentId];
   }
 
-  Widget openSelectActionWidget({required AppModel app,
-    required ActionModel? action,
-    required ActionSelected actionSelected,
-    required int containerPrivilege,
-    required String label}) {
+  Widget openSelectActionWidget(
+      {required AppModel app,
+      required ActionModel? action,
+      required ActionSelected actionSelected,
+      required int containerPrivilege,
+      required String label}) {
     if (_openSelectActionWidgetFnct != null) {
-      return _openSelectActionWidgetFnct!(app: app,
+      return _openSelectActionWidgetFnct!(
+          app: app,
           action: action,
           actionSelected: actionSelected,
           containerPrivilege: containerPrivilege,
-          label: label
-      );
+          label: label);
     } else {
-      throw("No OpenSelectActionWidgetFnct registered");
+      throw ("No OpenSelectActionWidgetFnct registered");
     }
   }
 
-  void registerOpenSelectActionWidgetFnct(OpenSelectActionWidgetFnct openSelectActionWidgetFnct){
+  void registerOpenSelectActionWidgetFnct(
+      OpenSelectActionWidgetFnct openSelectActionWidgetFnct) {
     _openSelectActionWidgetFnct = openSelectActionWidgetFnct;
   }
 
   OpenSelectActionWidgetFnct? _openSelectActionWidgetFnct;
-
 }
 
-typedef OpenSelectActionWidgetFnct = Widget Function({required AppModel app,
-  required ActionModel? action,
-  required ActionSelected actionSelected,
-  required int containerPrivilege,
-  required String label});
+typedef OpenSelectActionWidgetFnct = Widget Function(
+    {required AppModel app,
+    required ActionModel? action,
+    required ActionSelected actionSelected,
+    required int containerPrivilege,
+    required String label});
 
 class DefaultMediumApi extends MediumApi {
   @override
@@ -358,7 +364,7 @@ class DefaultMediumApi extends MediumApi {
 
   @override
   bool hasCamera() => false;
-  @override
+
   Future<void> processPhoto(
       String memberMediumDocumentID,
       AppModel app,
@@ -369,15 +375,12 @@ class DefaultMediumApi extends MediumApi {
       AccessRightsProvider accessRightsProvider,
       MediumAvailable feedbackFunction,
       FeedbackProgress? feedbackProgress) {
-    // TODO: implement processPhoto
     throw UnimplementedError();
   }
 
   @override
   void showPhotos(BuildContext context, AppModel app,
-      List<MemberMediumModel> media, int initialPage) {
-    // TODO: implement showPhotos
-  }
+      List<MemberMediumModel> media, int initialPage) {}
 
   @override
   void showPhotosPlatform(BuildContext context, AppModel app,
@@ -487,9 +490,14 @@ class DefaultMediumApi extends MediumApi {
   }
 
   @override
-  void showPhotosUrls(BuildContext context, AppModel app, List<String> urls, int initialPage) {
+  void showPhotosUrls(
+      BuildContext context, AppModel app, List<String> urls, int initialPage) {
     print('No medium api available. Install a medium api to upload photo');
   }
 
-
+  @override
+  Widget embeddedVideo(
+      BuildContext context, AppModel app, MemberMediumModel memberMediumModel) {
+    throw UnimplementedError();
+  }
 }

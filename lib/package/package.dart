@@ -22,7 +22,10 @@ class PackageConditionDetails {
   final String packageName;
   final bool value;
 
-  PackageConditionDetails({required this.packageName, required this.conditionName, required this.value});
+  PackageConditionDetails(
+      {required this.packageName,
+      required this.conditionName,
+      required this.value});
 }
 
 abstract class Package extends Equatable {
@@ -40,15 +43,22 @@ abstract class Package extends Equatable {
    */
   void registerDependencies(Eliud eliud);
 
-  Future<List<PackageConditionDetails>>? getAndSubscribe(AccessBloc accessBloc, AppModel app, MemberModel? member, bool isOwner, bool? isBlocked, PrivilegeLevel? privilegeLevel);
+  Future<List<PackageConditionDetails>>? getAndSubscribe(
+      AccessBloc accessBloc,
+      AppModel app,
+      MemberModel? member,
+      bool isOwner,
+      bool? isBlocked,
+      PrivilegeLevel? privilegeLevel);
 
   /*
    * Plugins can create a bloc on the highest level by implementing this method.
    * Example implementation: return BlocProvider<CartBloc>(create: (context) => CartBloc(appId, accessBloc));
    */
-  BlocProvider? createPackageAppBloc(String appId, AccessBloc accessBloc) => null;
+  BlocProvider? createPackageAppBloc(String appId, AccessBloc accessBloc) =>
+      null;
 
-    /*
+  /*
    * To determine if a page is accessible, the page condition can be indicated as a "PluginDecides" condition.
    * The plugin should respond:
    *

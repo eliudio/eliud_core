@@ -10,8 +10,8 @@ import 'condition_simple_widget.dart';
 class PlatformMediumWidget extends StatefulWidget {
   final PlatformMediumModel platformMediumModel;
   final AppModel app;
-  PlatformMediumWidget({Key? key, required this.app, required this.platformMediumModel})
-      : super(key: key);
+  PlatformMediumWidget(
+      {super.key, required this.app, required this.platformMediumModel});
 
   @override
   State<StatefulWidget> createState() {

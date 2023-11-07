@@ -98,7 +98,7 @@ class DefaultFrontEndStyle implements FrontEndStyle {
     defaultDividerImpl = DefaultDividerImpl();
     defaultTabsImpl = DefaultTabsImpl(this);
     defaultTabsImpl = DefaultTabsImpl(this);
-    defaultSplitImpl = DefaultSplitImpl(this);
+    defaultSplitImpl = DefaultSplitImpl();
     defaultPageRouteBuilderImpl = DefaultPageRouteBuilderImpl();
     defaultTextBubbleImpl = DefaultTextBubbleImpl();
   }
@@ -110,7 +110,8 @@ class DefaultFrontEndStyle implements FrontEndStyle {
   HasApp appStyle() => defaultAppImpl;
 
   @override
-  HasBottomNavigationBar bottomNavigationBarStyle() => defaultBottomNavigationBarImpl;
+  HasBottomNavigationBar bottomNavigationBarStyle() =>
+      defaultBottomNavigationBarImpl;
 
   @override
   HasButton buttonStyle() => defaultButtonImpl;
@@ -175,4 +176,3 @@ class DefaultFrontEndStyle implements FrontEndStyle {
   @override
   HasTextBubble textBubbleStyle() => defaultTextBubbleImpl;
 }
-
