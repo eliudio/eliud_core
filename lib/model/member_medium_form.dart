@@ -55,7 +55,7 @@ class MemberMediumForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseMemberMediumFormEvent(value: value)),
-        child: MyMemberMediumForm(
+        child: _MyMemberMediumForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class MemberMediumForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseMemberMediumFormNoLoadEvent(value: value)),
-        child: MyMemberMediumForm(
+        child: _MyMemberMediumForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -84,26 +84,26 @@ class MemberMediumForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseMemberMediumFormEvent(value: value)
                 : InitialiseNewMemberMediumFormEvent())),
-            child: MyMemberMediumForm(
+            child: _MyMemberMediumForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyMemberMediumForm extends StatefulWidget {
+class _MyMemberMediumForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberMediumForm({required this.app, this.formAction, this.submitAction});
+  _MyMemberMediumForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyMemberMediumForm> createState() =>
+  State<_MyMemberMediumForm> createState() =>
       _MyMemberMediumFormState(formAction);
 }
 
-class _MyMemberMediumFormState extends State<MyMemberMediumForm> {
+class _MyMemberMediumFormState extends State<_MyMemberMediumForm> {
   final FormAction? formAction;
   late MemberMediumFormBloc _myFormBloc;
 

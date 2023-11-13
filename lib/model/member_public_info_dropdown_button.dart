@@ -33,6 +33,9 @@ typedef MemberPublicInfoChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * MemberPublicInfoDropdownButtonWidget is the drop down widget to allow to select an instance of MemberPublicInfo
+ */
 class MemberPublicInfoDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class MemberPublicInfoDropdownButtonWidget extends StatefulWidget {
   final MemberPublicInfoChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a MemberPublicInfoDropdownButtonWidget
+   */
   MemberPublicInfoDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class MemberPublicInfoDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of MemberPublicInfoDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return MemberPublicInfoDropdownButtonWidgetState(value);
+    return _MemberPublicInfoDropdownButtonWidgetState(value);
   }
 }
 
-class MemberPublicInfoDropdownButtonWidgetState
+class _MemberPublicInfoDropdownButtonWidgetState
     extends State<MemberPublicInfoDropdownButtonWidget> {
   MemberPublicInfoListBloc? bloc;
   String? value;
 
-  MemberPublicInfoDropdownButtonWidgetState(this.value);
+  _MemberPublicInfoDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class MemberPublicInfoDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(MemberPublicInfoModel value) {
+  List<Widget> _widgets(MemberPublicInfoModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -134,7 +143,7 @@ class MemberPublicInfoDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

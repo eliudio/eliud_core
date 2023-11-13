@@ -33,6 +33,9 @@ typedef PageChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * PageDropdownButtonWidget is the drop down widget to allow to select an instance of Page
+ */
 class PageDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class PageDropdownButtonWidget extends StatefulWidget {
   final PageChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a PageDropdownButtonWidget
+   */
   PageDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,17 +54,20 @@ class PageDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of PageDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return PageDropdownButtonWidgetState(value);
+    return _PageDropdownButtonWidgetState(value);
   }
 }
 
-class PageDropdownButtonWidgetState extends State<PageDropdownButtonWidget> {
+class _PageDropdownButtonWidgetState extends State<PageDropdownButtonWidget> {
   PageListBloc? bloc;
   String? value;
 
-  PageDropdownButtonWidgetState(this.value);
+  _PageDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -72,7 +81,7 @@ class PageDropdownButtonWidgetState extends State<PageDropdownButtonWidget> {
     super.dispose();
   }
 
-  List<Widget> widgets(PageModel value) {
+  List<Widget> _widgets(PageModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -139,7 +148,7 @@ class PageDropdownButtonWidgetState extends State<PageDropdownButtonWidget> {
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

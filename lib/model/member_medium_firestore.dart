@@ -25,13 +25,22 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * MemberMediumFirestore is the firestore implementation of MemberMediumRepository
+ */
 class MemberMediumFirestore implements MemberMediumRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   MemberMediumEntity? fromMap(Object? o,
       {Map<String, String>? newDocumentIds}) {
     return MemberMediumEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<MemberMediumEntity> addEntity(
       String documentID, MemberMediumEntity value) {
@@ -41,6 +50,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<MemberMediumEntity> updateEntity(
       String documentID, MemberMediumEntity value) {
@@ -50,6 +62,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<MemberMediumModel> add(MemberMediumModel value) {
     return memberMediumCollection
@@ -58,11 +73,17 @@ class MemberMediumFirestore implements MemberMediumRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(MemberMediumModel value) {
     return memberMediumCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<MemberMediumModel> update(MemberMediumModel value) {
     return memberMediumCollection
@@ -82,6 +103,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<MemberMediumEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -100,6 +124,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<MemberMediumModel?> get(String? id,
       {Function(Exception)? onError}) async {
@@ -118,6 +145,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<MemberMediumModel?>> listen(
       MemberMediumModelTrigger trigger,
@@ -149,6 +179,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<MemberMediumModel?>> listenWithDetails(
       MemberMediumModelTrigger trigger,
@@ -180,6 +213,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<MemberMediumModel?> listenTo(
       String documentId, MemberMediumChanged changed,
@@ -199,6 +235,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<MemberMediumModel?>> values(
       {String? orderBy,
@@ -228,6 +267,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<MemberMediumModel?>> valuesWithDetails(
       {String? orderBy,
@@ -257,6 +299,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<MemberMediumModel?>> valuesList(
       {String? orderBy,
@@ -287,6 +332,9 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<MemberMediumModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -317,9 +365,15 @@ class MemberMediumFirestore implements MemberMediumRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return memberMediumCollection.get().then((snapshot) {
@@ -329,16 +383,25 @@ class MemberMediumFirestore implements MemberMediumRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return memberMediumCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<MemberMediumModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

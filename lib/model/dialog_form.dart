@@ -59,7 +59,7 @@ class DialogForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseDialogFormEvent(value: value)),
-        child: MyDialogForm(
+        child: _MyDialogForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -69,7 +69,7 @@ class DialogForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseDialogFormNoLoadEvent(value: value)),
-        child: MyDialogForm(
+        child: _MyDialogForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -88,25 +88,25 @@ class DialogForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseDialogFormEvent(value: value)
                 : InitialiseNewDialogFormEvent())),
-            child: MyDialogForm(
+            child: _MyDialogForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyDialogForm extends StatefulWidget {
+class _MyDialogForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyDialogForm({required this.app, this.formAction, this.submitAction});
+  _MyDialogForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyDialogForm> createState() => _MyDialogFormState(formAction);
+  State<_MyDialogForm> createState() => _MyDialogFormState(formAction);
 }
 
-class _MyDialogFormState extends State<MyDialogForm> {
+class _MyDialogFormState extends State<_MyDialogForm> {
   final FormAction? formAction;
   late DialogFormBloc _myFormBloc;
 

@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * HomeMenuFirestore is the firestore implementation of HomeMenuRepository
+ */
 class HomeMenuFirestore implements HomeMenuRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   HomeMenuEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return HomeMenuEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<HomeMenuEntity> addEntity(String documentID, HomeMenuEntity value) {
     return homeMenuCollection
@@ -39,6 +48,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<HomeMenuEntity> updateEntity(String documentID, HomeMenuEntity value) {
     return homeMenuCollection
@@ -47,6 +59,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<HomeMenuModel> add(HomeMenuModel value) {
     return homeMenuCollection
@@ -55,11 +70,17 @@ class HomeMenuFirestore implements HomeMenuRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(HomeMenuModel value) {
     return homeMenuCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<HomeMenuModel> update(HomeMenuModel value) {
     return homeMenuCollection
@@ -79,6 +100,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<HomeMenuEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -97,6 +121,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<HomeMenuModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -114,6 +141,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<HomeMenuModel?>> listen(HomeMenuModelTrigger trigger,
       {String? orderBy,
@@ -144,6 +174,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<HomeMenuModel?>> listenWithDetails(
       HomeMenuModelTrigger trigger,
@@ -175,6 +208,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<HomeMenuModel?> listenTo(
       String documentId, HomeMenuChanged changed,
@@ -194,6 +230,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<HomeMenuModel?>> values(
       {String? orderBy,
@@ -223,6 +262,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<HomeMenuModel?>> valuesWithDetails(
       {String? orderBy,
@@ -252,6 +294,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<HomeMenuModel?>> valuesList(
       {String? orderBy,
@@ -282,6 +327,9 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<HomeMenuModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -312,9 +360,15 @@ class HomeMenuFirestore implements HomeMenuRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return homeMenuCollection.get().then((snapshot) {
@@ -324,16 +378,25 @@ class HomeMenuFirestore implements HomeMenuRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return homeMenuCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<HomeMenuModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

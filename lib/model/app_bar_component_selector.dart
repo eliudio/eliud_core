@@ -32,7 +32,13 @@ import 'app_bar_list_event.dart';
 import 'app_bar_list_state.dart';
 import 'app_bar_model.dart';
 
+/* 
+ * AppBarComponentSelector is a component selector for AppBar, allowing to select a AppBar component
+ */
 class AppBarComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -42,7 +48,7 @@ class AppBarComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         appBarRepository: appBarRepository(appId: appId)!,
       )..add(LoadAppBarList()),
-      child: SelectAppBarWidget(
+      child: _SelectAppBarWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -52,28 +58,30 @@ class AppBarComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectAppBarWidget extends StatefulWidget {
+/* 
+ * _SelectAppBarWidget 
+ */
+class _SelectAppBarWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectAppBarWidget(
-      {super.key,
-      required this.app,
+  const _SelectAppBarWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectAppBarWidget> createState() {
+  State<_SelectAppBarWidget> createState() {
     return _SelectAppBarWidgetState();
   }
 }
 
-class _SelectAppBarWidgetState extends State<SelectAppBarWidget>
+class _SelectAppBarWidgetState extends State<_SelectAppBarWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

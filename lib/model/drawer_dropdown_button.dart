@@ -33,6 +33,9 @@ typedef DrawerChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * DrawerDropdownButtonWidget is the drop down widget to allow to select an instance of Drawer
+ */
 class DrawerDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class DrawerDropdownButtonWidget extends StatefulWidget {
   final DrawerChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a DrawerDropdownButtonWidget
+   */
   DrawerDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class DrawerDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of DrawerDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return DrawerDropdownButtonWidgetState(value);
+    return _DrawerDropdownButtonWidgetState(value);
   }
 }
 
-class DrawerDropdownButtonWidgetState
+class _DrawerDropdownButtonWidgetState
     extends State<DrawerDropdownButtonWidget> {
   DrawerListBloc? bloc;
   String? value;
 
-  DrawerDropdownButtonWidgetState(this.value);
+  _DrawerDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class DrawerDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(DrawerModel value) {
+  List<Widget> _widgets(DrawerModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -134,7 +143,7 @@ class DrawerDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

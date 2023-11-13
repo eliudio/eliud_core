@@ -34,6 +34,9 @@ class MemberComponentBloc
     });
   }
 
+  /*
+   * Construct MemberComponentBloc
+   */
   MemberComponentBloc({this.memberRepository})
       : super(MemberComponentUninitialized()) {
     on<FetchMemberComponent>((event, emit) {
@@ -44,6 +47,9 @@ class MemberComponentBloc
     });
   }
 
+  /*
+   * Close the MemberComponentBloc
+   */
   @override
   Future<void> close() {
     _memberSubscription?.cancel();

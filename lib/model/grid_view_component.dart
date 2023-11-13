@@ -25,14 +25,23 @@ import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 
+/*
+ * AbstractGridViewComponent is the base class to extend / implement in case you need to implement a component
+ */
 abstract class AbstractGridViewComponent extends StatelessWidget {
   static String componentName = "gridViews";
   final AppModel app;
   final String gridViewId;
 
+  /*
+   * Construct AbstractGridViewComponent
+   */
   AbstractGridViewComponent(
       {super.key, required this.app, required this.gridViewId});
 
+  /*
+   * build the component
+   */
   @override
   Widget build(BuildContext context) {
     return BlocProvider<GridViewComponentBloc>(
@@ -68,5 +77,8 @@ abstract class AbstractGridViewComponent extends StatelessWidget {
     });
   }
 
+  /*
+   * Implement this method to provide your widget
+   */
   Widget yourWidget(BuildContext context, GridViewModel value);
 }

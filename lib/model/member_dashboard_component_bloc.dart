@@ -35,6 +35,9 @@ class MemberDashboardComponentBloc
     });
   }
 
+  /*
+   * Construct MemberDashboardComponentBloc
+   */
   MemberDashboardComponentBloc({this.memberDashboardRepository})
       : super(MemberDashboardComponentUninitialized()) {
     on<FetchMemberDashboardComponent>((event, emit) {
@@ -45,6 +48,9 @@ class MemberDashboardComponentBloc
     });
   }
 
+  /*
+   * Close the MemberDashboardComponentBloc
+   */
   @override
   Future<void> close() {
     _memberDashboardSubscription?.cancel();

@@ -35,6 +35,9 @@ class MemberPublicInfoComponentBloc extends Bloc<MemberPublicInfoComponentEvent,
     });
   }
 
+  /*
+   * Construct MemberPublicInfoComponentBloc
+   */
   MemberPublicInfoComponentBloc({this.memberPublicInfoRepository})
       : super(MemberPublicInfoComponentUninitialized()) {
     on<FetchMemberPublicInfoComponent>((event, emit) {
@@ -45,6 +48,9 @@ class MemberPublicInfoComponentBloc extends Bloc<MemberPublicInfoComponentEvent,
     });
   }
 
+  /*
+   * Close the MemberPublicInfoComponentBloc
+   */
   @override
   Future<void> close() {
     _memberPublicInfoSubscription?.cancel();

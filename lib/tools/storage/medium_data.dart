@@ -7,7 +7,9 @@ import 'package:image/image.dart';
 import 'package:image/image.dart' as imgpackage;
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:pdfx/pdfx.dart';
-import 'package:video_thumbnail/video_thumbnail.dart';
+//import 'package:video_thumbnail/video_thumbnail.dart';
+import 'package:get_thumbnail_video/video_thumbnail.dart';
+import 'package:get_thumbnail_video/src/image_format.dart';
 
 import 'basename_helper.dart';
 import 'medium_base.dart';
@@ -113,10 +115,12 @@ abstract class MediumData {
       quality: 30,
     );
 
+/*
     if (thumbNailData == null) {
       throw Exception(
           "Could not create thumbnail for video with path $filePath");
     }
+*/
 
     // return the data
     return VideoWithThumbnail(

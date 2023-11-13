@@ -55,7 +55,7 @@ class GridViewForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseGridViewFormEvent(value: value)),
-        child: MyGridViewForm(
+        child: _MyGridViewForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class GridViewForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseGridViewFormNoLoadEvent(value: value)),
-        child: MyGridViewForm(
+        child: _MyGridViewForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -84,25 +84,25 @@ class GridViewForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseGridViewFormEvent(value: value)
                 : InitialiseNewGridViewFormEvent())),
-            child: MyGridViewForm(
+            child: _MyGridViewForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyGridViewForm extends StatefulWidget {
+class _MyGridViewForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyGridViewForm({required this.app, this.formAction, this.submitAction});
+  _MyGridViewForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyGridViewForm> createState() => _MyGridViewFormState(formAction);
+  State<_MyGridViewForm> createState() => _MyGridViewFormState(formAction);
 }
 
-class _MyGridViewFormState extends State<MyGridViewForm> {
+class _MyGridViewFormState extends State<_MyGridViewForm> {
   final FormAction? formAction;
   late GridViewFormBloc _myFormBloc;
 

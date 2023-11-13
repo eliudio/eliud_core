@@ -56,7 +56,7 @@ class MemberSubscriptionForm extends StatelessWidget {
         create: (context) => MemberSubscriptionFormBloc(
           appId,
         )..add(InitialiseMemberSubscriptionFormEvent(value: value)),
-        child: MyMemberSubscriptionForm(
+        child: _MyMemberSubscriptionForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class MemberSubscriptionForm extends StatelessWidget {
         create: (context) => MemberSubscriptionFormBloc(
           appId,
         )..add(InitialiseMemberSubscriptionFormNoLoadEvent(value: value)),
-        child: MyMemberSubscriptionForm(
+        child: _MyMemberSubscriptionForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -83,27 +83,27 @@ class MemberSubscriptionForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseMemberSubscriptionFormEvent(value: value)
                 : InitialiseNewMemberSubscriptionFormEvent())),
-            child: MyMemberSubscriptionForm(
+            child: _MyMemberSubscriptionForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyMemberSubscriptionForm extends StatefulWidget {
+class _MyMemberSubscriptionForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberSubscriptionForm(
+  _MyMemberSubscriptionForm(
       {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyMemberSubscriptionForm> createState() =>
+  State<_MyMemberSubscriptionForm> createState() =>
       _MyMemberSubscriptionFormState(formAction);
 }
 
-class _MyMemberSubscriptionFormState extends State<MyMemberSubscriptionForm> {
+class _MyMemberSubscriptionFormState extends State<_MyMemberSubscriptionForm> {
   final FormAction? formAction;
   late MemberSubscriptionFormBloc _myFormBloc;
 

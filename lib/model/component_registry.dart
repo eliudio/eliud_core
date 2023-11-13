@@ -25,7 +25,13 @@ import '../extensions/member_dashboard_component.dart';
 import '../editors/member_dashboard_component_editor.dart';
 import 'member_dashboard_component_selector.dart';
 
+/* 
+ * Component registry contains a list of components
+ */
 class ComponentRegistry {
+  /* 
+   * Initialise the component registry
+   */
   void init() {
     Registry.registry()!.addInternalComponents('eliud_core', [
       "apps",

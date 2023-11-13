@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * PageFirestore is the firestore implementation of PageRepository
+ */
 class PageFirestore implements PageRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   PageEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return PageEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<PageEntity> addEntity(String documentID, PageEntity value) {
     return pageCollection
@@ -39,6 +48,9 @@ class PageFirestore implements PageRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<PageEntity> updateEntity(String documentID, PageEntity value) {
     return pageCollection
@@ -47,6 +59,9 @@ class PageFirestore implements PageRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<PageModel> add(PageModel value) {
     return pageCollection
@@ -55,11 +70,17 @@ class PageFirestore implements PageRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(PageModel value) {
     return pageCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<PageModel> update(PageModel value) {
     return pageCollection
@@ -77,6 +98,9 @@ class PageFirestore implements PageRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<PageEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -95,6 +119,9 @@ class PageFirestore implements PageRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<PageModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -112,6 +139,9 @@ class PageFirestore implements PageRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<PageModel?>> listen(PageModelTrigger trigger,
       {String? orderBy,
@@ -142,6 +172,9 @@ class PageFirestore implements PageRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<PageModel?>> listenWithDetails(
       PageModelTrigger trigger,
@@ -173,6 +206,9 @@ class PageFirestore implements PageRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<PageModel?> listenTo(
       String documentId, PageChanged changed,
@@ -191,6 +227,9 @@ class PageFirestore implements PageRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<PageModel?>> values(
       {String? orderBy,
@@ -220,6 +259,9 @@ class PageFirestore implements PageRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<PageModel?>> valuesWithDetails(
       {String? orderBy,
@@ -249,6 +291,9 @@ class PageFirestore implements PageRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<PageModel?>> valuesList(
       {String? orderBy,
@@ -279,6 +324,9 @@ class PageFirestore implements PageRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<PageModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -309,9 +357,15 @@ class PageFirestore implements PageRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return pageCollection.get().then((snapshot) {
@@ -321,16 +375,25 @@ class PageFirestore implements PageRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return pageCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<PageModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

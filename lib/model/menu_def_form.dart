@@ -58,7 +58,7 @@ class MenuDefForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseMenuDefFormEvent(value: value)),
-        child: MyMenuDefForm(
+        child: _MyMenuDefForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -68,7 +68,7 @@ class MenuDefForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseMenuDefFormNoLoadEvent(value: value)),
-        child: MyMenuDefForm(
+        child: _MyMenuDefForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -87,25 +87,25 @@ class MenuDefForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseMenuDefFormEvent(value: value)
                 : InitialiseNewMenuDefFormEvent())),
-            child: MyMenuDefForm(
+            child: _MyMenuDefForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyMenuDefForm extends StatefulWidget {
+class _MyMenuDefForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMenuDefForm({required this.app, this.formAction, this.submitAction});
+  _MyMenuDefForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyMenuDefForm> createState() => _MyMenuDefFormState(formAction);
+  State<_MyMenuDefForm> createState() => _MyMenuDefFormState(formAction);
 }
 
-class _MyMenuDefFormState extends State<MyMenuDefForm> {
+class _MyMenuDefFormState extends State<_MyMenuDefForm> {
   final FormAction? formAction;
   late MenuDefFormBloc _myFormBloc;
 

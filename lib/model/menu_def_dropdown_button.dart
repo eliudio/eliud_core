@@ -33,6 +33,9 @@ typedef MenuDefChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * MenuDefDropdownButtonWidget is the drop down widget to allow to select an instance of MenuDef
+ */
 class MenuDefDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class MenuDefDropdownButtonWidget extends StatefulWidget {
   final MenuDefChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a MenuDefDropdownButtonWidget
+   */
   MenuDefDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class MenuDefDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of MenuDefDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return MenuDefDropdownButtonWidgetState(value);
+    return _MenuDefDropdownButtonWidgetState(value);
   }
 }
 
-class MenuDefDropdownButtonWidgetState
+class _MenuDefDropdownButtonWidgetState
     extends State<MenuDefDropdownButtonWidget> {
   MenuDefListBloc? bloc;
   String? value;
 
-  MenuDefDropdownButtonWidgetState(this.value);
+  _MenuDefDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class MenuDefDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(MenuDefModel value) {
+  List<Widget> _widgets(MenuDefModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -134,7 +143,7 @@ class MenuDefDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

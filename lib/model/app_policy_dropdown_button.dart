@@ -33,6 +33,9 @@ typedef AppPolicyChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * AppPolicyDropdownButtonWidget is the drop down widget to allow to select an instance of AppPolicy
+ */
 class AppPolicyDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class AppPolicyDropdownButtonWidget extends StatefulWidget {
   final AppPolicyChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a AppPolicyDropdownButtonWidget
+   */
   AppPolicyDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class AppPolicyDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of AppPolicyDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return AppPolicyDropdownButtonWidgetState(value);
+    return _AppPolicyDropdownButtonWidgetState(value);
   }
 }
 
-class AppPolicyDropdownButtonWidgetState
+class _AppPolicyDropdownButtonWidgetState
     extends State<AppPolicyDropdownButtonWidget> {
   AppPolicyListBloc? bloc;
   String? value;
 
-  AppPolicyDropdownButtonWidgetState(this.value);
+  _AppPolicyDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class AppPolicyDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(AppPolicyModel value) {
+  List<Widget> _widgets(AppPolicyModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -141,7 +150,7 @@ class AppPolicyDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

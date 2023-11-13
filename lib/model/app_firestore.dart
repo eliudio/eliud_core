@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * AppFirestore is the firestore implementation of AppRepository
+ */
 class AppFirestore implements AppRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   AppEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return AppEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<AppEntity> addEntity(String documentID, AppEntity value) {
     return appCollection
@@ -39,6 +48,9 @@ class AppFirestore implements AppRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<AppEntity> updateEntity(String documentID, AppEntity value) {
     return appCollection
@@ -47,6 +59,9 @@ class AppFirestore implements AppRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<AppModel> add(AppModel value) {
     return appCollection
@@ -55,11 +70,17 @@ class AppFirestore implements AppRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(AppModel value) {
     return appCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<AppModel> update(AppModel value) {
     return appCollection
@@ -77,6 +98,9 @@ class AppFirestore implements AppRepository {
         appId: value.id);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<AppEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -95,6 +119,9 @@ class AppFirestore implements AppRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<AppModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -112,6 +139,9 @@ class AppFirestore implements AppRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<AppModel?>> listen(AppModelTrigger trigger,
       {String? orderBy,
@@ -143,6 +173,9 @@ class AppFirestore implements AppRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<AppModel?>> listenWithDetails(AppModelTrigger trigger,
       {String? orderBy,
@@ -174,6 +207,9 @@ class AppFirestore implements AppRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<AppModel?> listenTo(String documentId, AppChanged changed,
       {AppErrorHandler? errorHandler}) {
@@ -191,6 +227,9 @@ class AppFirestore implements AppRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<AppModel?>> values(
       {String? orderBy,
@@ -221,6 +260,9 @@ class AppFirestore implements AppRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<AppModel?>> valuesWithDetails(
       {String? orderBy,
@@ -251,6 +293,9 @@ class AppFirestore implements AppRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<AppModel?>> valuesList(
       {String? orderBy,
@@ -282,6 +327,9 @@ class AppFirestore implements AppRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<AppModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -313,9 +361,15 @@ class AppFirestore implements AppRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return appCollection.get().then((snapshot) {
@@ -325,16 +379,25 @@ class AppFirestore implements AppRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return appCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<AppModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

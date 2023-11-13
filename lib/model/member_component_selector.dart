@@ -32,7 +32,13 @@ import 'member_list_event.dart';
 import 'member_list_state.dart';
 import 'member_model.dart';
 
+/* 
+ * MemberComponentSelector is a component selector for Member, allowing to select a Member component
+ */
 class MemberComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -42,7 +48,7 @@ class MemberComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         memberRepository: memberRepository(appId: appId)!,
       )..add(LoadMemberList()),
-      child: SelectMemberWidget(
+      child: _SelectMemberWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -52,28 +58,30 @@ class MemberComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectMemberWidget extends StatefulWidget {
+/* 
+ * _SelectMemberWidget 
+ */
+class _SelectMemberWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectMemberWidget(
-      {super.key,
-      required this.app,
+  const _SelectMemberWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectMemberWidget> createState() {
+  State<_SelectMemberWidget> createState() {
     return _SelectMemberWidgetState();
   }
 }
 
-class _SelectMemberWidgetState extends State<SelectMemberWidget>
+class _SelectMemberWidgetState extends State<_SelectMemberWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

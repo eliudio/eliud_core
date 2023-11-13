@@ -34,6 +34,9 @@ class BlockingComponentBloc
     });
   }
 
+  /*
+   * Construct BlockingComponentBloc
+   */
   BlockingComponentBloc({this.blockingRepository})
       : super(BlockingComponentUninitialized()) {
     on<FetchBlockingComponent>((event, emit) {
@@ -44,6 +47,9 @@ class BlockingComponentBloc
     });
   }
 
+  /*
+   * Close the BlockingComponentBloc
+   */
   @override
   Future<void> close() {
     _blockingSubscription?.cancel();

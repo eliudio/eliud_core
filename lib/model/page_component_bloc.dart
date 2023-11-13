@@ -33,6 +33,9 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
     });
   }
 
+  /*
+   * Construct PageComponentBloc
+   */
   PageComponentBloc({this.pageRepository})
       : super(PageComponentUninitialized()) {
     on<FetchPageComponent>((event, emit) {
@@ -43,6 +46,9 @@ class PageComponentBloc extends Bloc<PageComponentEvent, PageComponentState> {
     });
   }
 
+  /*
+   * Close the PageComponentBloc
+   */
   @override
   Future<void> close() {
     _pageSubscription?.cancel();

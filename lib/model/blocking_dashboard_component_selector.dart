@@ -31,7 +31,13 @@ import 'blocking_dashboard_list_event.dart';
 import 'blocking_dashboard_list_state.dart';
 import 'blocking_dashboard_model.dart';
 
+/* 
+ * BlockingDashboardComponentSelector is a component selector for BlockingDashboard, allowing to select a BlockingDashboard component
+ */
 class BlockingDashboardComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -41,7 +47,7 @@ class BlockingDashboardComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         blockingDashboardRepository: blockingDashboardRepository(appId: appId)!,
       )..add(LoadBlockingDashboardList()),
-      child: SelectBlockingDashboardWidget(
+      child: _SelectBlockingDashboardWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -51,29 +57,32 @@ class BlockingDashboardComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectBlockingDashboardWidget extends StatefulWidget {
+/* 
+ * _SelectBlockingDashboardWidget 
+ */
+class _SelectBlockingDashboardWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectBlockingDashboardWidget(
-      {super.key,
-      required this.app,
+  const _SelectBlockingDashboardWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectBlockingDashboardWidget> createState() {
+  State<_SelectBlockingDashboardWidget> createState() {
     return _SelectBlockingDashboardWidgetState();
   }
 }
 
 class _SelectBlockingDashboardWidgetState
-    extends State<SelectBlockingDashboardWidget> with TickerProviderStateMixin {
+    extends State<_SelectBlockingDashboardWidget>
+    with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];
   final int _initialPrivilege = 0;

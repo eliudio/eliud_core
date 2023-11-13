@@ -33,6 +33,9 @@ typedef BodyComponentChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * BodyComponentDropdownButtonWidget is the drop down widget to allow to select an instance of BodyComponent
+ */
 class BodyComponentDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class BodyComponentDropdownButtonWidget extends StatefulWidget {
   final BodyComponentChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a BodyComponentDropdownButtonWidget
+   */
   BodyComponentDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class BodyComponentDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of BodyComponentDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return BodyComponentDropdownButtonWidgetState(value);
+    return _BodyComponentDropdownButtonWidgetState(value);
   }
 }
 
-class BodyComponentDropdownButtonWidgetState
+class _BodyComponentDropdownButtonWidgetState
     extends State<BodyComponentDropdownButtonWidget> {
   BodyComponentListBloc? bloc;
   String? value;
 
-  BodyComponentDropdownButtonWidgetState(this.value);
+  _BodyComponentDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class BodyComponentDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(BodyComponentModel value) {
+  List<Widget> _widgets(BodyComponentModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.componentName != null
@@ -136,7 +145,7 @@ class BodyComponentDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

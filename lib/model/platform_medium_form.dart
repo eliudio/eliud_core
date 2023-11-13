@@ -55,7 +55,7 @@ class PlatformMediumForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialisePlatformMediumFormEvent(value: value)),
-        child: MyPlatformMediumForm(
+        child: _MyPlatformMediumForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class PlatformMediumForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialisePlatformMediumFormNoLoadEvent(value: value)),
-        child: MyPlatformMediumForm(
+        child: _MyPlatformMediumForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -84,26 +84,27 @@ class PlatformMediumForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialisePlatformMediumFormEvent(value: value)
                 : InitialiseNewPlatformMediumFormEvent())),
-            child: MyPlatformMediumForm(
+            child: _MyPlatformMediumForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyPlatformMediumForm extends StatefulWidget {
+class _MyPlatformMediumForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyPlatformMediumForm({required this.app, this.formAction, this.submitAction});
+  _MyPlatformMediumForm(
+      {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyPlatformMediumForm> createState() =>
+  State<_MyPlatformMediumForm> createState() =>
       _MyPlatformMediumFormState(formAction);
 }
 
-class _MyPlatformMediumFormState extends State<MyPlatformMediumForm> {
+class _MyPlatformMediumFormState extends State<_MyPlatformMediumForm> {
   final FormAction? formAction;
   late PlatformMediumFormBloc _myFormBloc;
 

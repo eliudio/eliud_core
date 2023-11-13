@@ -33,6 +33,9 @@ typedef HomeMenuChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * HomeMenuDropdownButtonWidget is the drop down widget to allow to select an instance of HomeMenu
+ */
 class HomeMenuDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class HomeMenuDropdownButtonWidget extends StatefulWidget {
   final HomeMenuChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a HomeMenuDropdownButtonWidget
+   */
   HomeMenuDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class HomeMenuDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of HomeMenuDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return HomeMenuDropdownButtonWidgetState(value);
+    return _HomeMenuDropdownButtonWidgetState(value);
   }
 }
 
-class HomeMenuDropdownButtonWidgetState
+class _HomeMenuDropdownButtonWidgetState
     extends State<HomeMenuDropdownButtonWidget> {
   HomeMenuListBloc? bloc;
   String? value;
 
-  HomeMenuDropdownButtonWidgetState(this.value);
+  _HomeMenuDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class HomeMenuDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(HomeMenuModel value) {
+  List<Widget> _widgets(HomeMenuModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.name != null
@@ -128,7 +137,7 @@ class HomeMenuDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

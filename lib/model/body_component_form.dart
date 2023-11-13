@@ -56,7 +56,7 @@ class BodyComponentForm extends StatelessWidget {
         create: (context) => BodyComponentFormBloc(
           appId,
         )..add(InitialiseBodyComponentFormEvent(value: value)),
-        child: MyBodyComponentForm(
+        child: _MyBodyComponentForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class BodyComponentForm extends StatelessWidget {
         create: (context) => BodyComponentFormBloc(
           appId,
         )..add(InitialiseBodyComponentFormNoLoadEvent(value: value)),
-        child: MyBodyComponentForm(
+        child: _MyBodyComponentForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -83,26 +83,26 @@ class BodyComponentForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseBodyComponentFormEvent(value: value)
                 : InitialiseNewBodyComponentFormEvent())),
-            child: MyBodyComponentForm(
+            child: _MyBodyComponentForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyBodyComponentForm extends StatefulWidget {
+class _MyBodyComponentForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyBodyComponentForm({required this.app, this.formAction, this.submitAction});
+  _MyBodyComponentForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyBodyComponentForm> createState() =>
+  State<_MyBodyComponentForm> createState() =>
       _MyBodyComponentFormState(formAction);
 }
 
-class _MyBodyComponentFormState extends State<MyBodyComponentForm> {
+class _MyBodyComponentFormState extends State<_MyBodyComponentForm> {
   final FormAction? formAction;
   late BodyComponentFormBloc _myFormBloc;
 

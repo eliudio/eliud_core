@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * DrawerFirestore is the firestore implementation of DrawerRepository
+ */
 class DrawerFirestore implements DrawerRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   DrawerEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return DrawerEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<DrawerEntity> addEntity(String documentID, DrawerEntity value) {
     return drawerCollection
@@ -39,6 +48,9 @@ class DrawerFirestore implements DrawerRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<DrawerEntity> updateEntity(String documentID, DrawerEntity value) {
     return drawerCollection
@@ -47,6 +59,9 @@ class DrawerFirestore implements DrawerRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<DrawerModel> add(DrawerModel value) {
     return drawerCollection
@@ -55,11 +70,17 @@ class DrawerFirestore implements DrawerRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(DrawerModel value) {
     return drawerCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<DrawerModel> update(DrawerModel value) {
     return drawerCollection
@@ -78,6 +99,9 @@ class DrawerFirestore implements DrawerRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<DrawerEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -96,6 +120,9 @@ class DrawerFirestore implements DrawerRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<DrawerModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -113,6 +140,9 @@ class DrawerFirestore implements DrawerRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<DrawerModel?>> listen(DrawerModelTrigger trigger,
       {String? orderBy,
@@ -143,6 +173,9 @@ class DrawerFirestore implements DrawerRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<DrawerModel?>> listenWithDetails(
       DrawerModelTrigger trigger,
@@ -174,6 +207,9 @@ class DrawerFirestore implements DrawerRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<DrawerModel?> listenTo(
       String documentId, DrawerChanged changed,
@@ -192,6 +228,9 @@ class DrawerFirestore implements DrawerRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<DrawerModel?>> values(
       {String? orderBy,
@@ -221,6 +260,9 @@ class DrawerFirestore implements DrawerRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<DrawerModel?>> valuesWithDetails(
       {String? orderBy,
@@ -250,6 +292,9 @@ class DrawerFirestore implements DrawerRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<DrawerModel?>> valuesList(
       {String? orderBy,
@@ -280,6 +325,9 @@ class DrawerFirestore implements DrawerRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<DrawerModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -310,9 +358,15 @@ class DrawerFirestore implements DrawerRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return drawerCollection.get().then((snapshot) {
@@ -322,16 +376,25 @@ class DrawerFirestore implements DrawerRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return drawerCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<DrawerModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

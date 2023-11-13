@@ -16,6 +16,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/app_policy_model.dart';
 
+/* 
+ * AppPolicyComponentState is the base class for state for AppPolicyComponentBloc
+ */
 abstract class AppPolicyComponentState extends Equatable {
   const AppPolicyComponentState();
 
@@ -23,22 +26,40 @@ abstract class AppPolicyComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
+/* 
+ * AppPolicyComponentUninitialized is the uninitialized state of the AppPolicyComponentBloc 
+ */
 class AppPolicyComponentUninitialized extends AppPolicyComponentState {}
 
+/* 
+ * AppPolicyComponentError is the error state of the AppPolicyComponentBloc 
+ */
 class AppPolicyComponentError extends AppPolicyComponentState {
   final String? message;
   AppPolicyComponentError({this.message});
 }
 
+/* 
+ * AppPolicyComponentPermissionDenied is to indicate permission denied state of the AppPolicyComponentBloc 
+ */
 class AppPolicyComponentPermissionDenied extends AppPolicyComponentState {
   AppPolicyComponentPermissionDenied();
 }
 
+/* 
+ * AppPolicyComponentLoaded is used to set the state of the AppPolicyComponentBloc to the loaded state
+ */
 class AppPolicyComponentLoaded extends AppPolicyComponentState {
   final AppPolicyModel value;
 
+  /* 
+   * construct AppPolicyComponentLoaded
+   */
   const AppPolicyComponentLoaded({required this.value});
 
+  /* 
+   * copy method
+   */
   AppPolicyComponentLoaded copyWith({AppPolicyModel? copyThis}) {
     return AppPolicyComponentLoaded(value: copyThis ?? value);
   }

@@ -33,6 +33,9 @@ typedef MemberChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * MemberDropdownButtonWidget is the drop down widget to allow to select an instance of Member
+ */
 class MemberDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class MemberDropdownButtonWidget extends StatefulWidget {
   final MemberChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a MemberDropdownButtonWidget
+   */
   MemberDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class MemberDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of MemberDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return MemberDropdownButtonWidgetState(value);
+    return _MemberDropdownButtonWidgetState(value);
   }
 }
 
-class MemberDropdownButtonWidgetState
+class _MemberDropdownButtonWidgetState
     extends State<MemberDropdownButtonWidget> {
   MemberListBloc? bloc;
   String? value;
 
-  MemberDropdownButtonWidgetState(this.value);
+  _MemberDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class MemberDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(MemberModel value) {
+  List<Widget> _widgets(MemberModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -134,7 +143,7 @@ class MemberDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

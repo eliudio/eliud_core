@@ -25,13 +25,22 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * MemberPublicInfoFirestore is the firestore implementation of MemberPublicInfoRepository
+ */
 class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   MemberPublicInfoEntity? fromMap(Object? o,
       {Map<String, String>? newDocumentIds}) {
     return MemberPublicInfoEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<MemberPublicInfoEntity> addEntity(
       String documentID, MemberPublicInfoEntity value) {
@@ -41,6 +50,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<MemberPublicInfoEntity> updateEntity(
       String documentID, MemberPublicInfoEntity value) {
@@ -50,6 +62,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<MemberPublicInfoModel> add(MemberPublicInfoModel value) {
     return memberPublicInfoCollection
@@ -58,11 +73,17 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(MemberPublicInfoModel value) {
     return memberPublicInfoCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<MemberPublicInfoModel> update(MemberPublicInfoModel value) {
     return memberPublicInfoCollection
@@ -84,6 +105,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     );
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<MemberPublicInfoEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -102,6 +126,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<MemberPublicInfoModel?> get(String? id,
       {Function(Exception)? onError}) async {
@@ -120,6 +147,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<MemberPublicInfoModel?>> listen(
       MemberPublicInfoModelTrigger trigger,
@@ -152,6 +182,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<MemberPublicInfoModel?>> listenWithDetails(
       MemberPublicInfoModelTrigger trigger,
@@ -184,6 +217,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<MemberPublicInfoModel?> listenTo(
       String documentId, MemberPublicInfoChanged changed,
@@ -203,6 +239,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<MemberPublicInfoModel?>> values(
       {String? orderBy,
@@ -233,6 +272,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<MemberPublicInfoModel?>> valuesWithDetails(
       {String? orderBy,
@@ -263,6 +305,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<MemberPublicInfoModel?>> valuesList(
       {String? orderBy,
@@ -294,6 +339,9 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<MemberPublicInfoModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -325,9 +373,15 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return memberPublicInfoCollection.get().then((snapshot) {
@@ -337,16 +391,25 @@ class MemberPublicInfoFirestore implements MemberPublicInfoRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return memberPublicInfoCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<MemberPublicInfoModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

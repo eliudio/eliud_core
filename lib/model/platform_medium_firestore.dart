@@ -25,13 +25,22 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * PlatformMediumFirestore is the firestore implementation of PlatformMediumRepository
+ */
 class PlatformMediumFirestore implements PlatformMediumRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   PlatformMediumEntity? fromMap(Object? o,
       {Map<String, String>? newDocumentIds}) {
     return PlatformMediumEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<PlatformMediumEntity> addEntity(
       String documentID, PlatformMediumEntity value) {
@@ -41,6 +50,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<PlatformMediumEntity> updateEntity(
       String documentID, PlatformMediumEntity value) {
@@ -50,6 +62,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<PlatformMediumModel> add(PlatformMediumModel value) {
     return platformMediumCollection
@@ -58,11 +73,17 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(PlatformMediumModel value) {
     return platformMediumCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<PlatformMediumModel> update(PlatformMediumModel value) {
     return platformMediumCollection
@@ -82,6 +103,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<PlatformMediumEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -100,6 +124,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<PlatformMediumModel?> get(String? id,
       {Function(Exception)? onError}) async {
@@ -118,6 +145,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<PlatformMediumModel?>> listen(
       PlatformMediumModelTrigger trigger,
@@ -149,6 +179,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<PlatformMediumModel?>> listenWithDetails(
       PlatformMediumModelTrigger trigger,
@@ -180,6 +213,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<PlatformMediumModel?> listenTo(
       String documentId, PlatformMediumChanged changed,
@@ -199,6 +235,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<PlatformMediumModel?>> values(
       {String? orderBy,
@@ -229,6 +268,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<PlatformMediumModel?>> valuesWithDetails(
       {String? orderBy,
@@ -259,6 +301,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<PlatformMediumModel?>> valuesList(
       {String? orderBy,
@@ -289,6 +334,9 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<PlatformMediumModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -319,9 +367,15 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return platformMediumCollection.get().then((snapshot) {
@@ -331,16 +385,25 @@ class PlatformMediumFirestore implements PlatformMediumRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return platformMediumCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<PlatformMediumModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

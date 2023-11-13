@@ -58,7 +58,7 @@ class AppForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseAppFormEvent(value: value)),
-        child: MyAppForm(
+        child: _MyAppForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -68,7 +68,7 @@ class AppForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseAppFormNoLoadEvent(value: value)),
-        child: MyAppForm(
+        child: _MyAppForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -87,25 +87,25 @@ class AppForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseAppFormEvent(value: value)
                 : InitialiseNewAppFormEvent())),
-            child: MyAppForm(
+            child: _MyAppForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyAppForm extends StatefulWidget {
+class _MyAppForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyAppForm({required this.app, this.formAction, this.submitAction});
+  _MyAppForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyAppForm> createState() => _MyAppFormState(formAction);
+  State<_MyAppForm> createState() => _MyAppFormState(formAction);
 }
 
-class _MyAppFormState extends State<MyAppForm> {
+class _MyAppFormState extends State<_MyAppForm> {
   final FormAction? formAction;
   late AppFormBloc _myFormBloc;
 

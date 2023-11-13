@@ -32,7 +32,13 @@ import 'app_policy_list_event.dart';
 import 'app_policy_list_state.dart';
 import 'app_policy_model.dart';
 
+/* 
+ * AppPolicyComponentSelector is a component selector for AppPolicy, allowing to select a AppPolicy component
+ */
 class AppPolicyComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -42,7 +48,7 @@ class AppPolicyComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         appPolicyRepository: appPolicyRepository(appId: appId)!,
       )..add(LoadAppPolicyList()),
-      child: SelectAppPolicyWidget(
+      child: _SelectAppPolicyWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -52,28 +58,30 @@ class AppPolicyComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectAppPolicyWidget extends StatefulWidget {
+/* 
+ * _SelectAppPolicyWidget 
+ */
+class _SelectAppPolicyWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectAppPolicyWidget(
-      {super.key,
-      required this.app,
+  const _SelectAppPolicyWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectAppPolicyWidget> createState() {
+  State<_SelectAppPolicyWidget> createState() {
     return _SelectAppPolicyWidgetState();
   }
 }
 
-class _SelectAppPolicyWidgetState extends State<SelectAppPolicyWidget>
+class _SelectAppPolicyWidgetState extends State<_SelectAppPolicyWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

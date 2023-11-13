@@ -32,7 +32,13 @@ import 'page_list_event.dart';
 import 'page_list_state.dart';
 import 'page_model.dart';
 
+/* 
+ * PageComponentSelector is a component selector for Page, allowing to select a Page component
+ */
 class PageComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -42,7 +48,7 @@ class PageComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         pageRepository: pageRepository(appId: appId)!,
       )..add(LoadPageList()),
-      child: SelectPageWidget(
+      child: _SelectPageWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -52,28 +58,30 @@ class PageComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectPageWidget extends StatefulWidget {
+/* 
+ * _SelectPageWidget 
+ */
+class _SelectPageWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectPageWidget(
-      {super.key,
-      required this.app,
+  const _SelectPageWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectPageWidget> createState() {
+  State<_SelectPageWidget> createState() {
     return _SelectPageWidgetState();
   }
 }
 
-class _SelectPageWidgetState extends State<SelectPageWidget>
+class _SelectPageWidgetState extends State<_SelectPageWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

@@ -486,7 +486,6 @@ class BoxFitHelper {
           return null;
       }
     }
-    return null;
   }
 
   static double? toWidth(PosSizeModel? posSizeModel, BuildContext context,
@@ -585,7 +584,6 @@ class BoxFitHelper {
           return null;
       }
     }
-    return null;
   }
 }
 

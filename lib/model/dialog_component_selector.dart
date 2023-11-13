@@ -32,7 +32,13 @@ import 'dialog_list_event.dart';
 import 'dialog_list_state.dart';
 import 'dialog_model.dart';
 
+/* 
+ * DialogComponentSelector is a component selector for Dialog, allowing to select a Dialog component
+ */
 class DialogComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -42,7 +48,7 @@ class DialogComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         dialogRepository: dialogRepository(appId: appId)!,
       )..add(LoadDialogList()),
-      child: SelectDialogWidget(
+      child: _SelectDialogWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -52,28 +58,30 @@ class DialogComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectDialogWidget extends StatefulWidget {
+/* 
+ * _SelectDialogWidget 
+ */
+class _SelectDialogWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectDialogWidget(
-      {super.key,
-      required this.app,
+  const _SelectDialogWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectDialogWidget> createState() {
+  State<_SelectDialogWidget> createState() {
     return _SelectDialogWidgetState();
   }
 }
 
-class _SelectDialogWidgetState extends State<SelectDialogWidget>
+class _SelectDialogWidgetState extends State<_SelectDialogWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

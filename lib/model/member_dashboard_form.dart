@@ -55,7 +55,7 @@ class MemberDashboardForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseMemberDashboardFormEvent(value: value)),
-        child: MyMemberDashboardForm(
+        child: _MyMemberDashboardForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class MemberDashboardForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseMemberDashboardFormNoLoadEvent(value: value)),
-        child: MyMemberDashboardForm(
+        child: _MyMemberDashboardForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -84,27 +84,27 @@ class MemberDashboardForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseMemberDashboardFormEvent(value: value)
                 : InitialiseNewMemberDashboardFormEvent())),
-            child: MyMemberDashboardForm(
+            child: _MyMemberDashboardForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyMemberDashboardForm extends StatefulWidget {
+class _MyMemberDashboardForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberDashboardForm(
+  _MyMemberDashboardForm(
       {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyMemberDashboardForm> createState() =>
+  State<_MyMemberDashboardForm> createState() =>
       _MyMemberDashboardFormState(formAction);
 }
 
-class _MyMemberDashboardFormState extends State<MyMemberDashboardForm> {
+class _MyMemberDashboardFormState extends State<_MyMemberDashboardForm> {
   final FormAction? formAction;
   late MemberDashboardFormBloc _myFormBloc;
 

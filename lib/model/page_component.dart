@@ -25,13 +25,22 @@ import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 
+/*
+ * AbstractPageComponent is the base class to extend / implement in case you need to implement a component
+ */
 abstract class AbstractPageComponent extends StatelessWidget {
   static String componentName = "pages";
   final AppModel app;
   final String pageId;
 
+  /*
+   * Construct AbstractPageComponent
+   */
   AbstractPageComponent({super.key, required this.app, required this.pageId});
 
+  /*
+   * build the component
+   */
   @override
   Widget build(BuildContext context) {
     return BlocProvider<PageComponentBloc>(
@@ -67,5 +76,8 @@ abstract class AbstractPageComponent extends StatelessWidget {
     });
   }
 
+  /*
+   * Implement this method to provide your widget
+   */
   Widget yourWidget(BuildContext context, PageModel value);
 }

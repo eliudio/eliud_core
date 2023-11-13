@@ -56,7 +56,7 @@ class MemberMediumContainerForm extends StatelessWidget {
         create: (context) => MemberMediumContainerFormBloc(
           appId,
         )..add(InitialiseMemberMediumContainerFormEvent(value: value)),
-        child: MyMemberMediumContainerForm(
+        child: _MyMemberMediumContainerForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class MemberMediumContainerForm extends StatelessWidget {
         create: (context) => MemberMediumContainerFormBloc(
           appId,
         )..add(InitialiseMemberMediumContainerFormNoLoadEvent(value: value)),
-        child: MyMemberMediumContainerForm(
+        child: _MyMemberMediumContainerForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -83,28 +83,28 @@ class MemberMediumContainerForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseMemberMediumContainerFormEvent(value: value)
                 : InitialiseNewMemberMediumContainerFormEvent())),
-            child: MyMemberMediumContainerForm(
+            child: _MyMemberMediumContainerForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyMemberMediumContainerForm extends StatefulWidget {
+class _MyMemberMediumContainerForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberMediumContainerForm(
+  _MyMemberMediumContainerForm(
       {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyMemberMediumContainerForm> createState() =>
+  State<_MyMemberMediumContainerForm> createState() =>
       _MyMemberMediumContainerFormState(formAction);
 }
 
 class _MyMemberMediumContainerFormState
-    extends State<MyMemberMediumContainerForm> {
+    extends State<_MyMemberMediumContainerForm> {
   final FormAction? formAction;
   late MemberMediumContainerFormBloc _myFormBloc;
 

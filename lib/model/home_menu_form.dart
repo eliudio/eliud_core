@@ -58,7 +58,7 @@ class HomeMenuForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseHomeMenuFormEvent(value: value)),
-        child: MyHomeMenuForm(
+        child: _MyHomeMenuForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -68,7 +68,7 @@ class HomeMenuForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseHomeMenuFormNoLoadEvent(value: value)),
-        child: MyHomeMenuForm(
+        child: _MyHomeMenuForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -87,25 +87,25 @@ class HomeMenuForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseHomeMenuFormEvent(value: value)
                 : InitialiseNewHomeMenuFormEvent())),
-            child: MyHomeMenuForm(
+            child: _MyHomeMenuForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyHomeMenuForm extends StatefulWidget {
+class _MyHomeMenuForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyHomeMenuForm({required this.app, this.formAction, this.submitAction});
+  _MyHomeMenuForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyHomeMenuForm> createState() => _MyHomeMenuFormState(formAction);
+  State<_MyHomeMenuForm> createState() => _MyHomeMenuFormState(formAction);
 }
 
-class _MyHomeMenuFormState extends State<MyHomeMenuForm> {
+class _MyHomeMenuFormState extends State<_MyHomeMenuForm> {
   final FormAction? formAction;
   late HomeMenuFormBloc _myFormBloc;
 

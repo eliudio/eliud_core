@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * DialogFirestore is the firestore implementation of DialogRepository
+ */
 class DialogFirestore implements DialogRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   DialogEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return DialogEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<DialogEntity> addEntity(String documentID, DialogEntity value) {
     return dialogCollection
@@ -39,6 +48,9 @@ class DialogFirestore implements DialogRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<DialogEntity> updateEntity(String documentID, DialogEntity value) {
     return dialogCollection
@@ -47,6 +59,9 @@ class DialogFirestore implements DialogRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<DialogModel> add(DialogModel value) {
     return dialogCollection
@@ -55,11 +70,17 @@ class DialogFirestore implements DialogRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(DialogModel value) {
     return dialogCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<DialogModel> update(DialogModel value) {
     return dialogCollection
@@ -78,6 +99,9 @@ class DialogFirestore implements DialogRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<DialogEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -96,6 +120,9 @@ class DialogFirestore implements DialogRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<DialogModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -113,6 +140,9 @@ class DialogFirestore implements DialogRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<DialogModel?>> listen(DialogModelTrigger trigger,
       {String? orderBy,
@@ -143,6 +173,9 @@ class DialogFirestore implements DialogRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<DialogModel?>> listenWithDetails(
       DialogModelTrigger trigger,
@@ -174,6 +207,9 @@ class DialogFirestore implements DialogRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<DialogModel?> listenTo(
       String documentId, DialogChanged changed,
@@ -192,6 +228,9 @@ class DialogFirestore implements DialogRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<DialogModel?>> values(
       {String? orderBy,
@@ -221,6 +260,9 @@ class DialogFirestore implements DialogRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<DialogModel?>> valuesWithDetails(
       {String? orderBy,
@@ -250,6 +292,9 @@ class DialogFirestore implements DialogRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<DialogModel?>> valuesList(
       {String? orderBy,
@@ -280,6 +325,9 @@ class DialogFirestore implements DialogRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<DialogModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -310,9 +358,15 @@ class DialogFirestore implements DialogRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return dialogCollection.get().then((snapshot) {
@@ -322,16 +376,25 @@ class DialogFirestore implements DialogRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return dialogCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<DialogModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

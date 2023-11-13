@@ -32,7 +32,13 @@ import 'member_public_info_list_event.dart';
 import 'member_public_info_list_state.dart';
 import 'member_public_info_model.dart';
 
+/* 
+ * MemberPublicInfoComponentSelector is a component selector for MemberPublicInfo, allowing to select a MemberPublicInfo component
+ */
 class MemberPublicInfoComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -42,7 +48,7 @@ class MemberPublicInfoComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         memberPublicInfoRepository: memberPublicInfoRepository(appId: appId)!,
       )..add(LoadMemberPublicInfoList()),
-      child: SelectMemberPublicInfoWidget(
+      child: _SelectMemberPublicInfoWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -52,29 +58,31 @@ class MemberPublicInfoComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectMemberPublicInfoWidget extends StatefulWidget {
+/* 
+ * _SelectMemberPublicInfoWidget 
+ */
+class _SelectMemberPublicInfoWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectMemberPublicInfoWidget(
-      {super.key,
-      required this.app,
+  const _SelectMemberPublicInfoWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectMemberPublicInfoWidget> createState() {
+  State<_SelectMemberPublicInfoWidget> createState() {
     return _SelectMemberPublicInfoWidgetState();
   }
 }
 
 class _SelectMemberPublicInfoWidgetState
-    extends State<SelectMemberPublicInfoWidget> with TickerProviderStateMixin {
+    extends State<_SelectMemberPublicInfoWidget> with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];
   final int _initialPrivilege = 0;

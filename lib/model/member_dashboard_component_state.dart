@@ -16,6 +16,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core/model/member_dashboard_model.dart';
 
+/* 
+ * MemberDashboardComponentState is the base class for state for MemberDashboardComponentBloc
+ */
 abstract class MemberDashboardComponentState extends Equatable {
   const MemberDashboardComponentState();
 
@@ -23,24 +26,42 @@ abstract class MemberDashboardComponentState extends Equatable {
   List<Object?> get props => [];
 }
 
+/* 
+ * MemberDashboardComponentUninitialized is the uninitialized state of the MemberDashboardComponentBloc 
+ */
 class MemberDashboardComponentUninitialized
     extends MemberDashboardComponentState {}
 
+/* 
+ * MemberDashboardComponentError is the error state of the MemberDashboardComponentBloc 
+ */
 class MemberDashboardComponentError extends MemberDashboardComponentState {
   final String? message;
   MemberDashboardComponentError({this.message});
 }
 
+/* 
+ * MemberDashboardComponentPermissionDenied is to indicate permission denied state of the MemberDashboardComponentBloc 
+ */
 class MemberDashboardComponentPermissionDenied
     extends MemberDashboardComponentState {
   MemberDashboardComponentPermissionDenied();
 }
 
+/* 
+ * MemberDashboardComponentLoaded is used to set the state of the MemberDashboardComponentBloc to the loaded state
+ */
 class MemberDashboardComponentLoaded extends MemberDashboardComponentState {
   final MemberDashboardModel value;
 
+  /* 
+   * construct MemberDashboardComponentLoaded
+   */
   const MemberDashboardComponentLoaded({required this.value});
 
+  /* 
+   * copy method
+   */
   MemberDashboardComponentLoaded copyWith({MemberDashboardModel? copyThis}) {
     return MemberDashboardComponentLoaded(value: copyThis ?? value);
   }

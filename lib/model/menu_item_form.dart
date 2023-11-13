@@ -56,7 +56,7 @@ class MenuItemForm extends StatelessWidget {
         create: (context) => MenuItemFormBloc(
           appId,
         )..add(InitialiseMenuItemFormEvent(value: value)),
-        child: MyMenuItemForm(
+        child: _MyMenuItemForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class MenuItemForm extends StatelessWidget {
         create: (context) => MenuItemFormBloc(
           appId,
         )..add(InitialiseMenuItemFormNoLoadEvent(value: value)),
-        child: MyMenuItemForm(
+        child: _MyMenuItemForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -83,25 +83,25 @@ class MenuItemForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseMenuItemFormEvent(value: value)
                 : InitialiseNewMenuItemFormEvent())),
-            child: MyMenuItemForm(
+            child: _MyMenuItemForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyMenuItemForm extends StatefulWidget {
+class _MyMenuItemForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMenuItemForm({required this.app, this.formAction, this.submitAction});
+  _MyMenuItemForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyMenuItemForm> createState() => _MyMenuItemFormState(formAction);
+  State<_MyMenuItemForm> createState() => _MyMenuItemFormState(formAction);
 }
 
-class _MyMenuItemFormState extends State<MyMenuItemForm> {
+class _MyMenuItemFormState extends State<_MyMenuItemForm> {
   final FormAction? formAction;
   late MenuItemFormBloc _myFormBloc;
 

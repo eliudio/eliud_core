@@ -55,7 +55,7 @@ class BackendRequestForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseBackendRequestFormEvent(value: value)),
-        child: MyBackendRequestForm(
+        child: _MyBackendRequestForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class BackendRequestForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseBackendRequestFormNoLoadEvent(value: value)),
-        child: MyBackendRequestForm(
+        child: _MyBackendRequestForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -84,26 +84,27 @@ class BackendRequestForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseBackendRequestFormEvent(value: value)
                 : InitialiseNewBackendRequestFormEvent())),
-            child: MyBackendRequestForm(
+            child: _MyBackendRequestForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyBackendRequestForm extends StatefulWidget {
+class _MyBackendRequestForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyBackendRequestForm({required this.app, this.formAction, this.submitAction});
+  _MyBackendRequestForm(
+      {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyBackendRequestForm> createState() =>
+  State<_MyBackendRequestForm> createState() =>
       _MyBackendRequestFormState(formAction);
 }
 
-class _MyBackendRequestFormState extends State<MyBackendRequestForm> {
+class _MyBackendRequestFormState extends State<_MyBackendRequestForm> {
   final FormAction? formAction;
   late BackendRequestFormBloc _myFormBloc;
 

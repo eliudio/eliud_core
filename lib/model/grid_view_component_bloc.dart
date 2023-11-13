@@ -34,6 +34,9 @@ class GridViewComponentBloc
     });
   }
 
+  /*
+   * Construct GridViewComponentBloc
+   */
   GridViewComponentBloc({this.gridViewRepository})
       : super(GridViewComponentUninitialized()) {
     on<FetchGridViewComponent>((event, emit) {
@@ -44,6 +47,9 @@ class GridViewComponentBloc
     });
   }
 
+  /*
+   * Close the GridViewComponentBloc
+   */
   @override
   Future<void> close() {
     _gridViewSubscription?.cancel();

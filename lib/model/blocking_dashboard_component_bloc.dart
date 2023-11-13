@@ -35,6 +35,9 @@ class BlockingDashboardComponentBloc extends Bloc<
     });
   }
 
+  /*
+   * Construct BlockingDashboardComponentBloc
+   */
   BlockingDashboardComponentBloc({this.blockingDashboardRepository})
       : super(BlockingDashboardComponentUninitialized()) {
     on<FetchBlockingDashboardComponent>((event, emit) {
@@ -45,6 +48,9 @@ class BlockingDashboardComponentBloc extends Bloc<
     });
   }
 
+  /*
+   * Close the BlockingDashboardComponentBloc
+   */
   @override
   Future<void> close() {
     _blockingDashboardSubscription?.cancel();

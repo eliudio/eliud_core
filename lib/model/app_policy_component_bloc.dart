@@ -34,6 +34,9 @@ class AppPolicyComponentBloc
     });
   }
 
+  /*
+   * Construct AppPolicyComponentBloc
+   */
   AppPolicyComponentBloc({this.appPolicyRepository})
       : super(AppPolicyComponentUninitialized()) {
     on<FetchAppPolicyComponent>((event, emit) {
@@ -44,6 +47,9 @@ class AppPolicyComponentBloc
     });
   }
 
+  /*
+   * Close the AppPolicyComponentBloc
+   */
   @override
   Future<void> close() {
     _appPolicySubscription?.cancel();

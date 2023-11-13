@@ -58,7 +58,7 @@ class MemberPublicInfoForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseMemberPublicInfoFormEvent(value: value)),
-        child: MyMemberPublicInfoForm(
+        child: _MyMemberPublicInfoForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -68,7 +68,7 @@ class MemberPublicInfoForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseMemberPublicInfoFormNoLoadEvent(value: value)),
-        child: MyMemberPublicInfoForm(
+        child: _MyMemberPublicInfoForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -87,27 +87,27 @@ class MemberPublicInfoForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseMemberPublicInfoFormEvent(value: value)
                 : InitialiseNewMemberPublicInfoFormEvent())),
-            child: MyMemberPublicInfoForm(
+            child: _MyMemberPublicInfoForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyMemberPublicInfoForm extends StatefulWidget {
+class _MyMemberPublicInfoForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyMemberPublicInfoForm(
+  _MyMemberPublicInfoForm(
       {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyMemberPublicInfoForm> createState() =>
+  State<_MyMemberPublicInfoForm> createState() =>
       _MyMemberPublicInfoFormState(formAction);
 }
 
-class _MyMemberPublicInfoFormState extends State<MyMemberPublicInfoForm> {
+class _MyMemberPublicInfoFormState extends State<_MyMemberPublicInfoForm> {
   final FormAction? formAction;
   late MemberPublicInfoFormBloc _myFormBloc;
 

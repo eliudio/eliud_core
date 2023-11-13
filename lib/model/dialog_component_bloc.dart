@@ -34,6 +34,9 @@ class DialogComponentBloc
     });
   }
 
+  /*
+   * Construct DialogComponentBloc
+   */
   DialogComponentBloc({this.dialogRepository})
       : super(DialogComponentUninitialized()) {
     on<FetchDialogComponent>((event, emit) {
@@ -44,6 +47,9 @@ class DialogComponentBloc
     });
   }
 
+  /*
+   * Close the DialogComponentBloc
+   */
   @override
   Future<void> close() {
     _dialogSubscription?.cancel();

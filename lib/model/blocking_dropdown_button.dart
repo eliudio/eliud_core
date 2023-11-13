@@ -33,6 +33,9 @@ typedef BlockingChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * BlockingDropdownButtonWidget is the drop down widget to allow to select an instance of Blocking
+ */
 class BlockingDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class BlockingDropdownButtonWidget extends StatefulWidget {
   final BlockingChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a BlockingDropdownButtonWidget
+   */
   BlockingDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class BlockingDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of BlockingDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return BlockingDropdownButtonWidgetState(value);
+    return _BlockingDropdownButtonWidgetState(value);
   }
 }
 
-class BlockingDropdownButtonWidgetState
+class _BlockingDropdownButtonWidgetState
     extends State<BlockingDropdownButtonWidget> {
   BlockingListBloc? bloc;
   String? value;
 
-  BlockingDropdownButtonWidgetState(this.value);
+  _BlockingDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class BlockingDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(BlockingModel value) {
+  List<Widget> _widgets(BlockingModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -126,7 +135,7 @@ class BlockingDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

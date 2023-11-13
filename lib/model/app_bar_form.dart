@@ -58,7 +58,7 @@ class AppBarForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseAppBarFormEvent(value: value)),
-        child: MyAppBarForm(
+        child: _MyAppBarForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -68,7 +68,7 @@ class AppBarForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseAppBarFormNoLoadEvent(value: value)),
-        child: MyAppBarForm(
+        child: _MyAppBarForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -87,25 +87,25 @@ class AppBarForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseAppBarFormEvent(value: value)
                 : InitialiseNewAppBarFormEvent())),
-            child: MyAppBarForm(
+            child: _MyAppBarForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyAppBarForm extends StatefulWidget {
+class _MyAppBarForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyAppBarForm({required this.app, this.formAction, this.submitAction});
+  _MyAppBarForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyAppBarForm> createState() => _MyAppBarFormState(formAction);
+  State<_MyAppBarForm> createState() => _MyAppBarFormState(formAction);
 }
 
-class _MyAppBarFormState extends State<MyAppBarForm> {
+class _MyAppBarFormState extends State<_MyAppBarForm> {
   final FormAction? formAction;
   late AppBarFormBloc _myFormBloc;
 

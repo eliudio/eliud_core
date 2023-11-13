@@ -25,14 +25,23 @@ import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 
+/*
+ * AbstractMemberDashboardComponent is the base class to extend / implement in case you need to implement a component
+ */
 abstract class AbstractMemberDashboardComponent extends StatelessWidget {
   static String componentName = "memberDashboards";
   final AppModel app;
   final String memberDashboardId;
 
+  /*
+   * Construct AbstractMemberDashboardComponent
+   */
   AbstractMemberDashboardComponent(
       {super.key, required this.app, required this.memberDashboardId});
 
+  /*
+   * build the component
+   */
   @override
   Widget build(BuildContext context) {
     return BlocProvider<MemberDashboardComponentBloc>(
@@ -69,5 +78,8 @@ abstract class AbstractMemberDashboardComponent extends StatelessWidget {
     });
   }
 
+  /*
+   * Implement this method to provide your widget
+   */
   Widget yourWidget(BuildContext context, MemberDashboardModel value);
 }

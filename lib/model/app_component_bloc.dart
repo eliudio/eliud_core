@@ -33,6 +33,9 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
     });
   }
 
+  /*
+   * Construct AppComponentBloc
+   */
   AppComponentBloc({this.appRepository}) : super(AppComponentUninitialized()) {
     on<FetchAppComponent>((event, emit) {
       _mapLoadAppComponentUpdateToState(event.id!);
@@ -42,6 +45,9 @@ class AppComponentBloc extends Bloc<AppComponentEvent, AppComponentState> {
     });
   }
 
+  /*
+   * Close the AppComponentBloc
+   */
   @override
   Future<void> close() {
     _appSubscription?.cancel();

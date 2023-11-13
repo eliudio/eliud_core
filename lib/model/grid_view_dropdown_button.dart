@@ -33,6 +33,9 @@ typedef GridViewChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * GridViewDropdownButtonWidget is the drop down widget to allow to select an instance of GridView
+ */
 class GridViewDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class GridViewDropdownButtonWidget extends StatefulWidget {
   final GridViewChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a GridViewDropdownButtonWidget
+   */
   GridViewDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class GridViewDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of GridViewDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return GridViewDropdownButtonWidgetState(value);
+    return _GridViewDropdownButtonWidgetState(value);
   }
 }
 
-class GridViewDropdownButtonWidgetState
+class _GridViewDropdownButtonWidgetState
     extends State<GridViewDropdownButtonWidget> {
   GridViewListBloc? bloc;
   String? value;
 
-  GridViewDropdownButtonWidgetState(this.value);
+  _GridViewDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class GridViewDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(GridViewModel value) {
+  List<Widget> _widgets(GridViewModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.name != null
@@ -135,7 +144,7 @@ class GridViewDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

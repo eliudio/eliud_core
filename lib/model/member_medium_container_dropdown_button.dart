@@ -33,6 +33,9 @@ typedef MemberMediumContainerChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * MemberMediumContainerDropdownButtonWidget is the drop down widget to allow to select an instance of MemberMediumContainer
+ */
 class MemberMediumContainerDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class MemberMediumContainerDropdownButtonWidget extends StatefulWidget {
   final MemberMediumContainerChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a MemberMediumContainerDropdownButtonWidget
+   */
   MemberMediumContainerDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class MemberMediumContainerDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of MemberMediumContainerDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return MemberMediumContainerDropdownButtonWidgetState(value);
+    return _MemberMediumContainerDropdownButtonWidgetState(value);
   }
 }
 
-class MemberMediumContainerDropdownButtonWidgetState
+class _MemberMediumContainerDropdownButtonWidgetState
     extends State<MemberMediumContainerDropdownButtonWidget> {
   MemberMediumContainerListBloc? bloc;
   String? value;
 
-  MemberMediumContainerDropdownButtonWidgetState(this.value);
+  _MemberMediumContainerDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class MemberMediumContainerDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(MemberMediumContainerModel value) {
+  List<Widget> _widgets(MemberMediumContainerModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -126,7 +135,7 @@ class MemberMediumContainerDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

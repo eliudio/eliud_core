@@ -59,7 +59,7 @@ class PageForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialisePageFormEvent(value: value)),
-        child: MyPageForm(
+        child: _MyPageForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -69,7 +69,7 @@ class PageForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialisePageFormNoLoadEvent(value: value)),
-        child: MyPageForm(
+        child: _MyPageForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -88,25 +88,25 @@ class PageForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialisePageFormEvent(value: value)
                 : InitialiseNewPageFormEvent())),
-            child: MyPageForm(
+            child: _MyPageForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyPageForm extends StatefulWidget {
+class _MyPageForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyPageForm({required this.app, this.formAction, this.submitAction});
+  _MyPageForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyPageForm> createState() => _MyPageFormState(formAction);
+  State<_MyPageForm> createState() => _MyPageFormState(formAction);
 }
 
-class _MyPageFormState extends State<MyPageForm> {
+class _MyPageFormState extends State<_MyPageForm> {
   final FormAction? formAction;
   late PageFormBloc _myFormBloc;
 

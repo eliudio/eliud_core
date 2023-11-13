@@ -25,13 +25,22 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * BlockingDashboardFirestore is the firestore implementation of BlockingDashboardRepository
+ */
 class BlockingDashboardFirestore implements BlockingDashboardRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   BlockingDashboardEntity? fromMap(Object? o,
       {Map<String, String>? newDocumentIds}) {
     return BlockingDashboardEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<BlockingDashboardEntity> addEntity(
       String documentID, BlockingDashboardEntity value) {
@@ -41,6 +50,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<BlockingDashboardEntity> updateEntity(
       String documentID, BlockingDashboardEntity value) {
@@ -50,6 +62,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<BlockingDashboardModel> add(BlockingDashboardModel value) {
     return blockingDashboardCollection
@@ -58,11 +73,17 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(BlockingDashboardModel value) {
     return blockingDashboardCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<BlockingDashboardModel> update(BlockingDashboardModel value) {
     return blockingDashboardCollection
@@ -83,6 +104,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<BlockingDashboardEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -101,6 +125,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<BlockingDashboardModel?> get(String? id,
       {Function(Exception)? onError}) async {
@@ -119,6 +146,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<BlockingDashboardModel?>> listen(
       BlockingDashboardModelTrigger trigger,
@@ -150,6 +180,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<BlockingDashboardModel?>> listenWithDetails(
       BlockingDashboardModelTrigger trigger,
@@ -181,6 +214,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<BlockingDashboardModel?> listenTo(
       String documentId, BlockingDashboardChanged changed,
@@ -202,6 +238,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<BlockingDashboardModel?>> values(
       {String? orderBy,
@@ -232,6 +271,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<BlockingDashboardModel?>> valuesWithDetails(
       {String? orderBy,
@@ -262,6 +304,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<BlockingDashboardModel?>> valuesList(
       {String? orderBy,
@@ -293,6 +338,9 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<BlockingDashboardModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -324,9 +372,15 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return blockingDashboardCollection.get().then((snapshot) {
@@ -336,16 +390,25 @@ class BlockingDashboardFirestore implements BlockingDashboardRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return blockingDashboardCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<BlockingDashboardModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

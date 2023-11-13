@@ -25,13 +25,22 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * MemberDashboardFirestore is the firestore implementation of MemberDashboardRepository
+ */
 class MemberDashboardFirestore implements MemberDashboardRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   MemberDashboardEntity? fromMap(Object? o,
       {Map<String, String>? newDocumentIds}) {
     return MemberDashboardEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<MemberDashboardEntity> addEntity(
       String documentID, MemberDashboardEntity value) {
@@ -41,6 +50,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<MemberDashboardEntity> updateEntity(
       String documentID, MemberDashboardEntity value) {
@@ -50,6 +62,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<MemberDashboardModel> add(MemberDashboardModel value) {
     return memberDashboardCollection
@@ -58,11 +73,17 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(MemberDashboardModel value) {
     return memberDashboardCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<MemberDashboardModel> update(MemberDashboardModel value) {
     return memberDashboardCollection
@@ -82,6 +103,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<MemberDashboardEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -100,6 +124,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<MemberDashboardModel?> get(String? id,
       {Function(Exception)? onError}) async {
@@ -118,6 +145,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<MemberDashboardModel?>> listen(
       MemberDashboardModelTrigger trigger,
@@ -149,6 +179,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<MemberDashboardModel?>> listenWithDetails(
       MemberDashboardModelTrigger trigger,
@@ -180,6 +213,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<MemberDashboardModel?> listenTo(
       String documentId, MemberDashboardChanged changed,
@@ -199,6 +235,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<MemberDashboardModel?>> values(
       {String? orderBy,
@@ -229,6 +268,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<MemberDashboardModel?>> valuesWithDetails(
       {String? orderBy,
@@ -259,6 +301,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<MemberDashboardModel?>> valuesList(
       {String? orderBy,
@@ -290,6 +335,9 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<MemberDashboardModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -321,9 +369,15 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return memberDashboardCollection.get().then((snapshot) {
@@ -333,16 +387,25 @@ class MemberDashboardFirestore implements MemberDashboardRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return memberDashboardCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<MemberDashboardModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

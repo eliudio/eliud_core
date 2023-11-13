@@ -33,6 +33,9 @@ typedef AppEntryPagesChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * AppEntryPagesDropdownButtonWidget is the drop down widget to allow to select an instance of AppEntryPages
+ */
 class AppEntryPagesDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class AppEntryPagesDropdownButtonWidget extends StatefulWidget {
   final AppEntryPagesChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a AppEntryPagesDropdownButtonWidget
+   */
   AppEntryPagesDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class AppEntryPagesDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of AppEntryPagesDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return AppEntryPagesDropdownButtonWidgetState(value);
+    return _AppEntryPagesDropdownButtonWidgetState(value);
   }
 }
 
-class AppEntryPagesDropdownButtonWidgetState
+class _AppEntryPagesDropdownButtonWidgetState
     extends State<AppEntryPagesDropdownButtonWidget> {
   AppEntryPagesListBloc? bloc;
   String? value;
 
-  AppEntryPagesDropdownButtonWidgetState(this.value);
+  _AppEntryPagesDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class AppEntryPagesDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(AppEntryPagesModel value) {
+  List<Widget> _widgets(AppEntryPagesModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -134,7 +143,7 @@ class AppEntryPagesDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

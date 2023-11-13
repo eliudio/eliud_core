@@ -32,6 +32,9 @@ typedef AppChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * AppDropdownButtonWidget is the drop down widget to allow to select an instance of App
+ */
 class AppDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -39,6 +42,9 @@ class AppDropdownButtonWidget extends StatefulWidget {
   final AppChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a AppDropdownButtonWidget
+   */
   AppDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -47,17 +53,20 @@ class AppDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of AppDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return AppDropdownButtonWidgetState(value);
+    return _AppDropdownButtonWidgetState(value);
   }
 }
 
-class AppDropdownButtonWidgetState extends State<AppDropdownButtonWidget> {
+class _AppDropdownButtonWidgetState extends State<AppDropdownButtonWidget> {
   AppListBloc? bloc;
   String? value;
 
-  AppDropdownButtonWidgetState(this.value);
+  _AppDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -71,7 +80,7 @@ class AppDropdownButtonWidgetState extends State<AppDropdownButtonWidget> {
     super.dispose();
   }
 
-  List<Widget> widgets(AppModel value) {
+  List<Widget> _widgets(AppModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -131,7 +140,7 @@ class AppDropdownButtonWidgetState extends State<AppDropdownButtonWidget> {
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

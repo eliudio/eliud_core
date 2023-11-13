@@ -32,7 +32,13 @@ import 'grid_view_list_event.dart';
 import 'grid_view_list_state.dart';
 import 'grid_view_model.dart';
 
+/* 
+ * GridViewComponentSelector is a component selector for GridView, allowing to select a GridView component
+ */
 class GridViewComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -42,7 +48,7 @@ class GridViewComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         gridViewRepository: gridViewRepository(appId: appId)!,
       )..add(LoadGridViewList()),
-      child: SelectGridViewWidget(
+      child: _SelectGridViewWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -52,28 +58,30 @@ class GridViewComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectGridViewWidget extends StatefulWidget {
+/* 
+ * _SelectGridViewWidget 
+ */
+class _SelectGridViewWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectGridViewWidget(
-      {super.key,
-      required this.app,
+  const _SelectGridViewWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectGridViewWidget> createState() {
+  State<_SelectGridViewWidget> createState() {
     return _SelectGridViewWidgetState();
   }
 }
 
-class _SelectGridViewWidgetState extends State<SelectGridViewWidget>
+class _SelectGridViewWidgetState extends State<_SelectGridViewWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

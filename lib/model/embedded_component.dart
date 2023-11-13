@@ -101,6 +101,9 @@ menuItemsList(app, context, value, trigger) =>
     EmbeddedComponentFactory.menuItemsList(app, context, value, trigger);
 
 class EmbeddedComponentFactory {
+/* 
+ * appEntryPagessList function to construct a list of AppEntryPagesModel
+ */
   static Widget appEntryPagessList(AppModel app, BuildContext context,
       List<AppEntryPagesModel> values, AppEntryPagesListChanged trigger) {
     AppEntryPagesInMemoryRepository inMemoryRepository =
@@ -120,6 +123,9 @@ class EmbeddedComponentFactory {
     );
   }
 
+/* 
+ * bodyComponentsList function to construct a list of BodyComponentModel
+ */
   static Widget bodyComponentsList(AppModel app, BuildContext context,
       List<BodyComponentModel> values, BodyComponentListChanged trigger) {
     BodyComponentInMemoryRepository inMemoryRepository =
@@ -139,6 +145,9 @@ class EmbeddedComponentFactory {
     );
   }
 
+/* 
+ * decorationColorsList function to construct a list of DecorationColorModel
+ */
   static Widget decorationColorsList(AppModel app, BuildContext context,
       List<DecorationColorModel> values, DecorationColorListChanged trigger) {
     DecorationColorInMemoryRepository inMemoryRepository =
@@ -158,6 +167,9 @@ class EmbeddedComponentFactory {
     );
   }
 
+/* 
+ * memberMediumsList function to construct a list of MemberMediumModel
+ */
   static Widget memberMediumsList(AppModel app, BuildContext context,
       List<MemberMediumModel> values, MemberMediumListChanged trigger) {
     MemberMediumInMemoryRepository inMemoryRepository =
@@ -177,6 +189,9 @@ class EmbeddedComponentFactory {
     );
   }
 
+/* 
+ * memberMediumContainersList function to construct a list of MemberMediumContainerModel
+ */
   static Widget memberMediumContainersList(
       AppModel app,
       BuildContext context,
@@ -199,6 +214,9 @@ class EmbeddedComponentFactory {
     );
   }
 
+/* 
+ * memberSubscriptionsList function to construct a list of MemberSubscriptionModel
+ */
   static Widget memberSubscriptionsList(
       AppModel app,
       BuildContext context,
@@ -221,6 +239,9 @@ class EmbeddedComponentFactory {
     );
   }
 
+/* 
+ * menuItemsList function to construct a list of MenuItemModel
+ */
   static Widget menuItemsList(AppModel app, BuildContext context,
       List<MenuItemModel> values, MenuItemListChanged trigger) {
     MenuItemInMemoryRepository inMemoryRepository = MenuItemInMemoryRepository(
@@ -240,11 +261,17 @@ class EmbeddedComponentFactory {
   }
 }
 
+/* 
+ * AppEntryPagesInMemoryRepository is an in memory implementation of AppEntryPagesRepository
+ */
 class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
   final List<AppEntryPagesModel> items;
   final AppEntryPagesListChanged trigger;
   Stream<List<AppEntryPagesModel>>? theValues;
 
+  /* 
+     * Construct the AppEntryPagesInMemoryRepository
+     */
   AppEntryPagesInMemoryRepository(this.trigger, this.items) {
     List<List<AppEntryPagesModel>> myList = <List<AppEntryPagesModel>>[];
     myList.add(items);
@@ -262,18 +289,27 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<AppEntryPagesEntity> addEntity(
       String documentID, AppEntryPagesEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<AppEntryPagesEntity> updateEntity(
       String documentID, AppEntryPagesEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<AppEntryPagesModel> add(AppEntryPagesModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -281,6 +317,9 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(AppEntryPagesModel value) {
     int index = _index(value.documentID);
@@ -289,6 +328,9 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<AppEntryPagesModel> update(AppEntryPagesModel value) {
     int index = _index(value.documentID);
@@ -299,6 +341,9 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<AppEntryPagesModel> get(String? id, {Function(Exception)? onError}) {
     int index = _index(id!);
@@ -307,6 +352,9 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of AppEntryPagesModel base on a query
+     */
   @override
   Stream<List<AppEntryPagesModel>> values(
       {String? orderBy,
@@ -319,6 +367,9 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of AppEntryPagesModel, including linked models base on a query
+     */
   @override
   Stream<List<AppEntryPagesModel>> valuesWithDetails(
       {String? orderBy,
@@ -331,6 +382,9 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of AppEntryPagesModel base on a query
+     */
   @override
   StreamSubscription<List<AppEntryPagesModel>> listen(trigger,
       {String? orderBy,
@@ -342,6 +396,9 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of AppEntryPagesModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<AppEntryPagesModel>> listenWithDetails(trigger,
       {String? orderBy,
@@ -353,9 +410,15 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<AppEntryPagesModel>> valuesList(
       {String? orderBy,
@@ -380,16 +443,25 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<AppEntryPagesModel> listenTo(
       String documentId, AppEntryPagesChanged changed,
@@ -419,11 +491,17 @@ class AppEntryPagesInMemoryRepository implements AppEntryPagesRepository {
   Future<void> deleteAll() async {}
 }
 
+/* 
+ * BodyComponentInMemoryRepository is an in memory implementation of BodyComponentRepository
+ */
 class BodyComponentInMemoryRepository implements BodyComponentRepository {
   final List<BodyComponentModel> items;
   final BodyComponentListChanged trigger;
   Stream<List<BodyComponentModel>>? theValues;
 
+  /* 
+     * Construct the BodyComponentInMemoryRepository
+     */
   BodyComponentInMemoryRepository(this.trigger, this.items) {
     List<List<BodyComponentModel>> myList = <List<BodyComponentModel>>[];
     myList.add(items);
@@ -441,18 +519,27 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<BodyComponentEntity> addEntity(
       String documentID, BodyComponentEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<BodyComponentEntity> updateEntity(
       String documentID, BodyComponentEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<BodyComponentModel> add(BodyComponentModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -460,6 +547,9 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(BodyComponentModel value) {
     int index = _index(value.documentID);
@@ -468,6 +558,9 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<BodyComponentModel> update(BodyComponentModel value) {
     int index = _index(value.documentID);
@@ -478,6 +571,9 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<BodyComponentModel> get(String? id, {Function(Exception)? onError}) {
     int index = _index(id!);
@@ -486,6 +582,9 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of BodyComponentModel base on a query
+     */
   @override
   Stream<List<BodyComponentModel>> values(
       {String? orderBy,
@@ -498,6 +597,9 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of BodyComponentModel, including linked models base on a query
+     */
   @override
   Stream<List<BodyComponentModel>> valuesWithDetails(
       {String? orderBy,
@@ -510,6 +612,9 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of BodyComponentModel base on a query
+     */
   @override
   StreamSubscription<List<BodyComponentModel>> listen(trigger,
       {String? orderBy,
@@ -521,6 +626,9 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of BodyComponentModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<BodyComponentModel>> listenWithDetails(trigger,
       {String? orderBy,
@@ -532,9 +640,15 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<BodyComponentModel>> valuesList(
       {String? orderBy,
@@ -559,16 +673,25 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<BodyComponentModel> listenTo(
       String documentId, BodyComponentChanged changed,
@@ -598,11 +721,17 @@ class BodyComponentInMemoryRepository implements BodyComponentRepository {
   Future<void> deleteAll() async {}
 }
 
+/* 
+ * DecorationColorInMemoryRepository is an in memory implementation of DecorationColorRepository
+ */
 class DecorationColorInMemoryRepository implements DecorationColorRepository {
   final List<DecorationColorModel> items;
   final DecorationColorListChanged trigger;
   Stream<List<DecorationColorModel>>? theValues;
 
+  /* 
+     * Construct the DecorationColorInMemoryRepository
+     */
   DecorationColorInMemoryRepository(this.trigger, this.items) {
     List<List<DecorationColorModel>> myList = <List<DecorationColorModel>>[];
     myList.add(items);
@@ -620,18 +749,27 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<DecorationColorEntity> addEntity(
       String documentID, DecorationColorEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<DecorationColorEntity> updateEntity(
       String documentID, DecorationColorEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<DecorationColorModel> add(DecorationColorModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -639,6 +777,9 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(DecorationColorModel value) {
     int index = _index(value.documentID);
@@ -647,6 +788,9 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<DecorationColorModel> update(DecorationColorModel value) {
     int index = _index(value.documentID);
@@ -657,6 +801,9 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<DecorationColorModel> get(String? id, {Function(Exception)? onError}) {
     int index = _index(id!);
@@ -665,6 +812,9 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of DecorationColorModel base on a query
+     */
   @override
   Stream<List<DecorationColorModel>> values(
       {String? orderBy,
@@ -677,6 +827,9 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of DecorationColorModel, including linked models base on a query
+     */
   @override
   Stream<List<DecorationColorModel>> valuesWithDetails(
       {String? orderBy,
@@ -689,6 +842,9 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of DecorationColorModel base on a query
+     */
   @override
   StreamSubscription<List<DecorationColorModel>> listen(trigger,
       {String? orderBy,
@@ -700,6 +856,9 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of DecorationColorModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<DecorationColorModel>> listenWithDetails(trigger,
       {String? orderBy,
@@ -711,9 +870,15 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<DecorationColorModel>> valuesList(
       {String? orderBy,
@@ -738,16 +903,25 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<DecorationColorModel> listenTo(
       String documentId, DecorationColorChanged changed,
@@ -777,11 +951,17 @@ class DecorationColorInMemoryRepository implements DecorationColorRepository {
   Future<void> deleteAll() async {}
 }
 
+/* 
+ * MemberMediumInMemoryRepository is an in memory implementation of MemberMediumRepository
+ */
 class MemberMediumInMemoryRepository implements MemberMediumRepository {
   final List<MemberMediumModel> items;
   final MemberMediumListChanged trigger;
   Stream<List<MemberMediumModel>>? theValues;
 
+  /* 
+     * Construct the MemberMediumInMemoryRepository
+     */
   MemberMediumInMemoryRepository(this.trigger, this.items) {
     List<List<MemberMediumModel>> myList = <List<MemberMediumModel>>[];
     myList.add(items);
@@ -799,18 +979,27 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<MemberMediumEntity> addEntity(
       String documentID, MemberMediumEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<MemberMediumEntity> updateEntity(
       String documentID, MemberMediumEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<MemberMediumModel> add(MemberMediumModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -818,6 +1007,9 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(MemberMediumModel value) {
     int index = _index(value.documentID);
@@ -826,6 +1018,9 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<MemberMediumModel> update(MemberMediumModel value) {
     int index = _index(value.documentID);
@@ -836,6 +1031,9 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<MemberMediumModel> get(String? id, {Function(Exception)? onError}) {
     int index = _index(id!);
@@ -844,6 +1042,9 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of MemberMediumModel base on a query
+     */
   @override
   Stream<List<MemberMediumModel>> values(
       {String? orderBy,
@@ -856,6 +1057,9 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of MemberMediumModel, including linked models base on a query
+     */
   @override
   Stream<List<MemberMediumModel>> valuesWithDetails(
       {String? orderBy,
@@ -868,6 +1072,9 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of MemberMediumModel base on a query
+     */
   @override
   StreamSubscription<List<MemberMediumModel>> listen(trigger,
       {String? orderBy,
@@ -879,6 +1086,9 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of MemberMediumModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<MemberMediumModel>> listenWithDetails(trigger,
       {String? orderBy,
@@ -890,9 +1100,15 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<MemberMediumModel>> valuesList(
       {String? orderBy,
@@ -917,16 +1133,25 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<MemberMediumModel> listenTo(
       String documentId, MemberMediumChanged changed,
@@ -956,12 +1181,18 @@ class MemberMediumInMemoryRepository implements MemberMediumRepository {
   Future<void> deleteAll() async {}
 }
 
+/* 
+ * MemberMediumContainerInMemoryRepository is an in memory implementation of MemberMediumContainerRepository
+ */
 class MemberMediumContainerInMemoryRepository
     implements MemberMediumContainerRepository {
   final List<MemberMediumContainerModel> items;
   final MemberMediumContainerListChanged trigger;
   Stream<List<MemberMediumContainerModel>>? theValues;
 
+  /* 
+     * Construct the MemberMediumContainerInMemoryRepository
+     */
   MemberMediumContainerInMemoryRepository(this.trigger, this.items) {
     List<List<MemberMediumContainerModel>> myList =
         <List<MemberMediumContainerModel>>[];
@@ -980,18 +1211,27 @@ class MemberMediumContainerInMemoryRepository
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<MemberMediumContainerEntity> addEntity(
       String documentID, MemberMediumContainerEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<MemberMediumContainerEntity> updateEntity(
       String documentID, MemberMediumContainerEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<MemberMediumContainerModel> add(MemberMediumContainerModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -999,6 +1239,9 @@ class MemberMediumContainerInMemoryRepository
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(MemberMediumContainerModel value) {
     int index = _index(value.documentID);
@@ -1007,6 +1250,9 @@ class MemberMediumContainerInMemoryRepository
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<MemberMediumContainerModel> update(MemberMediumContainerModel value) {
     int index = _index(value.documentID);
@@ -1017,6 +1263,9 @@ class MemberMediumContainerInMemoryRepository
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<MemberMediumContainerModel> get(String? id,
       {Function(Exception)? onError}) {
@@ -1026,6 +1275,9 @@ class MemberMediumContainerInMemoryRepository
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of MemberMediumContainerModel base on a query
+     */
   @override
   Stream<List<MemberMediumContainerModel>> values(
       {String? orderBy,
@@ -1038,6 +1290,9 @@ class MemberMediumContainerInMemoryRepository
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of MemberMediumContainerModel, including linked models base on a query
+     */
   @override
   Stream<List<MemberMediumContainerModel>> valuesWithDetails(
       {String? orderBy,
@@ -1050,6 +1305,9 @@ class MemberMediumContainerInMemoryRepository
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of MemberMediumContainerModel base on a query
+     */
   @override
   StreamSubscription<List<MemberMediumContainerModel>> listen(trigger,
       {String? orderBy,
@@ -1061,6 +1319,9 @@ class MemberMediumContainerInMemoryRepository
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of MemberMediumContainerModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<MemberMediumContainerModel>> listenWithDetails(
       trigger,
@@ -1073,9 +1334,15 @@ class MemberMediumContainerInMemoryRepository
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<MemberMediumContainerModel>> valuesList(
       {String? orderBy,
@@ -1100,16 +1367,25 @@ class MemberMediumContainerInMemoryRepository
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<MemberMediumContainerModel> listenTo(
       String documentId, MemberMediumContainerChanged changed,
@@ -1139,12 +1415,18 @@ class MemberMediumContainerInMemoryRepository
   Future<void> deleteAll() async {}
 }
 
+/* 
+ * MemberSubscriptionInMemoryRepository is an in memory implementation of MemberSubscriptionRepository
+ */
 class MemberSubscriptionInMemoryRepository
     implements MemberSubscriptionRepository {
   final List<MemberSubscriptionModel> items;
   final MemberSubscriptionListChanged trigger;
   Stream<List<MemberSubscriptionModel>>? theValues;
 
+  /* 
+     * Construct the MemberSubscriptionInMemoryRepository
+     */
   MemberSubscriptionInMemoryRepository(this.trigger, this.items) {
     List<List<MemberSubscriptionModel>> myList =
         <List<MemberSubscriptionModel>>[];
@@ -1163,18 +1445,27 @@ class MemberSubscriptionInMemoryRepository
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<MemberSubscriptionEntity> addEntity(
       String documentID, MemberSubscriptionEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<MemberSubscriptionEntity> updateEntity(
       String documentID, MemberSubscriptionEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<MemberSubscriptionModel> add(MemberSubscriptionModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -1182,6 +1473,9 @@ class MemberSubscriptionInMemoryRepository
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(MemberSubscriptionModel value) {
     int index = _index(value.documentID);
@@ -1190,6 +1484,9 @@ class MemberSubscriptionInMemoryRepository
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<MemberSubscriptionModel> update(MemberSubscriptionModel value) {
     int index = _index(value.documentID);
@@ -1200,6 +1497,9 @@ class MemberSubscriptionInMemoryRepository
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<MemberSubscriptionModel> get(String? id,
       {Function(Exception)? onError}) {
@@ -1209,6 +1509,9 @@ class MemberSubscriptionInMemoryRepository
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of MemberSubscriptionModel base on a query
+     */
   @override
   Stream<List<MemberSubscriptionModel>> values(
       {String? orderBy,
@@ -1221,6 +1524,9 @@ class MemberSubscriptionInMemoryRepository
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of MemberSubscriptionModel, including linked models base on a query
+     */
   @override
   Stream<List<MemberSubscriptionModel>> valuesWithDetails(
       {String? orderBy,
@@ -1233,6 +1539,9 @@ class MemberSubscriptionInMemoryRepository
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of MemberSubscriptionModel base on a query
+     */
   @override
   StreamSubscription<List<MemberSubscriptionModel>> listen(trigger,
       {String? orderBy,
@@ -1244,6 +1553,9 @@ class MemberSubscriptionInMemoryRepository
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of MemberSubscriptionModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<MemberSubscriptionModel>> listenWithDetails(trigger,
       {String? orderBy,
@@ -1255,9 +1567,15 @@ class MemberSubscriptionInMemoryRepository
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<MemberSubscriptionModel>> valuesList(
       {String? orderBy,
@@ -1282,16 +1600,25 @@ class MemberSubscriptionInMemoryRepository
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<MemberSubscriptionModel> listenTo(
       String documentId, MemberSubscriptionChanged changed,
@@ -1321,11 +1648,17 @@ class MemberSubscriptionInMemoryRepository
   Future<void> deleteAll() async {}
 }
 
+/* 
+ * MenuItemInMemoryRepository is an in memory implementation of MenuItemRepository
+ */
 class MenuItemInMemoryRepository implements MenuItemRepository {
   final List<MenuItemModel> items;
   final MenuItemListChanged trigger;
   Stream<List<MenuItemModel>>? theValues;
 
+  /* 
+     * Construct the MenuItemInMemoryRepository
+     */
   MenuItemInMemoryRepository(this.trigger, this.items) {
     List<List<MenuItemModel>> myList = <List<MenuItemModel>>[];
     myList.add(items);
@@ -1343,16 +1676,25 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return -1;
   }
 
+  /* 
+     * Add an entity
+     */
   @override
   Future<MenuItemEntity> addEntity(String documentID, MenuItemEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update an entity
+     */
   @override
   Future<MenuItemEntity> updateEntity(String documentID, MenuItemEntity value) {
     throw Exception('Not implemented');
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<MenuItemModel> add(MenuItemModel value) {
     items.add(value.copyWith(documentID: newRandomKey()));
@@ -1360,6 +1702,9 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Delete a model
+     */
   @override
   Future<void> delete(MenuItemModel value) {
     int index = _index(value.documentID);
@@ -1368,6 +1713,9 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return Future.value();
   }
 
+  /* 
+     * Update a model
+     */
   @override
   Future<MenuItemModel> update(MenuItemModel value) {
     int index = _index(value.documentID);
@@ -1378,6 +1726,9 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return Future.value(value);
   }
 
+  /* 
+     * Get a model
+     */
   @override
   Future<MenuItemModel> get(String? id, {Function(Exception)? onError}) {
     int index = _index(id!);
@@ -1386,6 +1737,9 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return completer.future;
   }
 
+  /* 
+     * Retrieve to a list of MenuItemModel base on a query
+     */
   @override
   Stream<List<MenuItemModel>> values(
       {String? orderBy,
@@ -1398,6 +1752,9 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return theValues!;
   }
 
+  /* 
+     * Retrieve to a list of MenuItemModel, including linked models base on a query
+     */
   @override
   Stream<List<MenuItemModel>> valuesWithDetails(
       {String? orderBy,
@@ -1410,6 +1767,9 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return theValues!;
   }
 
+  /* 
+     * Subscribe to a list of MenuItemModel base on a query
+     */
   @override
   StreamSubscription<List<MenuItemModel>> listen(trigger,
       {String? orderBy,
@@ -1421,6 +1781,9 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Subscribe to a list of MenuItemModel, including linked models, base on a query
+     */
   @override
   StreamSubscription<List<MenuItemModel>> listenWithDetails(trigger,
       {String? orderBy,
@@ -1432,9 +1795,15 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return theValues!.listen((theList) => trigger(theList));
   }
 
+  /* 
+     * Flush the repository
+     */
   @override
   void flush() {}
 
+  /* 
+     * Retrieve the list of models
+     */
   @override
   Future<List<MenuItemModel>> valuesList(
       {String? orderBy,
@@ -1459,16 +1828,25 @@ class MenuItemInMemoryRepository implements MenuItemRepository {
     return Future.value(items);
   }
 
+  /* 
+     * Retrieve a subcollection of this collection
+     */
   @override
   getSubCollection(String documentId, String name) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String timeStampToString(timeStamp) {
     throw UnimplementedError();
   }
 
+  /* 
+   * Subscribe to 1 document / 1 model
+   */
   @override
   StreamSubscription<MenuItemModel> listenTo(
       String documentId, MenuItemChanged changed,

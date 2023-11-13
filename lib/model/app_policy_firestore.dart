@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * AppPolicyFirestore is the firestore implementation of AppPolicyRepository
+ */
 class AppPolicyFirestore implements AppPolicyRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   AppPolicyEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return AppPolicyEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<AppPolicyEntity> addEntity(String documentID, AppPolicyEntity value) {
     return appPolicyCollection
@@ -39,6 +48,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<AppPolicyEntity> updateEntity(
       String documentID, AppPolicyEntity value) {
@@ -48,6 +60,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<AppPolicyModel> add(AppPolicyModel value) {
     return appPolicyCollection
@@ -56,11 +71,17 @@ class AppPolicyFirestore implements AppPolicyRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(AppPolicyModel value) {
     return appPolicyCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<AppPolicyModel> update(AppPolicyModel value) {
     return appPolicyCollection
@@ -80,6 +101,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<AppPolicyEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -98,6 +122,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<AppPolicyModel?> get(String? id,
       {Function(Exception)? onError}) async {
@@ -116,6 +143,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<AppPolicyModel?>> listen(
       AppPolicyModelTrigger trigger,
@@ -147,6 +177,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<AppPolicyModel?>> listenWithDetails(
       AppPolicyModelTrigger trigger,
@@ -178,6 +211,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<AppPolicyModel?> listenTo(
       String documentId, AppPolicyChanged changed,
@@ -197,6 +233,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<AppPolicyModel?>> values(
       {String? orderBy,
@@ -226,6 +265,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<AppPolicyModel?>> valuesWithDetails(
       {String? orderBy,
@@ -255,6 +297,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<AppPolicyModel?>> valuesList(
       {String? orderBy,
@@ -285,6 +330,9 @@ class AppPolicyFirestore implements AppPolicyRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<AppPolicyModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -315,9 +363,15 @@ class AppPolicyFirestore implements AppPolicyRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return appPolicyCollection.get().then((snapshot) {
@@ -327,16 +381,25 @@ class AppPolicyFirestore implements AppPolicyRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return appPolicyCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<AppPolicyModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

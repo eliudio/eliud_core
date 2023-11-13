@@ -25,14 +25,23 @@ import 'abstract_repository_singleton.dart';
 import 'package:eliud_core/core/widgets/alert_widget.dart';
 import 'package:eliud_core/model/app_model.dart';
 
+/*
+ * AbstractBlockingComponent is the base class to extend / implement in case you need to implement a component
+ */
 abstract class AbstractBlockingComponent extends StatelessWidget {
   static String componentName = "blockings";
   final AppModel app;
   final String blockingId;
 
+  /*
+   * Construct AbstractBlockingComponent
+   */
   AbstractBlockingComponent(
       {super.key, required this.app, required this.blockingId});
 
+  /*
+   * build the component
+   */
   @override
   Widget build(BuildContext context) {
     return BlocProvider<BlockingComponentBloc>(
@@ -68,5 +77,8 @@ abstract class AbstractBlockingComponent extends StatelessWidget {
     });
   }
 
+  /*
+   * Implement this method to provide your widget
+   */
   Widget yourWidget(BuildContext context, BlockingModel value);
 }

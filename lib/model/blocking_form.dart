@@ -55,7 +55,7 @@ class BlockingForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseBlockingFormEvent(value: value)),
-        child: MyBlockingForm(
+        child: _MyBlockingForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class BlockingForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseBlockingFormNoLoadEvent(value: value)),
-        child: MyBlockingForm(
+        child: _MyBlockingForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -84,25 +84,25 @@ class BlockingForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseBlockingFormEvent(value: value)
                 : InitialiseNewBlockingFormEvent())),
-            child: MyBlockingForm(
+            child: _MyBlockingForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyBlockingForm extends StatefulWidget {
+class _MyBlockingForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyBlockingForm({required this.app, this.formAction, this.submitAction});
+  _MyBlockingForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyBlockingForm> createState() => _MyBlockingFormState(formAction);
+  State<_MyBlockingForm> createState() => _MyBlockingFormState(formAction);
 }
 
-class _MyBlockingFormState extends State<MyBlockingForm> {
+class _MyBlockingFormState extends State<_MyBlockingForm> {
   final FormAction? formAction;
   late BlockingFormBloc _myFormBloc;
 

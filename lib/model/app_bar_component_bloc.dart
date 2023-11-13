@@ -34,6 +34,9 @@ class AppBarComponentBloc
     });
   }
 
+  /*
+   * Construct AppBarComponentBloc
+   */
   AppBarComponentBloc({this.appBarRepository})
       : super(AppBarComponentUninitialized()) {
     on<FetchAppBarComponent>((event, emit) {
@@ -44,6 +47,9 @@ class AppBarComponentBloc
     });
   }
 
+  /*
+   * Close the AppBarComponentBloc
+   */
   @override
   Future<void> close() {
     _appBarSubscription?.cancel();

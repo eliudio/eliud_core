@@ -56,7 +56,7 @@ class AppEntryPagesForm extends StatelessWidget {
         create: (context) => AppEntryPagesFormBloc(
           appId,
         )..add(InitialiseAppEntryPagesFormEvent(value: value)),
-        child: MyAppEntryPagesForm(
+        child: _MyAppEntryPagesForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class AppEntryPagesForm extends StatelessWidget {
         create: (context) => AppEntryPagesFormBloc(
           appId,
         )..add(InitialiseAppEntryPagesFormNoLoadEvent(value: value)),
-        child: MyAppEntryPagesForm(
+        child: _MyAppEntryPagesForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -83,26 +83,26 @@ class AppEntryPagesForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseAppEntryPagesFormEvent(value: value)
                 : InitialiseNewAppEntryPagesFormEvent())),
-            child: MyAppEntryPagesForm(
+            child: _MyAppEntryPagesForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyAppEntryPagesForm extends StatefulWidget {
+class _MyAppEntryPagesForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyAppEntryPagesForm({required this.app, this.formAction, this.submitAction});
+  _MyAppEntryPagesForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyAppEntryPagesForm> createState() =>
+  State<_MyAppEntryPagesForm> createState() =>
       _MyAppEntryPagesFormState(formAction);
 }
 
-class _MyAppEntryPagesFormState extends State<MyAppEntryPagesForm> {
+class _MyAppEntryPagesFormState extends State<_MyAppEntryPagesForm> {
   final FormAction? formAction;
   late AppEntryPagesFormBloc _myFormBloc;
 

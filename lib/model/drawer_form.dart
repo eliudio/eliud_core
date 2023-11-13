@@ -58,7 +58,7 @@ class DrawerForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseDrawerFormEvent(value: value)),
-        child: MyDrawerForm(
+        child: _MyDrawerForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -68,7 +68,7 @@ class DrawerForm extends StatelessWidget {
           appId,
           formAction: formAction,
         )..add(InitialiseDrawerFormNoLoadEvent(value: value)),
-        child: MyDrawerForm(
+        child: _MyDrawerForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -87,25 +87,25 @@ class DrawerForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseDrawerFormEvent(value: value)
                 : InitialiseNewDrawerFormEvent())),
-            child: MyDrawerForm(
+            child: _MyDrawerForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyDrawerForm extends StatefulWidget {
+class _MyDrawerForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyDrawerForm({required this.app, this.formAction, this.submitAction});
+  _MyDrawerForm({required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyDrawerForm> createState() => _MyDrawerFormState(formAction);
+  State<_MyDrawerForm> createState() => _MyDrawerFormState(formAction);
 }
 
-class _MyDrawerFormState extends State<MyDrawerForm> {
+class _MyDrawerFormState extends State<_MyDrawerForm> {
   final FormAction? formAction;
   late DrawerFormBloc _myFormBloc;
 

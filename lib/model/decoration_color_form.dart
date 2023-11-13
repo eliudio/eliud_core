@@ -56,7 +56,7 @@ class DecorationColorForm extends StatelessWidget {
         create: (context) => DecorationColorFormBloc(
           appId,
         )..add(InitialiseDecorationColorFormEvent(value: value)),
-        child: MyDecorationColorForm(
+        child: _MyDecorationColorForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     }
@@ -65,7 +65,7 @@ class DecorationColorForm extends StatelessWidget {
         create: (context) => DecorationColorFormBloc(
           appId,
         )..add(InitialiseDecorationColorFormNoLoadEvent(value: value)),
-        child: MyDecorationColorForm(
+        child: _MyDecorationColorForm(
             app: app, submitAction: submitAction, formAction: formAction),
       );
     } else {
@@ -83,27 +83,27 @@ class DecorationColorForm extends StatelessWidget {
             )..add((formAction == FormAction.updateAction
                 ? InitialiseDecorationColorFormEvent(value: value)
                 : InitialiseNewDecorationColorFormEvent())),
-            child: MyDecorationColorForm(
+            child: _MyDecorationColorForm(
                 app: app, submitAction: submitAction, formAction: formAction),
           ));
     }
   }
 }
 
-class MyDecorationColorForm extends StatefulWidget {
+class _MyDecorationColorForm extends StatefulWidget {
   final AppModel app;
   final FormAction? formAction;
   final ActionModel? submitAction;
 
-  MyDecorationColorForm(
+  _MyDecorationColorForm(
       {required this.app, this.formAction, this.submitAction});
 
   @override
-  State<MyDecorationColorForm> createState() =>
+  State<_MyDecorationColorForm> createState() =>
       _MyDecorationColorFormState(formAction);
 }
 
-class _MyDecorationColorFormState extends State<MyDecorationColorForm> {
+class _MyDecorationColorFormState extends State<_MyDecorationColorForm> {
   final FormAction? formAction;
   late DecorationColorFormBloc _myFormBloc;
 

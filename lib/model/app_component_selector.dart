@@ -31,7 +31,13 @@ import 'app_list_bloc.dart';
 import 'app_list_event.dart';
 import 'app_list_state.dart';
 
+/* 
+ * AppComponentSelector is a component selector for App, allowing to select a App component
+ */
 class AppComponentSelector extends ComponentSelector {
+  /* 
+   * createSelectWidget creates the widget
+   */
   @override
   Widget createSelectWidget(BuildContext context, AppModel app,
       int privilegeLevel, double height, SelectComponent selected, editor) {
@@ -41,7 +47,7 @@ class AppComponentSelector extends ComponentSelector {
         eliudQuery: getComponentSelectorQuery(0, app.documentID),
         appRepository: appRepository(appId: appId)!,
       )..add(LoadAppList()),
-      child: SelectAppWidget(
+      child: _SelectAppWidget(
           app: app,
           height: height,
           containerPrivilege: privilegeLevel,
@@ -51,28 +57,30 @@ class AppComponentSelector extends ComponentSelector {
   }
 }
 
-class SelectAppWidget extends StatefulWidget {
+/* 
+ * _SelectAppWidget 
+ */
+class _SelectAppWidget extends StatefulWidget {
   final AppModel app;
   final double height;
   final SelectComponent selected;
   final int containerPrivilege;
   final ComponentEditorConstructor editorConstructor;
 
-  const SelectAppWidget(
-      {super.key,
-      required this.app,
+  const _SelectAppWidget(
+      {required this.app,
       required this.containerPrivilege,
       required this.height,
       required this.selected,
       required this.editorConstructor});
 
   @override
-  State<SelectAppWidget> createState() {
+  State<_SelectAppWidget> createState() {
     return _SelectAppWidgetState();
   }
 }
 
-class _SelectAppWidgetState extends State<SelectAppWidget>
+class _SelectAppWidgetState extends State<_SelectAppWidget>
     with TickerProviderStateMixin {
   TabController? _privilegeTabController;
   final List<String> _privilegeItems = ['No', 'L1', 'L2', 'Owner'];

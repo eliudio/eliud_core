@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * AppBarFirestore is the firestore implementation of AppBarRepository
+ */
 class AppBarFirestore implements AppBarRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   AppBarEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return AppBarEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<AppBarEntity> addEntity(String documentID, AppBarEntity value) {
     return appBarCollection
@@ -39,6 +48,9 @@ class AppBarFirestore implements AppBarRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<AppBarEntity> updateEntity(String documentID, AppBarEntity value) {
     return appBarCollection
@@ -47,6 +59,9 @@ class AppBarFirestore implements AppBarRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<AppBarModel> add(AppBarModel value) {
     return appBarCollection
@@ -55,11 +70,17 @@ class AppBarFirestore implements AppBarRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(AppBarModel value) {
     return appBarCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<AppBarModel> update(AppBarModel value) {
     return appBarCollection
@@ -78,6 +99,9 @@ class AppBarFirestore implements AppBarRepository {
         appId: appId);
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<AppBarEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -96,6 +120,9 @@ class AppBarFirestore implements AppBarRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<AppBarModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -113,6 +140,9 @@ class AppBarFirestore implements AppBarRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<AppBarModel?>> listen(AppBarModelTrigger trigger,
       {String? orderBy,
@@ -143,6 +173,9 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<AppBarModel?>> listenWithDetails(
       AppBarModelTrigger trigger,
@@ -174,6 +207,9 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<AppBarModel?> listenTo(
       String documentId, AppBarChanged changed,
@@ -192,6 +228,9 @@ class AppBarFirestore implements AppBarRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<AppBarModel?>> values(
       {String? orderBy,
@@ -221,6 +260,9 @@ class AppBarFirestore implements AppBarRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<AppBarModel?>> valuesWithDetails(
       {String? orderBy,
@@ -250,6 +292,9 @@ class AppBarFirestore implements AppBarRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<AppBarModel?>> valuesList(
       {String? orderBy,
@@ -280,6 +325,9 @@ class AppBarFirestore implements AppBarRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<AppBarModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -310,9 +358,15 @@ class AppBarFirestore implements AppBarRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return appBarCollection.get().then((snapshot) {
@@ -322,16 +376,25 @@ class AppBarFirestore implements AppBarRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return appBarCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<AppBarModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {

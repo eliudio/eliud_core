@@ -33,6 +33,9 @@ typedef DialogChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * DialogDropdownButtonWidget is the drop down widget to allow to select an instance of Dialog
+ */
 class DialogDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class DialogDropdownButtonWidget extends StatefulWidget {
   final DialogChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a DialogDropdownButtonWidget
+   */
   DialogDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class DialogDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of DialogDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return DialogDropdownButtonWidgetState(value);
+    return _DialogDropdownButtonWidgetState(value);
   }
 }
 
-class DialogDropdownButtonWidgetState
+class _DialogDropdownButtonWidgetState
     extends State<DialogDropdownButtonWidget> {
   DialogListBloc? bloc;
   String? value;
 
-  DialogDropdownButtonWidgetState(this.value);
+  _DialogDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class DialogDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(DialogModel value) {
+  List<Widget> _widgets(DialogModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(Center(
@@ -141,7 +150,7 @@ class DialogDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

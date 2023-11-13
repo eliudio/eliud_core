@@ -33,6 +33,9 @@ typedef BlockingDashboardChanged = Function(
   int? privilegeLevel,
 );
 
+/* 
+ * BlockingDashboardDropdownButtonWidget is the drop down widget to allow to select an instance of BlockingDashboard
+ */
 class BlockingDashboardDropdownButtonWidget extends StatefulWidget {
   final AppModel app;
   final int? privilegeLevel;
@@ -40,6 +43,9 @@ class BlockingDashboardDropdownButtonWidget extends StatefulWidget {
   final BlockingDashboardChanged? trigger;
   final bool? optional;
 
+  /* 
+   * construct a BlockingDashboardDropdownButtonWidget
+   */
   BlockingDashboardDropdownButtonWidget(
       {required this.app,
       this.privilegeLevel,
@@ -48,18 +54,21 @@ class BlockingDashboardDropdownButtonWidget extends StatefulWidget {
       this.optional,
       super.key});
 
+  /* 
+   * create state of BlockingDashboardDropdownButtonWidget
+   */
   @override
   State<StatefulWidget> createState() {
-    return BlockingDashboardDropdownButtonWidgetState(value);
+    return _BlockingDashboardDropdownButtonWidgetState(value);
   }
 }
 
-class BlockingDashboardDropdownButtonWidgetState
+class _BlockingDashboardDropdownButtonWidgetState
     extends State<BlockingDashboardDropdownButtonWidget> {
   BlockingDashboardListBloc? bloc;
   String? value;
 
-  BlockingDashboardDropdownButtonWidgetState(this.value);
+  _BlockingDashboardDropdownButtonWidgetState(this.value);
 
   @override
   void didChangeDependencies() {
@@ -73,7 +82,7 @@ class BlockingDashboardDropdownButtonWidgetState
     super.dispose();
   }
 
-  List<Widget> widgets(BlockingDashboardModel value) {
+  List<Widget> _widgets(BlockingDashboardModel value) {
     var app = widget.app;
     var widgets = <Widget>[];
     widgets.add(value.description != null
@@ -130,7 +139,7 @@ class BlockingDashboardDropdownButtonWidgetState
                   height: 100.0,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: widgets(element),
+                    children: _widgets(element),
                   ),
                 )));
           }

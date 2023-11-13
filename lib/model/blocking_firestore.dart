@@ -25,12 +25,21 @@ import 'package:eliud_core/tools/query/query_tools.dart';
 import 'package:eliud_core/tools/firestore/firestore_tools.dart';
 import 'package:eliud_core/tools/common_tools.dart';
 
+/* 
+ * BlockingFirestore is the firestore implementation of BlockingRepository
+ */
 class BlockingFirestore implements BlockingRepository {
+  /* 
+   * transform a map into an entity
+   */
   @override
   BlockingEntity? fromMap(Object? o, {Map<String, String>? newDocumentIds}) {
     return BlockingEntity.fromMap(o, newDocumentIds: newDocumentIds);
   }
 
+  /* 
+   * add an entity to the repository
+   */
   @override
   Future<BlockingEntity> addEntity(String documentID, BlockingEntity value) {
     return blockingCollection
@@ -39,6 +48,9 @@ class BlockingFirestore implements BlockingRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Update an entity
+   */
   @override
   Future<BlockingEntity> updateEntity(String documentID, BlockingEntity value) {
     return blockingCollection
@@ -47,6 +59,9 @@ class BlockingFirestore implements BlockingRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Add a model to the repository
+   */
   @override
   Future<BlockingModel> add(BlockingModel value) {
     return blockingCollection
@@ -55,11 +70,17 @@ class BlockingFirestore implements BlockingRepository {
         .then((_) => value);
   }
 
+  /* 
+   * Delete a model
+   */
   @override
   Future<void> delete(BlockingModel value) {
     return blockingCollection.doc(value.documentID).delete();
   }
 
+  /* 
+   * Update a model
+   */
   @override
   Future<BlockingModel> update(BlockingModel value) {
     return blockingCollection
@@ -80,6 +101,9 @@ class BlockingFirestore implements BlockingRepository {
     );
   }
 
+  /* 
+   * Retrieve an entity from the repository with id
+   */
   @override
   Future<BlockingEntity?> getEntity(String? id,
       {Function(Exception)? onError}) async {
@@ -98,6 +122,9 @@ class BlockingFirestore implements BlockingRepository {
     return null;
   }
 
+  /* 
+   * Retrieve an model from the repository with id
+   */
   @override
   Future<BlockingModel?> get(String? id, {Function(Exception)? onError}) async {
     try {
@@ -115,6 +142,9 @@ class BlockingFirestore implements BlockingRepository {
     return null;
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models
+   */
   @override
   StreamSubscription<List<BlockingModel?>> listen(BlockingModelTrigger trigger,
       {String? orderBy,
@@ -146,6 +176,9 @@ class BlockingFirestore implements BlockingRepository {
     });
   }
 
+  /* 
+   * Listen to the repository using a query. Retrieve models and linked models
+   */
   @override
   StreamSubscription<List<BlockingModel?>> listenWithDetails(
       BlockingModelTrigger trigger,
@@ -178,6 +211,9 @@ class BlockingFirestore implements BlockingRepository {
     });
   }
 
+  /* 
+   * Listen to 1 document in the repository
+   */
   @override
   StreamSubscription<BlockingModel?> listenTo(
       String documentId, BlockingChanged changed,
@@ -197,6 +233,9 @@ class BlockingFirestore implements BlockingRepository {
     return theStream;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Stream<List<BlockingModel?>> values(
       {String? orderBy,
@@ -227,6 +266,9 @@ class BlockingFirestore implements BlockingRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Stream<List<BlockingModel?>> valuesWithDetails(
       {String? orderBy,
@@ -257,6 +299,9 @@ class BlockingFirestore implements BlockingRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models from the repository
+   */
   @override
   Future<List<BlockingModel?>> valuesList(
       {String? orderBy,
@@ -288,6 +333,9 @@ class BlockingFirestore implements BlockingRepository {
     return values;
   }
 
+  /* 
+   * Retrieve values/models, including linked models, from the repository
+   */
   @override
   Future<List<BlockingModel?>> valuesListWithDetails(
       {String? orderBy,
@@ -319,9 +367,15 @@ class BlockingFirestore implements BlockingRepository {
     return values;
   }
 
+  /* 
+   * Flush the repository
+   */
   @override
   void flush() {}
 
+  /* 
+   * Delete all entries in the repository
+   */
   @override
   Future<void> deleteAll() {
     return blockingCollection.get().then((snapshot) {
@@ -331,16 +385,25 @@ class BlockingFirestore implements BlockingRepository {
     });
   }
 
+  /* 
+   * Retrieve the subcollection of this repository
+   */
   @override
   dynamic getSubCollection(String documentId, String name) {
     return blockingCollection.doc(documentId).collection(name);
   }
 
+  /* 
+   * Retrieve a timestamp
+   */
   @override
   String? timeStampToString(dynamic timeStamp) {
     return firestoreTimeStampToString(timeStamp);
   }
 
+  /* 
+   * change 1 a fieldvalue for 1 document  
+   */
   @override
   Future<BlockingModel?> changeValue(
       String documentId, String fieldName, num changeByThisValue) {
