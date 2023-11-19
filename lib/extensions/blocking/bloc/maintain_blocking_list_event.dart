@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:eliud_core/model/blocking_model.dart';
+import 'package:eliud_core_model/model/blocking_model.dart';
 
 import 'maintain_blocking_list_state.dart';
 

@@ -1,9 +1,9 @@
-import 'package:eliud_core/core/wizards/builders/dialog_builder.dart';
-import 'package:eliud_core/core/wizards/tools/document_identifier.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart'
+import 'package:eliud_core_model/model/abstract_repository_singleton.dart'
     as corerepo;
-import 'package:eliud_core/model/blocking_dashboard_component.dart';
-import 'package:eliud_core/model/model_export.dart';
+import 'package:eliud_core_model/model/blocking_dashboard_component.dart';
+import 'package:eliud_core_model/model/model_export.dart';
+import 'package:eliud_core_model/wizards/builders/dialog_builder.dart';
+import 'package:eliud_core_model/wizards/tools/document_identifier.dart';
 
 class BlockingDashboardDialogBuilder extends DialogBuilder {
   BlockingDashboardDialogBuilder(

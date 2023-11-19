@@ -1,14 +1,14 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
-import 'package:eliud_core/style/style_registry.dart';
+import 'package:eliud_core_model/access/access_bloc.dart';
+import 'package:eliud_core_model/access/state/access_determined.dart';
+import 'package:eliud_core_model/access/state/access_state.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_core_model/style/style_registry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
 import 'package:transparent_image/transparent_image.dart';
 
-import '../../style/frontend/has_text.dart';
 import 'bloc/maintain_blocking_list_bloc.dart';
 import 'bloc/maintain_blocking_list_state.dart';
 import 'bloc/maintain_blocking_list_event.dart';

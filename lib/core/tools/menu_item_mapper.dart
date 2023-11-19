@@ -1,10 +1,12 @@
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/tools/page_helper.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/menu_def_model.dart';
-import 'package:eliud_core/model/menu_item_model.dart';
-import 'package:eliud_core/style/frontend/types.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
+import 'package:eliud_core_model/apis_impl/action/internal_action.dart';
+import 'package:eliud_core_model/apis_impl/action/popup_menu.dart';
+import 'package:eliud_core_model/apis_impl/action/switch_app.dart';
+import 'package:eliud_core_model/model/member_model.dart';
+import 'package:eliud_core_model/model/menu_def_model.dart';
+import 'package:eliud_core_model/model/menu_item_model.dart';
+import 'package:eliud_core_model/style/frontend/types.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

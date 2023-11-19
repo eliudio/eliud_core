@@ -1,26 +1,25 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
-import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/editor/ext_editor_base_bloc/ext_editor_base_event.dart';
-import 'package:eliud_core/core/editor/ext_editor_base_bloc/ext_editor_base_state.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/style/frontend/has_button.dart';
-import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/frontend/has_dialog_field.dart';
-import 'package:eliud_core/style/frontend/has_divider.dart';
-import 'package:eliud_core/style/frontend/has_list_tile.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/tools/screen_size.dart';
-import 'package:eliud_core/tools/widgets/header_widget.dart';
+import 'package:eliud_core_model/access/access_bloc.dart';
+import 'package:eliud_core_model/access/state/access_determined.dart';
+import 'package:eliud_core_model/access/state/access_state.dart';
+import 'package:eliud_core_model/apis/apis.dart';
+import 'package:eliud_core_model/editor/ext_editor_base_bloc/ext_editor_base_event.dart';
+import 'package:eliud_core_model/editor/ext_editor_base_bloc/ext_editor_base_state.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/model/member_model.dart';
+import 'package:eliud_core_model/model/member_subscription_model.dart';
+import 'package:eliud_core_model/model/public_medium_model.dart';
+import 'package:eliud_core_model/style/frontend/has_button.dart';
+import 'package:eliud_core_model/style/frontend/has_container.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog_field.dart';
+import 'package:eliud_core_model/style/frontend/has_divider.dart';
+import 'package:eliud_core_model/style/frontend/has_list_tile.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_core_model/tools/etc/screen_size.dart';
+import 'package:eliud_core_model/widgets/helper_widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../core/registry.dart';
-import '../../model/member_subscription_model.dart';
-import '../../model/public_medium_model.dart';
 import '../bloc/member_bloc.dart';
 import 'member_subscription_model_widget.dart';
 
@@ -143,7 +142,7 @@ class _MemberModelWidgetState extends State<MemberModelWidget> {
                       collapsible: true,
                       collapsed: true,
                       children: [
-                        Registry.registry()!
+                        Apis.apis()
                             .getMediumApi()
                             .getPublicPhotoWidget(
                               context: context,

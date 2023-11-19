@@ -1,10 +1,10 @@
-import 'package:eliud_core/model/home_menu_model.dart';
-import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/body_component_model.dart';
-import 'package:eliud_core/model/dialog_model.dart';
-import 'package:eliud_core/model/drawer_model.dart';
-import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core_model/model/home_menu_model.dart';
+import 'package:eliud_core_model/model/app_bar_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/model/body_component_model.dart';
+import 'package:eliud_core_model/model/dialog_model.dart';
+import 'package:eliud_core_model/model/drawer_model.dart';
+import 'package:eliud_core_model/model/page_model.dart';
 import 'package:flutter/cupertino.dart';
 
 typedef CreateWidget = Widget Function();

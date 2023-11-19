@@ -1,11 +1,10 @@
 import 'package:cloud_functions/cloud_functions.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/package/package.dart';
-import 'package:eliud_core/tools/random.dart';
-
-import '../../model/backend_request_model.dart';
-import '../main_abstract_repository_singleton.dart';
+import 'package:eliud_core_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_core_model/model/backend_request_model.dart';
+import 'package:eliud_core_model/model/member_model.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
+import 'package:eliud_core_model/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core_model/tools/member_collection_info.dart';
 
 class GDPR {
   static List<Map<String, String>> _toFunctionFormat(

@@ -2,18 +2,18 @@ import 'package:eliud_core/core/components/page_constructors/blocs/appbar/extend
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
 import 'package:eliud_core/core/tools/menu_item_mapper.dart';
 import 'package:eliud_core/decoration/decorations.dart';
-import 'package:eliud_core/model/app_bar_model.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/member_model.dart';
-import 'package:eliud_core/model/menu_def_model.dart';
-import 'package:eliud_core/style/frontend/has_appbar.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/frontend/types.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
+import 'package:eliud_core_model/apis_impl/action/switch_app.dart';
+import 'package:eliud_core_model/model/app_bar_model.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/model/icon_model.dart';
+import 'package:eliud_core_model/model/member_model.dart';
+import 'package:eliud_core_model/model/menu_def_model.dart';
+import 'package:eliud_core_model/style/frontend/has_appbar.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/style/frontend/types.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../model/icon_model.dart';
 import 'blocs/appbar/extended_app_bar_component_bloc.dart';
 import 'blocs/appbar/extended_app_bar_component_state.dart';
 

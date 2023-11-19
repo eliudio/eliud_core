@@ -1,26 +1,25 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/state/access_determined.dart';
-import 'package:eliud_core/core/blocs/access/state/access_state.dart';
-import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_event.dart';
-import 'package:eliud_core/core/editor/editor_base_bloc/editor_base_state.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/grid_view_model.dart';
-import 'package:eliud_core/style/frontend/has_container.dart';
-import 'package:eliud_core/style/frontend/has_dialog.dart';
-import 'package:eliud_core/style/frontend/has_dialog_field.dart';
-import 'package:eliud_core/style/frontend/has_list_tile.dart';
-import 'package:eliud_core/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core/style/frontend/has_text.dart';
-import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core_model/access/access_bloc.dart';
+import 'package:eliud_core_model/access/state/access_determined.dart';
+import 'package:eliud_core_model/access/state/access_state.dart';
+import 'package:eliud_core_model/editor/editor_base_bloc/editor_base_event.dart';
+import 'package:eliud_core_model/editor/editor_base_bloc/editor_base_state.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/model/grid_view_model.dart';
+import 'package:eliud_core_model/style/frontend/has_container.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog.dart';
+import 'package:eliud_core_model/style/frontend/has_dialog_field.dart';
+import 'package:eliud_core_model/style/frontend/has_list_tile.dart';
+import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
 import 'package:eliud_core/tools/widgets/grid_view/widgets/grid_view_grid_type_widget.dart';
 import 'package:eliud_core/tools/widgets/grid_view/widgets/grid_view_scroll_direction_widget.dart';
 import 'package:eliud_core/tools/widgets/grid_view/widgets/max_cross_axis_extent_type_widget.dart';
-import 'package:eliud_core/tools/widgets/header_widget.dart';
+import 'package:eliud_core_model/tools/helpers/parse_helper.dart';
+import 'package:eliud_core_model/widgets/helper_widgets/condition_simple_widget.dart';
+import 'package:eliud_core_model/widgets/helper_widgets/header_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../helpers/parse_helper.dart';
-import '../condition_simple_widget.dart';
 import 'bloc/grid_view_bloc.dart';
 
 class GridViewDashboard {

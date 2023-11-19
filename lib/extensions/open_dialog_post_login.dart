@@ -1,7 +1,7 @@
-import '../core/blocs/access/access_event.dart';
+import 'package:eliud_core_model/access/access_event.dart';
+import 'package:eliud_core_model/apis_impl/action/open_dialog.dart';
 import '../core/navigate/router.dart' as er;
 import '../core/registry.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
 
 class OpenDialogPostLogin extends PostLoginAction {
   String dialogID;

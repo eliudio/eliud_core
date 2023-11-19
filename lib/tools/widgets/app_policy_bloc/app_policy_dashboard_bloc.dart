@@ -1,16 +1,15 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
-import 'package:eliud_core/model/app_policy_model.dart';
-import 'package:eliud_core/model/platform_medium_model.dart';
-import 'package:eliud_core/model/public_medium_model.dart';
-import 'package:eliud_core/tools/component/component_spec.dart';
-import 'package:eliud_core/tools/random.dart';
+import 'package:eliud_core_model/model/abstract_repository_singleton.dart';
+import 'package:eliud_core_model/model/app_policy_model.dart';
+import 'package:eliud_core_model/model/platform_medium_model.dart';
+import 'package:eliud_core_model/model/public_medium_model.dart';
+import 'package:eliud_core_model/tools/etc/random.dart';
+import 'package:eliud_core_model/model/storage_conditions_model.dart';
+import 'package:eliud_core_model/tools/component/component_spec.dart';
+import 'package:eliud_core_model/tools/storage/medium_info.dart';
 
-//import 'appPolicy_dashboard_event.dart';
-import '../../../model/storage_conditions_model.dart';
-import '../../storage/medium_info.dart';
 import 'app_policy_dashboard_event.dart';
 import 'app_policy_dashboard_state.dart';
 

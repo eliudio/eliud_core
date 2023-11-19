@@ -559,7 +559,7 @@ flutter:
 
 ~~~
 import 'package:eliud_core/eliud.dart';
-import 'package:eliud_core/style/_default/default_style_family.dart';
+import 'package:eliud_core_model/style/_default/default_style_family.dart';
 import 'package:eliud_core/core_package.dart';
 import 'package:eliud_pkg_create/creator_package.dart';
 import 'package:eliud_pkg_create/tools/basic_app.dart';
@@ -1486,7 +1486,7 @@ import 'package:eliud_pkg_workflow/workflow_package.dart';
 
 ~~~
 import 'package:eliud_core/eliud.dart';
-import 'package:eliud_core/style/_default/default_style_family.dart';
+import 'package:eliud_core_model/style/_default/default_style_family.dart';
 import 'package:eliud_core/core_package.dart';
 import 'package:eliud_pkg_create/creator_package.dart';
 import 'package:eliud_pkg_create/tools/basic_app.dart';

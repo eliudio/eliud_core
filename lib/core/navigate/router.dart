@@ -1,19 +1,21 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/access_event.dart';
 import 'package:eliud_core/core/widgets/login_widget.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
-import 'package:eliud_core/tools/router_builders.dart';
+import 'package:eliud_core_model/access/access_bloc.dart';
+import 'package:eliud_core_model/access/access_event.dart';
+import 'package:eliud_core_model/access/state/access_determined.dart';
+import 'package:eliud_core_model/access/state/access_state.dart';
+import 'package:eliud_core_model/apis/action_api/action_model.dart';
+import 'package:eliud_core_model/apis/routerapi/arguments.dart';
+import 'package:eliud_core_model/apis/routerapi/router_api.dart';
+import 'package:eliud_core_model/apis_impl/action/function_to_run.dart';
+import 'package:eliud_core_model/apis_impl/action/goto_page.dart';
+import 'package:eliud_core_model/apis_impl/action/internal_action.dart';
+import 'package:eliud_core_model/apis_impl/action/open_dialog.dart';
+import 'package:eliud_core_model/apis_impl/action/switch_app.dart';
+import 'package:eliud_core_model/style/frontend/has_page_route_builder.dart';
+import 'package:eliud_core_model/tools/route_builders/route_builders.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import '../registry.dart';
-
-class Arguments {
-  final String? mainArgument;
-  final Map<String, dynamic>? parameters;
-
-  Arguments(this.mainArgument, this.parameters);
-}
 
 abstract class PackageActionHandler {
   void navigateTo(BuildContext context, ActionModel action,
@@ -21,10 +23,6 @@ abstract class PackageActionHandler {
 }
 
 class Router {
-  static const String homeRoute = '/';
-  static const String pageRoute = '/page';
-  static const String messageRoute = '/message';
-  static const String justASecond = '/justASecond';
 
   static final List<PackageActionHandler> _registeredActionHandlers = [];
 
@@ -42,12 +40,12 @@ class Router {
       arguments = settings.arguments as Arguments?;
     }
     switch (settings.name) {
-      case pageRoute:
+      case RouterApi.pageRoute:
         if ((arguments != null) && (arguments.mainArgument != null)) {
           return getRoute(arguments.mainArgument!, arguments.parameters);
         }
         break;
-      case messageRoute:
+      case RouterApi.messageRoute:
         if (arguments != null) {
           if (arguments.parameters != null) {
             var message = arguments.parameters!['message'];
@@ -203,3 +201,17 @@ class PageContextInfo {
 
   PageContextInfo(this.appId, this.pageId, {this.parameters});
 }
+
+PageRouteBuilder pageRouteBuilderWithAppId(AccessState state, String appId,
+    {String? pageId, Map<String, dynamic>? parameters, required Widget page}) {
+  var name = getName(appId, pageId);
+  if (state is AccessDetermined) {
+    var app = state.getApp(appId);
+    if (app != null) {
+      return pageRoute(app, name, parameters, page);
+    }
+  }
+  return FadeRoute(
+      name: name, parameters: parameters, page: page, milliseconds: 1000);
+}
+

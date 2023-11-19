@@ -1,6 +1,6 @@
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/tools/screen_size.dart';
+import 'package:eliud_core_model/access/access_bloc.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/tools/etc/screen_size.dart';
 import 'package:flutter/widgets.dart';
 
 abstract class Param {

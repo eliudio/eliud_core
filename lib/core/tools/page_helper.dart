@@ -1,7 +1,8 @@
-import 'package:eliud_core/model/dialog_model.dart';
-import 'package:eliud_core/model/page_model.dart';
-import 'package:eliud_core/style/frontend/has_page_body.dart';
-import 'package:eliud_core/tools/action/action_model.dart';
+import 'package:eliud_core_model/apis/action_api/action_model.dart';
+import 'package:eliud_core_model/apis_impl/action/goto_page.dart';
+import 'package:eliud_core_model/model/dialog_model.dart';
+import 'package:eliud_core_model/model/page_model.dart';
+import 'package:eliud_core_model/style/frontend/has_page_body.dart';
 
 class PageHelper {
   static bool isActivePage(String? currentPage, ActionModel? action) {

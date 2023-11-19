@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core/model/abstract_repository_singleton.dart';
+import 'package:eliud_core_model/model/abstract_repository_singleton.dart';
 
-import 'package:eliud_core/model/drawer_model.dart';
+import 'package:eliud_core_model/model/drawer_model.dart';
 
 import 'extended_drawer_component_event.dart';
 import 'extended_drawer_component_state.dart';

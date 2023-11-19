@@ -1,17 +1,15 @@
 import 'dart:io' show Platform;
-
-import 'package:eliud_core/core/blocs/access/access_bloc.dart';
-import 'package:eliud_core/core/blocs/access/access_event.dart';
-import 'package:eliud_core/model/app_model.dart';
+import 'package:eliud_core_model/access/access_bloc.dart';
+import 'package:eliud_core_model/access/access_event.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/style/frontend/has_divider.dart';
+import 'package:eliud_core_model/style/style_registry.dart';
+import 'package:eliud_core_model/widgets/helper_widgets/header_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-
-import '../../style/frontend/has_divider.dart';
-import '../../style/style_registry.dart';
-import '../../tools/widgets/header_widget.dart';
 
 void openLoginWidget(BuildContext context, AppModel app,
     {PostLoginAction? actions}) {

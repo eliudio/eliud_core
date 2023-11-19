@@ -1,9 +1,9 @@
 import 'package:eliud_core/decoration/decorations.dart';
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/model/background_model.dart';
-import 'package:eliud_core/model/body_component_model.dart';
-import 'package:eliud_core/model/grid_view_model.dart';
-import 'package:eliud_core/style/frontend/has_page_body.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/model/background_model.dart';
+import 'package:eliud_core_model/model/body_component_model.dart';
+import 'package:eliud_core_model/model/grid_view_model.dart';
+import 'package:eliud_core_model/style/frontend/has_page_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 

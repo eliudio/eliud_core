@@ -2,14 +2,12 @@
  Bespoke code Icon
 */
 
-import 'package:eliud_core/model/app_model.dart';
-import 'package:eliud_core/style/frontend/has_button.dart';
-import 'package:eliud_core/tools/widgets/icon/icon_picker.dart';
+import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_model/model/icon_model.dart';
+import 'package:eliud_core_model/style/frontend/has_button.dart';
+import 'package:eliud_core_model/widgets/icon/icon_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_iconpicker/flutter_iconpicker.dart';
-
-import '../model/icon_model.dart';
 
 typedef ChangeIconField = Function(IconModel value);
 

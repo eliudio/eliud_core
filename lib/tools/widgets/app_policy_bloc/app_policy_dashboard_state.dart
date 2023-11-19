@@ -1,8 +1,7 @@
-import 'package:eliud_core/model/app_policy_model.dart';
+import 'package:eliud_core_model/model/app_policy_model.dart';
+import 'package:eliud_core_model/model/platform_medium_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-
-import '../../../model/platform_medium_model.dart';
 
 abstract class AppPolicyDashboardBaseState extends Equatable {
   const AppPolicyDashboardBaseState();

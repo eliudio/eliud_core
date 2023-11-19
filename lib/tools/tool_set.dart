@@ -1,4 +1,4 @@
-import 'package:eliud_core/model/access_model.dart';
+import 'package:eliud_core_model/model/access_model.dart';
 
 String process(String template, {Map<String, String>? parameters}) {
   if (parameters != null) {

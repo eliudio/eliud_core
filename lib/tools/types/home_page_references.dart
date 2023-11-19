@@ -1,4 +1,4 @@
-import 'package:eliud_core/model/page_model.dart';
+import 'package:eliud_core_model/model/page_model.dart';
 
 class HomePageReferences {
   final PageModel homePageBlockedMember;
