@@ -1,8 +1,8 @@
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/model/platform_medium_model.dart';
-import 'package:eliud_core_model/tools/storage/medium_info.dart';
-import 'package:eliud_core_model/style/frontend/has_dialog_widget.dart';
-import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_dialog_widget.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_main/model/platform_medium_model.dart';
+import 'package:eliud_core_main/storage/medium_info.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

@@ -1,5 +1,5 @@
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/model/page_model.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/model/page_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class CurrentPageEvent extends Equatable {

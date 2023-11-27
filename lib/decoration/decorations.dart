@@ -1,11 +1,11 @@
 import 'package:eliud_core/decoration/decoration.dart';
-import 'package:eliud_core_model/model/app_bar_model.dart';
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/model/body_component_model.dart';
-import 'package:eliud_core_model/model/dialog_model.dart';
-import 'package:eliud_core_model/model/drawer_model.dart';
-import 'package:eliud_core_model/model/home_menu_model.dart';
-import 'package:eliud_core_model/model/page_model.dart';
+import 'package:eliud_core_main/model/app_bar_model.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/model/body_component_model.dart';
+import 'package:eliud_core_main/model/dialog_model.dart';
+import 'package:eliud_core_main/model/drawer_model.dart';
+import 'package:eliud_core_main/model/home_menu_model.dart';
+import 'package:eliud_core_main/model/page_model.dart';
 import 'package:flutter/cupertino.dart' as cu;
 //import 'package:flutter/src/widgets/framework.dart';
 

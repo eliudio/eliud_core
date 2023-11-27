@@ -1,13 +1,13 @@
 import 'package:eliud_core/core/registry.dart';
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/style/frontend/has_text.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_text.dart';
 import 'package:flutter/material.dart';
 
 class ComponentTitleHelper {
   static Widget title(BuildContext context, AppModel app, String componentName,
       String componentId) {
     var componentConstructor =
-    Registry.registry()!.registryMap()[componentName];
+        Registry.registry()!.registryMap()[componentName];
     if (componentConstructor != null) {
       return FutureBuilder<dynamic>(
           future: componentConstructor.getModel(app: app, id: componentId),

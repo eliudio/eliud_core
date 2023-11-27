@@ -1,5 +1,6 @@
-import 'package:eliud_core_model/access/access_event.dart';
-import 'package:eliud_core_model/apis_impl/action/open_dialog.dart';
+import 'package:eliud_core_main/apis/action_api/actions/open_dialog.dart';
+
+import '../access/access_event.dart';
 import '../core/navigate/router.dart' as er;
 import '../core/registry.dart';
 

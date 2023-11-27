@@ -4,7 +4,7 @@ description: Eliud core is the core eliud package. It's a required package for a
   eliud apps. More info at https://eliud.io
 homepage: https://eliud.io
 repository: https://github.com/eliudio/eliud_core
-version: 1.1.5+7
+version: 1.2.0
 environment:
   sdk: '>=2.17.0 <4.0.0'
   flutter: '>=3.0.0'
@@ -19,6 +19,10 @@ dependencies:
   datetime_picker_formfield_new: ^2.1.0
   eliud_core_model:
     path: ../eliud_core_model
+  eliud_core_main:
+    path: ../eliud_core_main
+  eliud_core_helpers:
+    path: ../eliud_core_helpers
   firebase_auth: ^4.7.2
   firebase_core: ^2.21.0
   firebase_storage: ^11.4.1

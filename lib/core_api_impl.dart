@@ -1,14 +1,14 @@
 import 'dart:async';
 
-import 'package:eliud_core_model/access/access_bloc.dart';
-import 'package:eliud_core_model/access/state/access_determined.dart';
-import 'package:eliud_core_model/access/state/access_state.dart';
-import 'package:eliud_core_model/access/state/logged_in.dart';
-import 'package:eliud_core_model/apis/action_api/action_model.dart';
-import 'package:eliud_core_model/apis/coreapi/core_api.dart';
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/model/member_model.dart';
-import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core/access/access_bloc.dart';
+import 'package:eliud_core/access/state/access_determined.dart';
+import 'package:eliud_core/access/state/access_state.dart';
+import 'package:eliud_core/access/state/logged_in.dart';
+import 'package:eliud_core_main/apis/action_api/action_model.dart';
+import 'package:eliud_core_main/apis/coreapi/core_api.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/model/member_model.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -20,7 +20,9 @@ class CoreApiImpl extends CoreApi {
   }
 
   @override
-  MemberModel? getMember(BuildContext context,) {
+  MemberModel? getMember(
+    BuildContext context,
+  ) {
     var state = AccessBloc.getState(context);
     if (state is AccessDetermined) {
       return state.getMember();
@@ -40,6 +42,7 @@ class CoreApiImpl extends CoreApi {
     });
   }
 
+  @override
   Future<bool> hasAccess(BuildContext context, ActionModel action) async {
     var accessState = AccessBloc.getState(context);
     if (accessState is AccessDetermined) {

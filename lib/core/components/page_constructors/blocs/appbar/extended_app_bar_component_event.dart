@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:eliud_core_model/model/app_bar_model.dart';
+import 'package:eliud_core_main/model/app_bar_model.dart';
 
 abstract class ExtendedAppBarComponentEvent extends Equatable {
   @override

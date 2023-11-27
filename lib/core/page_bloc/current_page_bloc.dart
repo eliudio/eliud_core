@@ -1,8 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core_model/model/abstract_repository_singleton.dart';
-import 'package:eliud_core_model/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core_main/model/abstract_repository_singleton.dart';
+import 'package:eliud_core_main/tools/main_abstract_repository_singleton.dart';
 
 import 'current_page_event.dart';
 import 'current_page_state.dart';

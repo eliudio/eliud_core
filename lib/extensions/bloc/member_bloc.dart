@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core_model/editor/ext_editor_base_bloc/ext_editor_base_event.dart';
-import 'package:eliud_core_model/editor/ext_editor_base_bloc/ext_editor_base_state.dart';
-import 'package:eliud_core_model/model/member_model.dart';
-import 'package:eliud_core_model/model/member_subscription_model.dart';
-import 'package:eliud_core_model/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core_main/editor/ext_editor_base_bloc/ext_editor_base_state.dart';
+import 'package:eliud_core_main/model/member_model.dart';
+import 'package:eliud_core_main/model/member_subscription_model.dart';
+import 'package:eliud_core_main/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core_main/editor/ext_editor_base_bloc/ext_editor_base_event.dart';
 
 class MemberBloc extends Bloc<ExtEditorBaseEvent<MemberModel>,
     ExtEditorBaseState<MemberModel>> {

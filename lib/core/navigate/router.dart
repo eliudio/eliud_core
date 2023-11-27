@@ -1,21 +1,21 @@
-import 'package:eliud_core/core/widgets/login_widget.dart';
-import 'package:eliud_core_model/access/access_bloc.dart';
-import 'package:eliud_core_model/access/access_event.dart';
-import 'package:eliud_core_model/access/state/access_determined.dart';
-import 'package:eliud_core_model/access/state/access_state.dart';
-import 'package:eliud_core_model/apis/action_api/action_model.dart';
-import 'package:eliud_core_model/apis/routerapi/arguments.dart';
-import 'package:eliud_core_model/apis/routerapi/router_api.dart';
-import 'package:eliud_core_model/apis_impl/action/function_to_run.dart';
-import 'package:eliud_core_model/apis_impl/action/goto_page.dart';
-import 'package:eliud_core_model/apis_impl/action/internal_action.dart';
-import 'package:eliud_core_model/apis_impl/action/open_dialog.dart';
-import 'package:eliud_core_model/apis_impl/action/switch_app.dart';
-import 'package:eliud_core_model/style/frontend/has_page_route_builder.dart';
-import 'package:eliud_core_model/tools/route_builders/route_builders.dart';
+import 'package:eliud_core/access/access_bloc.dart';
+import 'package:eliud_core_main/apis/action_api/action_model.dart';
+import 'package:eliud_core_main/apis/action_api/actions/function_to_run.dart';
+import 'package:eliud_core_main/apis/action_api/actions/goto_page.dart';
+import 'package:eliud_core_main/apis/action_api/actions/internal_action.dart';
+import 'package:eliud_core_main/apis/action_api/actions/open_dialog.dart';
+import 'package:eliud_core_main/apis/action_api/actions/switch_app.dart';
+import 'package:eliud_core_main/apis/routerapi/arguments.dart';
+import 'package:eliud_core_main/apis/routerapi/router_api.dart';
+import 'package:eliud_core_main/tools/route_builders/route_builders.dart';
+import 'package:eliud_core/access/state/access_determined.dart';
+import 'package:eliud_core/access/state/access_state.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_page_route_builder.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../access/access_event.dart';
 import '../registry.dart';
+import '../widgets/member_widgets/login_widget.dart';
 
 abstract class PackageActionHandler {
   void navigateTo(BuildContext context, ActionModel action,
@@ -23,7 +23,6 @@ abstract class PackageActionHandler {
 }
 
 class Router {
-
   static final List<PackageActionHandler> _registeredActionHandlers = [];
 
   static void register(PackageActionHandler handler) {
@@ -214,4 +213,3 @@ PageRouteBuilder pageRouteBuilderWithAppId(AccessState state, String appId,
   return FadeRoute(
       name: name, parameters: parameters, page: page, milliseconds: 1000);
 }
-

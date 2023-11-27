@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:eliud_core_model/model/member_public_info_model.dart';
+import 'package:eliud_core_main/model/member_public_info_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:eliud_core_model/model/blocking_model.dart';
 

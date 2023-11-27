@@ -1,16 +1,21 @@
+import 'package:eliud_core_main/model/body_component_model.dart';
+import 'package:eliud_core_main/model/dialog_model.dart';
+import 'package:eliud_core_main/model/storage_conditions_model.dart';
+import 'package:eliud_core_main/wizards/tools/document_identifier.dart';
 import 'package:eliud_core_model/model/abstract_repository_singleton.dart'
-    as corerepo;
+    as modelrepo;
+import 'package:eliud_core_main/model/abstract_repository_singleton.dart'
+    as mainrepo;
 import 'package:eliud_core_model/model/blocking_dashboard_component.dart';
 import 'package:eliud_core_model/model/model_export.dart';
-import 'package:eliud_core_model/wizards/builders/dialog_builder.dart';
-import 'package:eliud_core_model/wizards/tools/document_identifier.dart';
+import 'package:eliud_core_main/wizards/builders/dialog_builder.dart';
 
 class BlockingDashboardDialogBuilder extends DialogBuilder {
   BlockingDashboardDialogBuilder(
       super.uniqueId, super.app, super.dialogDocumentId);
 
   Future<DialogModel> _setupDialog() async {
-    return await corerepo.AbstractRepositorySingleton.singleton
+    return await mainrepo.AbstractRepositorySingleton.singleton
         .dialogRepository(app.documentID)!
         .add(_dialog());
   }
@@ -46,7 +51,7 @@ class BlockingDashboardDialogBuilder extends DialogBuilder {
   }
 
   Future<BlockingDashboardModel> _setupDashboard() async {
-    return await corerepo.AbstractRepositorySingleton.singleton
+    return await modelrepo.AbstractRepositorySingleton.singleton
         .blockingDashboardRepository(app.documentID)!
         .add(_dashboardModel());
   }

@@ -1,38 +1,38 @@
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/model/member_medium_model.dart';
-import 'package:eliud_core_model/style/frontend/has_dialog_widget.dart';
-import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/model/public_medium_model.dart';
+import 'package:eliud_core_main/storage/medium_info.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_dialog_widget.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_progress_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:eliud_core_model/tools/storage/medium_info.dart';
 
-class MemberMediumDialog extends StatefulWidget {
+class PublicMediumDialog extends StatefulWidget {
   final AppModel app;
   final double? width;
   final String? title;
-  final MemberMediumModel memberMediumModel;
+  final PublicMediumModel publicMediumModel;
 
-  MemberMediumDialog({
+  PublicMediumDialog({
     required this.app,
     super.key,
     this.title,
-    required this.memberMediumModel,
+    required this.publicMediumModel,
     this.width,
   });
 
   @override
-  State<MemberMediumDialog> createState() => _MemberMediumState();
+  State<PublicMediumDialog> createState() => _PublicMediumState();
 }
 
-class _MemberMediumState extends State<MemberMediumDialog> {
+class _PublicMediumState extends State<PublicMediumDialog> {
   static double height(BuildContext context) =>
       MediaQuery.of(context).size.height * 1;
 
   Future<List<MediumInfo>> buildImagesList() async {
-    var memberMediumModel = widget.memberMediumModel;
-    var appId = memberMediumModel.appId;
-    return await ChainOfMediumModels.getMemberMediumModelChainOfMediumInfo(
-        appId, memberMediumModel);
+    var publicMediumModel = widget.publicMediumModel;
+    var appId = widget.app.documentID;
+    return await ChainOfMediumModels.getPublicMediumModelChainOfMediumInfo(
+        appId, publicMediumModel);
   }
 
   @override

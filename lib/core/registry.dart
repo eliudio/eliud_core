@@ -3,29 +3,28 @@ import 'dart:collection';
 import 'package:eliud_core/core/components/dialog_component.dart';
 import 'package:eliud_core/core/components/page_component.dart';
 import 'package:eliud_core/core/navigate/router.dart' as eliudrouter;
-import 'package:eliud_core_model/access/access_bloc.dart';
-import 'package:eliud_core_model/access/access_event.dart';
-import 'package:eliud_core_model/access/state/access_determined.dart';
-import 'package:eliud_core_model/access/state/logged_in.dart';
-import 'package:eliud_core_model/apis/action_api/action_model.dart';
-import 'package:eliud_core_model/model/app_model.dart';
-import 'package:eliud_core_model/model/storage_conditions_model.dart';
-import 'package:eliud_core_model/style/frontend/has_dialog.dart';
-import 'package:eliud_core_model/tools/component/component_constructor.dart';
-import 'package:eliud_core_model/tools/component/component_spec.dart';
-import 'package:eliud_core_model/tools/main_abstract_repository_singleton.dart';
-import 'package:eliud_core_model/tools/route_builders/route_builders.dart';
+import 'package:eliud_core/access/access_bloc.dart';
+import 'package:eliud_core/access/state/access_determined.dart';
+import 'package:eliud_core/access/state/logged_in.dart';
+import 'package:eliud_core_main/apis/action_api/action_model.dart';
+import 'package:eliud_core_main/apis/registryapi/component/component_constructor.dart';
+import 'package:eliud_core_main/apis/registryapi/component/component_spec.dart';
+import 'package:eliud_core_main/apis/registryapi/registry_api.dart';
+import 'package:eliud_core_main/model/app_model.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_dialog.dart';
+import 'package:eliud_core_main/model/storage_conditions_model.dart';
+import 'package:eliud_core_main/tools/main_abstract_repository_singleton.dart';
+import 'package:eliud_core_main/tools/route_builders/route_builders.dart';
+import 'package:eliud_core_main/widgets/alert_widget.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:eliud_core_model/widgets/alert_widget.dart';
+import '../access/access_event.dart';
 import 'components/error_component.dart';
 
 /*
  * Global registry with components
  */
-
-typedef ActionSelected = void Function(ActionModel? action);
 
 class Registry {
   final GlobalKey _appKey = GlobalKey();
@@ -330,11 +329,3 @@ class Registry {
 
   OpenSelectActionWidgetFnct? _openSelectActionWidgetFnct;
 }
-
-typedef OpenSelectActionWidgetFnct = Widget Function(
-    {required AppModel app,
-    required ActionModel? action,
-    required ActionSelected actionSelected,
-    required int containerPrivilege,
-    required String label});
-

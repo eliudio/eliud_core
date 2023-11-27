@@ -1,4 +1,4 @@
-import 'package:eliud_core_model/model/home_menu_model.dart';
+import 'package:eliud_core_main/model/home_menu_model.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class ExtendedHomeMenuComponentEvent extends Equatable {

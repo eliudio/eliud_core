@@ -1,10 +1,10 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:eliud_core_model/access/state/logged_in.dart';
+import 'package:eliud_core_helpers/query/query_tools.dart';
+import 'package:eliud_core/access/state/logged_in.dart';
+import 'package:eliud_core_main/model/abstract_repository_singleton.dart';
 import 'package:eliud_core_model/model/abstract_repository_singleton.dart';
-
 import 'package:eliud_core_model/model/blocking_list_state.dart';
-import 'package:eliud_core_model/tools/query/query_tools.dart';
 
 import 'maintain_blocking_list_event.dart';
 import 'maintain_blocking_list_state.dart';

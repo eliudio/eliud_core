@@ -1,20 +1,21 @@
 import 'dart:math';
-import 'package:eliud_core/core/widgets/platform_medium_dialog.dart';
-import 'package:eliud_core_model/access/access_bloc.dart';
-import 'package:eliud_core_model/access/access_event.dart';
+import 'package:eliud_core/access/access_bloc.dart';
+import 'package:eliud_core/core/widgets/member_widgets/platform_medium_dialog.dart';
 import 'package:eliud_core_model/model/abstract_repository_singleton.dart';
-import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_main/model/app_model.dart';
 import 'package:eliud_core_model/model/app_policy_model.dart';
-import 'package:eliud_core_model/model/member_model.dart';
-import 'package:eliud_core_model/style/frontend/has_button.dart';
-import 'package:eliud_core_model/style/frontend/has_container.dart';
-import 'package:eliud_core_model/style/frontend/has_dialog.dart';
-import 'package:eliud_core_model/style/frontend/has_progress_indicator.dart';
-import 'package:eliud_core_model/style/frontend/has_text.dart';
-import 'package:eliud_core_model/widgets/helper_widgets/header_widget.dart';
+import 'package:eliud_core_main/model/member_model.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_button.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_container.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_dialog.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_progress_indicator.dart';
+import 'package:eliud_core_main/apis/style/frontend/has_text.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../access/access_event.dart';
+import '../helper_widgets/header_widget.dart';
 
 class AcceptMembershipWidget extends StatefulWidget {
   static double width(BuildContext context) =>

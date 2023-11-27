@@ -1,5 +1,5 @@
-import 'package:eliud_core_model/apis/wizard_api/action_specification.dart';
-import 'package:eliud_core_model/apis/wizard_api/new_app_wizard_info.dart';
+import 'package:eliud_core_main/apis/wizard_api/action_specification.dart';
+import 'package:eliud_core_main/apis/wizard_api/new_app_wizard_info.dart';
 
 enum JoinPaymentType { manual, card }
 

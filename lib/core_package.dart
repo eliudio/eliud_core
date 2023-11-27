@@ -5,34 +5,41 @@ import 'package:eliud_core/editors/member_dashboard_component_editor.dart';
 import 'package:eliud_core/extensions/blocking_dashboard_component.dart';
 import 'package:eliud_core/extensions/member_dashboard_component.dart';
 import 'package:eliud_core/registry_api_impl.dart';
-import 'package:eliud_core_model/access/access_bloc.dart';
-import 'package:eliud_core_model/access/access_event.dart';
-import 'package:eliud_core_model/apis/apis.dart';
-import 'package:eliud_core_model/apis_impl/action/action_model_api_impl.dart';
-import 'package:eliud_core_model/eliud.dart';
+import 'package:eliud_core_helpers/query/query_tools.dart';
+import 'package:eliud_core/access/access_bloc.dart';
+import 'package:eliud_core_main/apis/apis.dart';
 import 'package:eliud_core_model/model/abstract_repository_singleton.dart';
 import 'package:eliud_core_model/model/access_model.dart';
-import 'package:eliud_core_model/model/app_model.dart';
+import 'package:eliud_core_main/model/app_model.dart';
 import 'package:eliud_core_model/model/component_registry.dart';
-import 'package:eliud_core_model/model/member_model.dart';
+import 'package:eliud_core_main/model/member_model.dart';
 import 'package:eliud_core_model/model/repository_singleton.dart';
-import 'package:eliud_core_model/package/package.dart';
-import 'package:eliud_core_model/style/_default/default_style_family.dart';
-import 'package:eliud_core_model/style/style_registry.dart';
+import 'package:eliud_core_main/apis/style/_default/default_style_family.dart';
+import 'package:eliud_core_main/apis/style/style_registry.dart';
 import 'package:eliud_core/wizards/blocking_dashboard_dialog_wizard.dart';
 import 'package:eliud_core/wizards/login_logout_wizard.dart';
 import 'package:eliud_core/wizards/member_dashboard_dialog_wizard.dart';
-import 'package:eliud_core_model/tools/main_abstract_repository_singleton.dart' as otherrepo;
-import 'package:eliud_core_model/tools/main_repository_singleton.dart' as otherrepoimpl;
-import 'package:eliud_core_model/tools/member_collection_info.dart';
-import 'package:eliud_core_model/tools/query/query_tools.dart';
-import 'package:eliud_core_model/wizards/registry/wizard_api_impl.dart';
+import 'package:eliud_core_main/tools/main_abstract_repository_singleton.dart'
+  as toolmainrepo;
+import 'package:eliud_core_main/tools/main_repository_singleton.dart'
+    as toolmainrepoimpl;
+import 'package:eliud_core_main/model/abstract_repository_singleton.dart'
+  as otherrepo;
+import 'package:eliud_core_main/model/repository_singleton.dart'
+  as otherrepoimpl;
+import 'package:eliud_core_main/tools/etc/member_collection_info.dart';
+import 'package:eliud_core_main/wizards/registry/wizard_api_impl.dart';
+import 'package:eliud_core_main/apis/action_api/actions/action_model_api_impl.dart';
+
+import 'access/access_event.dart';
 import 'core/navigate/router_api_impl.dart';
 import 'core_api_impl.dart';
 
 import 'core_package_stub.dart'
     if (dart.library.io) 'core_mobile_package.dart'
     if (dart.library.html) 'core_web_package.dart';
+import 'eliud.dart';
+import 'package/package.dart';
 
 class PrivilegeInfo {
   final PrivilegeLevel privilege;
@@ -70,15 +77,20 @@ abstract class CorePackage extends Package {
 
   @override
   void init() {
-    // Register the components this package implements
-    ComponentRegistry().init(BlockingDashboardComponentConstructorDefault(), BlockingDashboardComponentEditorConstructor(), MemberDashboardComponentConstructorDefault(), MemberDashboardComponentEditorConstructor(), );
-
     // Register the apis this package implements
     Apis.apis().registerCoreApi(CoreApiImpl());
     Apis.apis().registerRegistryApi(RegistryApiImpl());
     Apis.apis().registerRouterApi(RouterApiImpl());
     Apis.apis().registerActionModelApi(ActionModelApiImpl());
     Apis.apis().registerWizardApi(WizardApiImpl());
+
+    // Register the components this package implements
+    ComponentRegistry().init(
+      BlockingDashboardComponentConstructorDefault(),
+      BlockingDashboardComponentEditorConstructor(),
+      MemberDashboardComponentConstructorDefault(),
+      MemberDashboardComponentEditorConstructor(),
+    );
 
     // Register the wizards this package implements
     Apis.apis().getWizardApi().register(MemberDashboardDialogWizard());
@@ -88,7 +100,10 @@ abstract class CorePackage extends Package {
 
     // Initialise the repositories of this package
     AbstractRepositorySingleton.singleton = RepositorySingleton();
-    otherrepo.AbstractMainRepositorySingleton.singleton = otherrepoimpl.MainRepositorySingleton();
+    toolmainrepo.AbstractMainRepositorySingleton.singleton =
+        toolmainrepoimpl.MainRepositorySingleton();
+
+    otherrepo.AbstractRepositorySingleton.singleton = otherrepoimpl.RepositorySingleton();
 
     // Register the styles this package implements
     StyleRegistry.registry().registerStyleFamily(DefaultStyleFamily.instance());
