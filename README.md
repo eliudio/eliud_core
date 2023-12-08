@@ -1697,12 +1697,12 @@ Download <a href="https://github.com/eliudio/open-resources/raw/main/web/styles.
 To allow images to be accessed / copied, we need to configure cors access.
 
 1. goto your <a href="#app_root_directory">app root dir</a>
-2. create the following file cors.json, make sure to use your <a href="#domain_url">domain url</a> instead of https://thoma5.com
+2. create the following file cors.json
 
 ~~~
 [
   {
-    "origin": ["https://thoma5.com"],
+    "origin": ["*"],
     "method": ["GET"],
     "maxAgeSeconds": 3600
   }
