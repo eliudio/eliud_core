@@ -118,6 +118,7 @@ But then just the code you like to focus on :-)
 - [Appendix A. Overview packages](#appendix-a-overview-packages)
   * [The dependencies of a typical app](#the-dependencies-of-a-typical-app-)
   * [Links](#links-)
+    + [Direct dependencies](#direct-dependencies)
 
 <!-- tocstop -->
 
