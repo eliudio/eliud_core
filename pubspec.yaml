@@ -6,20 +6,20 @@ homepage: https://eliud.io
 repository: https://github.com/eliudio/eliud_core
 version: 1.2.0
 environment:
-  sdk: '>=2.17.0 <4.0.0'
+  sdk: '>=3.2.0 <4.0.0'
   flutter: '>=3.0.0'
 dependencies:
   equatable: ^2.0.5                                                                                  # ANDROID IOS LINUX MACOS WEB WINDOWS
   another_flushbar: ^1.12.30                                                                         # ANDROID IOS LINUX MACOS WEB WINDOWS
   flutter_signin_button: ^2.0.0                                                                      # ANDROID IOS LINUX MACOS WEB WINDOWS
-  cloud_functions: ^4.5.6                                                                            # ANDROID IOS       MACOS WEB
+  cloud_functions: ^4.5.8                                                                            # ANDROID IOS       MACOS WEB
   path_provider: ^2.1.1                                                                              # ANDROID IOS LINUX MACOS WEB WINDOWS
 
-  eliud_core_model:
+  eliud_core_model:                                                                                  # ANDROID IOS             WEB
     path: ../eliud_core_model
-  eliud_core_main:
+  eliud_core_main:                                                                                   # ANDROID IOS             WEB
     path: ../eliud_core_main
-  eliud_core_helpers:
+  eliud_core_helpers:                                                                                # ANDROID IOS             WEB
     path: ../eliud_core_helpers
 
   flutter:

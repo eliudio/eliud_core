@@ -20,13 +20,13 @@ import 'package:eliud_core/wizards/blocking_dashboard_dialog_wizard.dart';
 import 'package:eliud_core/wizards/login_logout_wizard.dart';
 import 'package:eliud_core/wizards/member_dashboard_dialog_wizard.dart';
 import 'package:eliud_core_main/tools/main_abstract_repository_singleton.dart'
-  as toolmainrepo;
+    as toolmainrepo;
 import 'package:eliud_core_main/tools/main_repository_singleton.dart'
     as toolmainrepoimpl;
 import 'package:eliud_core_main/model/abstract_repository_singleton.dart'
-  as otherrepo;
+    as otherrepo;
 import 'package:eliud_core_main/model/repository_singleton.dart'
-  as otherrepoimpl;
+    as otherrepoimpl;
 import 'package:eliud_core_main/tools/etc/member_collection_info.dart';
 import 'package:eliud_core_main/wizards/registry/wizard_api_impl.dart';
 import 'package:eliud_core_main/apis/action_api/actions/action_model_api_impl.dart';
@@ -103,7 +103,8 @@ abstract class CorePackage extends Package {
     toolmainrepo.AbstractMainRepositorySingleton.singleton =
         toolmainrepoimpl.MainRepositorySingleton();
 
-    otherrepo.AbstractRepositorySingleton.singleton = otherrepoimpl.RepositorySingleton();
+    otherrepo.AbstractRepositorySingleton.singleton =
+        otherrepoimpl.RepositorySingleton();
 
     // Register the styles this package implements
     StyleRegistry.registry().registerStyleFamily(DefaultStyleFamily.instance());

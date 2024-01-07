@@ -1,4 +1,4 @@
-# eliud
+# eliud_core
 
 Build apps with no code. Or with code, of course, if you want. 
 But then just the code you like to focus on :-)
@@ -578,7 +578,7 @@ Future<void> main() async {
   var eliud = Eliud();
 
   try {
-    eliud.registerPackage(CorePackage.instance());
+    eliud.registerPackage(CorePackage.instance());      // must be first as it installs apis!
     eliud.registerPackage(TextPackage.instance());
     eliud.registerPackage(MonaStlPackage.instance());
     eliud.registerPackage(CreatorPackage.instance());
@@ -1524,7 +1524,7 @@ Future<void> main() async {
   var eliud = Eliud();
 
   try {
-    eliud.registerPackage(CorePackage.instance());
+    eliud.registerPackage(CorePackage.instance());      // must be first as it installs apis!
     eliud.registerPackage(TextPackage.instance());
     eliud.registerPackage(MonaStlPackage.instance());
     eliud.registerPackage(CreatorPackage.instance());
@@ -1711,6 +1711,7 @@ To allow images to be accessed / copied, we need to configure cors access.
 
 3. run this command and login with your 
 ~~~
+gcloud config set project thoma5
 gcloud auth login
 
 ~~~
@@ -2153,7 +2154,7 @@ To find the UDID of our devices, this can help...
 1. Copy <a name="googleservice_info_plist">GoogleService-info.plist</a> from your windows machine to your macbooks, in our case c:\Users\thomas\Downloads\GoogleService-info.plist
 2. From Xcode, from project Runner, right click folder Runner and select 'Add Files to "Runner"'
 3. Select the file <a name="googleservice_info_plist">GoogleService-info.plist</a> you've copied to your macbook
-4. Makes sure “copy items if needed" is checked
+4. Makes sure ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã¢â‚¬Â¦ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œcopy items if needed" is checked
 5. Press "Add"
 6. After adding file, find the entry "REVERSED_CLIENT_ID" and copy it's value
 <table>
@@ -2318,7 +2319,7 @@ arch -x86_64 pod install
 
 ~~~
 
-2. Error "The operation couldn’t be completed. Unable to launch com.example.x.y.z-icloud.com because it has an invalid code signature, inadequate entitlements or its profile has not been explicitly trusted by the user.” 
+2. Error "The operation couldnÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¾Ãƒâ€šÃ‚Â¢t be completed. Unable to launch com.example.x.y.z-icloud.com because it has an invalid code signature, inadequate entitlements or its profile has not been explicitly trusted by the user.ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¯Ãƒâ€šÃ‚Â¿Ãƒâ€šÃ‚Â½ 
    Solution: On your iPhone/tablet open Settings >  General > Device Management > Apple Development: someone@icloud.com then select trust at the top.
 
 3. iOS crash with a stack trace and a message "the default Firebase app has not yet been configured. Add `[FIRApp configure];` (`FirebaseApp.configure()` in Swift) to your application"
@@ -2813,25 +2814,13 @@ A typical app, here Minkey, uses the following dependencies:
 
 ## Links <a name="links_packages"></a>
 
-|Package                                                                    |Description                                            |
-|---------------------------------------------------------------------------|-------------------------------------------------------|
-|[eliud_core](https://pub.dev/packages/eliud_core)                          | This package                                          |
-|[eliud_generator](https://pub.dev/packages/eliud_generator)                | Eliud generator                                       |
-|[eliud_pkg_apps](https://pub.dev/packages/eliud_pkg_apps)                  | Eliud package for creating apps through code, not gui |
-|[eliud_pkg_chat](https://pub.dev/packages/eliud_pkg_chat)                  | Eliud chat package                                    |
-|[eliud_pkg_create](https://pub.dev/packages/eliud_pkg_create)              | Eliud create package                                  |
-|[eliud_pkg_etc](https://pub.dev/packages/eliud_pkg_etc)                    | Eliud etc package                                     |
-|[eliud_pkg_feed](https://pub.dev/packages/eliud_pkg_feed)                  | Eliud feed package                                    |
-|[eliud_pkg_follow](https://pub.dev/packages/eliud_pkg_follow)              | Eliud follow package                                  |
-|[eliud_pkg_fundamentals](https://pub.dev/packages/eliud_pkg_fundamentals)  | Eliud fundamentals package                            |
-|[eliud_pkg_medium](https://pub.dev/packages/eliud_pkg_medium)              | Eliud medium package                                  |
-|[eliud_pkg_membership](https://pub.dev/packages/eliud_pkg_membership)      | Eliud membership package                              |
-|[eliud_pkg_notifications](https://pub.dev/packages/eliud_pkg_notifications)| Eliud notifications package                           |
-|[eliud_pkg_pay](https://pub.dev/packages/eliud_pkg_pay)                    | Eliud pay package                                     |
-|[eliud_pkg_shop](https://pub.dev/packages/eliud_pkg_shop)                  | Eliud shop package                                    |
-|[eliud_pkg_text](https://pub.dev/packages/eliud_pkg_text)                  | Eliud text package                                    |
-|[eliud_pkg_wizards](https://pub.dev/packages/eliud_pkg_wizards)            | Eliud wizards package                                 |
-|[eliud_pkg_workflow](https://pub.dev/packages/eliud_pkg_workflow)          | Eliud workflow package                                |
-|[eliud_stl_mona](https://pub.dev/packages/eliud_stl_mona)                  | Eliud mona style                                      |
+<!-- dependencies -->
+
+### Direct dependencies
+- [eliud_core_helpers](https://pub.dev/packages/eliud_core_helpers)
+- [eliud_core_main](https://pub.dev/packages/eliud_core_main)
+- [eliud_core_model](https://pub.dev/packages/eliud_core_model)
+
+<!-- dependenciesstop -->
 
 ---
