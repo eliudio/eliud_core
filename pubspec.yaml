@@ -4,27 +4,29 @@ description: Eliud core is the core eliud package. It's a required package for a
   eliud apps. More info at https://eliud.io
 homepage: https://eliud.io
 repository: https://github.com/eliudio/eliud_core
-version: 1.2.0
+version: 1.1.6
 environment:
   sdk: '>=3.2.0 <4.0.0'
   flutter: '>=3.0.0'
 dependencies:
-  equatable: ^2.0.5                                                                                  # ANDROID IOS LINUX MACOS WEB WINDOWS
-  another_flushbar: ^1.12.30                                                                         # ANDROID IOS LINUX MACOS WEB WINDOWS
-  flutter_signin_button: ^2.0.0                                                                      # ANDROID IOS LINUX MACOS WEB WINDOWS
-  cloud_functions: ^4.5.8                                                                            # ANDROID IOS       MACOS WEB
-  path_provider: ^2.1.1                                                                              # ANDROID IOS LINUX MACOS WEB WINDOWS
-
-  eliud_core_model:                                                                                  # ANDROID IOS             WEB
-    path: ../eliud_core_model
-  eliud_core_main:                                                                                   # ANDROID IOS             WEB
-    path: ../eliud_core_main
-  eliud_core_helpers:                                                                                # ANDROID IOS             WEB
-    path: ../eliud_core_helpers
-
+  equatable: ^2.0.5
+  another_flushbar: ^1.12.30
+  flutter_signin_button: ^2.0.0
+  cloud_functions: ^4.5.8
+  path_provider: ^2.1.1
+  eliud_core_model: ^1.0.0
+  eliud_core_main: ^1.0.2
+  eliud_core_helpers: ^1.0.0
+  bloc: ^8.1.2
+  cloud_firestore: ^4.13.5
+  firebase_auth: ^4.15.2
+  firebase_storage: ^11.5.5
+  flutter_bloc: ^8.1.3
+  flutter_colorpicker: ^1.0.3
+  tuple: ^2.0.2
+  transparent_image: ^2.0.1
   flutter:
     sdk: flutter
-
 dev_dependencies:
   lints: ^3.0.0
 flutter:
