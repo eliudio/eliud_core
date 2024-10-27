@@ -821,17 +821,17 @@ In the previous steps we've done the foundation to build an app. The next big st
 
 ~~~
 dev_dependencies:
-  flutter_launcher_icons: ^0.13.1
+  icons_launcher: ^3.0.0
 
-flutter_launcher_icons:
-  android: true
-  ios: true
+icons_launcher:
   image_path: assets/logo/thoma5-logo-1.png
-  image_path_ios: assets/logo/thoma5-logo-1.png
-  remove_alpha_ios: true
-  web:
-    generate: true
-    image_path: assets/logo/thoma5-logo-1.png
+  platforms:
+    android:
+      enable: true
+    ios:
+      enable: true
+    web:
+      enable: true
 
 ~~~
 
